@@ -17,7 +17,7 @@ params:
     - Pass
   deadline_day:
     label: Weekly Due Date
-    value: Monday
+    value: Sunday
     input: select
     choices:
     - Monday
