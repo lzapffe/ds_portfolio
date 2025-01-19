@@ -1,14 +1,12 @@
 ---
 title: Grading Contract
 date: "`r format(Sys.time(), '%B %d %Y')`"
-output: html_document
+output: github_document
 params:
   mondayweekone: "2025-01-13"
   thesisdeadline: "2025-03-21"
   springbreak: "2025-03-10"
   name: Linn Zapffe
-  labs: 11
-  portfolios: 10
   grade:
     label: Grade
     value: A
@@ -172,19 +170,18 @@ I, `r params$name`, agree to :
 
 ## SCHEDULE
 
-- `r string_details(monday_week_one, 1, 1, modules_list)`
-    - Finish Lab 1 by `r deadline_day`:
+- [ ] **`r string_details(monday_week_one, 1, 1, modules_list)`**
+    - [ ] Finish Lab 1 by `r deadline_day`:
         `r string_details(monday_week_one, 2, deadline_day=deadline_day)`
-
-- `r string_details(monday_week_one, 2, 2, modules_list)`
-    - Finish Lab 2 by `r deadline_day`:
+- [ ] **`r string_details(monday_week_one, 2, 2, modules_list)`**
+    - [ ] Finish Lab 2 by `r deadline_day`:
         `r string_details(monday_week_one, 3, deadline_day=deadline_day)`
-    - Propose your contract to Mason by `r deadline_day`:
+    - [ ] Propose your contract to Mason by `r deadline_day`:
         `r string_details(monday_week_one, 3, deadline_day=deadline_day)`
-- `r string_details(monday_week_one, 3, 3, modules_list)`
-    - Finish Lab 3 by `r deadline_day`:
+- [ ] **`r string_details(monday_week_one, 3, 3, modules_list)`**
+    - [ ] Finish Lab 3 by `r deadline_day`:
         `r string_details(monday_week_one, 4, deadline_day=deadline_day)`
-    - Finish portfolio piece 1 by `r deadline_day`:
+    - [ ] Finish portfolio piece 1 by `r deadline_day`:
         `r string_details(monday_week_one, 4, deadline_day=deadline_day)`
 - `r string_details(monday_week_one, 4, 4, modules_list)`
     - Finish Lab 4 by `r deadline_day`:
@@ -216,15 +213,12 @@ I, `r params$name`, agree to :
     - Finish Lab 10 by `r deadline_day`:
         `r string_details(monday_week_one, 11, deadline_day=deadline_day)`
 - `r string_details(monday_week_one, 11, 11, modules_list)`
-    -`r if(params$labs>=11) paste0(" Finish Lab 11 by ",deadline_day,": ",string_details(monday_week_one, 12, deadline_day=deadline_day))`
     - Finish portfolio piece 5 by `r deadline_day`:
         `r string_details(monday_week_one, 12, deadline_day=deadline_day)`
 - `r string_details(monday_week_one, 12, 12, modules_list)`
-    `r if(params$labs>=12) paste0(" - Finish Lab 12 by ",deadline_day,": ",string_details(monday_week_one, 12, deadline_day=deadline_day))`
     - Finish portfolio piece 6 by `r deadline_day`:
         `r string_details(monday_week_one, 13, deadline_day=deadline_day)`
 - `r string_details(monday_week_one, 13, 13, modules_list)`
-    `r if(params$labs>=13) paste0(" - Finish Lab 13 by ",deadline_day,": ",string_details(monday_week_one, 14, deadline_day=deadline_day))`
     - Finish portfolio pieces 7 and 8 by `r deadline_day`:
         `r string_details(monday_week_one, 14, deadline_day=deadline_day)`
 - `r string_details(monday_week_one, 14, 14, modules_list)`
@@ -256,8 +250,3 @@ I, `r params$name`, agree to :
 
 Change out any labs too (there are 13)
 
-Things to keep here for ease later:
-
-monday_week_one \<- "2025-01-13" thesisdeadline \<- "2025-03-21"
-springbreak \<- "2025-03-10" name \<- "Linn Zapffe" labs \<- 11
-portfolios \<- 10 grade \<- "A" deadline_day \<- "Monday"
