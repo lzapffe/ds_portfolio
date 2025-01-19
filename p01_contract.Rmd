@@ -8,7 +8,7 @@ params:
   springbreak: "2025-03-10"
   name: Linn Zapffe
   grade:
-    label: Grade
+    label: Grade to write the contract for
     value: A
     input: select
     choices:
@@ -16,7 +16,7 @@ params:
     - B
     - Pass
   deadline_day:
-    label: Weekly Due Date
+    label: Day of the weekly due dates
     value: Sunday
     input: select
     choices:
@@ -31,6 +31,18 @@ editor_options:
   markdown: 
     wrap: 72
 ---
+
+
+<!--- How to use this Rmarkdown document
+The text above this comment is the YAML header. Change the variables under "params" into what is relevant for you and your situation. In cases where there are choices, you have to choose one of those choices. Make sure you spell your parameter the same was as one of the choices and also have the same capital or small letters.
+
+The parameters that you have specified in the YAML header will be used in the rest of the code to change out place holders.
+
+The gray boxes are r code. Since there is a "include = FALSE" command in the header of each code block, the code itself will be ran and used to produce the rest of the document. However, the code itself will not show up when you render/knit the document.
+
+The first code chunk sets the number of labs and portfolio projects you need, based on what grade you are writing the contract for. You should double check that this number is the same as what is currently stated in the syllabus as being the requirement for that grade. The second code chunk defines some variables we need and the list with the topics for the modules. Double-check that all the modules that are currently available are in that list. If not, feel free to change that. The third code chunk defines a function that takes in some parameters (information you give it) and turns that into a string we use in the contract, for example with the relevant module names and dates.
+-->
+
 
 ```{r setting number of assignments, include = FALSE}
 # Setting the required number of labs and portfolio projects given the grade the student wants to make the contract for
@@ -110,7 +122,7 @@ string_details <- function(monday_week_one,
   # First if checks for whether it is spring break. If it is, then there is no module to do
   if (date_monday == spring_break) {
     # paste0 adds the parts in it together to a string, separated by space
-    str_line <- paste0("Spring break! :", date_monday_str, " - ", date_sunday_str)
+    str_line <- paste0("Spring break! - ", date_monday_str, " - ", date_sunday_str)
   } else if (!is.null(deadline_day)) {
     if (deadline_day == "Monday") {
       str_line <- date_monday_str
@@ -137,99 +149,107 @@ string_details <- function(monday_week_one,
 
 ```
 
-<!-- This contract is adapted from Annie Somerville's contract https://github.com/anniehsom -->
 
-# Contract Grades – “`r params$grade`” Contract
+<!--- The next part here is the text that will actually be displayed in the document. The #, ##, or ### before some text indicates that this is a header. The number of "#"'s correspond to the level of the heading. So, # Heading will be in a bigger font than ## Header.
+
+The text that consists of "tick"r text"tick" (I can't actually write it with the ticks here, as that would have been interpreted by r as code to run) is in-line r code. It will run the r code and the output will be pasted there in the text when you render/knit the document. Any call to params$[input parameter here] calls the parameter you inputted in the YAML header. So, for example, if you put in A as a grade, the string below will produce a text stating "Terms to Get a Grade of "A"".
+The r codes with the parameters should paste the value or text that you need. If it seems wrong, double-check that you put in the right parameter (e.g. didn't misspell something). 
+
+There is also some code that calls a function called string_details. This is the function we defined (made) earlier to make the strings we need. The parameters (values) we put in the parameter when calling the function determines what we get from it.
+
+Read over the text for the contract and change or add anything you want to change.
+-->
+
+
+## Terms to Get a Grade of “`r params$grade`”
 
 I, `r params$name`, agree to :
 
 1)  Earn “Satisfactory” on `r n_labs` self-paced lab assignments on the
     schedule specified below. Getting a grade of "Satisfactory" requires
     that:
-
--   I have attempted all steps of the assignment. If unable to complete
-    steps due to unresolved questions, I have asked questions in Github
-    FAQs or during the help sessions, or I have Googled the issue and
-    shown effort to resolve questions;
+    -   I have attempted all steps of the assignment. If unable to  
+        complete steps due to unresolved questions, I have asked
+        questions in Github FAQs or during the help sessions, or I have
+        Googled the issue and shown effort to resolve questions;
     -   I have checked that files, repos, or projects appear on my
         Github account and are accessible;
     -   I feel like I have spent an adequate amount of time and energy
-        on assignments;
+        on the assignment;
 
 2)  Produce at least `r n_portfolios` “Satisfactory” portfolio pieces on
     the schedule specified below. Getting a grade of "Satisfactory"
     requires that:
     -   I have designed a portfolio project that I think challenges my
-        understanding of programming, explores a modules_list I want to
+        understanding of programming, explores a topic I want to
         know more about, or targets something I feel like I need more
         practice with;
     -   I have checked that files, repos, or projects appear on my
         Github account and are accessible;
     -   I feel like I have spent an adequate amount of time and energy
         on the projects;
+        
 
-## SCHEDULE
+### Schedule
 
 - [ ] **`r string_details(monday_week_one, 1, 1, modules_list)`**
     - [ ] Finish Lab 1 by `r deadline_day`:
-        `r string_details(monday_week_one, 2, deadline_day=deadline_day)`
+        `r string_details(monday_week_one, 1, deadline_day=deadline_day)`
 - [ ] **`r string_details(monday_week_one, 2, 2, modules_list)`**
     - [ ] Finish Lab 2 by `r deadline_day`:
-        `r string_details(monday_week_one, 3, deadline_day=deadline_day)`
+        `r string_details(monday_week_one, 2, deadline_day=deadline_day)`
     - [ ] Propose your contract to Mason by `r deadline_day`:
-        `r string_details(monday_week_one, 3, deadline_day=deadline_day)`
+        `r string_details(monday_week_one, 2, deadline_day=deadline_day)`
 - [ ] **`r string_details(monday_week_one, 3, 3, modules_list)`**
     - [ ] Finish Lab 3 by `r deadline_day`:
-        `r string_details(monday_week_one, 4, deadline_day=deadline_day)`
+        `r string_details(monday_week_one, 3, deadline_day=deadline_day)`
     - [ ] Finish portfolio piece 1 by `r deadline_day`:
-        `r string_details(monday_week_one, 4, deadline_day=deadline_day)`
+        `r string_details(monday_week_one, 3, deadline_day=deadline_day)`
 - [ ] **`r string_details(monday_week_one, 4, 4, modules_list)`**
     - [ ] Finish Lab 4 by `r deadline_day`:
-        `r string_details(monday_week_one, 5, deadline_day=deadline_day)`
+        `r string_details(monday_week_one, 4, deadline_day=deadline_day)`
 - [ ] **`r string_details(monday_week_one, 5, 5, modules_list)`**
     - [ ] Finish Lab 5 by `r deadline_day`:
-        `r string_details(monday_week_one, 6, deadline_day=deadline_day)`
+        `r string_details(monday_week_one, 5, deadline_day=deadline_day)`
     - [ ] Finish portfolio piece 2 by `r deadline_day`:
-        `r string_details(monday_week_one, 6, deadline_day=deadline_day)`
+        `r string_details(monday_week_one, 5, deadline_day=deadline_day)`
 - [ ] **`r string_details(monday_week_one, 6, 6, modules_list)`**
     - [ ] Finish Lab 6 by `r deadline_day`:
-        `r string_details(monday_week_one, 7, deadline_day=deadline_day)`
+        `r string_details(monday_week_one, 6, deadline_day=deadline_day)`
     - [ ] Schedule a check-in with Mason by `r deadline_day`:
-        `r string_details(monday_week_one, 7, deadline_day=deadline_day)`
+        `r string_details(monday_week_one, 6, deadline_day=deadline_day)`
 - [ ]  **`r string_details(monday_week_one, 7, 7, modules_list)`**
     - [ ] Finish Lab 7 by `r deadline_day`:
-        `r string_details(monday_week_one, 8, deadline_day=deadline_day)`
+        `r string_details(monday_week_one, 7, deadline_day=deadline_day)`
     - [ ] Finish portfolio piece 3 by `r deadline_day`:
-        `r string_details(monday_week_one, 8, deadline_day=deadline_day)`
+        `r string_details(monday_week_one, 7, deadline_day=deadline_day)`
 - [ ] **`r string_details(monday_week_one, 8, 8, modules_list)`**
     - [ ] Finish Lab 8 by `r deadline_day`:
-        `r string_details(monday_week_one, 9, deadline_day=deadline_day)`
-- [ ] **`r string_details(monday_week_one, 9, 9, modules_list)`**
+        `r string_details(monday_week_one, 8, deadline_day=deadline_day)`
+- **`r string_details(monday_week_one, 9, 9, modules_list)`**
+- [ ] **`r string_details(monday_week_one, 10, 10, modules_list)`**
     - [ ] Finish Lab 9 by `r deadline_day`:
         `r string_details(monday_week_one, 10, deadline_day=deadline_day)`
     - [ ] Finish portfolio piece 4 by `r deadline_day`:
         `r string_details(monday_week_one, 10, deadline_day=deadline_day)`
-- [ ] **`r string_details(monday_week_one, 10, 10, modules_list)`**
+- [ ] **`r string_details(monday_week_one, 11, 11, modules_list)`**
     - [ ] Finish Lab 10 by `r deadline_day`:
         `r string_details(monday_week_one, 11, deadline_day=deadline_day)`
-- [ ] **`r string_details(monday_week_one, 11, 11, modules_list)`**
+- [ ] **`r string_details(monday_week_one, 12, 12, modules_list)`**
     - [ ] Finish portfolio piece 5 by `r deadline_day`:
         `r string_details(monday_week_one, 12, deadline_day=deadline_day)`
-- [ ] **`r string_details(monday_week_one, 12, 12, modules_list)`**
+- [ ] **`r string_details(monday_week_one, 13, 13, modules_list)`**
     - [ ] Finish portfolio piece 6 by `r deadline_day`:
         `r string_details(monday_week_one, 13, deadline_day=deadline_day)`
-- [ ] **`r string_details(monday_week_one, 13, 13, modules_list)`**
+- [ ] **`r string_details(monday_week_one, 14, 14, modules_list)`**
     - [ ] Finish portfolio pieces 7 and 8 by `r deadline_day`:
         `r string_details(monday_week_one, 14, deadline_day=deadline_day)`
-- [ ] **`r string_details(monday_week_one, 14, 14, modules_list)`**
-    - [ ] Finish portfolio piece 9 by `r deadline_day`:
-        `r string_details(monday_week_one, 15, deadline_day=deadline_day)`
 - [ ] **`r string_details(monday_week_one, 15, 15, modules_list)`**
-    - [ ] Finish portfolio piece 10 by `r deadline_day`:
-        `r string_details(monday_week_one, 16, deadline_day=deadline_day)`
+    - [ ] Finish portfolio piece 9 and 10 by `r deadline_day`:
+        `r string_details(monday_week_one, 15, deadline_day=deadline_day)`
 - [ ] **Portfolio completion**
     - Due on `r deadline_day`:
-        `r string_details(monday_week_one, 16, deadline_day=deadline_day)`
+        `r string_details(monday_week_one, 15, deadline_day=deadline_day)`
 
 ## Further guidelines
 
@@ -240,9 +260,30 @@ I, `r params$name`, agree to :
     assignments that have to be completed satisfactory will not change.
 -   If the professor has any concerns about the assignments and whether
     they reach the standards of being completed "satisfactory", the
-    professor will communicate these concerns with me and offer an
-    opportunity to correct them.
--   I pertain the right to switch or switch out any of the modules and labs with another module or lab in the course from what is currently specified in the contract. This will not affect the number of labs or modules that are to be completed according to the contract. This can be
-    done in advance or while working on a module.
--   Any part of this contract can be changed before the final grade is
-    set if agreed upon by both myself and the professor.
+    professor will communicate these concerns with me and, if deemed
+    appropriate, offer an opportunity to correct them.
+-   I pertain the right to, at any time, switch out any of the modules       and labs with another module or lab in the course or change the order     of them from what is currently specified in the contract. This will      not affect the number of labs or modules that are to be completed        according to the contract. Any such changes will be noted in this        contract for reference, but will not require notifying the professor.
+-   Any other part of this contract can be changed before the final grade     is set if agreed upon by both myself and the professor.
+
+
+<!--- Now, I suggest that you knit the document. You can do this by pushing the "Knit" button with a blue yarn ball above this screen in Rmarkdown. To see the changes, push it to Github and look at the file there. If you feel more advanced, you can also change the output type to a html document in the YAML header. However, note that this will mess up some of the formatting, so I suggest to only do this temporarily while messing with the document and then switching back to the Github document type.
+
+When looking at your knitted document, you will now see the standard schedule based on the dates and information you put in as parameters in the YAML header. There are a few things I suggest you look over and change as it fits you:
+
+- There are currently mode modules than there are weeks in the semester. That means that you can't get through all the modules. If you want, you can switch out any of the modules in the contract with another module. The module is determined based on the number inputted as the third parameter in the string_details function. For example, in the following code "string_details(monday_week_one, 11, 12, modules_list)", the module number would be 12. If you are wondering what module module 12 is, you can go to the code block that defines the list "module_list" and count. Module 12 would be the topic that corresponds to the 12th topic in that list.
+
+- In addition, there are also more labs that what is required to get an "A". You can therefore also change which labs you are doing. This is just written in the standard text (not code) in the contract, so to do that, simple remove the line with the lab you don't want and add it somewhere else, changing out the lab number. For example, if you do not want to do lab 10, delete the line stating "- [ ] Finish Lab 10 by `r deadline_day`:
+`r string_details(monday_week_one, 11, deadline_day=deadline_day)`" and add this, switching out the lab number with another lab you want to do and any other parameteres that need to be adjusted, under the relevant module.
+
+- You can move around when to do labs and any of the other things that have to be done. You can do this simply by copy pasting the text and code associated with it and move it around. For example, if you know that you have a busy week one week, you might want to move any portfolio project deadlines to the following week. Do for example look at when your thesis is due and see whether you want to keep the time around then more open.
+
+- Look over when spring break is and move any assignments to other weeks (unless you want deadlines during spring break)
+
+- As you finish assignments or modules, you can mark them with a check. The "[ ]" indicates an empty check box, while "[x]" indicates a checked box.
+
+When you are done with the edits to the contract, you can knit it again, push it to Github, and look over it to see that everything looks good. -->
+
+
+
+
+<!--- This contract is adapted from Annie Somerville's contract https://github.com/anniehsom -->

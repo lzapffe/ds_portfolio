@@ -311,17 +311,34 @@ the code, in other words, translating an idea to code</li>
 <li>Developing functionalities based on the use of the contract</li>
 <li>Add some features that I would like to the contract and therefore
 have it bug me less</li>
+<li>Working with dates in R</li>
 </ul>
 <div id="rmarkdown-basics" class="section level2">
 <h2>Rmarkdown Basics</h2>
-<p>To make a new paragraph, make two new lines in a row, not just one
-When making bullet point lists, you can use * or -, but there has to be
-a new line before the start of the first bullet point</p>
+<p>To make a new paragraph, make two new lines in a row, not just
+one</p>
+<p>When making bullet point lists, you can use * or -, but there has to
+be a new line before the start of the first bullet point</p>
 <p>To embed a link with text, write the text you want displayed in
 brackets and right after put the link in parenthesis</p>
 <p>You can also make a new paragraph by ending the last line of a
 paragraph with two spaces. Or add “" at the end of the line.</p>
-<p>“&gt;” leads to a block quote Useful links:</p>
+<p>“&gt;” leads to a block quote</p>
+<ul class="task-list">
+<li><label><input type="checkbox" />creates a unchecked box, while [x]
+creates a checked box. In html, the formatting gets weird with checked
+boxes. It turns bold automatically and adds extra space for the next
+line. However, if making it a Github document, it shows up with the
+expected formatting</label></li>
+</ul>
+<p>Write &lt; ! - - - text - - &gt; (with no spaces between the
+characters) to write a comment in the Rmarkdown document that does not
+show up on the rendered output Note, if you write the code for in-text r
+code (tick mark, r, code, and tick mark) in this comment, it will
+actually run that code</p>
+<p>You get <strong>bold</strong> text from adding two stars before and
+after the text you want in bold</p>
+<p>Useful links:</p>
 <ul>
 <li><a
 href="http://www.ece.ualberta.ca/~terheide/rmarkdown-how-to/markdown.html">Rmarkdown
@@ -335,7 +352,11 @@ pasted here so that one can see what the original contract looked liked.
 In addition, this copy will be used to go over to understand how the
 code works. There will therefore be many comments added throughout this
 code to explain what the current code is doing. This will help better
-understand what to change and how for the desired changes later.</p>
+understand what to change and how for the desired changes later.
+Tinkering with the original document is how I have found out what the
+different parts of the document does. The process will not be documented
+here, as that would be too time consuming. However, here is the
+outcome:</p>
 <blockquote>
 <p>The following is the YAML header.</p>
 </blockquote>
@@ -345,7 +366,7 @@ retrieved from the computer/system running the document, to make sure it
 is always up to date.</p>
 </blockquote>
 <p>title: Grading Contract<br />
-date: “<code>format(Sys.time(), '%B %d %Y')</code>”</p>
+date: “format(Sys.time(), ‘%B %d %Y’)”</p>
 <blockquote>
 <p>The output is currently set to html, even though the original is a
 markdown document (.md), as it is quicker to visualize html documents
@@ -389,14 +410,43 @@ choices:<br />
 - Wednesday<br />
 - Thursday<br />
 - Friday</p>
+<blockquote>
+<p>This is a code block loading the library tidyverse. I don’t know what
+we are using tidyverse for yet.</p>
+</blockquote>
 <p>{r setup, include=FALSE}</p>
 <p>library(tidyverse)</p>
 </div>
 <div id="r-syllabus-scheduler" class="section level1">
 <h1>R Syllabus Scheduler</h1>
+<blockquote>
+<p>Here we define a function that is giving formatted output with the
+right values (e.g. dates) based on the parameters we have given in the
+YAML header. This function will be used to fill in the place holders in
+the contract.</p>
+</blockquote>
 <p>advdate &lt;- function(weekonemonday, week, topic = NULL, assignment
-= NULL, unit = “Module”) {<br />
-# as.Date does not like piping tmon &lt;- as.Date(weekonemonday + 7 *
+= NULL, unit = “Module”) {</p>
+<blockquote>
+<p>The function takes 5 parameters. One is what we defined as the date
+for the first Monday of classes. The second one is which week we are in,
+indexed by an integer. Then what topic we are on (which is indexed from
+a list we will define later, called topic). The next one is the
+assignment, which seems to be the same as the due date day, for example
+Monday. If this is not null, it overides the normal formatting and just
+give you the date of the first Monday of classes. I don’t know what the
+point of that is yet. what assignment we are on, and the unit we have.
+The last three parameteres have default values, so they are
+optional.</p>
+</blockquote>
+<blockquote>
+<p>The below code takes what week we are in and calculates the date for
+each weekday, based on when the first day of class is. The date variable
+weekonemondy is converted to a date object towards the end of the code
+and stored in the variable dayone. If not, it wouldn’t run. Example of a
+tmon is “01/13”.</p>
+</blockquote>
+<p># as.Date does not like piping tmon &lt;- as.Date(weekonemonday + 7 *
 (week - 1)) %&gt;% format(format = “%m/%d”)<br />
 ttue &lt;- as.Date(weekonemonday + 1 + 7 * (week - 1)) %&gt;%
 format(format = “%m/%d”)<br />
@@ -409,13 +459,35 @@ format(format = “%m/%d”)<br />
 tsat &lt;- as.Date(weekonemonday + 5 + 7 * (week - 1)) %&gt;%
 format(format = “%m/%d”)<br />
 tsun &lt;- as.Date(weekonemonday + 6 + 7 * (week - 1)) %&gt;%
-format(format = “%m/%d”)<br />
-zadv &lt;- sprintf(“%02d”, week)</p>
+format(format = “%m/%d”)</p>
+<blockquote>
+<p>The following code formats the week to have two numbers, so that
+e.g. week 1 is formatted as 01</p>
+</blockquote>
+<p>zadv &lt;- sprintf(“%02d”, week)</p>
+<blockquote>
+<p>The following code has a lot of if statements, leading to different
+formatting of a string with information about the module number, start
+and end dates, and topic to be covered.</p>
+</blockquote>
+<blockquote>
+<p>The first condition is if there is no topic or assignment (which is
+set to NULL by default). This will therefore mostly occur if there are
+no more topics to go over. It will produce something like “Module 01,
+01/13 - 01/17”. We don’t seem to ever use this, so I am not sure what
+the point of this is.</p>
+</blockquote>
 <p>if (is.null(topic) &amp; is.null(assignment)) {<br />
-tmp &lt;- paste0(unit, zadv, “,”, tmon, ” - “, tfri)<br />
-} else if (!is.null(assignment)) {<br />
+tmp &lt;- paste0(unit, zadv, “,”, tmon, ” - “, tfri)</p>
+<blockquote>
+<p>If assignment (the day of the week assignments are due on) is still
+empty, but there is a topic, you get formatting similar to “01/17”.
+Paste0 is used to paste the results together. However, I don’t know why
+you would need paste0() here wheb there is only one variable.</p>
+</blockquote>
+<p>} else if (!is.null(assignment)) {<br />
 if (assignment %in%<br />
-c(”Friday”,<br />
+c(“Friday”,<br />
 “friday”,<br />
 “f”,<br />
 “fri”,<br />
@@ -447,21 +519,47 @@ c(“monday”,<br />
 “m”,<br />
 “mon”)) {<br />
 tmp &lt;- paste0(tmon)<br />
-}<br />
-} else{<br />
+}</p>
+<blockquote>
+<p>If there is both a topic and assignment (due date of the week), then
+you get something like the following: “Module 01, 01/13 - 01/17 : What
+is Data Science and Meet the Toolkit”</p>
+</blockquote>
+<p>} else{<br />
 tmp &lt;- paste0(unit, zadv, “,”, tmon, ” - “, tfri,” : “,
 topic[week])<br />
-}<br />
-return(tmp)<br />
 }</p>
+<blockquote>
+<p>Lastly, tmp, the formatted string, is returned from the function, so
+that we can access it outside of the function.</p>
+</blockquote>
+<p>return(tmp)<br />
+}</p>
+<blockquote>
+<p>I also don’t know what the following code was meant to do or why it
+is there. Can you test whether assigning a variable to something is
+true?</p>
+</blockquote>
 <p>#if(TRUE){<br />
 #<br />
 # dayone &lt;- as.Date(“2022-01-10”)<br />
 # startweek &lt;- “Friday”<br />
 #} else {</p>
+<blockquote>
+<p>Assigning the parameters given above to new variable names. This part
+is not necessary, but makes the contract part a little more readable.
+Also, formatting the weekonemonday to be a date object instead of a
+string. Note that this happens outside of the function and before the
+function is called.</p>
+</blockquote>
 <p>dayone &lt;- as.Date(params<span class="math inline">\(weekonemonday)
 startweek &lt;- params\)</span>startweek</p>
 <p>#}</p>
+<blockquote>
+<p>Making a list with all the topics in the R course, which is used to
+get the topic names with indexing when making the schedule in the
+contract.</p>
+</blockquote>
 <p>topic = c(<br />
 “What is Data Science and Meet the Toolkit”,<br />
 “Data and Visualization”,<br />
@@ -480,15 +578,20 @@ startweek &lt;- params\)</span>startweek</p>
 “Interactive web apps”,<br />
 “Special Topics”<br />
 )</p>
-<p>``</p>
 <!-- This contract is adapted from Annie Somerville's contract https://github.com/anniehsom -->
+<blockquote>
+<p>The following is the contract with the parameters entered throughout
+the text, to make the document dynamic and easily adjustable for each
+individual. The code does also call upon the advdate function defined
+earlier.</p>
+</blockquote>
 <div id="contract-grades-paramsgrade-contract" class="section level3">
-<h3>Contract Grades – “<code>params$grade</code>” Contract</h3>
-<p>I, <code>params$name</code>, agree to :</p>
+<h3>Contract Grades – “params$grade” Contract</h3>
+<p>I, params$name, agree to :</p>
 <ol style="list-style-type: decimal">
-<li>Earn “Satisfactory” on <code>params$labs</code> self-paced lab
-assignments on the schedule specified below. Getting a grade of
-“Satisfactory” requires that:</li>
+<li>Earn “Satisfactory” on params$labs self-paced lab assignments on the
+schedule specified below. Getting a grade of “Satisfactory” requires
+that:</li>
 </ol>
 <ul>
 <li>I have attempted all steps of the assignment. If unable to complete
@@ -503,9 +606,9 @@ assignments;</li>
 </ul></li>
 </ul>
 <ol start="2" style="list-style-type: decimal">
-<li>Produce at least <code>params$portfolios</code> “Satisfactory”
-portfolio pieces on the schedule specified below. Getting a grade of
-“Satisfactory” requires that:
+<li>Produce at least params$portfolios “Satisfactory” portfolio pieces
+on the schedule specified below. Getting a grade of “Satisfactory”
+requires that:
 <ul>
 <li>I have designed a portfolio project that I think challenges my
 understanding of programming, explores a topic I want to know more
@@ -520,137 +623,104 @@ the projects;</li>
 <div id="schedule" class="section level3">
 <h3>SCHEDULE</h3>
 <ul class="task-list">
-<li><label><input
-type="checkbox" /><code>advdate(dayone, 1, topic)</code></label>
+<li><label><input type="checkbox" />advdate(dayone, 1, topic)</label>
 <ul class="task-list">
-<li><label><input type="checkbox" />Finish Lab 1 by
-<code>startweek</code>:
-<code>advdate(dayone, 2, assignment=startweek)</code></label></li>
+<li><label><input type="checkbox" />Finish Lab 1 by startweek:
+advdate(dayone, 2, assignment=startweek)</label></li>
 </ul></li>
-<li><label><input
-type="checkbox" /><code>advdate(dayone, 2, topic)</code></label>
+<li><label><input type="checkbox" />advdate(dayone, 2, topic)</label>
 <ul class="task-list">
-<li><label><input type="checkbox" />Finish Lab 2 by
-<code>startweek</code>:
-<code>advdate(dayone, 3, assignment=startweek)</code></label></li>
+<li><label><input type="checkbox" />Finish Lab 2 by startweek:
+advdate(dayone, 3, assignment=startweek)</label></li>
 <li><label><input type="checkbox" />Propose your contract to Mason by
-<code>startweek</code>:
-<code>advdate(dayone, 3, assignment=startweek)</code></label></li>
+startweek: advdate(dayone, 3, assignment=startweek)</label></li>
 </ul></li>
-<li><label><input
-type="checkbox" /><code>advdate(dayone, 3, topic)</code></label>
+<li><label><input type="checkbox" />advdate(dayone, 3, topic)</label>
 <ul class="task-list">
-<li><label><input type="checkbox" />Finish Lab 3 by
-<code>startweek</code>:
-<code>advdate(dayone, 4, assignment=startweek)</code></label></li>
+<li><label><input type="checkbox" />Finish Lab 3 by startweek:
+advdate(dayone, 4, assignment=startweek)</label></li>
 <li><label><input type="checkbox" />Finish portfolio piece 1 by
-<code>startweek</code>:
-<code>advdate(dayone, 4, assignment=startweek)</code></label></li>
+startweek: advdate(dayone, 4, assignment=startweek)</label></li>
 </ul></li>
-<li><label><input
-type="checkbox" /><code>advdate(dayone, 4, topic)</code></label>
+<li><label><input type="checkbox" />advdate(dayone, 4, topic)</label>
 <ul class="task-list">
-<li><label><input type="checkbox" />Finish Lab 4 by
-<code>startweek</code>:
-<code>advdate(dayone, 5, assignment=startweek)</code></label></li>
+<li><label><input type="checkbox" />Finish Lab 4 by startweek:
+advdate(dayone, 5, assignment=startweek)</label></li>
 </ul></li>
-<li><label><input
-type="checkbox" /><code>advdate(dayone, 5, topic)</code></label>
+<li><label><input type="checkbox" />advdate(dayone, 5, topic)</label>
 <ul class="task-list">
-<li><label><input type="checkbox" />Finish Lab 5 by
-<code>startweek</code>:
-<code>advdate(dayone, 6, assignment=startweek)</code></label></li>
+<li><label><input type="checkbox" />Finish Lab 5 by startweek:
+advdate(dayone, 6, assignment=startweek)</label></li>
 <li><label><input type="checkbox" />Finish portfolio piece 2 by
-<code>startweek</code>:
-<code>advdate(dayone, 6, assignment=startweek)</code></label></li>
+startweek: advdate(dayone, 6, assignment=startweek)</label></li>
 </ul></li>
-<li><label><input
-type="checkbox" /><code>advdate(dayone, 6, topic)</code></label>
+<li><label><input type="checkbox" />advdate(dayone, 6, topic)</label>
 <ul class="task-list">
-<li><label><input type="checkbox" />Finish Lab 6 by
-<code>startweek</code>:
-<code>advdate(dayone, 7, assignment=startweek)</code></label></li>
+<li><label><input type="checkbox" />Finish Lab 6 by startweek:
+advdate(dayone, 7, assignment=startweek)</label></li>
 <li><label><input type="checkbox" />Schedule a check-in with Mason by
-<code>startweek</code>:
-<code>advdate(dayone, 7, assignment=startweek)</code></label></li>
+startweek: advdate(dayone, 7, assignment=startweek)</label></li>
 </ul></li>
-<li><label><input
-type="checkbox" /><code>advdate(dayone, 7, topic)</code></label>
+<li><label><input type="checkbox" />advdate(dayone, 7, topic)</label>
 <ul class="task-list">
-<li><label><input type="checkbox" />Finish Lab 7 by
-<code>startweek</code>:
-<code>advdate(dayone, 8, assignment=startweek)</code></label></li>
+<li><label><input type="checkbox" />Finish Lab 7 by startweek:
+advdate(dayone, 8, assignment=startweek)</label></li>
 <li><label><input type="checkbox" />Finish portfolio piece 3 by
-<code>startweek</code>:
-<code>advdate(dayone, 8, assignment=startweek)</code></label></li>
+startweek: advdate(dayone, 8, assignment=startweek)</label></li>
 </ul></li>
-<li><label><input
-type="checkbox" /><code>advdate(dayone, 8, topic)</code></label>
+<li><label><input type="checkbox" />advdate(dayone, 8, topic)</label>
 <ul class="task-list">
-<li><label><input type="checkbox" />Finish Lab 8 by
-<code>startweek</code>:
-<code>advdate(dayone, 9, assignment=startweek)</code></label></li>
+<li><label><input type="checkbox" />Finish Lab 8 by startweek:
+advdate(dayone, 9, assignment=startweek)</label></li>
 </ul></li>
-<li><label><input
-type="checkbox" /><code>advdate(dayone, 0, topic)</code></label>
+<li><label><input type="checkbox" />advdate(dayone, 0, topic)</label>
 <ul class="task-list">
-<li><label><input type="checkbox" />Finish Lab 9 by
-<code>startweek</code>:
-<code>advdate(dayone, 10, assignment=startweek)</code></label></li>
+<li><label><input type="checkbox" />Finish Lab 9 by startweek:
+advdate(dayone, 10, assignment=startweek)</label></li>
 <li><label><input type="checkbox" />Finish portfolio piece 4 by
-<code>startweek</code>:
-<code>advdate(dayone, 10, assignment=startweek)</code></label></li>
+startweek: advdate(dayone, 10, assignment=startweek)</label></li>
 </ul></li>
-<li><label><input
-type="checkbox" /><code>advdate(dayone, 10, topic)</code></label>
+<li><label><input type="checkbox" />advdate(dayone, 10, topic)</label>
 <ul class="task-list">
-<li><label><input type="checkbox" />Finish Lab 10 by
-<code>startweek</code>:
-<code>advdate(dayone, 11, assignment=startweek)</code></label></li>
+<li><label><input type="checkbox" />Finish Lab 10 by startweek:
+advdate(dayone, 11, assignment=startweek)</label></li>
 </ul></li>
-<li><label><input
-type="checkbox" /><code>advdate(dayone, 11, topic)</code></label>
+<li><label><input type="checkbox" />advdate(dayone, 11, topic)</label>
 <ul class="task-list">
-<li><label><input
-type="checkbox" /><code>if(params$labs&gt;=11) paste0(" Finish Lab 11 by ",startweek,": ",advdate(dayone, 12, assignment=startweek))</code></label></li>
+<li><label><input type="checkbox" />if(params$labs&gt;=11) paste0(”
+Finish Lab 11 by “,startweek,”: “,advdate(dayone, 12,
+assignment=startweek))</label></li>
 <li><label><input type="checkbox" />Finish portfolio piece 5 by
-<code>startweek</code>:
-<code>advdate(dayone, 12, assignment=startweek)</code></label></li>
+startweek: advdate(dayone, 12, assignment=startweek)</label></li>
 </ul></li>
-<li><label><input
-type="checkbox" /><code>advdate(dayone, 12, topic)</code>
-<code>if(params$labs&gt;=12) paste0(" - Finish Lab 12 by ",startweek,": ",advdate(dayone, 12, assignment=startweek))</code></label>
+<li><label><input type="checkbox" />advdate(dayone, 12, topic)
+if(params$labs&gt;=12) paste0(” - Finish Lab 12 by “,startweek,”:
+“,advdate(dayone, 12, assignment=startweek))</label>
 <ul class="task-list">
 <li><label><input type="checkbox" />Finish portfolio piece 6 by
-<code>startweek</code>:
-<code>advdate(dayone, 13, assignment=startweek)</code></label></li>
+startweek: advdate(dayone, 13, assignment=startweek)</label></li>
 </ul></li>
-<li><label><input
-type="checkbox" /><code>advdate(dayone, 13, topic)</code>
-<code>if(params$labs&gt;=13) paste0(" - Finish Lab 13 by ",startweek,": ",advdate(dayone, 14, assignment=startweek))</code></label>
+<li><label><input type="checkbox" />advdate(dayone, 13, topic)
+if(params$labs&gt;=13) paste0(” - Finish Lab 13 by “,startweek,”:
+“,advdate(dayone, 14, assignment=startweek))</label>
 <ul class="task-list">
 <li><label><input type="checkbox" />Finish portfolio pieces 7 and 8 by
-<code>startweek</code>:
-<code>advdate(dayone, 14, assignment=startweek)</code></label></li>
+startweek: advdate(dayone, 14, assignment=startweek)</label></li>
 </ul></li>
-<li><label><input
-type="checkbox" /><code>advdate(dayone, 14, topic)</code></label>
+<li><label><input type="checkbox" />advdate(dayone, 14, topic)</label>
 <ul class="task-list">
 <li><label><input type="checkbox" />Finish portfolio piece 9 by
-<code>startweek</code>:
-<code>advdate(dayone, 15, assignment=startweek)</code></label></li>
+startweek: advdate(dayone, 15, assignment=startweek)</label></li>
 </ul></li>
-<li><label><input
-type="checkbox" /><code>advdate(dayone, 15, topic)</code></label>
+<li><label><input type="checkbox" />advdate(dayone, 15, topic)</label>
 <ul class="task-list">
 <li><label><input type="checkbox" />Finish portfolio piece 10 by
-<code>startweek</code>:
-<code>advdate(dayone, 16, assignment=startweek)</code></label></li>
+startweek: advdate(dayone, 16, assignment=startweek)</label></li>
 </ul></li>
 <li><label><input type="checkbox" />Portfolio completion</label>
 <ul class="task-list">
-<li><label><input type="checkbox" />Due on <code>startweek</code>:
-<code>advdate(dayone, 16, assignment=startweek)</code></label></li>
+<li><label><input type="checkbox" />Due on startweek: advdate(dayone,
+16, assignment=startweek)</label></li>
 </ul></li>
 </ul>
 </div>
@@ -672,6 +742,384 @@ in advance or while working on a module.</li>
 <li>Any part of this contract can be changed before the final grade is
 set if agreed upon by both myself and the professor.</li>
 </ul>
+</div>
+</div>
+<div id="goals-for-the-new-contract" class="section level1">
+<h1>Goals For the New Contract</h1>
+<p>Things to improve:</p>
+<ul>
+<li>The code is in general poorly commented and bordering mild spaghetti
+code (no offense). So, the new code will have much more extensive coding
+and will try to put things in the order it is read in by humans, to make
+the readability better.</li>
+<li>The variable names could sometimes be more enlightening, so these
+will be updated</li>
+<li>There are some parts of the function that are never used. This can
+be deleted and potentially dealt with as error checking instead, if
+needed. There are also some additional fail-safe’s, like allowing for
+“Monday”, “monday”, “Mon”, and “m”, which doesn’t seem necessary as the
+YAML header specifically state the options to put in. If anyone puts in
+a shorthand that doesn’t work with the code, they should be able to
+figure that out based on the options provided in the YAML header.</li>
+<li>The current code will only allow for the insertion of spring break
+if you add it as a topic. However, that will shift all the module
+numbers so that they do not align with the topic. This has to be
+changed, so that they module number is correct for each topic.</li>
+<li>You can currently not have the weekly deadlines be on Sundays, which
+is a typical day to have deadlines on. I’ll add the opportunity for the
+deadlines to be on Saturday and Sunday.</li>
+<li>It can be hard to understand the logic of the document, especially
+if one is not familiar with Rmarkdown yet. This is likely the case for
+several students, so I’ll also write and include instructions on how to
+navigate the document and what it does throughout the contract.</li>
+<li>Now, one has to look to the syllabus to see how many labs and
+portfolio projects to finish given the desired grade. I will put this in
+automatically, so that the student don’t need to provide it
+themselves.</li>
+</ul>
+</div>
+<div id="the-improved-contract" class="section level1">
+<h1>The Improved Contract</h1>
+<p>This is a copy of the improved contract. There might be minor
+variations between this version and the final version attached in the
+ds_portfolio repository. The code should be more or less the same
+between the two versions.</p>
+<p>All the text and comments here are the same as in the contract
+templates. The code comments have been changed out with block quotes, as
+the hash tag symbol would have been rendered as a header if not inside a
+code block.</p>
+<p>title: Grading Contract date: “format(Sys.time(), ‘%B %d %Y’)”
+output: github_document params: mondayweekone: “2025-01-13”
+thesisdeadline: “2025-03-21” springbreak: “2025-03-10” name: Linn Zapffe
+grade: label: Grade to write the contract for value: A input: select
+choices: - A - B - Pass deadline_day: label: Day of the weekly due dates
+value: Sunday input: select choices: - Monday - Tuesday - Wednesday -
+Thursday - Friday - Saturday - Sunday editor_options: markdown: wrap:
+72</p>
+<!--- How to use this Rmarkdown document
+The text above this comment is the YAML header. Change the variables under "params" into what is relevant for you and your situation. In cases where there are choices, you have to choose one of those choices. Make sure you spell your parameter the same was as one of the choices and also have the same capital or small letters.
+
+The parameters that you have specified in the YAML header will be used in the rest of the code to change out place holders.
+
+The gray boxes are r code. Since there is a "include = FALSE" command in the header of each code block, the code itself will be ran and used to produce the rest of the document. However, the code itself will not show up when you render/knit the document.
+
+The first code chunk sets the number of labs and portfolio projects you need, based on what grade you are writing the contract for. You should double check that this number is the same as what is currently stated in the syllabus as being the requirement for that grade. The second code chunk defines some variables we need and the list with the topics for the modules. Double-check that all the modules that are currently available are in that list. If not, feel free to change that. The third code chunk defines a function that takes in some parameters (information you give it) and turns that into a string we use in the contract, for example with the relevant module names and dates.
+-->
+<p>r setting number of assignments, include = FALSE &gt; Setting the
+required number of labs and portfolio projects given the grade the
+student wants to make the contract for if (params<span
+class="math inline">\(grade == &quot;A&quot;) {
+  n_labs &lt;- 11
+  n_portfolios &lt;- 10
+} else if (params\)</span>grade == “B”) { n_labs &lt;- 8 n_portfolios
+&lt;- 6 } else if (params$grade == “Pass”) { n_labs &lt;- 8 n_portfolios
+&lt;- 4 }</p>
+<p>r defining variables, include = FALSE &gt; Loading tidyverse, to deal
+with dates better library(tidyverse)</p>
+<blockquote>
+<p>Defining the parameters as variables which makes it a little less
+cluttered during the contract itself monday_week_one &lt;-
+as.Date(params<span class="math inline">\(mondayweekone)
+deadline_day &lt;- params\)</span>deadline_day spring_break &lt;-
+as.Date(params$springbreak)</p>
+</blockquote>
+<blockquote>
+<p>Defining a list with all the modules in it, which can be chosen from
+when making the schedule modules_list = c( “Data Science”, “Data and
+Visualization”, “Tidyverse”, “Data Diving with Tidyverse”, “Effective
+Data Visualization”, “Web scraping”, “Functions and Automation”, “Data
+and Ethics”, “Modeling the Tidy way!”, “Overfitting and
+Cross-validation”, “Quantifying Uncertainty”, “Base R and Simulating
+Data”, “Large Language Models”, “Interactive Web Apps”, “Reproducible
+Reports”, “Machine, Learn”)</p>
+</blockquote>
+<p>r dates and strings, include = FALSE</p>
+<blockquote>
+<p>Defining a function we can call when we need a string in the contract
+with the modules, dates, and/or date for the deadlines</p>
+</blockquote>
+<blockquote>
+<p>The function takes four parameters. The first is the date of the
+first Monday of classes, the second is the week number, the third is the
+module for that day, and the last one is the deadline day chosen
+earlier</p>
+</blockquote>
+<p>string_details &lt;- function(monday_week_one, week_num, module_num =
+NULL, modules_list = NULL, deadline_day = NULL) {</p>
+<blockquote>
+<p>Calculating the date for the weekday, based on the inputted week For
+Monday only, as we use that to check whether it is the week of spring
+break, we keep a variable, date_monday, in date form. The as.Date()
+allows for the calculations to occur withouth treating any of the
+variables as string, won’t run if it doesn’t have the as.Date() function
+there.</p>
+</blockquote>
+<p>date_monday &lt;- as.Date(monday_week_one + 7 * (week_num - 1)) &gt;
+Then we format the date into a string (happens automatically with
+format()) in the form of two numbers for day and month, e.g. “03/03”
+&gt; For the rest of the days, we just keep this string version</p>
+<p>date_monday_str &lt;- format(date_monday, format = “%m/%d”)
+date_tuesday_str &lt;- as.Date(monday_week_one + 1 + 7 * (week_num - 1))
+%&gt;% format(format = “%m/%d”) date_wednesday_str_str &lt;-
+as.Date(monday_week_one + 2 + 7 * (week_num - 1)) %&gt;% format(format =
+“%m/%d”) date_thursday_str &lt;- as.Date(monday_week_one + 3 + 7 *
+(week_num - 1)) %&gt;% format(format = “%m/%d”) date_friday_str &lt;-
+as.Date(monday_week_one + 4 + 7 * (week_num - 1)) %&gt;% format(format =
+“%m/%d”) date_saturday_str &lt;- as.Date(monday_week_one + 5 + 7 *
+(week_num - 1)) %&gt;% format(format = “%m/%d”) date_sunday_str &lt;-
+as.Date(monday_week_one + 6 + 7 * (week_num - 1)) %&gt;% format(format =
+“%m/%d”)</p>
+<blockquote>
+<p>Format the week number with two numbers, e.g. “02”</p>
+</blockquote>
+<p>module_string &lt;- sprintf(“%02d”, module_num)</p>
+<blockquote>
+<p>Creating the string, based on what type of information is given. This
+determines what format the string should have First if checks for
+whether it is spring break. If it is, then there is no module to do</p>
+</blockquote>
+<p>if (date_monday == spring_break) { &gt; paste0 adds the parts in it
+together to a string, separated by space</p>
+<pre><code>str_line &lt;- paste0(&quot;Spring break! - &quot;, date_monday_str, &quot; - &quot;, date_sunday_str)</code></pre>
+<p>} else if (!is.null(deadline_day)) { if (deadline_day == “Monday”) {
+str_line &lt;- date_monday_str } else if (deadline_day == “Tuesday”) {
+str_line &lt;- date_tuesday_str } else if (deadline_day == “Wednesday”)
+{ str_line &lt;- date_wednesday_str } else if (deadline_day ==
+“Thursday”) { str_line &lt;- date_thursday_str } else if (deadline_day
+== “Friday”) { str_line &lt;- date_friday_str } else if (deadline_day ==
+“Saturday”) { str_line &lt;- date_saturday_str } else if (deadline_day
+== “Sunday”) { str_line &lt;- date_sunday_str } &gt; Creating a string
+with the module, module number, dates for the week, and the topic for
+the module</p>
+<p>} else{ str_line &lt;- paste0(“Module”, module_num, “,”,
+date_monday_str, ” - “, date_sunday_str,” : “, modules_list[module_num])
+}</p>
+<blockquote>
+<p>Return the string so that it can be accessed outside of the
+function</p>
+</blockquote>
+<p>return(str_line) }</p>
+<!--- The next part here is the text that will actually be displayed in the document. The #, ##, or ### before some text indicates that this is a header. The number of "#"'s correspond to the level of the heading. So, # Heading will be in a bigger font than ## Header.
+
+The text that consists of "tick"r text"tick" (I can't actually write it with the ticks here, as that would have been interpreted by r as code to run) is in-line r code. It will run the r code and the output will be pasted there in the text when you render/knit the document. Any call to params$[input parameter here] calls the parameter you inputted in the YAML header. So, for example, if you put in A as a grade, the string below will produce a text stating "Terms to Get a Grade of "A"".
+The r codes with the parameters should paste the value or text that you need. If it seems wrong, double-check that you put in the right parameter (e.g. didn't misspell something). 
+
+There is also some code that calls a function called string_details. This is the function we defined (made) earlier to make the strings we need. The parameters (values) we put in the parameter when calling the function determines what we get from it.
+
+Read over the text for the contract and change or add anything you want to change.
+-->
+<div id="terms-to-get-a-grade-of-paramsgrade" class="section level2">
+<h2>Terms to Get a Grade of “params$grade”</h2>
+<p>I, params$name, agree to :</p>
+<ol style="list-style-type: decimal">
+<li>Earn “Satisfactory” on n_labs self-paced lab assignments on the
+schedule specified below. Getting a grade of “Satisfactory” requires
+that:
+<ul>
+<li>I have attempted all steps of the assignment. If unable to<br />
+complete steps due to unresolved questions, I have asked questions in
+Github FAQs or during the help sessions, or I have Googled the issue and
+shown effort to resolve questions;</li>
+<li>I have checked that files, repos, or projects appear on my Github
+account and are accessible;</li>
+<li>I feel like I have spent an adequate amount of time and energy on
+the assignment;</li>
+</ul></li>
+<li>Produce at least n_portfolios “Satisfactory” portfolio pieces on the
+schedule specified below. Getting a grade of “Satisfactory” requires
+that:
+<ul>
+<li>I have designed a portfolio project that I think challenges my
+understanding of programming, explores a topic I want to know more
+about, or targets something I feel like I need more practice with;</li>
+<li>I have checked that files, repos, or projects appear on my Github
+account and are accessible;</li>
+<li>I feel like I have spent an adequate amount of time and energy on
+the projects;</li>
+</ul></li>
+</ol>
+<div id="schedule-1" class="section level3">
+<h3>Schedule</h3>
+<ul>
+<li><label><input
+type="checkbox" /><strong>string_details(monday_week_one, 1, 1,
+modules_list)</strong></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Finish Lab 1 by deadline_day:
+string_details(monday_week_one, 1,
+deadline_day=deadline_day)</label></li>
+</ul></li>
+<li><label><input
+type="checkbox" /><strong>string_details(monday_week_one, 2, 2,
+modules_list)</strong></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Finish Lab 2 by deadline_day:
+string_details(monday_week_one, 2,
+deadline_day=deadline_day)</label></li>
+<li><label><input type="checkbox" />Propose your contract to Mason by
+deadline_day: string_details(monday_week_one, 2,
+deadline_day=deadline_day)</label></li>
+</ul></li>
+<li><label><input
+type="checkbox" /><strong>string_details(monday_week_one, 3, 3,
+modules_list)</strong></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Finish Lab 3 by deadline_day:
+string_details(monday_week_one, 3,
+deadline_day=deadline_day)</label></li>
+<li><label><input type="checkbox" />Finish portfolio piece 1 by
+deadline_day: string_details(monday_week_one, 3,
+deadline_day=deadline_day)</label></li>
+</ul></li>
+<li><label><input
+type="checkbox" /><strong>string_details(monday_week_one, 4, 4,
+modules_list)</strong></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Finish Lab 4 by deadline_day:
+string_details(monday_week_one, 4,
+deadline_day=deadline_day)</label></li>
+</ul></li>
+<li><label><input
+type="checkbox" /><strong>string_details(monday_week_one, 5, 5,
+modules_list)</strong></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Finish Lab 5 by deadline_day:
+string_details(monday_week_one, 5,
+deadline_day=deadline_day)</label></li>
+<li><label><input type="checkbox" />Finish portfolio piece 2 by
+deadline_day: string_details(monday_week_one, 5,
+deadline_day=deadline_day)</label></li>
+</ul></li>
+<li><label><input
+type="checkbox" /><strong>string_details(monday_week_one, 6, 6,
+modules_list)</strong></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Finish Lab 6 by deadline_day:
+string_details(monday_week_one, 6,
+deadline_day=deadline_day)</label></li>
+<li><label><input type="checkbox" />Schedule a check-in with Mason by
+deadline_day: string_details(monday_week_one, 6,
+deadline_day=deadline_day)</label></li>
+</ul></li>
+<li><label><input
+type="checkbox" /><strong>string_details(monday_week_one, 7, 7,
+modules_list)</strong></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Finish Lab 7 by deadline_day:
+string_details(monday_week_one, 7,
+deadline_day=deadline_day)</label></li>
+<li><label><input type="checkbox" />Finish portfolio piece 3 by
+deadline_day: string_details(monday_week_one, 7,
+deadline_day=deadline_day)</label></li>
+</ul></li>
+<li><label><input
+type="checkbox" /><strong>string_details(monday_week_one, 8, 8,
+modules_list)</strong></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Finish Lab 8 by deadline_day:
+string_details(monday_week_one, 8,
+deadline_day=deadline_day)</label></li>
+</ul></li>
+<li><strong>string_details(monday_week_one, 9, 9,
+modules_list)</strong></li>
+<li><label><input
+type="checkbox" /><strong>string_details(monday_week_one, 10, 10,
+modules_list)</strong></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Finish Lab 9 by deadline_day:
+string_details(monday_week_one, 10,
+deadline_day=deadline_day)</label></li>
+<li><label><input type="checkbox" />Finish portfolio piece 4 by
+deadline_day: string_details(monday_week_one, 10,
+deadline_day=deadline_day)</label></li>
+</ul></li>
+<li><label><input
+type="checkbox" /><strong>string_details(monday_week_one, 11, 11,
+modules_list)</strong></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Finish Lab 10 by deadline_day:
+string_details(monday_week_one, 11,
+deadline_day=deadline_day)</label></li>
+</ul></li>
+<li><label><input
+type="checkbox" /><strong>string_details(monday_week_one, 12, 12,
+modules_list)</strong></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Finish portfolio piece 5 by
+deadline_day: string_details(monday_week_one, 12,
+deadline_day=deadline_day)</label></li>
+</ul></li>
+<li><label><input
+type="checkbox" /><strong>string_details(monday_week_one, 13, 13,
+modules_list)</strong></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Finish portfolio piece 6 by
+deadline_day: string_details(monday_week_one, 13,
+deadline_day=deadline_day)</label></li>
+</ul></li>
+<li><label><input
+type="checkbox" /><strong>string_details(monday_week_one, 14, 14,
+modules_list)</strong></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Finish portfolio pieces 7 and 8 by
+deadline_day: string_details(monday_week_one, 14,
+deadline_day=deadline_day)</label></li>
+</ul></li>
+<li><label><input
+type="checkbox" /><strong>string_details(monday_week_one, 15, 15,
+modules_list)</strong></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Finish portfolio piece 9 and 10 by
+deadline_day: string_details(monday_week_one, 15,
+deadline_day=deadline_day)</label></li>
+</ul></li>
+<li><label><input type="checkbox" /><strong>Portfolio
+completion</strong></label>
+<ul>
+<li>Due on deadline_day: string_details(monday_week_one, 15,
+deadline_day=deadline_day)</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="further-guidelines-1" class="section level2">
+<h2>Further guidelines</h2>
+<ul>
+<li>According to reasons discussed and agreed upon in advance with the
+professor, there are some situations which might require some of these
+deadlines to be moved. If this is the case, I will reach out to the
+professor and agree on another deadline. The number of assignments that
+have to be completed satisfactory will not change.</li>
+<li>If the professor has any concerns about the assignments and whether
+they reach the standards of being completed “satisfactory”, the
+professor will communicate these concerns with me and, if deemed
+appropriate, offer an opportunity to correct them.</li>
+<li>I pertain the right to, at any time, switch out any of the modules
+and labs with another module or lab in the course or change the order of
+them from what is currently specified in the contract. This will not
+affect the number of labs or modules that are to be completed according
+to the contract. Any such changes will be noted in this contract for
+reference, but will not require notifying the professor.</li>
+<li>Any other part of this contract can be changed before the final
+grade is set if agreed upon by both myself and the professor.</li>
+</ul>
+<!--- Now, I suggest that you knit the document. You can do this by pushing the "Knit" button with a blue yarn ball above this screen in Rmarkdown. To see the changes, push it to Github and look at the file there. If you feel more advanced, you can also change the output type to a html document in the YAML header. However, note that this will mess up some of the formatting, so I suggest to only do this temporarily while messing with the document and then switching back to the Github document type.
+
+When looking at your knitted document, you will now see the standard schedule based on the dates and information you put in as parameters in the YAML header. There are a few things I suggest you look over and change as it fits you:
+
+- There are currently mode modules than there are weeks in the semester. That means that you can't get through all the modules. If you want, you can switch out any of the modules in the contract with another module. The module is determined based on the number inputted as the third parameter in the string_details function. For example, in the following code "string_details(monday_week_one, 11, 12, modules_list)", the module number would be 12. If you are wondering what module module 12 is, you can go to the code block that defines the list "module_list" and count. Module 12 would be the topic that corresponds to the 12th topic in that list.
+
+- In addition, there are also more labs that what is required to get an "A". You can therefore also change which labs you are doing. This is just written in the standard text (not code) in the contract, so to do that, simple remove the line with the lab you don't want and add it somewhere else, changing out the lab number. For example, if you do not want to do lab 10, delete the line stating "- [ ] Finish Lab 10 by deadline_day:
+string_details(monday_week_one, 11, deadline_day=deadline_day)" and add this, switching out the lab number with another lab you want to do and any other parameteres that need to be adjusted, under the relevant module.
+
+- You can move around when to do labs and any of the other things that have to be done. You can do this simply by copy pasting the text and code associated with it and move it around. For example, if you know that you have a busy week one week, you might want to move any portfolio project deadlines to the following week. Do for example look at when your thesis is due and see whether you want to keep the time around then more open.
+
+- Look over when spring break is and move any assignments to other weeks (unless you want deadlines during spring break)
+
+- As you finish assignments or modules, you can mark them with a check. The "[ ]" indicates an empty check box, while "[x]" indicates a checked box.
+
+When you are done with the edits to the contract, you can knit it again, push it to Github, and look over it to see that everything looks good. -->
+<!--- This contract is adapted from Annie Somerville's contract https://github.com/anniehsom -->
 </div>
 </div>
 
