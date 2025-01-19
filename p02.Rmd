@@ -1,5 +1,5 @@
 ---
-title: "Tidyverse vs base R"
+title: "Vectorized Operations"
 ---
 
-Text
+Exploring vectorized operations

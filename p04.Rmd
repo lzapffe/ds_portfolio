@@ -1,5 +1,5 @@
 ---
-title: "Exploring Data Visualization Libraries"
+title: "ggplot"
 ---
 
 Text

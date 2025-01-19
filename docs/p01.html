@@ -11,7 +11,7 @@
 
 
 
-<title>Vectorized Operations</title>
+<title>Improving the Code for the Grading Contract</title>
 
 <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -290,12 +290,390 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Vectorized Operations</h1>
+<h1 class="title toc-ignore">Improving the Code for the Grading
+Contract</h1>
 
 </div>
 
 
-<p>Exploring vectorized operations</p>
+<p>I found a few areas of improvement (no offense) in the code for the
+grading contract. After testing out a few things, it looks like the
+original code is ok, but could be scaled up to add in some additional
+useful features. The following project will try to do this.</p>
+<p>Goals for the project:</p>
+<ul>
+<li>Get familiar with some of the functionalities I don’t know as well
+with Rmarkdown, such as place holders</li>
+<li>Get practice reading and understandig others’ code and editing
+it</li>
+<li>Practice designing/updating code to solve a problem identified in
+the code, in other words, translating an idea to code</li>
+<li>Developing functionalities based on the use of the contract</li>
+<li>Add some features that I would like to the contract and therefore
+have it bug me less</li>
+</ul>
+<div id="rmarkdown-basics" class="section level2">
+<h2>Rmarkdown Basics</h2>
+<p>To make a new paragraph, make two new lines in a row, not just one
+When making bullet point lists, you can use * or -, but there has to be
+a new line before the start of the first bullet point</p>
+<p>To embed a link with text, write the text you want displayed in
+brackets and right after put the link in parenthesis</p>
+<p>You can also make a new paragraph by ending the last line of a
+paragraph with two spaces. Or add “" at the end of the line.</p>
+<p>“&gt;” leads to a block quote Useful links:</p>
+<ul>
+<li><a
+href="http://www.ece.ualberta.ca/~terheide/rmarkdown-how-to/markdown.html">Rmarkdown
+instructions with examples and code</a></li>
+</ul>
+</div>
+<div id="the-current-contract-code" class="section level2">
+<h2>The Current Contract Code</h2>
+<p>The following is the current contract Rmarkdown document. It is
+pasted here so that one can see what the original contract looked liked.
+In addition, this copy will be used to go over to understand how the
+code works. There will therefore be many comments added throughout this
+code to explain what the current code is doing. This will help better
+understand what to change and how for the desired changes later.</p>
+<blockquote>
+<p>The following is the YAML header.</p>
+</blockquote>
+<blockquote>
+<p>It states the title of the document, the date, which is today’s date
+retrieved from the computer/system running the document, to make sure it
+is always up to date.</p>
+</blockquote>
+<p>title: Grading Contract<br />
+date: “<code>format(Sys.time(), '%B %d %Y')</code>”</p>
+<blockquote>
+<p>The output is currently set to html, even though the original is a
+markdown document (.md), as it is quicker to visualize html documents
+when working with Rmarkdown.</p>
+</blockquote>
+<p>output: html_document</p>
+<blockquote>
+<p>Then we have the parameters that will be retrieved during the rest of
+the document. This is what makes the document dynamic. The information
+added is what the first date for the class is (weekonemonday), the
+thesis deadline, and the date for spring break. Then it asks for the
+name of the person writing the contract, how many labs and projects they
+are doing, the grade they want, and the day of the week they want the
+due dates to be on. The grade and due date day has additional options as
+these will depend on the user. The can chose between several grades and
+several days, from what is included under “choices”. Then whatever the
+individual wants is what is put as the “value”.</p>
+</blockquote>
+<p>params:<br />
+weekonemonday: “2025-01-13”<br />
+thesisdeadline: “2025-03-21”<br />
+springbreak: “2025-03-10”<br />
+name: Linn Zapffe<br />
+labs: 11<br />
+portfolios: 10<br />
+grade:<br />
+label: Grade<br />
+value: A<br />
+input: select<br />
+choices:<br />
+- A<br />
+- B<br />
+- Pass<br />
+startweek:<br />
+label: Weekly Due Date<br />
+value: Monday<br />
+input: select<br />
+choices:<br />
+- Monday<br />
+- Tuesday<br />
+- Wednesday<br />
+- Thursday<br />
+- Friday</p>
+<p>{r setup, include=FALSE}</p>
+<p>library(tidyverse)</p>
+</div>
+<div id="r-syllabus-scheduler" class="section level1">
+<h1>R Syllabus Scheduler</h1>
+<p>advdate &lt;- function(weekonemonday, week, topic = NULL, assignment
+= NULL, unit = “Module”) {<br />
+# as.Date does not like piping tmon &lt;- as.Date(weekonemonday + 7 *
+(week - 1)) %&gt;% format(format = “%m/%d”)<br />
+ttue &lt;- as.Date(weekonemonday + 1 + 7 * (week - 1)) %&gt;%
+format(format = “%m/%d”)<br />
+twed &lt;- as.Date(weekonemonday + 2 + 7 * (week - 1)) %&gt;%
+format(format = “%m/%d”)<br />
+tthu &lt;- as.Date(weekonemonday + 3 + 7 * (week - 1)) %&gt;%
+format(format = “%m/%d”)<br />
+tfri &lt;- as.Date(weekonemonday + 4 + 7 * (week - 1)) %&gt;%
+format(format = “%m/%d”)<br />
+tsat &lt;- as.Date(weekonemonday + 5 + 7 * (week - 1)) %&gt;%
+format(format = “%m/%d”)<br />
+tsun &lt;- as.Date(weekonemonday + 6 + 7 * (week - 1)) %&gt;%
+format(format = “%m/%d”)<br />
+zadv &lt;- sprintf(“%02d”, week)</p>
+<p>if (is.null(topic) &amp; is.null(assignment)) {<br />
+tmp &lt;- paste0(unit, zadv, “,”, tmon, ” - “, tfri)<br />
+} else if (!is.null(assignment)) {<br />
+if (assignment %in%<br />
+c(”Friday”,<br />
+“friday”,<br />
+“f”,<br />
+“fri”,<br />
+“FRI”)) {<br />
+tmp &lt;- paste0(tfri)<br />
+} else if (assignment %in%<br />
+c(“thursday”,<br />
+“Thursday”,<br />
+“thurs”,<br />
+“r”,<br />
+“R”)) {<br />
+tmp &lt;- paste0(tthu)<br />
+} else if (assignment %in%<br />
+c(“wednesday”,<br />
+“Wednesday”,<br />
+“w”,<br />
+“wed”,<br />
+“W”)) {<br />
+tmp &lt;- paste0(twed)<br />
+} else if (assignment %in%<br />
+c(“Tuesday”,<br />
+“tues”,<br />
+“t”,<br />
+“Tue”)) {<br />
+tmp &lt;- paste0(ttue)<br />
+} else if (assignment %in%<br />
+c(“monday”,<br />
+“Monday”,<br />
+“m”,<br />
+“mon”)) {<br />
+tmp &lt;- paste0(tmon)<br />
+}<br />
+} else{<br />
+tmp &lt;- paste0(unit, zadv, “,”, tmon, ” - “, tfri,” : “,
+topic[week])<br />
+}<br />
+return(tmp)<br />
+}</p>
+<p>#if(TRUE){<br />
+#<br />
+# dayone &lt;- as.Date(“2022-01-10”)<br />
+# startweek &lt;- “Friday”<br />
+#} else {</p>
+<p>dayone &lt;- as.Date(params<span class="math inline">\(weekonemonday)
+startweek &lt;- params\)</span>startweek</p>
+<p>#}</p>
+<p>topic = c(<br />
+“What is Data Science and Meet the Toolkit”,<br />
+“Data and Visualization”,<br />
+“Grammar of data wrangling”,<br />
+“Data types and Data Transformations”,<br />
+“Tips for effective data visualization”,<br />
+“Scientific studies and confounding”,<br />
+# “Spring Break”,# ““,<br />
+”Web scraping”,<br />
+“Functions”,<br />
+“Data and Ethics”,<br />
+“Fitting and interpreting models”,<br />
+“Prediction and overfitting”,<br />
+“Cross validation”,<br />
+“Quantifying uncertainty”,<br />
+“Interactive web apps”,<br />
+“Special Topics”<br />
+)</p>
+<p>``</p>
+<!-- This contract is adapted from Annie Somerville's contract https://github.com/anniehsom -->
+<div id="contract-grades-paramsgrade-contract" class="section level3">
+<h3>Contract Grades – “<code>params$grade</code>” Contract</h3>
+<p>I, <code>params$name</code>, agree to :</p>
+<ol style="list-style-type: decimal">
+<li>Earn “Satisfactory” on <code>params$labs</code> self-paced lab
+assignments on the schedule specified below. Getting a grade of
+“Satisfactory” requires that:</li>
+</ol>
+<ul>
+<li>I have attempted all steps of the assignment. If unable to complete
+steps due to unresolved questions, I have asked questions in Github FAQs
+or during the help sessions, or I have Googled the issue and shown
+effort to resolve questions;
+<ul>
+<li>I have checked that files, repos, or projects appear on my Github
+account and are accessible;</li>
+<li>I feel like I have spent an adequate amount of time and energy on
+assignments;</li>
+</ul></li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Produce at least <code>params$portfolios</code> “Satisfactory”
+portfolio pieces on the schedule specified below. Getting a grade of
+“Satisfactory” requires that:
+<ul>
+<li>I have designed a portfolio project that I think challenges my
+understanding of programming, explores a topic I want to know more
+about, or targets something I feel like I need more practice with;</li>
+<li>I have checked that files, repos, or projects appear on my Github
+account and are accessible;</li>
+<li>I feel like I have spent an adequate amount of time and energy on
+the projects;</li>
+</ul></li>
+</ol>
+</div>
+<div id="schedule" class="section level3">
+<h3>SCHEDULE</h3>
+<ul class="task-list">
+<li><label><input
+type="checkbox" /><code>advdate(dayone, 1, topic)</code></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Finish Lab 1 by
+<code>startweek</code>:
+<code>advdate(dayone, 2, assignment=startweek)</code></label></li>
+</ul></li>
+<li><label><input
+type="checkbox" /><code>advdate(dayone, 2, topic)</code></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Finish Lab 2 by
+<code>startweek</code>:
+<code>advdate(dayone, 3, assignment=startweek)</code></label></li>
+<li><label><input type="checkbox" />Propose your contract to Mason by
+<code>startweek</code>:
+<code>advdate(dayone, 3, assignment=startweek)</code></label></li>
+</ul></li>
+<li><label><input
+type="checkbox" /><code>advdate(dayone, 3, topic)</code></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Finish Lab 3 by
+<code>startweek</code>:
+<code>advdate(dayone, 4, assignment=startweek)</code></label></li>
+<li><label><input type="checkbox" />Finish portfolio piece 1 by
+<code>startweek</code>:
+<code>advdate(dayone, 4, assignment=startweek)</code></label></li>
+</ul></li>
+<li><label><input
+type="checkbox" /><code>advdate(dayone, 4, topic)</code></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Finish Lab 4 by
+<code>startweek</code>:
+<code>advdate(dayone, 5, assignment=startweek)</code></label></li>
+</ul></li>
+<li><label><input
+type="checkbox" /><code>advdate(dayone, 5, topic)</code></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Finish Lab 5 by
+<code>startweek</code>:
+<code>advdate(dayone, 6, assignment=startweek)</code></label></li>
+<li><label><input type="checkbox" />Finish portfolio piece 2 by
+<code>startweek</code>:
+<code>advdate(dayone, 6, assignment=startweek)</code></label></li>
+</ul></li>
+<li><label><input
+type="checkbox" /><code>advdate(dayone, 6, topic)</code></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Finish Lab 6 by
+<code>startweek</code>:
+<code>advdate(dayone, 7, assignment=startweek)</code></label></li>
+<li><label><input type="checkbox" />Schedule a check-in with Mason by
+<code>startweek</code>:
+<code>advdate(dayone, 7, assignment=startweek)</code></label></li>
+</ul></li>
+<li><label><input
+type="checkbox" /><code>advdate(dayone, 7, topic)</code></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Finish Lab 7 by
+<code>startweek</code>:
+<code>advdate(dayone, 8, assignment=startweek)</code></label></li>
+<li><label><input type="checkbox" />Finish portfolio piece 3 by
+<code>startweek</code>:
+<code>advdate(dayone, 8, assignment=startweek)</code></label></li>
+</ul></li>
+<li><label><input
+type="checkbox" /><code>advdate(dayone, 8, topic)</code></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Finish Lab 8 by
+<code>startweek</code>:
+<code>advdate(dayone, 9, assignment=startweek)</code></label></li>
+</ul></li>
+<li><label><input
+type="checkbox" /><code>advdate(dayone, 0, topic)</code></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Finish Lab 9 by
+<code>startweek</code>:
+<code>advdate(dayone, 10, assignment=startweek)</code></label></li>
+<li><label><input type="checkbox" />Finish portfolio piece 4 by
+<code>startweek</code>:
+<code>advdate(dayone, 10, assignment=startweek)</code></label></li>
+</ul></li>
+<li><label><input
+type="checkbox" /><code>advdate(dayone, 10, topic)</code></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Finish Lab 10 by
+<code>startweek</code>:
+<code>advdate(dayone, 11, assignment=startweek)</code></label></li>
+</ul></li>
+<li><label><input
+type="checkbox" /><code>advdate(dayone, 11, topic)</code></label>
+<ul class="task-list">
+<li><label><input
+type="checkbox" /><code>if(params$labs&gt;=11) paste0(" Finish Lab 11 by ",startweek,": ",advdate(dayone, 12, assignment=startweek))</code></label></li>
+<li><label><input type="checkbox" />Finish portfolio piece 5 by
+<code>startweek</code>:
+<code>advdate(dayone, 12, assignment=startweek)</code></label></li>
+</ul></li>
+<li><label><input
+type="checkbox" /><code>advdate(dayone, 12, topic)</code>
+<code>if(params$labs&gt;=12) paste0(" - Finish Lab 12 by ",startweek,": ",advdate(dayone, 12, assignment=startweek))</code></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Finish portfolio piece 6 by
+<code>startweek</code>:
+<code>advdate(dayone, 13, assignment=startweek)</code></label></li>
+</ul></li>
+<li><label><input
+type="checkbox" /><code>advdate(dayone, 13, topic)</code>
+<code>if(params$labs&gt;=13) paste0(" - Finish Lab 13 by ",startweek,": ",advdate(dayone, 14, assignment=startweek))</code></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Finish portfolio pieces 7 and 8 by
+<code>startweek</code>:
+<code>advdate(dayone, 14, assignment=startweek)</code></label></li>
+</ul></li>
+<li><label><input
+type="checkbox" /><code>advdate(dayone, 14, topic)</code></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Finish portfolio piece 9 by
+<code>startweek</code>:
+<code>advdate(dayone, 15, assignment=startweek)</code></label></li>
+</ul></li>
+<li><label><input
+type="checkbox" /><code>advdate(dayone, 15, topic)</code></label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Finish portfolio piece 10 by
+<code>startweek</code>:
+<code>advdate(dayone, 16, assignment=startweek)</code></label></li>
+</ul></li>
+<li><label><input type="checkbox" />Portfolio completion</label>
+<ul class="task-list">
+<li><label><input type="checkbox" />Due on <code>startweek</code>:
+<code>advdate(dayone, 16, assignment=startweek)</code></label></li>
+</ul></li>
+</ul>
+</div>
+<div id="further-guidelines" class="section level3">
+<h3>Further guidelines</h3>
+<ul>
+<li>According to reasons discussed and agreed upon in advance with the
+professor, there are some situations which might require some of these
+deadlines to be moved. If this is the case, I will reach out to the
+professor and agree on another deadline. The number of assignments that
+have to be completed satisfactory will not change.</li>
+<li>If the professor has any concerns about the assignments and whether
+they reach the standards of being completed “satisfactory”, the
+professor will communicate these concerns with me and offer an
+opportunity to correct them.</li>
+<li>I pertain the right to switch or switch out any of the modules that
+do not contain a lab with another module in the course. This can be done
+in advance or while working on a module.</li>
+<li>Any part of this contract can be changed before the final grade is
+set if agreed upon by both myself and the professor.</li>
+</ul>
+</div>
+</div>
 
 
 

@@ -1,5 +1,313 @@
 ---
-title: "Vectorized Operations"
+title: "Improving the Code for the Grading Contract"
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
-Exploring vectorized operations
+I found a few areas of improvement (no offense) in the code for the
+grading contract. After testing out a few things, it looks like the
+original code is ok, but could be scaled up to add in some additional
+useful features. The following project will try to do this.
+
+Goals for the project:
+
+* Get familiar with some of the functionalities I don't know as well
+    with Rmarkdown, such as place holders
+* Get practice reading and understandig others' code and editing it
+* Practice designing/updating code to solve a problem identified in
+    the code, in other words, translating an idea to code
+* Developing functionalities based on the use of the contract
+* Add some features that I would like to the contract and therefore
+    have it bug me less
+* Working with dates in R
+
+
+## Rmarkdown Basics
+
+To make a new paragraph, make two new lines in a row, not just one
+When making bullet point lists, you can use * or -, but there has to be a new line before the start of the first bullet point
+
+To embed a link with text, write the text you want displayed in brackets and right after put the link in parenthesis
+
+You can also make a new paragraph by ending the last line of a paragraph with two spaces. Or add "\" at the end of the line.
+
+">" leads to a block quote
+Useful links:
+
+- [Rmarkdown instructions with examples and code](http://www.ece.ualberta.ca/~terheide/rmarkdown-how-to/markdown.html)
+
+
+## The Current Contract Code
+
+The following is the current contract Rmarkdown document. It is pasted here so that one can see what the original contract looked liked. In addition, this copy will be used to go over to understand how the code works. There will therefore be many comments added throughout this code to explain what the current code is doing. This will help better understand what to change and how for the desired changes later. Tinkering with the original document is how I have found out what the different parts of the document does. The process will not be documented here, as that would be too time consuming. However, here is the outcome:
+
+
+> The following is the YAML header.
+
+>It states the title of the document, the date, which is today's date retrieved from the computer/system running the document, to make sure it is always up to date.
+
+title: Grading Contract  
+date: "`format(Sys.time(), '%B %d %Y')`"  
+
+> The output is currently set to html, even though the original is a markdown document (.md), as it is quicker to visualize html documents when working with Rmarkdown. 
+
+output: html_document  
+
+> Then we have the parameters that will be retrieved during the rest of the document. This is what makes the document dynamic. The information added is what the first date for the class is (weekonemonday), the thesis deadline, and the date for spring break. Then it asks for the name of the person writing the contract, how many labs and projects they are doing, the grade they want, and the day of the week they want the due dates to be on. The grade and due date day has additional options as these will depend on the user. The can chose between several grades and several days, from what is included under "choices". Then whatever the individual wants is what is put as the "value".
+
+params:  
+  weekonemonday: "2025-01-13"  
+  thesisdeadline: "2025-03-21"  
+  springbreak: "2025-03-10"  
+  name: Linn Zapffe  
+  labs: 11  
+  portfolios: 10  
+  grade:  
+    label: Grade  
+    value: A  
+    input: select  
+    choices:  
+    - A  
+    - B  
+    - Pass  
+  startweek:  
+    label: Weekly Due Date  
+    value: Monday  
+    input: select  
+    choices:  
+    - Monday  
+    - Tuesday  
+    - Wednesday  
+    - Thursday  
+    - Friday
+
+
+> This is a code block loading the library tidyverse. I don't know what we are using tidyverse for yet.
+
+{r setup, include=FALSE}
+
+library(tidyverse)
+
+# R Syllabus Scheduler
+
+> Here we define a function that is giving formatted output with the right values (e.g. dates) based on the parameters we have given in the YAML header. This function will be used to fill in the place holders in the contract.
+
+advdate <- function(weekonemonday,
+                    week,
+                    topic =  NULL,
+                    assignment = NULL,
+                    unit = "Module ") {  
+
+> The function takes 5 parameters. One is what we defined as the date for the first Monday of classes. The second one is which week we are in, indexed by an integer. Then what topic we are on (which is indexed from a list we will define later, called topic). The next one is the assignment, which seems to be the same as the due date day, for example Monday. If this is not null, it overides the normal formatting and just give you the date of the first Monday of classes. I don't know what the point of that is yet.  what assignment we are on, and the unit we have. The last three parameteres have default values, so they are optional.
+
+> The below code takes what week we are in and calculates the date for each weekday, based on when the first day of class is. The date variable weekonemondy is converted to a date object towards the end of the code and stored in the variable dayone. If not, it wouldn't run. Example of a tmon is "01/13".
+
+  # as.Date does not like piping
+  tmon <- as.Date(weekonemonday + 7 * (week - 1)) %>% 
+    format(format = "%m/%d")  
+  ttue <- as.Date(weekonemonday + 1 + 7 * (week - 1)) %>%
+    format(format = "%m/%d")  
+  twed <- as.Date(weekonemonday + 2 + 7 * (week - 1)) %>%
+    format(format = "%m/%d")  
+  tthu <- as.Date(weekonemonday + 3 + 7 * (week - 1)) %>%
+    format(format = "%m/%d")  
+  tfri <- as.Date(weekonemonday + 4 + 7 * (week - 1)) %>%
+    format(format = "%m/%d")  
+  tsat <- as.Date(weekonemonday + 5 + 7 * (week - 1)) %>%
+    format(format = "%m/%d")  
+  tsun <- as.Date(weekonemonday + 6 + 7 * (week - 1)) %>%
+    format(format = "%m/%d")  
+    
+> The following code formats the week to have two numbers, so that e.g. week 1 is formatted as 01
+
+  zadv <- sprintf("%02d", week)  
+  
+  
+> The following code has a lot of if statements, leading to different formatting of a string with information about the module number, start and end dates, and topic to be covered.
+
+> The first condition is if there is no topic or assignment (which is set to NULL by default). This will therefore mostly occur if there are no more topics to go over. It will produce something like "Module 01, 01/13 - 01/17". We don't seem to ever use this, so I am not sure what the point of this is.
+
+  if (is.null(topic) & is.null(assignment)) {  
+    tmp <- paste0(unit, zadv, ", ", tmon, " - ", tfri)  
+    
+> If assignment (the day of the week assignments are due on) is still empty, but there is a topic, you get formatting similar to "01/17". Paste0 is used to paste the results together. However, I don't know why you would need paste0() here wheb there is only one variable.
+    
+  } else if (!is.null(assignment)) {  
+    if (assignment %in%  
+        c("Friday",  
+          "friday",  
+          "f",  
+          "fri",  
+          "FRI")) {  
+      tmp <- paste0(tfri)  
+    } else if (assignment %in%  
+               c("thursday",  
+                 "Thursday",  
+                 "thurs",  
+                 "r",  
+                 "R")) {  
+      tmp <- paste0(tthu)  
+    } else if (assignment %in%  
+               c("wednesday",  
+                 "Wednesday",  
+                 "w",  
+                 "wed",  
+                 "W")) {  
+      tmp <- paste0(twed)  
+    } else if (assignment %in%  
+               c("Tuesday",  
+                 "tues",  
+                 "t",  
+                 "Tue")) {  
+      tmp <- paste0(ttue)  
+    } else if (assignment %in%  
+               c("monday",  
+                 "Monday",  
+                 "m",  
+                 "mon")) {  
+      tmp <- paste0(tmon)  
+    }  
+    
+> If there is both a topic and assignment (due date of the week), then you get something like the following: "Module 01, 01/13 - 01/17 : What is Data Science and Meet the Toolkit"
+    
+  } else{  
+    tmp <- paste0(unit, zadv, ", ", tmon, " - ", tfri, " : ",   topic[week])  
+  }  
+  
+> Lastly, tmp, the formatted string, is returned from the function, so that we can access it outside of the function.
+
+  return(tmp)  
+}  
+
+> I also don't know what the following code was meant to do or why it is there. Can you test whether assigning a variable to something is true?
+
+#if(TRUE){  
+#    
+#  dayone <- as.Date("2022-01-10")  
+#  startweek <- "Friday"  
+#} else {  
+  
+> Assigning the parameters given above to new variable names. This part is not necessary, but makes the contract part a little more readable. Also, formatting the weekonemonday to be a date object instead of a string. Note that this happens outside of the function and before the function is called.
+  
+dayone <- as.Date(params$weekonemonday)  
+startweek <- params$startweek  
+
+
+  
+#}
+
+
+> Making a list with all the topics in the R course, which is used to get the topic names with indexing when making the schedule in the contract.
+
+topic = c(  
+  "What is Data Science and Meet the Toolkit",  
+  "Data and Visualization",  
+  "Grammar of data wrangling",  
+  "Data types and Data Transformations",  
+  "Tips for effective data visualization",  
+  "Scientific studies and confounding",  
+  #  "Spring Break",#  "",  
+  "Web scraping",  
+  "Functions",  
+  "Data and Ethics",  
+  "Fitting and interpreting models",  
+  "Prediction and overfitting",  
+  "Cross validation",  
+  "Quantifying uncertainty",  
+  "Interactive web apps",  
+  "Special Topics"  
+)  
+
+``
+
+<!-- This contract is adapted from Annie Somerville's contract https://github.com/anniehsom -->
+
+
+> The following is the contract with the parameters entered throughout the text, to make the document dynamic and easily adjustable for each individual. The code does also call upon the advdate function defined earlier.
+
+### Contract Grades – “`params$grade`” Contract
+
+I, `params$name`, agree to :
+
+1) Earn “Satisfactory” on `params$labs` self-paced lab assignments on the schedule specified below. Getting a grade of "Satisfactory" requires that: 
+* I have attempted all steps of the assignment. If unable to complete steps due to unresolved questions, I have asked questions in Github FAQs or during the help sessions, or I have Googled the issue and shown effort to resolve questions;
+	* I have checked that files, repos, or projects appear on my Github account and are accessible;
+	* I feel like I have spent an adequate amount of time and energy on assignments; 
+2) Produce at least `params$portfolios` “Satisfactory” portfolio pieces on the schedule specified below. Getting a grade of "Satisfactory" requires that: 
+    * I have designed a portfolio project that I think challenges my understanding of programming, explores a topic I want to know more about, or targets something I feel like I need more practice with;
+   * I have checked that files, repos, or projects appear on my Github account and are accessible;
+    * I feel like I have spent an adequate amount of time and energy on the projects; 
+
+
+
+### SCHEDULE
+
+- [ ] `advdate(dayone, 1, topic)`
+  - [ ] Finish Lab 1 by `startweek`:  `advdate(dayone, 2, assignment=startweek)`
+- [ ] `advdate(dayone, 2, topic)`
+  - [ ] Finish Lab 2 by `startweek`:  `advdate(dayone, 3, assignment=startweek)`
+  - [ ] Propose your contract to Mason by `startweek`:  `advdate(dayone, 3, assignment=startweek)`
+- [ ]  `advdate(dayone, 3, topic)`
+  - [ ] Finish Lab 3  by `startweek`:  `advdate(dayone, 4, assignment=startweek)`
+  - [ ] Finish portfolio piece 1 by `startweek`:  `advdate(dayone, 4, assignment=startweek)`
+- [ ] `advdate(dayone, 4, topic)`
+  - [ ] Finish Lab 4  by `startweek`:  `advdate(dayone, 5, assignment=startweek)`
+- [ ] `advdate(dayone, 5, topic)`
+  - [ ] Finish Lab 5  by `startweek`:  `advdate(dayone, 6, assignment=startweek)`
+  - [ ] Finish portfolio piece 2 by `startweek`:  `advdate(dayone, 6, assignment=startweek)`
+- [ ] `advdate(dayone, 6, topic)`
+  - [ ] Finish Lab 6 by `startweek`:  `advdate(dayone, 7, assignment=startweek)`
+  - [ ] Schedule a check-in with Mason by `startweek`:  `advdate(dayone, 7, assignment=startweek)`
+- [ ] `advdate(dayone, 7, topic)`
+  - [ ] Finish Lab 7 by `startweek`:  `advdate(dayone, 8, assignment=startweek)`
+  - [ ] Finish portfolio piece 3 by `startweek`:  `advdate(dayone, 8, assignment=startweek)`
+- [ ] `advdate(dayone, 8, topic)`
+  - [ ] Finish Lab 8 by `startweek`:  `advdate(dayone, 9, assignment=startweek)`
+- [ ] `advdate(dayone, 0, topic)`
+  - [ ] Finish Lab 9 by `startweek`:  `advdate(dayone, 10, assignment=startweek)`
+  - [ ] Finish portfolio piece 4 by `startweek`:  `advdate(dayone, 10, assignment=startweek)`
+- [ ] `advdate(dayone, 10, topic)`
+  - [ ] Finish Lab 10 by `startweek`:  `advdate(dayone, 11, assignment=startweek)`
+- [ ] `advdate(dayone, 11, topic)`
+  - [ ]  `if(params$labs>=11) paste0(" Finish Lab 11 by ",startweek,": ",advdate(dayone, 12, assignment=startweek))`
+  - [ ] Finish portfolio piece 5 by `startweek`:  `advdate(dayone, 12, assignment=startweek)`
+- [ ] `advdate(dayone, 12, topic)`
+  `if(params$labs>=12) paste0(" - Finish Lab 12 by ",startweek,": ",advdate(dayone, 12, assignment=startweek))`
+  - [ ] Finish portfolio piece 6 by `startweek`:  `advdate(dayone, 13, assignment=startweek)`
+- [ ] `advdate(dayone, 13, topic)`
+  `if(params$labs>=13) paste0(" - Finish Lab 13 by ",startweek,": ",advdate(dayone, 14, assignment=startweek))`
+  - [ ] Finish portfolio pieces 7 and 8 by `startweek`:  `advdate(dayone, 14, assignment=startweek)`
+- [ ] `advdate(dayone, 14, topic)`
+  - [ ] Finish portfolio piece 9 by `startweek`:  `advdate(dayone, 15, assignment=startweek)`
+- [ ] `advdate(dayone, 15, topic)`
+  - [ ] Finish portfolio piece 10 by `startweek`:  `advdate(dayone, 16, assignment=startweek)`
+- [ ] Portfolio completion
+  - [ ] Due on `startweek`: `advdate(dayone, 16, assignment=startweek)`
+  
+  
+### Further guidelines
+
+- According to reasons discussed and agreed upon in advance with the professor, there are some situations which might require some of these deadlines to be moved. If this is the case, I will reach out to the professor and agree on another deadline. The number of assignments that have to be completed satisfactory will not change.
+- If the professor has any concerns about the assignments and whether they reach the standards of being completed "satisfactory", the professor will communicate these concerns with me and offer an opportunity to correct them.
+- I pertain the right to switch or switch out any of the modules that do not contain a lab with another module in the course. This can be done in advance or while working on a module.
+- Any part of this contract can be changed before the final grade is set if agreed upon by both myself and the professor.
+
+
+# Goals For the New Contract
+
+Things to improve:
+
+* The code is in general poorly commented and bordering mild spaghetti code (no offense). So, the new code will have much more extensive coding and will try to put things in the order it is read in by humans, to make the readability better.
+* The variable names could sometimes be more enlightening, so these will be updated
+* There are some parts of the function that are never used. This can be deleted and potentially dealt with as error checking instead, if needed. There are also some additional fail-safe's, like allowing for "Monday", "monday", "Mon", and "m", which doesn't seem necessary as the YAML header specifically state the options to put in. If anyone puts in a shorthand that doesn't work with the code, they should be able to figure that out based on the options provided in the YAML header.
+* The current code will only allow for the insertion of spring break if you add it as a topic. However, that will shift all the module numbers so that they do not align with the topic. This has to be changed, so that they module number is correct for each topic.
+* You can currently not have the weekly deadlines be on Sundays, which is a typical day to have deadlines on. I'll add the opportunity for the deadlines to be on Saturday and Sunday.
+* It can be hard to understand the logic of the document, especially if one is not familiar with Rmarkdown yet. This is likely the case for several students, so I'll also write and attach a guide on how to navigate the document and what it does.
+* Now, one has to look to the syllabus to see how many labs and portfolio projects to finish given the desired grade. I will put this in automatically, so that the student don't need to provide it themselves.
+
+
+
+
+
+
