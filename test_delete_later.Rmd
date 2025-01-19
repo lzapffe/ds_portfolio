@@ -1,7 +1,7 @@
 ---
 title: Grading Contract
 date: "`r format(Sys.time(), '%B %d %Y')`"
-output: html_document
+output: github_document
 params:
   mondayweekone: "2025-01-13"
   thesisdeadline: "2025-03-21"
@@ -268,4 +268,20 @@ Test string "`r string_details(monday_week_one, 2, 2, modules_list)`"
 - `r string_details(monday_week_one, 1, 1, modules_list)`
    - Finish Lab 1 by `r deadline_day`:
         `r string_details(monday_week_one, 2, deadline_day=deadline_day)`
+        
+        
+        
+- [ ] `r string_details(monday_week_one, 2, 2, modules_list)`
+    - [ ] Finish Lab 2 by `r deadline_day`:
+        `r string_details(monday_week_one, 3, deadline_day=deadline_day)`
+    - [ ] Propose your contract to Mason by `r deadline_day`:
+        `r string_details(monday_week_one, 3, deadline_day=deadline_day)`
+- [ ] `r string_details(monday_week_one, 3, 3, modules_list)`
+    - [ ] Finish Lab 3 by `r deadline_day`:
+        `r string_details(monday_week_one, 4, deadline_day=deadline_day)`
+    - [ ] Finish portfolio piece 1 by `r deadline_day`:
+        `r string_details(monday_week_one, 4, deadline_day=deadline_day)`
+- [ ] `r string_details(monday_week_one, 4, 4, modules_list)`
+    - [ ] Finish Lab 4 by `r deadline_day`:
+        `r string_details(monday_week_one, 5, deadline_day=deadline_day)`
 
