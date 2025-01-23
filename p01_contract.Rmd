@@ -34,13 +34,13 @@ editor_options:
 
 
 <!--- How to use this Rmarkdown document
-The text above this comment is the YAML header. Change the variables under "params" into what is relevant for you and your situation. In cases where there are choices, you have to choose one of those choices. Make sure you spell your parameter the same was as one of the choices and also have the same capital or small letters.
+The text above this comment is the YAML header. Change the variables under "params" into what is relevant for you and your situation. In cases where there are choices, you have to choose one of those choices. Make sure you spell your parameter the same was as one of the choices and also to have the same capital or small letters.
 
-The parameters that you have specified in the YAML header will be used in the rest of the code to change out place holders.
+The parameters that you have specified in the YAML header will be used in the rest of the code to change out place holders (variables/unknows).
 
-The gray boxes are r code. Since there is a "include = FALSE" command in the header of each code block, the code itself will be ran and used to produce the rest of the document. However, the code itself will not show up when you render/knit the document.
+The gray boxes are r code. Since there is a "include = FALSE" command in the header of each code block, the code itself will run and used to produce the rest of the document. However, the code itself will not show up in your output when you knit the document.
 
-The first code chunk sets the number of labs and portfolio projects you need, based on what grade you are writing the contract for. You should double check that this number is the same as what is currently stated in the syllabus as being the requirement for that grade. The second code chunk defines some variables we need and the list with the topics for the modules. Double-check that all the modules that are currently available are in that list. If not, feel free to change that. The third code chunk defines a function that takes in some parameters (information you give it) and turns that into a string we use in the contract, for example with the relevant module names and dates.
+The first code chunk sets the number of labs and portfolio projects you need, based on what grade you are writing the contract for. You should double check that this number is the same as what is currently stated in the syllabus as being the requirement for that grade. The second code chunk defines some variables we need and the list with the topics for the modules. Double-check that all the modules that are currently available are in that list. If not, you should update the list to reflect the modules that are currently available in the course. The third code chunk defines a function that takes in some parameters (information you provide when using the function) and turns that into a string (text) that we use in the contract to fill out information, for example with the relevant module names and dates.
 -->
 
 
@@ -150,14 +150,17 @@ string_details <- function(monday_week_one,
 ```
 
 
-<!--- The next part here is the text that will actually be displayed in the document. The #, ##, or ### before some text indicates that this is a header. The number of "#"'s correspond to the level of the heading. So, # Heading will be in a bigger font than ## Header.
+<!--- The next part here is the text that will actually be displayed in your output of the document. The #, ##, or ### before text indicates that this is a header. The number of "#"'s correspond to the level of the heading. So, a "#" Heading will be in a bigger font than a "##" Header.
 
-The text that consists of "tick"r text"tick" (I can't actually write it with the ticks here, as that would have been interpreted by r as code to run) is in-line r code. It will run the r code and the output will be pasted there in the text when you render/knit the document. Any call to params$[input parameter here] calls the parameter you inputted in the YAML header. So, for example, if you put in A as a grade, the string below will produce a text stating "Terms to Get a Grade of "A"".
-The r codes with the parameters should paste the value or text that you need. If it seems wrong, double-check that you put in the right parameter (e.g. didn't misspell something). 
+The text that consists of "tick"r text"tick" (I can't actually write it with the ticks here, as that would have been interpreted by r as code to run and I would have gotten an error) is in-line r code. It will run the r code and the output will be pasted there in the text when you knit the document.
 
-There is also some code that calls a function called string_details. This is the function we defined (made) earlier to make the strings we need. The parameters (values) we put in the parameter when calling the function determines what we get from it.
+In addition, any call to params$[input parameter here] calls the parameter you inputted in the YAML header. So, for example, if you put in A as a grade, the string below will produce a text stating "Terms to Get a Grade of "A"".
 
-Read over the text for the contract and change or add anything you want to change.
+The r codes with the parameters should paste the value or text that you need. If it seems off, double-check that you put in the right parameter (e.g. that you didn't misspell anything). 
+
+There is also some code that calls a function called string_details. This is the function we defined (made) earlier to make the strings (text) we need. The parameters (values) we provide when calling (using) the function determines the text that we get from it.
+
+Now, to move on, read over the text for the contract and change or add anything you want to change.
 -->
 
 
@@ -251,22 +254,23 @@ I, `r params$name`, agree to :
 - Any other part of this contract can be changed before the final grade is set if agreed upon by both myself and the professor.
 
 
-<!--- Now, I suggest that you knit the document. You can do this by pushing the "Knit" button with a blue yarn ball above this screen in Rmarkdown. To see the changes, push it to Github and look at the file there. If you feel more advanced, you can also change the output type to a html document in the YAML header. However, note that this will mess up some of the formatting, so I suggest to only do this temporarily while messing with the document and then switching back to the Github document type.
+<!--- Now, I suggest that you knit the document. You can do this by pushing the "Knit" button with a blue yarn ball above this screen in Rmarkdown. To see the changes, push it to Github and look at the file there (it should have the .md file extension). If you feel more advanced, you can also change the output type to a html document in the YAML header and you will get the output in Rmarkdown itself. However, note that this will mess up some of the formatting, so I suggest to only do this temporarily while messing with the document and then switching back to the Github document type.
 
 When looking at your knitted document, you will now see the standard schedule based on the dates and information you put in as parameters in the YAML header. There are a few things I suggest you look over and change as it fits you:
 
-- There are currently mode modules than there are weeks in the semester. That means that you can't get through all the modules. If you want, you can switch out any of the modules in the contract with another module. The module is determined based on the number inputted as the third parameter in the string_details function. For example, in the following code "string_details(monday_week_one, 11, 12, modules_list)", the module number would be 12. If you are wondering what module module 12 is, you can go to the code block that defines the list "module_list" and count. Module 12 would be the topic that corresponds to the 12th topic in that list.
+- There are currently more modules than there are weeks in the semester. That means that you can't get through all the modules. If you want, you can switch out any of the modules in the contract with another module. The module is determined based on the number inputted as the third parameter in the string_details function. For example, in the following code "string_details(monday_week_one, 11, 12, modules_list)", the module number would be 12. If you are wondering what module module 12 is, you can go to the code block that defines (creates) the list "module_list" and count. Module 12 would be the topic that corresponds to the 12th topic in that list.
 
-- In addition, there are also more labs that what is required to get an "A". You can therefore also change which labs you are doing. This is just written in the standard text (not code) in the contract, so to do that, simple remove the line with the lab you don't want and add it somewhere else, changing out the lab number. For example, if you do not want to do lab 10, delete the line stating "- [ ] Finish Lab 10 by `r deadline_day`:
-`r string_details(monday_week_one, 11, deadline_day=deadline_day)`" and add this, switching out the lab number with another lab you want to do and any other parameteres that need to be adjusted, under the relevant module.
+- In addition, there are also more labs that what is required to get an "A". You can therefore also change which labs you are doing. This is just written in the standard text (not code) in the contract, so to do that, simple remove the line with the lab you don't want and add it somewhere else, changing out the lab number. For example, if you do not want to do lab 10, delete the line stating "- [ ] Finish Lab 10 by r deadline_day:
+r string_details(monday_week_one, 11, deadline_day=deadline_day)" and add this, switching out the lab number with another lab you want to do (and any other parameteres that need to be adjusted) under the relevant week/module in the text.
 
-- You can move around when to do labs and any of the other things that have to be done. You can do this simply by copy pasting the text and code associated with it and move it around. For example, if you know that you have a busy week one week, you might want to move any portfolio project deadlines to the following week. Do for example look at when your thesis is due and see whether you want to keep the time around then more open.
+- You can move around when the labs and any of the other things that have to be done are due. You can do this simply by copy pasting the text and code associated with it and move it around. For example, if you know that you have a busy week around week 11 of the semester, you might want to move the deadline for portfolio project 5 to another week, for example week 12. One example could for example be to look at when the the thesis is due and maybe move deadlines away from that week.
 
 - Look over when spring break is and move any assignments to other weeks (unless you want deadlines during spring break)
 
-- As you finish assignments or modules, you can mark them with a check. The "[ ]" indicates an empty check box, while "[x]" indicates a checked box.
+- As you finish assignments or modules, you can mark them with a check. The "[ ]" indicates an empty check box, while "[x]" indicates a checked box. In the end, your document should have all the empty check boxes ("[ ]") filled in ("[x]")
 
-When you are done with the edits to the contract, you can knit it again, push it to Github, and look over it to see that everything looks good. -->
+When you are done with the edits to the contract, you can knit it again, push it to Github, and look over it to see that everything looks good. It you are satisfied with how it looks, you can hand it in.
+-->
 
 
 
