@@ -1,6 +1,6 @@
 Grading Contract
 ================
-January 21 2025
+January 23 2025
 
 <!--- How to use this Rmarkdown document
 The text above this comment is the YAML header. Change the variables under "params" into what is relevant for you and your situation. In cases where there are choices, you have to choose one of those choices. Make sure you spell your parameter the same was as one of the choices and also have the same capital or small letters.
@@ -86,7 +86,8 @@ I, Linn Zapffe, agree to :
   professor, there are some situations which might require some of these
   deadlines to be moved. If this is the case, I will reach out to the
   professor and agree on another deadline. The number of assignments
-  that have to be completed satisfactory will not change.
+  that have to be completed satisfactory will not change because of
+  these reasons.
 - If the professor has any concerns about the assignments and whether
   they reach the standards of being completed “satisfactory”, the
   professor will communicate these concerns with me and, if deemed
