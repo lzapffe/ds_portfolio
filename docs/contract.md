@@ -21,23 +21,27 @@ I, Linn Zapffe, agree to :
 
 1)  Earn “Satisfactory” on 11 self-paced lab assignments on the schedule
     specified below. Getting a grade of “Satisfactory” requires that:
-    - I have attempted all steps of the assignment. If unable to  
-      complete steps due to unresolved questions, I have asked questions
-      in Github FAQs or during the help sessions, or I have Googled the
-      issue and shown effort to resolve questions;
-    - I have checked that files, repos, or projects appear on my Github
-      account and are accessible;
-    - I feel like I have spent an adequate amount of time and energy on
-      the assignment;
+
+- I have attempted all steps of the assignment. If unable to complete
+  steps due to unresolved questions, I have asked questions in Github
+  FAQs or during the help sessions, or I have Googled the issue and
+  shown effort to resolve questions;
+- I have checked that files, repos, or projects appear on my Github
+  account and are accessible;
+- I feel like I have spent an adequate amount of time and energy on the
+  assignment;
+
 2)  Produce at least 10 “Satisfactory” portfolio pieces on the schedule
     specified below. Getting a grade of “Satisfactory” requires that:
-    - I have designed a portfolio project that I think challenges my
-      understanding of programming, explores a topic I want to know more
-      about, or targets something I feel like I need more practice with;
-    - I have checked that files, repos, or projects appear on my Github
-      account and are accessible;
-    - I feel like I have spent an adequate amount of time and energy on
-      the projects;
+
+- I have designed a portfolio project that I think challenges my
+  understanding of programming or data science, explores a topic I want
+  to know more about, or targets something I feel like I need more
+  practice with;
+- I have checked that files, repos, or projects appear on my Github
+  account and are accessible;
+- I feel like I have spent an adequate amount of time and energy on the
+  projects;
 
 ### Schedule
 
@@ -50,24 +54,24 @@ I, Linn Zapffe, agree to :
   - [ ] Finish Lab 3 by Sunday: 02/02
   - [ ] Finish portfolio piece 1 by Sunday: 02/02
 - [ ] **Module 4, 02/03 - 02/09 : Data Diving with Tidyverse**
-  - [ ] Finish Lab 4 by Sunday: 02/09
 - [ ] **Module 5, 02/10 - 02/16 : Effective Data Visualization**
+  - [ ] Finish Lab 4 by Sunday: 02/09
   - [ ] Finish Lab 5 by Sunday: 02/16
   - [ ] Finish portfolio piece 2 by Sunday: 02/16
 - [ ] **Module 6, 02/17 - 02/23 : Web scraping**
-  - [ ] Finish Lab 6 by Sunday: 02/23
   - [ ] Schedule a check-in with Mason by Sunday: 02/23
 - [ ] **Module 7, 02/24 - 03/02 : Functions and Automation**
+  - [ ] Finish Lab 6 by Sunday: 02/23
   - [ ] Finish Lab 7 by Sunday: 03/02
   - [ ] Finish portfolio piece 3 by Sunday: 03/02
 - [ ] **Module 8, 03/03 - 03/09 : Data and Ethics**
   - [ ] Finish Lab 8 by Sunday: 03/09
-- **Spring break! - 03/10 - 03/16**
+- [ ] **Spring break! - 03/10 - 03/16**
 - [ ] **Module 9, 03/17 - 03/23 : Modeling the Tidy way!**
   - [ ] Finish Lab 9 by Sunday: 03/23
-  - [ ] Finish portfolio piece 4 by Sunday: 03/23
 - [ ] **Module 10, 03/24 - 03/30 : Overfitting and Cross-validation**
   - [ ] Finish Lab 10 by Sunday: 03/30
+  - [ ] Finish portfolio piece 4 by Sunday: 03/23
 - [ ] **Module 11, 03/31 - 04/06 : Quantifying Uncertainty**
   - [ ] Finish Lab 11 by Sunday: 04/06
   - [ ] Finish portfolio piece 5 by Sunday: 04/06
@@ -91,13 +95,17 @@ I, Linn Zapffe, agree to :
 - If the professor has any concerns about the assignments and whether
   they reach the standards of being completed “satisfactory”, the
   professor will communicate these concerns with me and, if deemed
-  appropriate, offer an opportunity to correct them.
+  appropriate by the professor, offer an opportunity to correct them.
 - I pertain the right to, at any time, switch out any of the modules and
   labs with another module or lab in the course or change the order of
   them from what is currently specified in the contract. This will not
   affect the number of labs or modules that are to be completed
-  according to the contract. Any such changes will be noted in this
-  contract for reference, but will not require notifying the professor.
+  according to the contract. It could however move a deadline for a lab
+  to the appropriate deadline considering the module the lab belongs to.
+  For example, if deciding to switch out lab 11 with lab 12, then lab 12
+  will be due the week I work on module 12, not module 11. Any such
+  changes to modules or labs will be noted in this contract for
+  reference, but will not require notifying the professor otherwise.
 - Any other part of this contract can be changed before the final grade
   is set if agreed upon by both myself and the professor.
 
