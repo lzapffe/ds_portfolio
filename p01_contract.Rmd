@@ -227,24 +227,26 @@ I, `r params$name`, agree to :
     - [ ] Finish Lab 8 by `r deadline_day`:
         `r string_details(monday_week_one, 8, deadline_day=deadline_day)`
 - **`r string_details(monday_week_one, 9, 9, modules_list)`**
-- [ ] **`r string_details(monday_week_one, 10, 10, modules_list)`**
+- [ ] **`r string_details(monday_week_one, 10, 9, modules_list)`**
     - [ ] Finish Lab 9 by `r deadline_day`:
         `r string_details(monday_week_one, 10, deadline_day=deadline_day)`
     - [ ] Finish portfolio piece 4 by `r deadline_day`:
         `r string_details(monday_week_one, 10, deadline_day=deadline_day)`
-- [ ] **`r string_details(monday_week_one, 11, 11, modules_list)`**
+- [ ] **`r string_details(monday_week_one, 11, 10, modules_list)`**
     - [ ] Finish Lab 10 by `r deadline_day`:
         `r string_details(monday_week_one, 11, deadline_day=deadline_day)`
-- [ ] **`r string_details(monday_week_one, 12, 12, modules_list)`**
+- [ ] **`r string_details(monday_week_one, 12, 11, modules_list)`**
+    - [ ] Finish Lab 11 by `r deadline_day`:
+        `r string_details(monday_week_one, 12, deadline_day=deadline_day)`
     - [ ] Finish portfolio piece 5 by `r deadline_day`:
         `r string_details(monday_week_one, 12, deadline_day=deadline_day)`
-- [ ] **`r string_details(monday_week_one, 13, 13, modules_list)`**
+- [ ] **`r string_details(monday_week_one, 13, 12, modules_list)`**
     - [ ] Finish portfolio piece 6 by `r deadline_day`:
         `r string_details(monday_week_one, 13, deadline_day=deadline_day)`
-- [ ] **`r string_details(monday_week_one, 14, 14, modules_list)`**
+- [ ] **`r string_details(monday_week_one, 14, 13, modules_list)`**
     - [ ] Finish portfolio pieces 7 and 8 by `r deadline_day`:
         `r string_details(monday_week_one, 14, deadline_day=deadline_day)`
-- [ ] **`r string_details(monday_week_one, 15, 15, modules_list)`**
+- [ ] **`r string_details(monday_week_one, 15, 14, modules_list)`**
     - [ ] Finish portfolio piece 9 and 10 by `r deadline_day`:
         `r string_details(monday_week_one, 15, deadline_day=deadline_day)`
 - [ ] **Portfolio completion**

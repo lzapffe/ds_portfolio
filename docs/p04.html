@@ -295,7 +295,74 @@ $(document).ready(function () {
 </div>
 
 
-<p>Text</p>
+<div id="general-information-about-ggplot" class="section level1">
+<h1>General information about ggplot</h1>
+<p>Taken from module 2 and independent research</p>
+<pre class="r"><code>library(palmerpenguins)</code></pre>
+<pre><code>## Warning: package &#39;palmerpenguins&#39; was built under R version 4.3.3</code></pre>
+<pre class="r"><code>library(ggplot2)</code></pre>
+<p>The ggplot function, in its most basic form, takes a dataset and the
+dimensions/axes of the plot. Then you add the actual data points with
+e.g. data_point() This can for example look like ggplot(data = dataset,
+mapping = aes(x = x_var, y = y_var)) + geom_point() Mapping is to tell
+it what to map out on the plot, using aes to define what to put on it.
+If you just use mapping and not geom_point(), you will just get the axes
+on the plot, but no content. You therefore have to add that by
+e.g. geom_point().</p>
+<p>Here is an example of what happens if you only run the general ggplot
+function, without e.g. geom_point()</p>
+<pre class="r"><code>ggplot(data = penguins,
+       mapping = aes(x = bill_depth_mm, y = bill_length_mm,
+                     color = species))</code></pre>
+<p><img src="p04_files/figure-html/demonstration%20no%20geom_point-1.png" width="672" />
+If you add geom_point(), you will get:</p>
+<pre class="r"><code>ggplot(data = penguins,
+       mapping = aes(x = bill_depth_mm, y = bill_length_mm,
+                     color = species)) +
+  geom_point()</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values (`geom_point()`).</code></pre>
+<p><img src="p04_files/figure-html/demonstration%20with%20geom_point-1.png" width="672" /></p>
+<div id="labels" class="section level3">
+<h3>Labels</h3>
+<p>Here is an example of different labels you can add to a graph and
+where it shows up:</p>
+<pre class="r"><code>ggplot(data = penguins,
+       mapping = aes(x = bill_depth_mm, y = bill_length_mm,
+                     color = species)) +
+  geom_point() +
+  labs(title = &quot;Bill depth and length&quot;,
+       subtitle = &quot;Dimensions for Adelie, Chinstrap, and Gentoo Penguins&quot;,
+       x = &quot;Bill depth (mm)&quot;, y = &quot;Bill length (mm)&quot;,
+       color = &quot;Species&quot;,
+       caption = &quot;Source: Palmer Station LTER / palmerpenguins package&quot;)</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values (`geom_point()`).</code></pre>
+<p><img src="p04_files/figure-html/labels-1.png" width="672" /></p>
+</div>
+<div id="diff-based-on-variable" class="section level2">
+<h2>Diff based on variable</h2>
+<p>We know that we can have variables distinguished by mapping them onto
+the x and y axes, as well as separate them by color. However, you can
+also separate them by shape, size, and alpha (transparency). All of
+these are done in aes(). You can also have one variable have two
+different characteristics, such as both different colors and shapes, to
+make the graph extra clear.</p>
+<p>If you add these properties inside of e.g. the geom_point() instead
+of mapping and aes, you will just apply that to all data points, instead
+of have it differ based on a variable.</p>
+<p>You can also facet your plot and get individual plot per combination
+of variable(s). If you have one, use facet_wrap(), if you have multiple,
+use facet_grid(). facet_grid(var_1 ~ var_2) or facet_wrap(~ var_1) If
+you want facet_wrap(), but with max two columns, you can specify that,
+e.g. facet_wrap(~ var_1, ncol = 2)</p>
+</div>
+<div id="random-notes" class="section level2">
+<h2>Random notes</h2>
+<p>If you want to remove the legend, add guides(color = FALSE) where you
+switch out color with whatever you used to separate the variables with.
+Guides is added as a separate function with the + sign to the general
+ggplot code.</p>
+</div>
+</div>
 
 
 

@@ -5,3 +5,11 @@ title: "My Portfolio"
 This website contains my portfolio for my [Data Science for Psychologists](https://datascience4psych.github.io/DataScience4Psych/) class.
 Each project explores a different topic around R and are based off of what areas
 I needed more practice or experience in.
+
+Current to-do's in the class:
+
+- Go over videos for module 2
+- Lab 2
+- Go over portfolio project 1 and hand it in
+- Go over grading contract and hand it in
+- Work on portfolio project 2

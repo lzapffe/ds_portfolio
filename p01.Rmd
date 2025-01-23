@@ -5,7 +5,7 @@ editor_options:
     wrap: 72
 ---
 
-I found a few areas of improvement (no offense) in the code for the
+I found a few areas of improvement in the code for the
 grading contract. After testing out a few things, it looks like the
 original code is ok, but could be scaled up to add in some additional
 useful features. The following project will try to do this.
@@ -16,7 +16,7 @@ Goals for the project:
     with Rmarkdown, such as place holders
 * Get practice reading and understandig others' code and editing it
 * Practice designing/updating code to solve a problem identified in
-    the code, in other words, translating an idea to code
+    the code, in other words, translating an idea to code.
 * Developing functionalities based on the use of the contract
 * Add some features that I would like to the contract and therefore
     have it bug me less
@@ -35,10 +35,10 @@ You can also make a new paragraph by ending the last line of a paragraph with tw
 
 ">" leads to a block quote
 
-- [ ] creates a unchecked box, while [x] creates a checked box. In html, the formatting gets weird with checked boxes. It turns bold automatically and adds extra space for the next line. However, if making it a Github document, it shows up with the expected formatting
+- "[ ]" creates a unchecked box, while [x] creates a checked box. In html, the formatting gets weird with checked boxes. It turns bold automatically and adds extra space for the next line. However, if making it a Github document, it shows up with the expected formatting
 
 Write < ! - - - text - - > (with no spaces between the characters) to write a comment in the Rmarkdown document that does not show up on the rendered output
-Note, if you write the code for in-text r code (tick mark, r, code, and tick mark) in this comment, it will actually run that code
+Note, if you write the code for in-text r code (tick mark, r, code, and tick mark) in this type of comment, it will actually run that code
 
 You get **bold** text from adding two stars before and after the text you want in bold
 
@@ -561,24 +561,26 @@ I, params$name, agree to :
     - [ ] Finish Lab 8 by deadline_day:
         string_details(monday_week_one, 8, deadline_day=deadline_day)
 - **string_details(monday_week_one, 9, 9, modules_list)**
-- [ ] **string_details(monday_week_one, 10, 10, modules_list)**
+- [ ] **string_details(monday_week_one, 10, 9, modules_list)**
     - [ ] Finish Lab 9 by deadline_day:
         string_details(monday_week_one, 10, deadline_day=deadline_day)
     - [ ] Finish portfolio piece 4 by deadline_day:
         string_details(monday_week_one, 10, deadline_day=deadline_day)
-- [ ] **string_details(monday_week_one, 11, 11, modules_list)**
+- [ ] **string_details(monday_week_one, 11, 10, modules_list)**
     - [ ] Finish Lab 10 by deadline_day:
         string_details(monday_week_one, 11, deadline_day=deadline_day)
-- [ ] **string_details(monday_week_one, 12, 12, modules_list)**
+- [ ] **string_details(monday_week_one, 12, 11, modules_list)**
+    - [ ] Finish Lab 11 by deadline_day:
+        string_details(monday_week_one, 12, deadline_day=deadline_day)
     - [ ] Finish portfolio piece 5 by deadline_day:
         string_details(monday_week_one, 12, deadline_day=deadline_day)
-- [ ] **string_details(monday_week_one, 13, 13, modules_list)**
+- [ ] **string_details(monday_week_one, 13, 12, modules_list)**
     - [ ] Finish portfolio piece 6 by deadline_day:
         string_details(monday_week_one, 13, deadline_day=deadline_day)
-- [ ] **string_details(monday_week_one, 14, 14, modules_list)**
+- [ ] **string_details(monday_week_one, 14, 13, modules_list)**
     - [ ] Finish portfolio pieces 7 and 8 by deadline_day:
         string_details(monday_week_one, 14, deadline_day=deadline_day)
-- [ ] **string_details(monday_week_one, 15, 15, modules_list)**
+- [ ] **string_details(monday_week_one, 15, 14, modules_list)**
     - [ ] Finish portfolio piece 9 and 10 by deadline_day:
         string_details(monday_week_one, 15, deadline_day=deadline_day)
 - [ ] **Portfolio completion**

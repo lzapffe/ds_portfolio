@@ -227,24 +227,26 @@ I, `r params$name`, agree to :
     - [ ] Finish Lab 8 by `r deadline_day`:
         `r string_details(monday_week_one, 8, deadline_day=deadline_day)`
 - **`r string_details(monday_week_one, 9, 9, modules_list)`**
-- [ ] **`r string_details(monday_week_one, 10, 10, modules_list)`**
+- [ ] **`r string_details(monday_week_one, 10, 9, modules_list)`**
     - [ ] Finish Lab 9 by `r deadline_day`:
         `r string_details(monday_week_one, 10, deadline_day=deadline_day)`
     - [ ] Finish portfolio piece 4 by `r deadline_day`:
         `r string_details(monday_week_one, 10, deadline_day=deadline_day)`
-- [ ] **`r string_details(monday_week_one, 11, 11, modules_list)`**
+- [ ] **`r string_details(monday_week_one, 11, 10, modules_list)`**
     - [ ] Finish Lab 10 by `r deadline_day`:
         `r string_details(monday_week_one, 11, deadline_day=deadline_day)`
-- [ ] **`r string_details(monday_week_one, 12, 12, modules_list)`**
+- [ ] **`r string_details(monday_week_one, 12, 11, modules_list)`**
+    - [ ] Finish Lab 11 by `r deadline_day`:
+        `r string_details(monday_week_one, 12, deadline_day=deadline_day)`
     - [ ] Finish portfolio piece 5 by `r deadline_day`:
         `r string_details(monday_week_one, 12, deadline_day=deadline_day)`
-- [ ] **`r string_details(monday_week_one, 13, 13, modules_list)`**
+- [ ] **`r string_details(monday_week_one, 13, 12, modules_list)`**
     - [ ] Finish portfolio piece 6 by `r deadline_day`:
         `r string_details(monday_week_one, 13, deadline_day=deadline_day)`
-- [ ] **`r string_details(monday_week_one, 14, 14, modules_list)`**
+- [ ] **`r string_details(monday_week_one, 14, 13, modules_list)`**
     - [ ] Finish portfolio pieces 7 and 8 by `r deadline_day`:
         `r string_details(monday_week_one, 14, deadline_day=deadline_day)`
-- [ ] **`r string_details(monday_week_one, 15, 15, modules_list)`**
+- [ ] **`r string_details(monday_week_one, 15, 14, modules_list)`**
     - [ ] Finish portfolio piece 9 and 10 by `r deadline_day`:
         `r string_details(monday_week_one, 15, deadline_day=deadline_day)`
 - [ ] **Portfolio completion**
@@ -262,8 +264,8 @@ I, `r params$name`, agree to :
     they reach the standards of being completed "satisfactory", the
     professor will communicate these concerns with me and, if deemed
     appropriate, offer an opportunity to correct them.
--   I pertain the right to, at any time, switch out any of the modules       and labs with another module or lab in the course or change the order     of them from what is currently specified in the contract. This will      not affect the number of labs or modules that are to be completed        according to the contract. Any such changes will be noted in this        contract for reference, but will not require notifying the professor.
--   Any other part of this contract can be changed before the final grade     is set if agreed upon by both myself and the professor.
+-   I pertain the right to, at any time, switch out any of the modules and labs with another module or lab in the course or change the order of them from what is currently specified in the contract. This will not affect the number of labs or modules that are to be completed according to the contract. Any such changes will be noted in this contract for reference, but will not require notifying the professor.
+-   Any other part of this contract can be changed before the final grade is set if agreed upon by both myself and the professor.
 
 
 <!--- Now, I suggest that you knit the document. You can do this by pushing the "Knit" button with a blue yarn ball above this screen in Rmarkdown. To see the changes, push it to Github and look at the file there. If you feel more advanced, you can also change the output type to a html document in the YAML header. However, note that this will mess up some of the formatting, so I suggest to only do this temporarily while messing with the document and then switching back to the Github document type.

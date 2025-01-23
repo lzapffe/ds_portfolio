@@ -295,7 +295,360 @@ $(document).ready(function () {
 </div>
 
 
-<p>Exploring vectorized operations</p>
+<p>One thing that I have always struggled with, going from programming
+in Python to R, is vectorized operations. I feel like loops make a lot
+of sense, and when planning out the logic of some code, or writing it, I
+can easily figure out how to do it with loops, but I struggle figure out
+how to think about it with vectorized operations. I think part of that
+is that it just takes a mentality shift and the other part is that I
+don’t know how the functions for vectorized operations work well enough.
+Therefore, with this project, I will take a deep-dive into vectorized
+operations and get some practice with it, so that I hopefully feel
+confident using vectorized operations later on when writing code.</p>
+<p>Goals for the project:</p>
+<ul>
+<li>Learning about the logic of vectorized operations</li>
+<li>Learning about the different functions for vectorized operations in
+R, including apply(), lapply(), and mapply()</li>
+<li>Comparing and contrasting writing vectorized vs looped code</li>
+<li>Getting more experience with vectorized operations so that I can
+confidently apply it to future coding projects</li>
+</ul>
+<div id="the-basics-of-vectorized-operations" class="section level1">
+<h1>The Basics of Vectorized Operations</h1>
+<div id="examples-of-simple-vectorized-operations"
+class="section level2">
+<h2>Examples of simple vectorized operations</h2>
+<p>This <a
+href="https://bookdown.org/rdpeng/rprogdatascience/vectorized-operations.html">book
+chapter</a> had a good example of really basic vectorized operations.
+Contrasting the following two ways of adding two vectors:</p>
+<pre class="r"><code>x &lt;- 1:4
+y &lt;- 6:9 
+z &lt;- x + y
+z</code></pre>
+<pre><code>## [1]  7  9 11 13</code></pre>
+<pre class="r"><code>x &lt;- 1:4
+y &lt;- 6:9
+for(i in seq_along(x)) {
+      z[i] &lt;- x[i] + y[i]
+}
+z</code></pre>
+<pre><code>## [1]  7  9 11 13</code></pre>
+<p>When seeing it written out like that, I realize that I already use
+some basics of vectorized operations.</p>
+<p>Similarly, this is also vectorized operations:</p>
+<pre class="r"><code>x &lt;- 1:4
+
+x &gt; 2</code></pre>
+<pre><code>## [1] FALSE FALSE  TRUE  TRUE</code></pre>
+<p>This is with matrices:</p>
+<pre class="r"><code>x &lt;- matrix(1:4, 2, 2)
+y &lt;- matrix(rep(10, 4), 2, 2)
+print(x)</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]    1    3
+## [2,]    2    4</code></pre>
+<pre class="r"><code>print(y)</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]   10   10
+## [2,]   10   10</code></pre>
+<pre class="r"><code>x * y </code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]   10   30
+## [2,]   20   40</code></pre>
+</div>
+<div id="the-different-functions-for-vectorized-operations-in-r"
+class="section level2">
+<h2>The different functions for vectorized operations in r</h2>
+<p>This information is taken from on chapter 16 - <a
+href="https://bookdown.org/rdpeng/rprogdatascience/loop-functions.html">Loop
+Functions</a> in the open source textbook “R programming for data
+science”</p>
+<div id="lapply" class="section level3">
+<h3>lapply()</h3>
+<p>lapply() returns a list, hence the “l”.</p>
+<p>It takes three arguments, a list to do an operation on, the function,
+and any other parameters</p>
+<p>If the input is not a list, it will be converted to a list
+automatically using as.list()</p>
+<p>When you pass a function through lapply() (second parameter), it will
+input the list you have as the first parameter of that function. For
+example, in mean(), the first argument is the object to calculate the
+mean from and the rest of the parameters include e.g. whether parts of
+the object should be trimmed (with trim).</p>
+<p>If the function you pass through lapply() has more parameters that
+you want to specify, such as trim = 0 in mean(), you can add those as
+extra parameters to lapply() and they will be passed down into the
+function you specify. For example, you could here have written lapply(x,
+mean, trim = 0).</p>
+<p>You can enter functions that you define yourself into lapply(). You
+can even define it in the lapply() function itself. for example as
+“lapply(x, function(elt) { elt[,1] })”. This creates an
+<strong>anonymous function</strong> that only exists for the lapply()
+command and then disappears.</p>
+</div>
+<div id="sapply" class="section level3">
+<h3>sapply()</h3>
+<p>sapply() is very similar to lapply(), but it simplifies the results.
+For example, if you run lapply() on a vector with three items, it will
+return a nested list where each list has one item each. However, if you
+run sapply() it will make it one vector with several items. Similarly,
+if all lists that you input has the same number of items, sapply() will
+make it into a matrix, instead of nested lists. However, if none of
+these two situations apply, it will just produce the same nested lists
+as lapply() does.</p>
+<p>See here for an example taken from the book chapter:</p>
+<pre class="r"><code>x &lt;- list(a = 1:4, b = rnorm(10), c = rnorm(20, 1), d = rnorm(100, 5))
+lapply(x, mean)</code></pre>
+<pre><code>## $a
+## [1] 2.5
+## 
+## $b
+## [1] 0.1809108
+## 
+## $c
+## [1] 1.246518
+## 
+## $d
+## [1] 5.083708</code></pre>
+<pre class="r"><code>x &lt;- list(a = 1:4, b = rnorm(10), c = rnorm(20, 1), d = rnorm(100, 5))
+sapply(x, mean)</code></pre>
+<pre><code>##         a         b         c         d 
+## 2.5000000 0.4764287 1.0065844 5.0629936</code></pre>
+</div>
+<div id="tapply" class="section level3">
+<h3>tapply()</h3>
+<p>It sort of groups part of your vector together. So instead of maybe
+having a nested list like x &lt;- c((1, 2, 3,),(4, 5, 6),(7, 8, 9)), you
+can have the list x &lt;- c(1, 2, 3, 4, 5, 6, 7, 8, 9) and the list y
+&lt;- c(1, 1, 1, 2, 2, 2, 3, 3, 3). You can then define to group the
+calculations in x by the membership in y with tapply().</p>
+<p>For example, tapply(x, y, mean)</p>
+<p>There is also a parameter called simplify (TRUE or FALSE). If it is
+true it gives output similar to that of sapply(), while if it is false,
+it will give output similar to that of lapply().</p>
+</div>
+<div id="apply" class="section level3">
+<h3>apply()</h3>
+<p>Used on an array, like a matrix. You can specify which direction you
+want it to act on, either rows or columns.</p>
+<p>The second parameter, called MARGINS, determine whether you apply the
+funtion to the column or the row. If the value is 1, you collapse the
+columns and retain the rows. If the value is 2, you collapse the rows
+and retain the columns. See the following examples, taken from the
+bookchapter, for reference:</p>
+<pre class="r"><code>x &lt;- matrix(rnorm(200), 20, 10)
+apply(x, 2, mean)  ## Take the mean of each column</code></pre>
+<pre><code>##  [1] -0.314437489 -0.195706265 -0.353907504  0.041867228  0.128866178
+##  [6] -0.080894408  0.013160761 -0.447204877  0.409840824  0.005241722</code></pre>
+<pre class="r"><code>x &lt;- matrix(rnorm(200), 20, 10)
+apply(x, 1, sum)   ## Take the mean of each row</code></pre>
+<pre><code>##  [1] -3.1905007 -5.0441442 -0.4445494 -2.7659001  1.8631217  4.2667268
+##  [7] -2.6414646  2.6449263 -1.3078612 -0.7424089 -2.5033714 -5.8680976
+## [13]  2.6531483  4.2106011 -0.2078656  2.6137039  1.1920349  3.6858353
+## [19] -2.1987021 -0.3114501</code></pre>
+<p>The following are some examples of functions that could be written as
+apply()</p>
+<p>rowSums = apply(x, 1, sum) rowMeans = apply(x, 1, mean) colSums =
+apply(x, 2, sum) colMeans = apply(x, 2, mean</p>
+</div>
+<div id="mapply" class="section level3">
+<h3>mapply()</h3>
+<p>mapply() can iterate over multiple r objects at the time, like
+running lapply() in paralell.</p>
+<p>For mapply(), the first parameter is the function, not the object to
+run it for.</p>
+<p>Here is an example of how mapply() saves space. For example, instead
+of writing</p>
+<pre class="r"><code>list(rep(1, 4), rep(2, 3), rep(3, 2), rep(4, 1))</code></pre>
+<pre><code>## [[1]]
+## [1] 1 1 1 1
+## 
+## [[2]]
+## [1] 2 2 2
+## 
+## [[3]]
+## [1] 3 3
+## 
+## [[4]]
+## [1] 4</code></pre>
+<p>You can use mapply() and write</p>
+<pre class="r"><code>mapply(rep, 1:4, 4:1)</code></pre>
+<pre><code>## [[1]]
+## [1] 1 1 1 1
+## 
+## [[2]]
+## [1] 2 2 2
+## 
+## [[3]]
+## [1] 3 3
+## 
+## [[4]]
+## [1] 4</code></pre>
+<p>Here, 1:4 is passed to rep as the first parameter and 4:1 as the
+second.</p>
+<p>You can also use mapply() to run vectorized operations with functions
+that do not support vectorized operations. For example, here is how the
+book chapter demonstrated it:</p>
+<pre class="r"><code>sumsq &lt;- function(mu, sigma, x) {
+         sum(((x - mu) / sigma)^2)
+}
+
+# Generate data in a list
+x &lt;- rnorm(100)</code></pre>
+<p>Here we are defining a function to calculate sums of squares and we
+want to do it for values of mu and sigma increasing from 1 to 10. If we
+try doing this in the function itself, which is not adapted for
+vectorized operations, we only get one number.</p>
+<pre class="r"><code>sumsq(1:10, 1:10, x)  ## This is not what we want</code></pre>
+<pre><code>## [1] 109.7444</code></pre>
+<p>While we can apply mapply() to run the 10 values in paralell.</p>
+<pre class="r"><code>mapply(sumsq, 1:10, 1:10, MoreArgs = list(x = x))</code></pre>
+<pre><code>##  [1] 188.09278 118.83476 106.95392 103.11447 101.48311 100.67567 100.23613
+##  [8]  99.98151  99.82794  99.73309</code></pre>
+<p>You can also apparently do this with the Vectorize() function</p>
+<pre class="r"><code>vsumsq &lt;- Vectorize(sumsq, c(&quot;mu&quot;, &quot;sigma&quot;))
+vsumsq(1:10, 1:10, x)</code></pre>
+<pre><code>##  [1] 188.09278 118.83476 106.95392 103.11447 101.48311 100.67567 100.23613
+##  [8]  99.98151  99.82794  99.73309</code></pre>
+<p>I don’t think I fully understand how this works yet, but I might get
+it a little more later. Or it might not be the most important thing to
+know.</p>
+</div>
+<div id="split" class="section level3">
+<h3>split()</h3>
+<p>The book chapter also mentions split(), as this seems to often be
+used with vectorized operations. You can use it to divide out a part of
+the items and run a function only on these. It takes the parameters x
+(vector or data frame), function, and drop = TRUE/FALSE. Seems like it
+works with factors.</p>
+<pre class="r"><code>x &lt;- c(rnorm(10), runif(10), rnorm(10, 1))
+f &lt;- gl(3, 10)
+print(f)</code></pre>
+<pre><code>##  [1] 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3
+## Levels: 1 2 3</code></pre>
+<pre class="r"><code>split(x, f)</code></pre>
+<pre><code>## $`1`
+##  [1] -0.61721445  0.04918968  0.17067838  0.03540099 -1.55673918  1.91175807
+##  [7]  0.05226465  0.35556531 -0.67308004  0.25347844
+## 
+## $`2`
+##  [1] 0.64537636 0.81235368 0.72017401 0.02853401 0.38585588 0.99490488
+##  [7] 0.67913290 0.79527061 0.06019544 0.66987940
+## 
+## $`3`
+##  [1]  0.7242323  1.5440714  0.3417313  1.5112144  1.1064160  1.6219568
+##  [7]  1.2480983  0.5363498  2.5113282 -0.2105475</code></pre>
+<p>This seems very similar to tapply(), but with factors instead of just
+a list.</p>
+<p>This is an example in combination with lapply()</p>
+<pre class="r"><code>lapply(split(x, f), mean)</code></pre>
+<pre><code>## $`1`
+## [1] -0.001869816
+## 
+## $`2`
+## [1] 0.5791677
+## 
+## $`3`
+## [1] 1.093485</code></pre>
+<p>With this, you can for example look at a data frame and split up the
+calculations or stats based on a variable (as a factor), such as month
+or city. You can even split it up in combinations of two or more
+variables, e.g. with (split(x, list(f1, f2))).</p>
+<p>Remember from earlier, that tapply() is like split() and lapply(),
+but for vectors only. That means that you cannot use it on data
+frames.</p>
+</div>
+</div>
+<div id="check-in" class="section level2">
+<h2>Check-in</h2>
+<p>Ok, I think I am starting to get a basic overview of the different
+functions, what they do, and how they work. Now, I think I might need
+some practice actually using them. I have asked ChatGPT to come up with
+exercises for me, so I will use that to get more comfortable using these
+vectorized operations.</p>
+</div>
+</div>
+<div id="practice" class="section level1">
+<h1>Practice!</h1>
+<p>So far, I have learned about apply(), lapply(), sapply(), tapply(),
+mapply(), and split() with lapply(). I know need some practice using
+these functions to get comfortable with the logic behind them, when to
+use each, and how they work.</p>
+<p>First, I fed ChatGPT with all the notes I have up until this point
+and asked it to make some exercises, with varying difficulty, that could
+be used to practice what is in this document so far and further deepen
+my understanding. Here are some exercises and my solutions to them from
+ChatGPT. Some of them might be slightly modified:</p>
+<div id="simple-vectorized-operations" class="section level3">
+<h3>1. Simple Vectorized Operations</h3>
+<p>1.1. Create two vectors, a &lt;- 1:5 and b &lt;- 6:10. Then use
+vectorized operations for the next steps.</p>
+<pre class="r"><code>a &lt;- c(1:5)
+b &lt;- c(6:10)
+print(a)</code></pre>
+<pre><code>## [1] 1 2 3 4 5</code></pre>
+<pre class="r"><code>print(b)</code></pre>
+<pre><code>## [1]  6  7  8  9 10</code></pre>
+<p>Little reminder to myself: lists differ from vectors as a vector can
+only have one type of items, e.g. numbers, characters, or logical
+values, while lists can have a mix. You define a vector with c() and a
+list with list(). I am pretty sure a c() with multiple data types will
+just automatically be converted to a list, since R tends to to that type
+of stuff.</p>
+<p>1.2. Add, subtract, multiply, and divide the vectors.</p>
+<pre class="r"><code>c &lt;- a + b
+print(c)</code></pre>
+<pre><code>## [1]  7  9 11 13 15</code></pre>
+<pre class="r"><code>d &lt;- a - b
+print(d)</code></pre>
+<pre><code>## [1] -5 -5 -5 -5 -5</code></pre>
+<pre class="r"><code>e &lt;- a * b
+print(e)</code></pre>
+<pre><code>## [1]  6 14 24 36 50</code></pre>
+<pre class="r"><code>f &lt;- a / b
+print(f)</code></pre>
+<pre><code>## [1] 0.1666667 0.2857143 0.3750000 0.4444444 0.5000000</code></pre>
+<p>As we learned about earlier, these kind of operations of the vectors
+is already vectorized, you don’t have to use any of the functions like
+apply()</p>
+<p>1.3. Find which elements of a are greater than 3.</p>
+<pre class="r"><code>g &lt;- a &gt; 3
+print(g)</code></pre>
+<pre><code>## [1] FALSE FALSE FALSE  TRUE  TRUE</code></pre>
+<p>1.4. Rewrite the operations using loops instead of vectorized
+operations. I’ll just do the last one from 1.3.</p>
+<pre class="r"><code>g &lt;- c()
+for (i in a) {
+  if (i &gt; 3) {
+    g &lt;- append(g, TRUE)
+  } else {
+    g &lt;- append(g, FALSE)
+  }
+}
+print(g)</code></pre>
+<pre><code>## [1] FALSE FALSE FALSE  TRUE  TRUE</code></pre>
+<p>That was indeed a lot more work than using vectorized operations.</p>
+</div>
+<div id="matrix-operations" class="section level3">
+<h3>2. Matrix Operations</h3>
+<p>2.1. Create a matrix mat &lt;- matrix(1:9, nrow = 3).</p>
+<pre class="r"><code>mat &lt;- matrix(1:9, nrow = 3)
+print(mat)</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    4    7
+## [2,]    2    5    8
+## [3,]    3    6    9</code></pre>
+<p>2.2. Multiply each element of the matrix by 2 using vectorized
+operations.</p>
+<pre class="r"><code>#mat_mult &lt;- mapply()</code></pre>
+<p>2.3. Find the square of each element in the matrix. 2.4. Check which
+elements are greater than 5.</p>
+<p>You might have to write some quick notes of what each function does
+to help you navigate this</p>
+</div>
+</div>
 
 
 

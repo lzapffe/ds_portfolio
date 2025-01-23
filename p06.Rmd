@@ -2,4 +2,6 @@
 title: "Regex"
 ---
 
-Text
+Look at this book chapter that has a part on regex and which is what I used for vectorized operations: https://bookdown.org/rdpeng/rprogdatascience/regular-expressions.html
+
+Also this: https://r4ds.hadley.nz/regexps
