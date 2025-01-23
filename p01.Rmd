@@ -17,30 +17,23 @@ Goals for the project:
 * Get practice reading and understandig others' code and editing it
 * Practice designing/updating code to solve a problem identified in
     the code, in other words, translating an idea to code.
-* Developing functionalities based on the use of the contract
-* Add some features that I would like to the contract and therefore
-    have it bug me less
-* Working with dates in R
+* Working with dates in R (tidyverse)
+* Add some features that I would like for the contract to have and therefore have it bug me less
 
 
 ## Rmarkdown Basics
 
-To make a new paragraph, make two new lines in a row, not just one
+The following are some notes from things I have learned or wanted to remember while working on this project:
 
-When making bullet point lists, you can use * or -, but there has to be a new line before the start of the first bullet point
-
-To embed a link with text, write the text you want displayed in brackets and right after put the link in parenthesis
-
-You can also make a new paragraph by ending the last line of a paragraph with two spaces. Or add "\" at the end of the line.
-
-">" leads to a block quote
-
-- "[ ]" creates a unchecked box, while [x] creates a checked box. In html, the formatting gets weird with checked boxes. It turns bold automatically and adds extra space for the next line. However, if making it a Github document, it shows up with the expected formatting
-
-Write < ! - - - text - - > (with no spaces between the characters) to write a comment in the Rmarkdown document that does not show up on the rendered output
-Note, if you write the code for in-text r code (tick mark, r, code, and tick mark) in this type of comment, it will actually run that code
-
-You get **bold** text from adding two stars before and after the text you want in bold
+- To make a new paragraph, make two new lines, not just one
+- When making bullet point lists, you can use "*" or "-", but there has to be a new line before the start of the first bullet point for the formatting to work correctly
+- To embed a link with text, write the text you want displayed in brackets and right after put the link in parenthesis
+- You can also make a new paragraph by ending the last line of a paragraph with two spaces. Or add a backslash at the end of the line.
+- ">" before some text leads to a block quote
+- "[ ]" creates an unchecked box, while [x] creates a checked box. In html, the formatting gets weird with checked boxes. It turns bold automatically and adds extra space for the next line. However, if making it a Github document, it shows up with the expected formatting
+- Write < ! - - - text - - > (with no spaces between the characters) to write a comment in the Rmarkdown document that does not show up on the rendered output. 
+  - Note that if you write the code for in-text r code (tick mark, r, code, and tick mark) in this type of comment, it will actually run that code
+- You get **bold** text from adding "**" before and after the text you want in bold
 
 
 Useful links:
@@ -50,21 +43,21 @@ Useful links:
 
 ## The Current Contract Code
 
-The following is the current contract Rmarkdown document. It is pasted here so that one can see what the original contract looked liked. In addition, this copy will be used to go over to understand how the code works. There will therefore be many comments added throughout this code to explain what the current code is doing. This will help better understand what to change and how for the desired changes later. Tinkering with the original document is how I have found out what the different parts of the document does. The process will not be documented here, as that would be too time consuming. However, here is the outcome:
+The following is the content of the current  Rmarkdown document for the contract. It is pasted here for reference so that one can see what the original contract looked liked. In addition, this copy will be used to take notes while going over it to understand and document how the original code works. There will therefore be many comments added throughout this code to explain what the current code is doing. This will help me better understand what to change and how. Throughout working with the original document, I have tinkered with it to figure out what the different parts of the code do. That process is not documented here, as that would be too time consuming. So, here is the original contract with my comments added as block quotes. All of the formatting that makes code runnable has been removed so that we will see the code and not the output of it, as well as so that it doesn't take up additional time executing the code when knitting the document.
 
 
 > The following is the YAML header.
 
->It states the title of the document, the date, which is today's date retrieved from the computer/system running the document, to make sure it is always up to date.
+>It states the title of the document, the date, which is today's date retrieved from the computer/system running the document.
 
 title: Grading Contract  
 date: "format(Sys.time(), '%B %d %Y')"  
 
-> The output is currently set to html, even though the original is a markdown document (.md), as it is quicker to visualize html documents when working with Rmarkdown. 
+> The output is currently set to html, even though the original was a github document (.md), as it is quicker to visualize html documents when working with Rmarkdown. 
 
 output: html_document  
 
-> Then we have the parameters that will be retrieved during the rest of the document. This is what makes the document dynamic. The information added is what the first date for the class is (weekonemonday), the thesis deadline, and the date for spring break. Then it asks for the name of the person writing the contract, how many labs and projects they are doing, the grade they want, and the day of the week they want the due dates to be on. The grade and due date day has additional options as these will depend on the user. The can chose between several grades and several days, from what is included under "choices". Then whatever the individual wants is what is put as the "value".
+> Then we have the parameters that will be used during the rest of the contract. This is what makes the document dynamic. The information required is the first date for the class (weekonemonday), the thesis deadline, and the date for spring break. Then it asks for the name of the person writing the contract, how many labs and projects they are doing, the grade they want, and the day of the week they want the due dates to be on. The grade and due date day has explicit options that the user can chose between several grades and several days, from what is included under "choices". Then whatever the individual wants is what is put under "value".
 
 params:  
   weekonemonday: "2025-01-13"  
@@ -93,7 +86,7 @@ params:
     - Friday
 
 
-> This is a code block loading the library tidyverse. I don't know what we are using tidyverse for yet.
+> This is a code block loading the library tidyverse. tidyverse is used to handle date objects better.
 
 {r setup, include=FALSE}
 
@@ -101,7 +94,7 @@ library(tidyverse)
 
 # R Syllabus Scheduler
 
-> Here we define a function that is giving formatted output with the right values (e.g. dates) based on the parameters we have given in the YAML header. This function will be used to fill in the place holders in the contract.
+> Here we define a function that is giving formatted output with the right values (e.g. dates) based on the parameters we have given in the YAML header. This function will be used to fill in most of the place holders in the contract.
 
 advdate <- function(weekonemonday,
                     week,
@@ -109,13 +102,15 @@ advdate <- function(weekonemonday,
                     assignment = NULL,
                     unit = "Module ") {  
 
-> The function takes 5 parameters. One is what we defined as the date for the first Monday of classes. The second one is which week we are in, indexed by an integer. Then what topic we are on (which is indexed from a list we will define later, called topic). The next one is the assignment, which seems to be the same as the due date day, for example Monday. If this is not null, it overides the normal formatting and just give you the date of the first Monday of classes. I don't know what the point of that is yet.  what assignment we are on, and the unit we have. The last three parameteres have default values, so they are optional.
+> The function takes 5 parameters. One is what we defined as the date for the first Monday of classes. The second one is which week we are in, indexed by an integer. Then what topic we are on (which is indexed from a list we will define later, called topic). The next one is the assignment, which seems to be the same as the due date day, for example Monday. If this is null, it gives you a string with the module number, start and end date of the week, and the topic for that module. However, if it is set to be a day (not null), it will instead give a simplified string with just the date of the day that the deadline is on that week. Lastly, unit seems to just store the string "module" that is pasted into the strings. These last three parameteres have default values, so they are optional.
 
-> The below code takes what week we are in and calculates the date for each weekday, based on when the first day of class is. The date variable weekonemondy is converted to a date object towards the end of the code and stored in the variable dayone. If not, it wouldn't run. Example of a tmon is "01/13".
+> The below code takes what week we are in and calculates the date for each weekday, starting from when the first day of class is. The date variable weekonemondy is converted to a date object later in the code (but before the function is called) and stored in the variable dayone. If not, the code wouldn't run due to trying to run operations that require an object to be date when it isn't. To illustrate the output of this code, tmon for week 1 could be "01/13".
 
   # as.Date does not like piping
+  
   tmon <- as.Date(weekonemonday + 7 * (week - 1)) %>% 
     format(format = "%m/%d")  
+    
   ttue <- as.Date(weekonemonday + 1 + 7 * (week - 1)) %>%
     format(format = "%m/%d")  
   twed <- as.Date(weekonemonday + 2 + 7 * (week - 1)) %>%
@@ -129,19 +124,19 @@ advdate <- function(weekonemonday,
   tsun <- as.Date(weekonemonday + 6 + 7 * (week - 1)) %>%
     format(format = "%m/%d")  
     
-> The following code formats the week to have two numbers, so that e.g. week 1 is formatted as 01
+> zadv formats the week to have two numbers, so that e.g. week 1 is formatted as 01
 
   zadv <- sprintf("%02d", week)  
   
   
-> The following code has a lot of if statements, leading to different formatting of a string with information about the module number, start and end dates, and topic to be covered.
+> The following code has several if statements, leading to different formatting of a string with information about the module number, start and end dates, and topic to be covered.
 
-> The first condition is if there is no topic or assignment (which is set to NULL by default). This will therefore mostly occur if there are no more topics to go over. It will produce something like "Module 01, 01/13 - 01/17". We don't seem to ever use this, so I am not sure what the point of this is.
+> The first condition is if there is no topic or assignment (which is set to NULL by default). This will therefore mostly occur if there are no more topics to go over. It will produce something like "Module 01, 01/13 - 01/17". We don't seem to use this in  the code, it is probably just there to catch a situation in which there are fewer modules than weeks in the semester.
 
   if (is.null(topic) & is.null(assignment)) {  
     tmp <- paste0(unit, zadv, ", ", tmon, " - ", tfri)  
     
-> If assignment (the day of the week assignments are due on) is still empty, but there is a topic, you get formatting similar to "01/17". Paste0 is used to paste the results together. However, I don't know why you would need paste0() here wheb there is only one variable.
+> If assignment (the day of the week assignments are due on) is still empty, but there is a topic, you get formatting similar to "01/17". Paste0 is used to paste the results together. However, I don't think you need paste0() here when there is only one variable. You also probably don't need to catch all varioations of the spelling of the weekdays, as the options of how to write it that work with the code, are in the choices for that parameter in the YAML header.
     
   } else if (!is.null(assignment)) {  
     if (assignment %in%  
@@ -179,7 +174,7 @@ advdate <- function(weekonemonday,
       tmp <- paste0(tmon)  
     }  
     
-> If there is both a topic and assignment (due date of the week), then you get something like the following: "Module 01, 01/13 - 01/17 : What is Data Science and Meet the Toolkit"
+> If there is both a topic and assignment (due date of the week), then you get something like the following string: "Module 01, 01/13 - 01/17 : What is Data Science and Meet the Toolkit"
     
   } else{  
     tmp <- paste0(unit, zadv, ", ", tmon, " - ", tfri, " : ",   topic[week])  
@@ -190,7 +185,7 @@ advdate <- function(weekonemonday,
   return(tmp)  
 }  
 
-> I also don't know what the following code was meant to do or why it is there. Can you test whether assigning a variable to something is true?
+> I don't know what the following code was meant to do.
 
 #if(TRUE){  
 #    
@@ -198,7 +193,7 @@ advdate <- function(weekonemonday,
 #  startweek <- "Friday"  
 #} else {  
   
-> Assigning the parameters given above to new variable names. This part is not necessary, but makes the contract part a little more readable. Also, formatting the weekonemonday to be a date object instead of a string. Note that this happens outside of the function and before the function is called.
+> This code assigns the parameters given above to new variable names. This part is not necessary, but makes the contract part a little more readable. Also, it formats the weekonemonday to be a date object instead of a string. Note that this happens outside of the function, but before it is called.
   
 dayone <- as.Date(params$weekonemonday)  
 startweek <- params$startweek  
@@ -208,7 +203,7 @@ startweek <- params$startweek
 #}
 
 
-> Making a list with all the topics in the R course, which is used to get the topic names with indexing when making the schedule in the contract.
+> Making a list with all the topics in the R course, which is used to get the topic names with indexing when making the schedule in the contract. (They therefore have to be in the right order).
 
 topic = c(  
   "What is Data Science and Meet the Toolkit",  
@@ -252,6 +247,8 @@ I, params$name, agree to :
 
 
 ### SCHEDULE
+
+> The following formatting with no spaces and all bold for the checklists doesn't look that good when knitted in html. The contract is made to be outputted in a github document, which makes the formatting more like what would be expected given the code.
 
 - [ ] advdate(dayone, 1, topic)
   - [ ] Finish Lab 1 by startweek:  advdate(dayone, 2, assignment=startweek)
@@ -298,66 +295,66 @@ I, params$name, agree to :
   
 ### Further guidelines
 
-- According to reasons discussed and agreed upon in advance with the professor, there are some situations which might require some of these deadlines to be moved. If this is the case, I will reach out to the professor and agree on another deadline. The number of assignments that have to be completed satisfactory will not change.
-- If the professor has any concerns about the assignments and whether they reach the standards of being completed "satisfactory", the professor will communicate these concerns with me and offer an opportunity to correct them.
-- I pertain the right to switch or switch out any of the modules that do not contain a lab with another module in the course. This can be done in advance or while working on a module.
-- Any part of this contract can be changed before the final grade is set if agreed upon by both myself and the professor.
+- According to reasons discussed and agreed upon in advance with the     professor, there are some situations which might require some of these deadlines to be moved. If this is the case, I will reach out to the professor and agree on another deadline. The number of assignments that have to be completed satisfactory will not change.
+- If the professor has any concerns about the assignments and whether     they reach the standards of being completed "satisfactory", the     professor will communicate these concerns with me and, if deemed     appropriate, offer an opportunity to correct them.
+- I pertain the right to, at any time, switch out any of the modules and labs with another module or lab in the course or change the order of them from what is currently specified in the contract. This will not affect the number of labs or modules that are to be completed according to the contract. Any such changes will be noted in this contract for reference, but will not require notifying the professor.
+- Any other part of this contract can be changed before the final grade is set if agreed upon by both myself and the professor.
 
 
 # Goals For the New Contract
 
 Things to improve:
 
-* The code is in general poorly commented and bordering mild spaghetti code (no offense). So, the new code will have much more extensive coding and will try to put things in the order it is read in by humans, to make the readability better.
+* The code is generally poorly commented and some of it is not ordered chronologically considering the order in which humans tend to read code. mild spaghetti code (no offense). So, the new code will have much more extensive coding and will try to put things in the order it is read in by humans, to make the readability better.
 * The variable names could sometimes be more enlightening, so these will be updated
-* There are some parts of the function that are never used. This can be deleted and potentially dealt with as error checking instead, if needed. There are also some additional fail-safe's, like allowing for "Monday", "monday", "Mon", and "m", which doesn't seem necessary as the YAML header specifically state the options to put in. If anyone puts in a shorthand that doesn't work with the code, they should be able to figure that out based on the options provided in the YAML header.
-* The current code will only allow for the insertion of spring break if you add it as a topic. However, that will shift all the module numbers so that they do not align with the topic. This has to be changed, so that they module number is correct for each topic.
+* There are some parts of the function that are never used. This can be deleted and potentially dealt with as error checking instead, if needed. There are also some additional fail-safe's, like allowing for "Monday", "monday", "Mon", and "m", which doesn't seem necessary as the YAML header specifically states the available options to put in. If anyone puts in a shorthand that doesn't work with the code, they should be able to figure that out based on the options provided in the YAML header.
+* The current code will only allow for the insertion of spring break if you add it as a topic. However, that will shift all the module numbers so that they do not align with the topic. This will be changed, so that they module number is correct for each topic.
 * You can currently not have the weekly deadlines be on Sundays, which is a typical day to have deadlines on. I'll add the opportunity for the deadlines to be on Saturday and Sunday.
 * It can be hard to understand the logic of the document, especially if one is not familiar with Rmarkdown yet. This is likely the case for several students, so I'll also write and include instructions on how to navigate the document and what it does throughout the contract.
-* Now, one has to look to the syllabus to see how many labs and portfolio projects to finish given the desired grade. I will put this in automatically, so that the student don't need to provide it themselves.
+* Now, one has to look to the syllabus to see how many labs and portfolio projects to finish given the desired grade. I will put this in automatically based on the grade they add that they want to contract for in their YAML header, so that the student don't need to provide it themselves.
 
 
 # The Improved Contract
 
-This is a copy of the improved contract. There might be minor variations between this version and the final version attached in the ds_portfolio repository. The code should be more or less the same between the two versions.
+This is a copy of the improved contract, attached for reference. There might be minor variations between this version and the final version attached ("p01_contract.Rmd")in the ds_portfolio repository. However, The code should be more or less the same between the two versions.
 
-All the text and comments here are the same as in the contract templates. The code comments have been changed out with block quotes, as the hash tag symbol would have been rendered as a header if not inside a code block.
-
-
-title: Grading Contract
-date: "format(Sys.time(), '%B %d %Y')"
-output: github_document
-params:
-  mondayweekone: "2025-01-13"
-  thesisdeadline: "2025-03-21"
-  springbreak: "2025-03-10"
-  name: Linn Zapffe
-  grade:
-    label: Grade to write the contract for
-    value: A
-    input: select
-    choices:
-    - A
-    - B
-    - Pass
-  deadline_day:
-    label: Day of the weekly due dates
-    value: Sunday
-    input: select
-    choices:
-    - Monday
-    - Tuesday
-    - Wednesday
-    - Thursday
-    - Friday
-    - Saturday
-    - Sunday
-editor_options: 
-  markdown: 
-    wrap: 72
+Comments in the code have been changed out with block quotes, as the hash tag symbol would have been rendered as a header if not inside a code block. However, the comments that are here in the block quotes are the same as are in the improved template. In addition, there are comments that are only visible in the Rmarkdown document, but not in the knitted output (github file). These comments are to guide the students through how to use the contract. I will denote those here as "comment:", so that they are visible also in the output. 
 
 
-<!--- How to use this Rmarkdown document
+title: Grading Contract  
+date: "format(Sys.time(), '%B %d %Y')"  
+output: github_document  
+params:  
+  mondayweekone: "2025-01-13"  
+  thesisdeadline: "2025-03-21"  
+  springbreak: "2025-03-10"  
+  name: Linn Zapffe  
+  grade:  
+    label: Grade to write the contract for  
+    value: A  
+    input: select  
+    choices:  
+    - A  
+    - B  
+    - Pass  
+  deadline_day:  
+    label: Day of the weekly due dates  
+    value: Sunday  
+    input: select  
+    choices:  
+    - Monday  
+    - Tuesday  
+    - Wednesday  
+    - Thursday  
+    - Friday  
+    - Saturday  
+    - Sunday  
+editor_options:  
+  markdown:  
+    wrap: 72  
+
+
+Cooment: How to use this Rmarkdown document
 The text above this comment is the YAML header. Change the variables under "params" into what is relevant for you and your situation. In cases where there are choices, you have to choose one of those choices. Make sure you spell your parameter the same was as one of the choices and also have the same capital or small letters.
 
 The parameters that you have specified in the YAML header will be used in the rest of the code to change out place holders.
@@ -368,7 +365,10 @@ The first code chunk sets the number of labs and portfolio projects you need, ba
 -->
 
 r setting number of assignments, include = FALSE
+
 > Setting the required number of labs and portfolio projects given the grade the student wants to make the contract for
+
+
 if (params$grade == "A") {
   n_labs <- 11
   n_portfolios <- 10
@@ -382,15 +382,19 @@ if (params$grade == "A") {
 
 
 r defining variables, include = FALSE
+
 > Loading tidyverse, to deal with dates better
+
 library(tidyverse)
 
 > Defining the parameters as variables which makes it a little less cluttered during the contract itself
+
 monday_week_one <- as.Date(params$mondayweekone)
 deadline_day <- params$deadline_day
 spring_break <- as.Date(params$springbreak)
 
 > Defining a list with all the modules in it, which can be chosen from when making the schedule
+
 modules_list = c(
   "Data Science",
   "Data and Visualization",
@@ -414,7 +418,7 @@ r dates and strings, include = FALSE
 
 > Defining a function we can call when we need a string in the contract with the modules, dates, and/or date for the deadlines
 
-  > The function takes four parameters. The first is the date of the first Monday of classes, the second is the week number, the third is the module for that day, and the last one is the deadline day chosen earlier
+  > The function takes four parameters. The first is the date of the first Monday of classes, the second is the week number, the third is the module for that week, and the last one is the deadline day chosen earlier
   
 string_details <- function(monday_week_one,
                     week_num,
@@ -424,54 +428,60 @@ string_details <- function(monday_week_one,
 
            
   > Calculating the date for the weekday, based on the inputted week
-  > For Monday only, as we use that to check whether it is the week of spring break, we keep a variable, date_monday, in date form. The as.Date() allows for the calculations to occur withouth treating any of the variables as string, won't run if it doesn't have the as.Date() function there.
+  
+  > We keep the variable, date_monday, in date form for Monday, as we will use it to check whether it is the week of spring break later in the code. The as.Date() allows for the calculations to occur with the dates, which would not be possible if they were treated as string. The code won't run if it doesn't have the as.Date() function there.
   
   date_monday <- as.Date(monday_week_one + 7 * (week_num - 1))
+  
   > Then we format the date into a string (happens automatically with format()) in the form of two numbers for day and month, e.g. "03/03"
+  
     > For the rest of the days, we just keep this string version
     
-  date_monday_str <- format(date_monday, format = "%m/%d")
+  date_monday_str <- format(date_monday, format = "%m/%d")  
   date_tuesday_str <- as.Date(monday_week_one + 1 + 7 * (week_num - 1)) %>%
-    format(format = "%m/%d")
+    format(format = "%m/%d")  
   date_wednesday_str_str <- as.Date(monday_week_one + 2 + 7 * (week_num - 1)) %>%
-    format(format = "%m/%d")
+    format(format = "%m/%d")  
   date_thursday_str <- as.Date(monday_week_one + 3 + 7 * (week_num - 1)) %>%
-    format(format = "%m/%d")
+    format(format = "%m/%d")  
   date_friday_str <- as.Date(monday_week_one + 4 + 7 * (week_num - 1)) %>%
-    format(format = "%m/%d")
+    format(format = "%m/%d")  
   date_saturday_str <- as.Date(monday_week_one + 5 + 7 * (week_num - 1)) %>%
-    format(format = "%m/%d")
+    format(format = "%m/%d")  
   date_sunday_str <- as.Date(monday_week_one + 6 + 7 * (week_num - 1)) %>%
-    format(format = "%m/%d")
+    format(format = "%m/%d")  
   
   > Format the week number with two numbers, e.g. "02"
   
   module_string <- sprintf("%02d", module_num)
   
   > Creating the string, based on what type of information is given. This determines what format the string should have
+  
   > First if checks for whether it is spring break. If it is, then there is no module to do
   
-  if (date_monday == spring_break) {
-    > paste0 adds the parts in it together to a string, separated by space
+  if (date_monday == spring_break) {  
+  
+  > paste0 adds the parts in it together to a string, separated by space
     
-    str_line <- paste0("Spring break! - ", date_monday_str, " - ", date_sunday_str)
-  } else if (!is.null(deadline_day)) {
-    if (deadline_day == "Monday") {
-      str_line <- date_monday_str
-    } else if (deadline_day == "Tuesday") {
-      str_line <- date_tuesday_str
-    } else if (deadline_day == "Wednesday") {
-      str_line <- date_wednesday_str
-    } else if (deadline_day == "Thursday") {
-      str_line <- date_thursday_str
-    } else if (deadline_day == "Friday") {
-      str_line <- date_friday_str
-    } else if (deadline_day == "Saturday") {
-      str_line <- date_saturday_str
-    } else if (deadline_day == "Sunday") {
-      str_line <- date_sunday_str
-    }
-    > Creating a string with the module, module number, dates for the week, and the topic for the module
+    str_line <- paste0("Spring break! - ", date_monday_str, " - ", date_sunday_str)  
+  } else if (!is.null(deadline_day)) {  
+    if (deadline_day == "Monday") {  
+      str_line <- date_monday_str  
+    } else if (deadline_day == "Tuesday") {  
+      str_line <- date_tuesday_str  
+    } else if (deadline_day == "Wednesday") {  
+      str_line <- date_wednesday_str  
+    } else if (deadline_day == "Thursday") {  
+      str_line <- date_thursday_str  
+    } else if (deadline_day == "Friday") {  
+      str_line <- date_friday_str  
+    } else if (deadline_day == "Saturday") {  
+      str_line <- date_saturday_str  
+    } else if (deadline_day == "Sunday") {  
+      str_line <- date_sunday_str  
+    }  
+    
+  > Creating a string with the module, module number, dates for the week, and the topic for the module
     
   } else{
     str_line <- paste0("Module ", module_num, ", ", date_monday_str, " - ", date_sunday_str, " : ", modules_list[module_num])
@@ -484,7 +494,7 @@ string_details <- function(monday_week_one,
 
 
 
-<!--- The next part here is the text that will actually be displayed in the document. The #, ##, or ### before some text indicates that this is a header. The number of "#"'s correspond to the level of the heading. So, # Heading will be in a bigger font than ## Header.
+Comment: The next part here is the text that will actually be displayed in the document. The #, ##, or ### before some text indicates that this is a header. The number of "#"'s correspond to the level of the heading. So, # Heading will be in a bigger font than ## Header.
 
 The text that consists of "tick"r text"tick" (I can't actually write it with the ticks here, as that would have been interpreted by r as code to run) is in-line r code. It will run the r code and the output will be pasted there in the text when you render/knit the document. Any call to params$[input parameter here] calls the parameter you inputted in the YAML header. So, for example, if you put in A as a grade, the string below will produce a text stating "Terms to Get a Grade of "A"".
 The r codes with the parameters should paste the value or text that you need. If it seems wrong, double-check that you put in the right parameter (e.g. didn't misspell something). 
@@ -602,7 +612,7 @@ I, params$name, agree to :
 -   Any other part of this contract can be changed before the final grade     is set if agreed upon by both myself and the professor.
 
 
-<!--- Now, I suggest that you knit the document. You can do this by pushing the "Knit" button with a blue yarn ball above this screen in Rmarkdown. To see the changes, push it to Github and look at the file there. If you feel more advanced, you can also change the output type to a html document in the YAML header. However, note that this will mess up some of the formatting, so I suggest to only do this temporarily while messing with the document and then switching back to the Github document type.
+Comment: Now, I suggest that you knit the document. You can do this by pushing the "Knit" button with a blue yarn ball above this screen in Rmarkdown. To see the changes, push it to Github and look at the file there. If you feel more advanced, you can also change the output type to a html document in the YAML header. However, note that this will mess up some of the formatting, so I suggest to only do this temporarily while messing with the document and then switching back to the Github document type.
 
 When looking at your knitted document, you will now see the standard schedule based on the dates and information you put in as parameters in the YAML header. There are a few things I suggest you look over and change as it fits you:
 

@@ -255,17 +255,10 @@ I, `r params$name`, agree to :
 
 ## Further guidelines
 
--   According to reasons discussed and agreed upon in advance with the
-    professor, there are some situations which might require some of
-    these deadlines to be moved. If this is the case, I will reach out
-    to the professor and agree on another deadline. The number of
-    assignments that have to be completed satisfactory will not change.
--   If the professor has any concerns about the assignments and whether
-    they reach the standards of being completed "satisfactory", the
-    professor will communicate these concerns with me and, if deemed
-    appropriate, offer an opportunity to correct them.
--   I pertain the right to, at any time, switch out any of the modules and labs with another module or lab in the course or change the order of them from what is currently specified in the contract. This will not affect the number of labs or modules that are to be completed according to the contract. Any such changes will be noted in this contract for reference, but will not require notifying the professor.
--   Any other part of this contract can be changed before the final grade is set if agreed upon by both myself and the professor.
+- According to reasons discussed and agreed upon in advance with the professor, there are some situations which might require some of these deadlines to be moved. If this is the case, I will reach out to the professor and agree on another deadline. The number of assignments that have to be completed satisfactory will not change because of these reasons.
+- If the professor has any concerns about the assignments and whether they reach the standards of being completed "satisfactory", the professor will communicate these concerns with me and, if deemed appropriate, offer an opportunity to correct them.
+- I pertain the right to, at any time, switch out any of the modules and labs with another module or lab in the course or change the order of them from what is currently specified in the contract. This will not affect the number of labs or modules that are to be completed according to the contract. Any such changes will be noted in this contract for reference, but will not require notifying the professor.
+- Any other part of this contract can be changed before the final grade is set if agreed upon by both myself and the professor.
 
 
 <!--- Now, I suggest that you knit the document. You can do this by pushing the "Knit" button with a blue yarn ball above this screen in Rmarkdown. To see the changes, push it to Github and look at the file there. If you feel more advanced, you can also change the output type to a html document in the YAML header. However, note that this will mess up some of the formatting, so I suggest to only do this temporarily while messing with the document and then switching back to the Github document type.
