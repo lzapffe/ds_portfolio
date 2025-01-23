@@ -21,27 +21,24 @@ I, Linn Zapffe, agree to :
 
 1)  Earn “Satisfactory” on 11 self-paced lab assignments on the schedule
     specified below. Getting a grade of “Satisfactory” requires that:
-
-- I have attempted all steps of the assignment. If unable to complete
-  steps due to unresolved questions, I have asked questions in Github
-  FAQs or during the help sessions, or I have Googled the issue and
-  shown effort to resolve questions;
-- I have checked that files, repos, or projects appear on my Github
-  account and are accessible;
-- I feel like I have spent an adequate amount of time and energy on the
-  assignment;
-
+    - I have attempted all steps of the assignment. If unable to
+      complete steps due to unresolved questions, I have asked questions
+      in Github FAQs or during the help sessions, or I have Googled the
+      issue and shown effort to resolve questions;
+    - I have checked that files, repos, or projects appear on my Github
+      account and are accessible;
+    - I feel like I have spent an adequate amount of time and energy on
+      the assignment;
 2)  Produce at least 10 “Satisfactory” portfolio pieces on the schedule
     specified below. Getting a grade of “Satisfactory” requires that:
-
-- I have designed a portfolio project that I think challenges my
-  understanding of programming or data science, explores a topic I want
-  to know more about, or targets something I feel like I need more
-  practice with;
-- I have checked that files, repos, or projects appear on my Github
-  account and are accessible;
-- I feel like I have spent an adequate amount of time and energy on the
-  projects;
+    - I have designed a portfolio project that I think challenges my
+      understanding of programming or data science, explores a topic I
+      want to know more about, or targets something I feel like I need
+      more practice with;
+    - I have checked that files, repos, or projects appear on my Github
+      account and are accessible;
+    - I feel like I have spent an adequate amount of time and energy on
+      the projects;
 
 ### Schedule
 
