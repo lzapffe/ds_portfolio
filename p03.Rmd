@@ -2,4 +2,11 @@
 title: "Tidyverse vs base R"
 ---
 
-Text
+# Basics with data frames
+
+Matrices can only take data of one type, while a data frame can have columns with different types of objects.
+
+You can use summary(df), head(df), tail(df), str(df)
+
+Data frames are a special case of lists where each list have the same length
+

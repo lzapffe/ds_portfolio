@@ -361,6 +361,150 @@ e.g. facet_wrap(~ var_1, ncol = 2)</p>
 switch out color with whatever you used to separate the variables with.
 Guides is added as a separate function with the + sign to the general
 ggplot code.</p>
+<p>If you have most of your data clustered around a smaller range of the
+plot. You can use filter and put a subsetted part of the data set into
+the plot, to see the nuances more clearly</p>
+</div>
+<div id="different-types-of-plots" class="section level2">
+<h2>Different types of plots</h2>
+<div id="histograms" class="section level3">
+<h3>Histograms</h3>
+<pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm)) +
+  geom_histogram()</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite values (`stat_bin()`).</code></pre>
+<p><img src="p04_files/figure-html/histogram-1.png" width="672" /></p>
+<p>You can change the binwidth (the amount included in one bar in the
+histogram) by specifying binwidth in the geom_histogram() function. See
+examples:</p>
+<pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm)) +
+  geom_histogram(binwidth = 20)</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite values (`stat_bin()`).</code></pre>
+<p><img src="p04_files/figure-html/histogram%20high%20binwidth-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm)) +
+  geom_histogram(binwidth = 1)</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite values (`stat_bin()`).</code></pre>
+<p><img src="p04_files/figure-html/histogram%20small%20binwidth-1.png" width="672" /></p>
+<p>You can add colors to fill in the histogram based on another
+variable. In that case, you should also specify alpha (transparency) to
+see the value lines better.</p>
+<pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm, fill = species)) +
+  geom_histogram(alpha = 0.60)</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite values (`stat_bin()`).</code></pre>
+<p><img src="p04_files/figure-html/histogram%20color-1.png" width="672" /></p>
+<p>If you add fill you get the bars filled in, if you add color, you get
+the outline of the bar colored.</p>
+</div>
+<div id="density-plot" class="section level3">
+<h3>Density plot</h3>
+<pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm, color = species)) +
+  geom_density()</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite values (`stat_density()`).</code></pre>
+<p><img src="p04_files/figure-html/density%20plot-1.png" width="672" /></p>
+<p>You can add color to get individual lines with color, fill to fill in
+the lines (like mountains), shape seemingly just adds several lines that
+are all black and look the same. Size gives you different sizes, but it
+looks really ugly, like something you drew in paint.</p>
+<p>You can also adjust the density (smoothness) of the curve with
+adjust. See examples</p>
+<pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm, color = species)) +
+  geom_density(adjust = 0.5)</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite values (`stat_density()`).</code></pre>
+<p><img src="p04_files/figure-html/density%20plot%20low%20adjustment-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm, color = species)) +
+  geom_density(adjust = 2)</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite values (`stat_density()`).</code></pre>
+<p><img src="p04_files/figure-html/density%20plot%20high%20adjustment-1.png" width="672" /></p>
+<p>I think adjust = 1 is the standard.</p>
+</div>
+<div id="box-plot" class="section level3">
+<h3>Box plot</h3>
+<pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm)) +
+  geom_boxplot()</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).</code></pre>
+<p><img src="p04_files/figure-html/box%20plot-1.png" width="672" /></p>
+<p>You can also add variables to the y-axis:</p>
+<pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm, y = species)) +
+  geom_boxplot()</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).</code></pre>
+<p><img src="p04_files/figure-html/box%20plot%20y-axis-1.png" width="672" /></p>
+</div>
+<div id="scatterplot" class="section level3">
+<h3>Scatterplot</h3>
+<pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point()</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values (`geom_point()`).</code></pre>
+<p><img src="p04_files/figure-html/scatterplot-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point() +
+  geom_smooth()</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite values (`stat_smooth()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values (`geom_point()`).</code></pre>
+<p><img src="p04_files/figure-html/scatterplot%20smooth-1.png" width="672" /></p>
+</div>
+<div id="hex-plot" class="section level3">
+<h3>Hex plot</h3>
+<pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_hex()</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite values (`stat_binhex()`).</code></pre>
+<p><img src="p04_files/figure-html/hex%20plot-1.png" width="672" /></p>
+</div>
+<div id="bar-chart" class="section level3">
+<h3>Bar chart</h3>
+<pre class="r"><code>ggplot(data = penguins, mapping = aes(x = species)) +
+  geom_bar()</code></pre>
+<p><img src="p04_files/figure-html/bar%20chart-1.png" width="672" /></p>
+<p>You can flip the plot on its side with coord_flip(). You can also
+technically do this by making the variable of interest the y variable
+instead of x variable.</p>
+<pre class="r"><code>ggplot(data = penguins, mapping = aes(x = species)) +
+  geom_bar() +
+  coord_flip()</code></pre>
+<p><img src="p04_files/figure-html/bar%20chart%20side-ways-1.png" width="672" /></p>
+<p>If you want to color in the bars by another variable, you can add
+fill = variable to color it in based on counts. You can also add in
+position = variable in geom_bar() to fill it based on its proportion (in
+addition to having fill in the aesthetics). See below:</p>
+<p>Count:</p>
+<pre class="r"><code>ggplot(data = penguins, mapping = aes(x = species, fill = sex)) +
+  geom_bar()</code></pre>
+<p><img src="p04_files/figure-html/bar%20chart%20count-1.png" width="672" /></p>
+<p>Proportion:</p>
+<pre class="r"><code>ggplot(data = penguins, mapping = aes(x = species, fill = sex)) +
+  geom_bar(position = &quot;fill&quot;)</code></pre>
+<p><img src="p04_files/figure-html/bar%20chart%20proportion-1.png" width="672" /></p>
+</div>
+<div id="violin-plots" class="section level3">
+<h3>Violin plots</h3>
+<pre class="r"><code>ggplot(penguins, aes(x = species, y = flipper_length_mm)) +
+  geom_violin()</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite values (`stat_ydensity()`).</code></pre>
+<p><img src="p04_files/figure-html/violin%20plot-1.png" width="672" /></p>
+</div>
+<div id="ridge-plots" class="section level3">
+<h3>Ridge plots</h3>
+<p>Requires ggridges library. Looks like several valleys laying on top
+of each other.</p>
+<pre class="r"><code># library(ggridges)
+# ggplot(loans, aes(x = loan_amount, y = grade, fill = grade, color = grade)) + 
+ # geom_density_ridges(alpha = 0.5)</code></pre>
+</div>
+</div>
+<div id="customizing-the-layout" class="section level2">
+<h2>Customizing the layout</h2>
+<p>You can remove the tick marks and labels with theme( axis.ticks.y =
+element_blank(), axis.text.y = element_blank())</p>
+<p>See example with box plot:</p>
+<pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm)) +
+  geom_boxplot() + 
+  theme(
+    axis.ticks.y = element_blank(),
+    axis.text.y = element_blank())</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).</code></pre>
+<p><img src="p04_files/figure-html/box%20plot%20no%20y%20axes%20labels-1.png" width="672" /></p>
+<p>Note that the plot now has no labels or values on the y-axis.</p>
 </div>
 </div>
 

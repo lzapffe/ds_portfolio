@@ -4,12 +4,12 @@ title: "About This Website"
 
 This portfolio consists of 10 projects. These projects are:
 
-1. Vectorized operations
-2. Tidyverse vs base R
-3. ggplot
-4. Exploring data visualization libraries
-5. Regex
-6. 
+1. Improving the class contract - 100% finished
+2. Vectorized operations
+3. Tidyverse vs base R
+4. ggplot
+5. Exploring data visualization libraries
+6. Regex
 7. 
 8. 
 9. Data Wrangling of PAC data set

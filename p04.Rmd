@@ -66,4 +66,182 @@ If you want facet_wrap(), but with max two columns, you can specify that, e.g. f
 
 If you want to remove the legend, add guides(color = FALSE) where you switch out color with whatever you used to separate the variables with. Guides is added as a separate function with the + sign to the general ggplot code.
 
+If you have most of your data clustered around a smaller range of the plot. You can use filter and put a subsetted part of the data set into the plot, to see the nuances more clearly
+
+
+## Different types of plots
+
+### Histograms
+
+```{r histogram}
+ggplot(penguins, aes(x = flipper_length_mm)) +
+  geom_histogram()
+```
+
+You can change the binwidth (the amount included in one bar in the histogram) by specifying binwidth in the geom_histogram() function. See examples:
+
+
+
+```{r histogram high binwidth}
+ggplot(penguins, aes(x = flipper_length_mm)) +
+  geom_histogram(binwidth = 20)
+```
+
+
+```{r histogram small binwidth}
+ggplot(penguins, aes(x = flipper_length_mm)) +
+  geom_histogram(binwidth = 1)
+```
+
+You can add colors to fill in the histogram based on another variable. In that case, you should also specify alpha (transparency) to see the value lines better.
+
+
+```{r histogram color}
+ggplot(penguins, aes(x = flipper_length_mm, fill = species)) +
+  geom_histogram(alpha = 0.60)
+```
+
+If you add fill you get the bars filled in, if you add color, you get the outline of the bar colored.
+
+
+### Density plot
+
+
+```{r density plot}
+ggplot(penguins, aes(x = flipper_length_mm, color = species)) +
+  geom_density()
+```
+
+You can add color to get individual lines with color, fill to fill in the lines (like mountains), shape seemingly just adds several lines that are all black and look the same. Size gives you different sizes, but it looks really ugly, like something you drew in paint.
+
+You can also adjust the density (smoothness) of the curve with adjust. See examples
+
+
+```{r density plot low adjustment}
+ggplot(penguins, aes(x = flipper_length_mm, color = species)) +
+  geom_density(adjust = 0.5)
+```
+
+
+```{r density plot high adjustment}
+ggplot(penguins, aes(x = flipper_length_mm, color = species)) +
+  geom_density(adjust = 2)
+```
+
+I think adjust = 1 is the standard.
+
+
+### Box plot
+
+```{r box plot}
+ggplot(penguins, aes(x = flipper_length_mm)) +
+  geom_boxplot()
+```
+
+You can also add variables to the y-axis:
+
+```{r box plot y-axis}
+ggplot(penguins, aes(x = flipper_length_mm, y = species)) +
+  geom_boxplot()
+```
+
+### Scatterplot
+
+```{r scatterplot}
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point()
+```
+
+
+```{r scatterplot smooth}
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point() +
+  geom_smooth()
+```
+
+
+### Hex plot
+
+
+```{r hex plot}
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_hex()
+```
+
+### Bar chart
+
+```{r bar chart}
+ggplot(data = penguins, mapping = aes(x = species)) +
+  geom_bar()
+```
+
+You can flip the plot on its side with coord_flip(). You can also technically do this by making the variable of interest the y variable instead of x variable.
+
+
+```{r bar chart side-ways}
+ggplot(data = penguins, mapping = aes(x = species)) +
+  geom_bar() +
+  coord_flip()
+```
+
+If you want to color in the bars by another variable, you can add fill = variable to color it in based on counts. You can also add in position = variable in geom_bar() to fill it based on its proportion (in addition to having fill in the aesthetics). See below:
+
+Count:
+
+
+```{r bar chart count}
+ggplot(data = penguins, mapping = aes(x = species, fill = sex)) +
+  geom_bar()
+```
+
+Proportion:
+
+```{r bar chart proportion}
+ggplot(data = penguins, mapping = aes(x = species, fill = sex)) +
+  geom_bar(position = "fill")
+```
+
+### Violin plots
+
+```{r violin plot}
+ggplot(penguins, aes(x = species, y = flipper_length_mm)) +
+  geom_violin()
+```
+
+### Ridge plots
+
+Requires ggridges library. Looks like several valleys laying on top of each other.
+
+```{r ridge plot}
+# library(ggridges)
+# ggplot(loans, aes(x = loan_amount, y = grade, fill = grade, color = grade)) + 
+ # geom_density_ridges(alpha = 0.5)
+```
+
+
+
+
+## Customizing the layout
+
+You can remove the tick marks and labels with theme(
+    axis.ticks.y = element_blank(),
+    axis.text.y = element_blank())
+    
+See example with box plot:
+
+```{r box plot no y axes labels}
+ggplot(penguins, aes(x = flipper_length_mm)) +
+  geom_boxplot() + 
+  theme(
+    axis.ticks.y = element_blank(),
+    axis.text.y = element_blank())
+```
+
+Note that the plot now has no labels or values on the y-axis.
+
+
+
+
+
+
 
