@@ -505,6 +505,50 @@ element_blank(), axis.text.y = element_blank())</p>
 <pre><code>## Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).</code></pre>
 <p><img src="p04_files/figure-html/box%20plot%20no%20y%20axes%20labels-1.png" width="672" /></p>
 <p>Note that the plot now has no labels or values on the y-axis.</p>
+<p>You can also change themes to change the layout of the plot.</p>
+<pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm)) +
+  geom_boxplot() + 
+  theme_bw()</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).</code></pre>
+<p><img src="p04_files/figure-html/box%20plot%20bw%20theme-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm)) +
+  geom_boxplot() + 
+  theme_minimal()</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).</code></pre>
+<p><img src="p04_files/figure-html/box%20plot%20minimal%20theme-1.png" width="672" /></p>
+</div>
+<div
+id="weird-things-that-i-cant-explain-but-are-probably-useful-to-know-for-debugging"
+class="section level2">
+<h2>Weird things that I can’t explain, but are probably useful to know
+for debugging</h2>
+<p>If you have a color layer to a plot and add geom_smooth() it gives
+you a smooth line for each category in geom too. You can fix this by
+moving the color argument of eas for ggplot into the specific
+geom_point() function, such as geom_point(color = species). However, for
+some reason, you can also fix it by adding color = “black” as an
+argument to geom_smooth(). See the following three examples</p>
+<pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point(aes(color = species)) +
+  geom_smooth()</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite values (`stat_smooth()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values (`geom_point()`).</code></pre>
+<p><img src="p04_files/figure-html/weird%20smooth%201-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point() +
+  geom_smooth()</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite values (`stat_smooth()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values (`geom_point()`).</code></pre>
+<p><img src="p04_files/figure-html/weird%20smooth%202-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point() +
+  geom_smooth(color = &quot;blue&quot;)</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite values (`stat_smooth()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values (`geom_point()`).</code></pre>
+<p><img src="p04_files/figure-html/weird%20smooth%203-1.png" width="672" /></p>
 </div>
 </div>
 

@@ -239,7 +239,44 @@ ggplot(penguins, aes(x = flipper_length_mm)) +
 
 Note that the plot now has no labels or values on the y-axis.
 
+You can also change themes to change the layout of the plot. 
 
+
+```{r box plot bw theme}
+ggplot(penguins, aes(x = flipper_length_mm)) +
+  geom_boxplot() + 
+  theme_bw()
+```
+
+```{r box plot minimal theme}
+ggplot(penguins, aes(x = flipper_length_mm)) +
+  geom_boxplot() + 
+  theme_minimal()
+```
+
+## Weird things that I can't explain, but are probably useful to know for debugging
+
+If you have a color layer to a plot and add geom_smooth() it gives you a smooth line for each category in geom too. You can fix this by moving the color argument of eas for ggplot into the specific geom_point() function, such as geom_point(color = species). However, for some reason, you can also fix it by adding color = "black" as an argument to geom_smooth(). 
+See the following three examples
+
+```{r weird smooth 1}
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point(aes(color = species)) +
+  geom_smooth()
+```
+
+```{r weird smooth 2}
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point() +
+  geom_smooth()
+```
+
+
+```{r weird smooth 3}
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point() +
+  geom_smooth(color = "blue")
+```
 
 
 
