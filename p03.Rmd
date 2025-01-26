@@ -10,3 +10,42 @@ You can use summary(df), head(df), tail(df), str(df)
 
 Data frames are a special case of lists where each list have the same length
 
+
+# Tibbles vs data frames
+
+The following are notes taken from the course materials.
+
+Tibbles were made to make fewer assumptions (which were sometimes wrong) when dealing with data frames and to also display things easier. The tibbles will also often offer more helpful warnings. Here are some examples of differences between data frames and tibbles:
+
+- A data frame will automatically change spaces to periods in column names. Tibbles keep them.
+- If you try calling a column that doesn't exist. A tibble will give you a warning saying that that column doesn't exist, while a data frame will just say "NULL"
+- Tibbles always give you a tibble when subsetting. A data frame can give you a matrix or vector depending on whether the subsetted data conforms to the requirements for those objects
+-  Data frames do partial matching with column names. So if your column is "tree_hugger" and you call "tree", it will assume you mean "tree_hugger". A tibble will just say that the "tree" column doesn't exist.
+- Historical fact: data frames also used to coerce strings to factors, but it doesn't anymore
+
+
+# Useful dplyr functions
+
+The first argument of dplyr functions is always the data frame. Dplyr only takes a data frame or tibble, not a matrix or vector.
+
+Displaying data:
+
+- names() - show the variable names of the data set
+- glimpse() - show variable names and the first few objects per column
+
+
+Subsetting data:
+
+- select() - pick columns by name
+  - If you want multiple columns, just add them as more parameters
+- slice() - pick rows using index
+- filter() - subsetting rows based on some criteria
+- distinct() - filter for unique rows
+
+
+Other:
+
+- arrange() - reorder rows
+- mutate() - add a new variable
+- summarize() - reduce variables to values
+- group_by() - for grouped operations (calculate per group, like split file in SPSS)

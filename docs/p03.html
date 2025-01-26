@@ -303,6 +303,59 @@ columns with different types of objects.</p>
 <p>Data frames are a special case of lists where each list have the same
 length</p>
 </div>
+<div id="tibbles-vs-data-frames" class="section level1">
+<h1>Tibbles vs data frames</h1>
+<p>The following are notes taken from the course materials.</p>
+<p>Tibbles were made to make fewer assumptions (which were sometimes
+wrong) when dealing with data frames and to also display things easier.
+The tibbles will also often offer more helpful warnings. Here are some
+examples of differences between data frames and tibbles:</p>
+<ul>
+<li>A data frame will automatically change spaces to periods in column
+names. Tibbles keep them.</li>
+<li>If you try calling a column that doesn’t exist. A tibble will give
+you a warning saying that that column doesn’t exist, while a data frame
+will just say “NULL”</li>
+<li>Tibbles always give you a tibble when subsetting. A data frame can
+give you a matrix or vector depending on whether the subsetted data
+conforms to the requirements for those objects</li>
+<li>Data frames do partial matching with column names. So if your column
+is “tree_hugger” and you call “tree”, it will assume you mean
+“tree_hugger”. A tibble will just say that the “tree” column doesn’t
+exist.</li>
+<li>Historical fact: data frames also used to coerce strings to factors,
+but it doesn’t anymore</li>
+</ul>
+</div>
+<div id="useful-dplyr-functions" class="section level1">
+<h1>Useful dplyr functions</h1>
+<p>The first argument of dplyr functions is always the data frame. Dplyr
+only takes a data frame or tibble, not a matrix or vector.</p>
+<p>Displaying data:</p>
+<ul>
+<li>names() - show the variable names of the data set</li>
+<li>glimpse() - show variable names and the first few objects per
+column</li>
+</ul>
+<p>Subsetting data:</p>
+<ul>
+<li>select() - pick columns by name
+<ul>
+<li>If you want multiple columns, just add them as more parameters</li>
+</ul></li>
+<li>slice() - pick rows using index</li>
+<li>filter() - subsetting rows based on some criteria</li>
+<li>distinct() - filter for unique rows</li>
+</ul>
+<p>Other:</p>
+<ul>
+<li>arrange() - reorder rows</li>
+<li>mutate() - add a new variable</li>
+<li>summarize() - reduce variables to values</li>
+<li>group_by() - for grouped operations (calculate per group, like split
+file in SPSS)</li>
+</ul>
+</div>
 
 
 
