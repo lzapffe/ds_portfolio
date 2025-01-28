@@ -28,6 +28,7 @@ Tibbles were made to make fewer assumptions (which were sometimes wrong) when de
 
 The first argument of dplyr functions is always the data frame. Dplyr only takes a data frame or tibble, not a matrix or vector.
 
+
 Displaying data:
 
 - names() - show the variable names of the data set
@@ -45,7 +46,26 @@ Subsetting data:
 
 Other:
 
-- arrange() - reorder rows
+- arrange() - reorder rows ascending
+  - Add desc() as a parameter to make it descending
 - mutate() - add a new variable
-- summarize() - reduce variables to values
 - group_by() - for grouped operations (calculate per group, like split file in SPSS)
+- rename() - rename columns
+
+
+Stats:
+
+- summarize() - reduce variables to values
+- summarize.at() - like summarize, but with multiple variables
+- count() - count instance of each value
+- n.distinct() - counts number of distinct instances
+
+
+Joining data frames:
+
+- left_join() - Take everything that matches with x in y and also include anything left over from x
+- right_join() - Take everything that matches with y in x and also include anything left over from y
+- full_join() - Take everything from all data frames
+- semi_join() - Only combine the rows that are common for both data frame x andy, but you only keep values from x. Essentially, it is like filtering data frame x to only keep the rows that is shared with y, but nothing is really combined from y
+- inner_join() - Just combine what rows are in common in both data frame x and y
+- anti_join() - Only keep what is different between data frame x and y

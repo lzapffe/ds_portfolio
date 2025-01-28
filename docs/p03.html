@@ -349,11 +349,37 @@ column</li>
 </ul>
 <p>Other:</p>
 <ul>
-<li>arrange() - reorder rows</li>
+<li>arrange() - reorder rows ascending
+<ul>
+<li>Add desc() as a parameter to make it descending</li>
+</ul></li>
 <li>mutate() - add a new variable</li>
-<li>summarize() - reduce variables to values</li>
 <li>group_by() - for grouped operations (calculate per group, like split
 file in SPSS)</li>
+<li>rename() - rename columns</li>
+</ul>
+<p>Stats:</p>
+<ul>
+<li>summarize() - reduce variables to values</li>
+<li>summarize.at() - like summarize, but with multiple variables</li>
+<li>count() - count instance of each value</li>
+<li>n.distinct() - counts number of distinct instances</li>
+</ul>
+<p>Joining data frames:</p>
+<ul>
+<li>left_join() - Take everything that matches with x in y and also
+include anything left over from x</li>
+<li>right_join() - Take everything that matches with y in x and also
+include anything left over from y</li>
+<li>full_join() - Take everything from all data frames</li>
+<li>semi_join() - Only combine the rows that are common for both data
+frame x andy, but you only keep values from x. Essentially, it is like
+filtering data frame x to only keep the rows that is shared with y, but
+nothing is really combined from y</li>
+<li>inner_join() - Just combine what rows are in common in both data
+frame x and y</li>
+<li>anti_join() - Only keep what is different between data frame x and
+y</li>
 </ul>
 </div>
 

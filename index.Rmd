@@ -8,8 +8,7 @@ I needed more practice or experience in.
 
 Current to-do's in the class:
 
-- Go over videos for module 2
-- Lab 2
-- Go over portfolio project 1 and hand it in
-- Go over grading contract and hand it in
 - Work on portfolio project 2
+- Make git pull request for contract
+- Work through module 3
+- Do lab 3

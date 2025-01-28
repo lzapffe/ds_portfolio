@@ -266,16 +266,287 @@ print(mat)
 
 2.2. Multiply each element of the matrix by 2 using vectorized operations.
 ```{r ex 2.2.}
-#mat_mult <- mapply()
+mat_mult <- mat*2
+mat_mult
+```
+
+2.3. Find the square of each element in the matrix.
+```{r ex. 2.3.}
+mat_square <- mat^2
+mat_square
+```
+
+2.4. Check which elements are greater than 5.
+```{r ex 2.4.}
+mat > 5
 ```
 
 
-2.3. Find the square of each element in the matrix.
-2.4. Check which elements are greater than 5.
+### 3. apply()
+
+Using apply()
+
+3.1. Create a matrix mat <- matrix(rnorm(20), nrow = 5).
+```{r ex 3.1.}
+mat <- matrix(rnorm(20), nrow = 5)
+mat
+```
+
+3.2. Use apply() to calculate the mean of each row.
+```{r ex 3.2.}
+apply(mat, MARGIN = 1,  mean)
+```
+
+3.3. Use apply() to find the sum of each column.
+```{r ex 3.3.}
+apply(mat, MARGIN = 2, sum)
+```
+
+3.4. Write a custom function that calculates the range (max - min) and use apply() to calculate the range for each row.
+```{r ex 3.4.}
+apply(mat, MARGIN = 1, function(x) {max(x)-min(x)})
+```
+
+I might actually be a genius. Just saying.
 
 
+### 4. Using lapply() and sapply()
+
+4.1. Create a list of numeric vectors:
+```{r ex 4.1.}
+my_list <- list(a = 1:5, b = rnorm(10), c = runif(20))
+my_list
+```
+
+4.2. Use lapply() to calculate the mean of each vector.
+```{r ex 4.2.}
+lapply(my_list, mean)
+```
+
+4.3. Use sapply() to calculate the standard deviation of each vector.
+```{r ex 4.3.}
+sapply(my_list, sd)
+```
+
+4.4. Create an anonymous function inside lapply() to find the sum of squares for each vector.
+```{r ex 4.4.}
+lapply(my_list, function(x) {sum(x^2)})
+```
+
+### 5. Using tapply()
+
+5.1. Create two vectors:
+```{r ex 5.1.}
+values <- c(10, 20, 30, 40, 50, 60, 70, 80)
+groups <- c("A", "A", "B", "B", "C", "C", "A", "B")
+```
+
+5.2. Use tapply() to calculate the mean of values grouped by groups.
+```{r ex 5.2.}
+tapply(values, groups, mean)
+```
+
+5.3. Use tapply() to count the number of elements in each group.
+```{r ex 5.3.}
+tapply(values, groups, length)
+```
+
+### 6. Using mapply() - Advanced
 
 
-You might have to write some quick notes of what each function does to help you navigate this
+6.1. Write a function power_fun <- function(base, exp) { base ^ exp }.
+```{r ex 6.1.}
+power_fun <- function(base, exp) { base ^ exp }
+```
+
+6.2. Use mapply() to apply this function to base = c(2, 3, 4) and exp = c(3, 2, 1).
+```{r ex 6.2.}
+base = c(2, 3, 4)
+exp = c(3, 2, 1)
+mapply(power_fun, base, exp)
+```
+
+6.3. Compare the output with the manual calculation of each base raised to its corresponding exponent.
+```{r ex 6.3.}
+for (i in 1:length(base)){
+  print(power_fun(base[i],exp[i]))
+}
+```
+
+### 7. Combining split() and lapply() - Advanced
+
+7.1. Create a data frame:
+```{r ex 7.1.}
+df <- data.frame(
+  id = 1:12,
+  group = rep(c("X", "Y", "Z"), each = 4),
+  score = rnorm(12, mean = 75, sd = 10)
+)
+df
+```
+
+7.2. Use split() to split the data frame by group.
+```{r ex 7.2.}
+split(df, df$group)
+```
+
+7.3. Use lapply() to calculate the mean score for each group.
+```{r ex 7.3.}
+lapply(split(df$score, df$group), mean)
+```
+
+7.4. Write a combined split() and lapply() operation to count the number of rows in each group.
+```{r ex 7.4.}
+lapply(split(df, df$group), nrow)
+```
+
+### 8. Simulating Data with mapply() - Advanced
+
+8.1. Simulate data for 5 different groups, each with a mean and standard deviation:
+```{r ex 8.1.}
+means <- c(5, 10, 15, 20, 25)
+sds <- c(1, 2, 3, 4, 5)
+n <- c(10, 15, 20, 25, 30)
+```
+
+8.2. Use mapply() to generate random normal data for each group using rnorm().
+```{r ex 8.2.}
+mapply(rnorm, n, means, sds)
+```
+
+### 9. Combining Multiple Functions - Challenge
+
+9.1. Create a data frame:
+```{r ex 9.1.}
+df <- data.frame(
+  category = rep(c("A", "B", "C"), each = 5),
+  value1 = rnorm(15, 50, 10),
+  value2 = rnorm(15, 30, 5)
+)
+df
+```
+
+9.2. Use split() and lapply() to calculate the mean of value1 and value2 for each category.
+```{r ex 9.2.}
+lapply(split(df$value1, df$category), mean)
+lapply(split(df$value2, df$category), mean)
+```
+
+9.3. Use mapply() to calculate the sum of squares for value1 and value2 for each category.
+```{r ex 9.3.}
+mapply(function(x) { sum(x)^2 }, split(df$value1, df$category))
+mapply(function(x) { sum(x)^2 }, split(df$value2, df$category))
+
+```
+
+9.4. Compare the results with a loop-based approach.
+```{r ex 9.4.}
+vect_a <- c()
+vect_b <- c()
+vect_c <- c()
+for (i in 1:length(df$category)){
+  if (df$category[i] == "A") {
+    vect_a <- append(vect_a, df$value1[i])
+  } else if (df$category[i] == "B") {
+    vect_b <- append(vect_b, df$value1[i])
+  } else {
+    vect_c <- append(vect_c, df$value1[i])
+  }
+}
+(mean(vect_a))
+(mean(vect_b))
+(mean(vect_c))
 
 
+```
+
+That was a lot more extensive and thought-consuming than using vectorized operations, I see the appeal
+
+
+### 10. Advanced Matrix Manipulations - Challenge
+
+10.1 Create a 3D array:
+```{r ex 10.1.}
+arr <- array(1:24, dim = c(4, 3, 2))
+arr
+```
+
+10.2. Use apply() to calculate the sum along each dimension.
+```{r ex 10.2.}
+apply(arr, MARGIN = 1, sum)
+apply(arr, MARGIN = 2, sum)
+apply(arr, MARGIN = 3, sum)
+```
+
+10.3. Use mapply() to scale the values in the array by different factors for each layer.
+```{r ex 10.3.}
+vect_mar <- c(1, 2, 3)
+vect_scale <- c(10, 2, 3)
+#mapply(function(x, y) {apply(arr, MARGIN = y, x*y)}, vect_mar, vect_scale)
+```
+
+I got stuck here. I don't know how to use anonymous functions to do this. This is the solution that ChatGPT gave (with different variable names):
+```{rex 10.3. Chat}
+arr <- array(1:24, dim = c(4, 3, 2))  # A 4x3x2 array
+factors <- c(2, 3)  # Scaling factors for each layer
+
+scaled_arr <- mapply(function(slice, factor) slice * factor,
+                     split(arr, slice.index(arr, 3)),  # Split by layers
+                     factors,
+                     SIMPLIFY = FALSE)  # Avoid simplifying to vectors
+scaled_arr <- array(unlist(scaled_arr), dim = dim(arr))  # Reshape to original dimensions
+```
+
+Turns out that I misunderstood what ChatGPT meant with layers. I though of that as being each dimension, but it meant each value of the third dimension. Here is the code ChatGPT gave me when I asked it to edit my code so that it would work:
+
+```{r ex 10.3. Chat based on my code}
+vect_mar <- c(1, 2)
+vect_scale <- c(10, 2)
+
+scaled_arr <- mapply(
+  function(margin, scale) {
+    # Giving the data set as all rows, all columns, but varying levels
+    apply(arr[, , margin], MARGIN = c(1, 2), function(x) x * scale)
+  },
+  vect_mar,
+  vect_scale,
+  # This part makes it so that the matrices are kept separate in the output and not combined + somehow making the third column part of first and second
+  SIMPLIFY = FALSE
+)
+
+scaled_arr
+```
+
+I sort of get it, but not 100%. I think my main challenge here though is the limitation in what I know about functions and maybe not so much the vectorized operations. Functions might be an interesting portfolio project for later. In the meantime, I will continue practicing vectorized operations.
+
+## Working from loops to vectorized operations - Exercises
+
+The following section will have some exercisees converting code using loops to vectorized operations. I wanted to do this because I feel like I can fairly easily think in terms of loops when designing code and I want to practice thinking with vectorized operations instead. In addition, it will help compare and contrast loops with vectorized operations. The exercises are taken from ChatGPT.
+
+### 11. Multiply Rows of a Matrix by a Vector
+
+Code with Loops:
+```{r ex 11 original}
+# A 4x3 matrix
+mat <- matrix(1:12, nrow = 4, ncol = 3)
+
+# A vector of scaling factors
+scaling <- c(2, 4, 6, 8)
+
+# Using a loop to multiply each row by its corresponding factor
+result <- matrix(0, nrow = 4, ncol = 3)
+for (i in 1:nrow(mat)) {
+  result[i, ] <- mat[i, ] * scaling[i]
+}
+result
+```
+
+```{r ex 11 new}
+mat <- matrix(1:12, nrow = 4, ncol = 3)
+scaling <- c(2, 4, 6, 8)
+#mapply(function(dat, scale) {})
+```
+
+I think, at this point, that I can't fully take advantage of the vectorized operations before I learn to deal with functions better. I will come back to this after I have worked through the module on functions. If I still feel like I need more practice after that module, I might make a separate portfolio project for that.
+
+Also, note to myself, look up vapply(). I don't have any notes on it.

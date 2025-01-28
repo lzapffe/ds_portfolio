@@ -5,7 +5,7 @@ title: "About This Website"
 This portfolio consists of 10 projects. These projects are:
 
 1. Improving the class contract - 100% finished
-2. Vectorized operations
+2. Vectorized operations - Paused until I learn more about functions
 3. Tidyverse vs base R
 4. ggplot
 5. Exploring data visualization libraries
@@ -15,4 +15,8 @@ This portfolio consists of 10 projects. These projects are:
 9. Data Wrangling of PAC data set
 10. Course improvements
 
-The course is contract grading and the following deadlines apply for the class:
+The projects were started in the following order:
+10, 1, 2, 4, 3
+
+The projects were finished in the following order:
+1, 
