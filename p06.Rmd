@@ -5,3 +5,128 @@ title: "Regex"
 Look at this book chapter that has a part on regex and which is what I used for vectorized operations: https://bookdown.org/rdpeng/rprogdatascience/regular-expressions.html
 
 Also this: https://r4ds.hadley.nz/regexps
+
+Goals of the current portfolio project:
+
+- Understand the overall logic of regex
+- Learning some basic regex expressions
+- Getting confident enough with regex that I can decode and make regex expressions, even if it requires some Googling to look up symbols
+- Demystifying regex
+
+
+## Basics of Regex
+
+Regex expressions consists of literals and metacharacers, which is like the actual words and grammar of a language.
+
+The simplest regex expression is to just have one literal and no metacharacters. For example, you can have the expression "golf" which gives you all the lines that contains the string "golf".
+
+Some of the metacharacters:
+
+- "^" means start of the line
+  - E.g. ^I think, will find all lines that start with "I think"
+- "$" means end of the line
+  - E.g. morning$ finds all lines that end with "morning"
+- "[]" allows for several charcters that would be accepted
+  - E.g. "[Bb] [Uu] [Ss] [Hh]" find all lines that have the word "bush" written, no matter whether the characters are all small letters, capital letters, or a mix between them. For example, "bush", "Bush", and "BUSH" would all be matched with this expression
+  - You can also include ranges of letters or numbers within the square brackets
+    - E.g. [a-z],[0-9], or [a-zA-Z]
+- "[^]" means do not match
+  - E.g. [^?.]$ would be all lines that do not end with ? or .
+- "." means any character
+  - E.g. 9.11 could match with "9-11", "9/11", and "9211"
+  - The period can also match nothing, like "911"
+- "|" means or
+  - E.g. flood|fire would match any line that contains flood or fire
+- "()" indicates that whatever is before it goes for everything inside of the parenthesis
+  - E.g. ^([Gg]ood|[Bb]ad) means that the line has to start with either "Good", "good", "Bad", or "bad". While ^[Gg]ood|[Bb]ad would mean that it has to start with "Good" or "good", or contain "Bad" or "bad"
+- "?" means that the part is optional
+  - [Gg]eorge( [Ww]\.)? [Bb]ush would accept "George W. Bush", but also just "George Bush"
+- "\" means you escape the regex meaning of that character
+  - [Gg]eorge( [Ww]\.)? [Bb]ush would mean you are looking for e.g. "George W. Bush" while just having [Gg]eorge( [Ww].)? [Bb]ush would mean there could be any character after the W, such as "George  WA Bush"
+- "*" means repeat any number of times, including 0
+  - E.g. (.*) would match with lines containing (), either empty or with any string of any length
+  - This metacharacter is greedy, meaning that it will match the longest possible match it can find
+    - E.g. ^s(.*)s will match with the whole string in "sitting in starbucks" and not just the "sitting in s" part, since it wants as much as possible
+    - You can turn off the greedy function with a "?", to make it lazy instead
+      - ^s(.*?)s$
+- "+" means repeated any number of times, but at least once
+  - E.g. (.+) would match () with any string of any length in it, but not empty
+- "{}" are interval ranges of how many times something can be repeated
+  - E.g. [Bb]ush( +[^ ]+ +){1,5} debate would match with any string that has "Bush" or "bush", then between one or five words, then the word "debate"
+  - You do not have to specify a range, you can also put in only one number, meaning that it has to be repeated exactly that number of times, or a number with a comma, meaning it has to be repeated at least the specified number of times, but with no upper limit
+    - E.g. {2} or {3,}
+- "\1" or any other number means find the repeat of what was matched earlier in the parentheses
+  - +([a-zA-Z]+) +\1 + would match any lines that have two words that are repeated after each other, such as "one one" or "so so"
+  
+  
+Most of these notes come from [this lecture]([https://www.youtube.com/watch?v=NvHjYOilOf8)
+
+
+## Regex functions in R
+
+Most of these notes are taken from the bookchapter on [Regular Expressions in the R Programming for Data Science book](https://bookdown.org/rdpeng/rprogdatascience/regular-expressions.html). In addition, some are also taken from this [Datacamp Regex tutorial](https://www.datacamp.com/tutorial/regex-r-regular-expressions-guide)
+
+Here are some of the main R functions used with regex:
+
+- grep() - Searches for matches with a regex and returns a vector with the indices for those matches
+  - Setting the parameter value = TRUE will return a vector with the actual string matches instead
+  - Only gives you the index of the whole relevant string, not where the match is on that string. regexpr() can give you the information of exactly where the match occur in the matched string
+- grepl() - Searches for matches with a regex and returns a vector with TRUE and FALSE values
+- regexpr() - Searches for matches with a regex and returns both the (first) start index of that match and the length of the string that matches
+  - Only gives you the first match of the string. If you want all matches, you have to use gregexpr()
+- gregexpr() - Searches for matches with a regex and returns both the start index of that match and the length of the string that matches. Returns all instances of the match, even if one the same string (i.e. item in the vector)
+  - The g here stands for global
+- sub() - Searches for matches with a regex and replaces that (first) match with what you specify
+  - Will only replace the first match in a string, if you want to replace all matches in the string, use gsub()
+- gsub() - Searches for matches with a regex and replaces that match with what you specify
+- regexec() - Searches for matches with a regex, where part of the regex is in a parenthesis, and returns both the start character index of the match and the length of it, as well as the start character index of the match with the part that is in the parenthesis and the length of that part
+  - E.g. regexec("<dd>[F|f]ound on (.*?)</dd>") would give both the start character index of the "<" that matches the rest of the expression and the length of the match, in addition to the first character index of the character starting after "on " and how long that is.
+- regmatches() - Like regexec(), but returns the actual matches of the string, as well as the part specified in the parenthesis
+- substr() - If you have the indeces of strings already, you can use substr() to extract the relevant string by index
+
+_
+### Tidyverse - Stringr
+
+Tidyverse has the library stringr which has a maybe more intuitive function setup and names. For example, all the functions take the data as the first argument and the regex as the second argument.
+
+- str_subset() - like grep(value = TRUE) which return a character vector with the matches
+- str_detect() - like grepl() which returns a TRUE/FALSE vector for matches
+- str_extract() - like regexpr() and regmatches(), which extracts the string matches of the output
+- str_match() - like regexec(), returning a matrix with the parenthesized sub-expressions
+  - First column is first character of match and second is first character of match with the content in the parenthesis
+- str_replace() - like sub(), replacing the first string
+- str_replace_all() - like gsub, replacing all the strings
+- str_locate() - like regexpr(), which returns the index of the first match and the length of the match, for the first match
+- str_locate_all() - like gregexpr(), which returns the index of the first match and the length of the match, for all the matches
+
+
+## Special characters from literals
+
+You can use a backslash to make normal literals a metacharacter. All of these should follow a backslahs, but aren't here as that is considered formatting in R:
+
+- w - any word character, including digit, letter, and underscore
+- W - any non-word character
+- d - any digit
+- D - any non-digit
+- s - any space character, including space, tab, and new line
+- S - any non-space character
+- b - a word boundary, such as a space after what is specified before this
+- B - a non-word boundary, such as another character after what is specified before this
+- n - a new line
+- t - a tab
+- v - a vertical tab
+
+
+## Built-in classes
+
+Some of the above can also be specified as built-in classes with the following formatting [:class:]. Most of these have alternatives above.
+
+- [:alpha:] - any letter
+- [:lower:] - any lowercase letter
+- [:upper:] - any uppercase letter
+- [:digit:] - any digit
+- [:alnum:] - any letter or number
+- [:xdigit:] - any hexadecimal digit
+- [:punct:] - any punctuation character
+- [:graph:] - any letter, number, or punctuation character
+- [:space:] - e.g. a space, a tab, or a new line

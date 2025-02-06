@@ -50,6 +50,9 @@ ggplot(data = penguins,
        caption = "Source: Palmer Station LTER / palmerpenguins package")
 ```
 
+You can also add geom_text() or geom_label() (creates a box around the label) to get text on the plot itself. If you don't want all the labels for the data points, filter out for example the top 10 and plot those
+  If your labels overlap, the easiest way to undo that is to use geom_labels_repel() in the ggrepel package
+
 
 ## Diff based on variable
 
@@ -280,5 +283,8 @@ ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
 
 
 
+## Geoms
 
+geom_rect() draws a rectangle around a point of interest
+geom_segment() draws an arrow to the point of interest
 

@@ -13,7 +13,7 @@
 
 <title>ggplot</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -337,6 +337,11 @@ where it shows up:</p>
        caption = &quot;Source: Palmer Station LTER / palmerpenguins package&quot;)</code></pre>
 <pre><code>## Warning: Removed 2 rows containing missing values (`geom_point()`).</code></pre>
 <p><img src="p04_files/figure-html/labels-1.png" width="672" /></p>
+<p>You can also add geom_text() or geom_label() (creates a box around
+the label) to get text on the plot itself. If you don’t want all the
+labels for the data points, filter out for example the top 10 and plot
+those If your labels overlap, the easiest way to undo that is to use
+geom_labels_repel() in the ggrepel package</p>
 </div>
 <div id="diff-based-on-variable" class="section level2">
 <h2>Diff based on variable</h2>
@@ -549,6 +554,11 @@ argument to geom_smooth(). See the following three examples</p>
 <pre><code>## Warning: Removed 2 rows containing non-finite values (`stat_smooth()`).</code></pre>
 <pre><code>## Warning: Removed 2 rows containing missing values (`geom_point()`).</code></pre>
 <p><img src="p04_files/figure-html/weird%20smooth%203-1.png" width="672" /></p>
+</div>
+<div id="geoms" class="section level2">
+<h2>Geoms</h2>
+<p>geom_rect() draws a rectangle around a point of interest
+geom_segment() draws an arrow to the point of interest</p>
 </div>
 </div>
 

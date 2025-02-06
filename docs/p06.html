@@ -13,7 +13,7 @@
 
 <title>Regex</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -301,6 +301,254 @@ href="https://bookdown.org/rdpeng/rprogdatascience/regular-expressions.html"
 class="uri">https://bookdown.org/rdpeng/rprogdatascience/regular-expressions.html</a></p>
 <p>Also this: <a href="https://r4ds.hadley.nz/regexps"
 class="uri">https://r4ds.hadley.nz/regexps</a></p>
+<p>Goals of the current portfolio project:</p>
+<ul>
+<li>Understand the overall logic of regex</li>
+<li>Learning some basic regex expressions</li>
+<li>Getting confident enough with regex that I can decode and make regex
+expressions, even if it requires some Googling to look up symbols</li>
+<li>Demystifying regex</li>
+</ul>
+<div id="basics-of-regex" class="section level2">
+<h2>Basics of Regex</h2>
+<p>Regex expressions consists of literals and metacharacers, which is
+like the actual words and grammar of a language.</p>
+<p>The simplest regex expression is to just have one literal and no
+metacharacters. For example, you can have the expression “golf” which
+gives you all the lines that contains the string “golf”.</p>
+<p>Some of the metacharacters:</p>
+<ul>
+<li>“^” means start of the line
+<ul>
+<li>E.g. ^I think, will find all lines that start with “I think”</li>
+</ul></li>
+<li>“<span class="math inline">\(&quot; means end of the line
+- E.g. morning\)</span> finds all lines that end with”morning”</li>
+<li>“[]” allows for several charcters that would be accepted
+<ul>
+<li>E.g. “[Bb] [Uu] [Ss] [Hh]” find all lines that have the word “bush”
+written, no matter whether the characters are all small letters, capital
+letters, or a mix between them. For example, “bush”, “Bush”, and “BUSH”
+would all be matched with this expression</li>
+<li>You can also include ranges of letters or numbers within the square
+brackets
+<ul>
+<li>E.g. [a-z],[0-9], or [a-zA-Z]</li>
+</ul></li>
+</ul></li>
+<li>“[^]” means do not match
+<ul>
+<li>E.g. [^?.]$ would be all lines that do not end with ? or .</li>
+</ul></li>
+<li>“.” means any character
+<ul>
+<li>E.g. 9.11 could match with “9-11”, “9/11”, and “9211”</li>
+<li>The period can also match nothing, like “911”</li>
+</ul></li>
+<li>“|” means or
+<ul>
+<li>E.g. flood|fire would match any line that contains flood or
+fire</li>
+</ul></li>
+<li>“()” indicates that whatever is before it goes for everything inside
+of the parenthesis
+<ul>
+<li>E.g. ^([Gg]ood|[Bb]ad) means that the line has to start with either
+“Good”, “good”, “Bad”, or “bad”. While <a href="#fn1"
+class="footnote-ref" id="fnref1"><sup>1</sup></a>ood|[Bb]ad would mean
+that it has to start with “Good” or “good”, or contain “Bad” or
+“bad”</li>
+</ul></li>
+<li>“?” means that the part is optional
+<ul>
+<li>[Gg]eorge( [Ww].)? [Bb]ush would accept “George W. Bush”, but also
+just “George Bush”</li>
+</ul></li>
+<li>“" means you escape the regex meaning of that character
+<ul>
+<li>[Gg]eorge( [Ww].)? [Bb]ush would mean you are looking for
+e.g. “George W. Bush” while just having [Gg]eorge( [Ww].)? [Bb]ush would
+mean there could be any character after the W, such as “George WA
+Bush”</li>
+</ul></li>
+<li>“*” means repeat any number of times, including 0
+<ul>
+<li>E.g. (.*) would match with lines containing (), either empty or with
+any string of any length</li>
+<li>This metacharacter is greedy, meaning that it will match the longest
+possible match it can find
+<ul>
+<li>E.g. ^s(.*)s will match with the whole string in “sitting in
+starbucks” and not just the “sitting in s” part, since it wants as much
+as possible</li>
+<li>You can turn off the greedy function with a “?”, to make it lazy
+instead
+<ul>
+<li>^s(.*?)s$</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>“+” means repeated any number of times, but at least once
+<ul>
+<li>E.g. (.+) would match () with any string of any length in it, but
+not empty</li>
+</ul></li>
+<li>“{}” are interval ranges of how many times something can be repeated
+<ul>
+<li>E.g. [Bb]ush( +[^ ]+ +){1,5} debate would match with any string that
+has “Bush” or “bush”, then between one or five words, then the word
+“debate”</li>
+<li>You do not have to specify a range, you can also put in only one
+number, meaning that it has to be repeated exactly that number of times,
+or a number with a comma, meaning it has to be repeated at least the
+specified number of times, but with no upper limit
+<ul>
+<li>E.g. {2} or {3,}</li>
+</ul></li>
+</ul></li>
+<li>“\1” or any other number means find the repeat of what was matched
+earlier in the parentheses
+<ul>
+<li>+([a-zA-Z]+) +\1 + would match any lines that have two words that
+are repeated after each other, such as “one one” or “so so”</li>
+</ul></li>
+</ul>
+<p>Most of these notes come from <a
+href="%5Bhttps://www.youtube.com/watch?v=NvHjYOilOf8">this
+lecture</a></p>
+</div>
+<div id="regex-functions-in-r" class="section level2">
+<h2>Regex functions in R</h2>
+<p>Most of these notes are taken from the bookchapter on <a
+href="https://bookdown.org/rdpeng/rprogdatascience/regular-expressions.html">Regular
+Expressions in the R Programming for Data Science book</a>. In addition,
+some are also taken from this <a
+href="https://www.datacamp.com/tutorial/regex-r-regular-expressions-guide">Datacamp
+Regex tutorial</a></p>
+<p>Here are some of the main R functions used with regex:</p>
+<ul>
+<li>grep() - Searches for matches with a regex and returns a vector with
+the indices for those matches
+<ul>
+<li>Setting the parameter value = TRUE will return a vector with the
+actual string matches instead</li>
+<li>Only gives you the index of the whole relevant string, not where the
+match is on that string. regexpr() can give you the information of
+exactly where the match occur in the matched string</li>
+</ul></li>
+<li>grepl() - Searches for matches with a regex and returns a vector
+with TRUE and FALSE values</li>
+<li>regexpr() - Searches for matches with a regex and returns both the
+(first) start index of that match and the length of the string that
+matches
+<ul>
+<li>Only gives you the first match of the string. If you want all
+matches, you have to use gregexpr()</li>
+</ul></li>
+<li>gregexpr() - Searches for matches with a regex and returns both the
+start index of that match and the length of the string that matches.
+Returns all instances of the match, even if one the same string
+(i.e. item in the vector)
+<ul>
+<li>The g here stands for global</li>
+</ul></li>
+<li>sub() - Searches for matches with a regex and replaces that (first)
+match with what you specify
+<ul>
+<li>Will only replace the first match in a string, if you want to
+replace all matches in the string, use gsub()</li>
+</ul></li>
+<li>gsub() - Searches for matches with a regex and replaces that match
+with what you specify</li>
+<li>regexec() - Searches for matches with a regex, where part of the
+regex is in a parenthesis, and returns both the start character index of
+the match and the length of it, as well as the start character index of
+the match with the part that is in the parenthesis and the length of
+that part
+<ul>
+<li>E.g. regexec(“
+<dd>
+[F|f]ound on (.*?)
+</dd>
+“) would give both the start character index of the”&lt;” that matches
+the rest of the expression and the length of the match, in addition to
+the first character index of the character starting after “on” and how
+long that is.</li>
+</ul></li>
+<li>regmatches() - Like regexec(), but returns the actual matches of the
+string, as well as the part specified in the parenthesis</li>
+<li>substr() - If you have the indeces of strings already, you can use
+substr() to extract the relevant string by index</li>
+</ul>
+<p>_ ### Tidyverse - Stringr</p>
+<p>Tidyverse has the library stringr which has a maybe more intuitive
+function setup and names. For example, all the functions take the data
+as the first argument and the regex as the second argument.</p>
+<ul>
+<li>str_subset() - like grep(value = TRUE) which return a character
+vector with the matches</li>
+<li>str_detect() - like grepl() which returns a TRUE/FALSE vector for
+matches</li>
+<li>str_extract() - like regexpr() and regmatches(), which extracts the
+string matches of the output</li>
+<li>str_match() - like regexec(), returning a matrix with the
+parenthesized sub-expressions
+<ul>
+<li>First column is first character of match and second is first
+character of match with the content in the parenthesis</li>
+</ul></li>
+<li>str_replace() - like sub(), replacing the first string</li>
+<li>str_replace_all() - like gsub, replacing all the strings</li>
+<li>str_locate() - like regexpr(), which returns the index of the first
+match and the length of the match, for the first match</li>
+<li>str_locate_all() - like gregexpr(), which returns the index of the
+first match and the length of the match, for all the matches</li>
+</ul>
+</div>
+<div id="special-characters-from-literals" class="section level2">
+<h2>Special characters from literals</h2>
+<p>You can use a backslash to make normal literals a metacharacter. All
+of these should follow a backslahs, but aren’t here as that is
+considered formatting in R:</p>
+<ul>
+<li>w - any word character, including digit, letter, and underscore</li>
+<li>W - any non-word character</li>
+<li>d - any digit</li>
+<li>D - any non-digit</li>
+<li>s - any space character, including space, tab, and new line</li>
+<li>S - any non-space character</li>
+<li>b - a word boundary, such as a space after what is specified before
+this</li>
+<li>B - a non-word boundary, such as another character after what is
+specified before this</li>
+<li>n - a new line</li>
+<li>t - a tab</li>
+<li>v - a vertical tab</li>
+</ul>
+</div>
+<div id="built-in-classes" class="section level2">
+<h2>Built-in classes</h2>
+<p>Some of the above can also be specified as built-in classes with the
+following formatting [:class:]. Most of these have alternatives
+above.</p>
+<ul>
+<li>[:alpha:] - any letter</li>
+<li>[:lower:] - any lowercase letter</li>
+<li>[:upper:] - any uppercase letter</li>
+<li>[:digit:] - any digit</li>
+<li>[:alnum:] - any letter or number</li>
+<li>[:xdigit:] - any hexadecimal digit</li>
+<li>[:punct:] - any punctuation character</li>
+<li>[:graph:] - any letter, number, or punctuation character</li>
+<li>[:space:] - e.g. a space, a tab, or a new line</li>
+</ul>
+</div>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p>Gg<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
 
 
 

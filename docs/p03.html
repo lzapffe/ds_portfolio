@@ -13,7 +13,7 @@
 
 <title>Tidyverse vs base R</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -353,7 +353,12 @@ column</li>
 <ul>
 <li>Add desc() as a parameter to make it descending</li>
 </ul></li>
-<li>mutate() - add a new variable</li>
+<li>mutate() - add a new variable
+<ul>
+<li>mutate( number_of_cats = case_when( name == “Ginger Clark” ~ “2”,
+name == “Doug Bass” ~ “3”, TRUE ~ number_of_cats ), number_of_cats =
+as.numeric(number_of_cats) )</li>
+</ul></li>
 <li>group_by() - for grouped operations (calculate per group, like split
 file in SPSS)</li>
 <li>rename() - rename columns</li>
@@ -381,6 +386,17 @@ frame x and y</li>
 <li>anti_join() - Only keep what is different between data frame x and
 y</li>
 </ul>
+<div id="forcats" class="section level2">
+<h2>Forcats</h2>
+<p>You can use path_package() to find the path for a file based on some
+strings to match</p>
+</div>
+<div id="other-packages" class="section level2">
+<h2>Other packages</h2>
+<p>readr to get files imported properly, for example, not having all
+strings converted to factors automatically such as happens with base
+r</p>
+</div>
 </div>
 
 

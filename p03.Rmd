@@ -77,3 +77,12 @@ Joining data frames:
 - semi_join() - Only combine the rows that are common for both data frame x andy, but you only keep values from x. Essentially, it is like filtering data frame x to only keep the rows that is shared with y, but nothing is really combined from y
 - inner_join() - Just combine what rows are in common in both data frame x and y
 - anti_join() - Only keep what is different between data frame x and y
+
+
+## Forcats
+
+You can use path_package() to find the path for a file based on some strings to match
+
+## Other packages
+
+readr to get files imported properly, for example, not having all strings converted to factors automatically such as happens with base r

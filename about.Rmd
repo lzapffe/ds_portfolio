@@ -10,7 +10,7 @@ This portfolio consists of 10 projects. These projects are:
 4. ggplot
 5. Exploring data visualization libraries
 6. Regex
-7. 
+7. GitKraken and advanced workflows
 8. 
 9. Data Wrangling of PAC data set
 10. Course improvements
