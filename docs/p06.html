@@ -301,6 +301,9 @@ href="https://bookdown.org/rdpeng/rprogdatascience/regular-expressions.html"
 class="uri">https://bookdown.org/rdpeng/rprogdatascience/regular-expressions.html</a></p>
 <p>Also this: <a href="https://r4ds.hadley.nz/regexps"
 class="uri">https://r4ds.hadley.nz/regexps</a></p>
+<p>Used the cheatsheet at this resrouce: <a
+href="https://hypebright.nl/en/r-en/ultimate-cheatsheet-for-regex-in-r-2/"
+class="uri">https://hypebright.nl/en/r-en/ultimate-cheatsheet-for-regex-in-r-2/</a></p>
 <p>Goals of the current portfolio project:</p>
 <ul>
 <li>Understand the overall logic of regex</li>
@@ -324,7 +327,7 @@ gives you all the lines that contains the string “golf”.</p>
 </ul></li>
 <li>“<span class="math inline">\(&quot; means end of the line
 - E.g. morning\)</span> finds all lines that end with”morning”</li>
-<li>“[]” allows for several charcters that would be accepted
+<li>“[]” allows for several characters that would be accepted
 <ul>
 <li>E.g. “[Bb] [Uu] [Ss] [Hh]” find all lines that have the word “bush”
 written, no matter whether the characters are all small letters, capital
@@ -359,7 +362,9 @@ class="footnote-ref" id="fnref1"><sup>1</sup></a>ood|[Bb]ad would mean
 that it has to start with “Good” or “good”, or contain “Bad” or
 “bad”</li>
 </ul></li>
-<li>“?” means that the part is optional
+<li>“?” means that the part is optional, but if you have, it can only
+happen once. It either has the character before it or nothing, but it
+can’t have anything else, and it can’t have anything else following it
 <ul>
 <li>[Gg]eorge( [Ww].)? [Bb]ush would accept “George W. Bush”, but also
 just “George Bush”</li>
@@ -370,6 +375,8 @@ just “George Bush”</li>
 e.g. “George W. Bush” while just having [Gg]eorge( [Ww].)? [Bb]ush would
 mean there could be any character after the W, such as “George WA
 Bush”</li>
+<li>You can also do this by enclosing the character in square brackets,
+e.g. [.] would match a period only</li>
 </ul></li>
 <li>“*” means repeat any number of times, including 0
 <ul>
@@ -388,7 +395,8 @@ instead
 </ul></li>
 </ul></li>
 </ul></li>
-<li>“+” means repeated any number of times, but at least once
+<li>“+” means repeated any number of times, but at least once In
+contrast to *, which is any number of times, including zero
 <ul>
 <li>E.g. (.+) would match () with any string of any length in it, but
 not empty</li>
@@ -407,10 +415,14 @@ specified number of times, but with no upper limit
 </ul></li>
 </ul></li>
 <li>“\1” or any other number means find the repeat of what was matched
-earlier in the parentheses
+earlier in the parentheses. The number represents what group to find the
+same match as.
 <ul>
+<li>E.g. (\d\d)\+(\d\d)=\2\+\1 could match 12+65=65+12</li>
 <li>+([a-zA-Z]+) +\1 + would match any lines that have two words that
 are repeated after each other, such as “one one” or “so so”</li>
+<li>You can use this with str_replace to switch the order of characters
+in a string</li>
 </ul></li>
 </ul>
 <p>Most of these notes come from <a
@@ -480,15 +492,32 @@ string, as well as the part specified in the parenthesis</li>
 <li>substr() - If you have the indeces of strings already, you can use
 substr() to extract the relevant string by index</li>
 </ul>
-<p>_ ### Tidyverse - Stringr</p>
+<div id="tidyverse---stringr" class="section level3">
+<h3>Tidyverse - Stringr</h3>
 <p>Tidyverse has the library stringr which has a maybe more intuitive
 function setup and names. For example, all the functions take the data
 as the first argument and the regex as the second argument.</p>
 <ul>
+<li>str_view() - shows you the string, where the match in your string is
+highlighed by being surrounded with &lt;&gt;</li>
 <li>str_subset() - like grep(value = TRUE) which return a character
-vector with the matches</li>
+vector with the matches only</li>
+<li>str_which() - returns an integer vector giving the position of the
+strings that match</li>
 <li>str_detect() - like grepl() which returns a TRUE/FALSE vector for
-matches</li>
+matches
+<ul>
+<li>You can combine filter and str_detect to filter by a regex
+<ul>
+<li>E.g. filter(str_detect(name, “x”))</li>
+</ul></li>
+<li>You can also combine summarize or other stat functions with filter
+to calculate stats by the regex
+<ul>
+<li>E.g. mean(str_detect(name, “x”)) will give proportions of names with
+an x in it per year</li>
+</ul></li>
+</ul></li>
 <li>str_extract() - like regexpr() and regmatches(), which extracts the
 string matches of the output</li>
 <li>str_match() - like regexec(), returning a matrix with the
@@ -503,7 +532,44 @@ character of match with the content in the parenthesis</li>
 match and the length of the match, for the first match</li>
 <li>str_locate_all() - like gregexpr(), which returns the index of the
 first match and the length of the match, for all the matches</li>
+<li>str_count() - counts the number of matches in each string
+<ul>
+<li>You can combine this with mutate to e.g. make a new variable
+counting the number of vowels in a string</li>
+</ul></li>
+<li>separete_wider_regex() - take information from one column and
+separete it into several columns based on a regex
+<ul>
+<li>E.g. separate_wider_regex(str, patterns = c(“&lt;”, name =
+“[A-Za-z]+”, “&gt;-”, gender = “.”, “_“, age =”[0-9]+“)) will get the
+information out of strings like”<Sheryl>-F_34”</li>
+<li>If it fails, you can apparently use too_few = “debug”, I don’t know
+what it does, but it should be helpful</li>
+</ul></li>
 </ul>
+<div id="optional-parameters" class="section level4">
+<h4>Optional parameters</h4>
+<ul>
+<li>ignore_case = TRUE - the regex will ignore whether the characters
+are lower or upper case</li>
+<li>dotall = TRUE - lets a . match everything, including a new
+line?</li>
+<li>multiline = TRUE - matches the start or end of each line instead of
+just each string
+<ul>
+<li>Instead of being lazy based on string, it is lazy based on each new
+line</li>
+</ul></li>
+<li>comments = TRUE - ignores spaces, newlines, and # and everything
+following it in your expression. You can therefore add spaces and
+comments in the middle of your expresison (with line shifts) to make it
+more readable
+<ul>
+<li>If you then want to match a space, escape it with a backslash</li>
+</ul></li>
+</ul>
+</div>
+</div>
 </div>
 <div id="special-characters-from-literals" class="section level2">
 <h2>Special characters from literals</h2>
@@ -517,31 +583,143 @@ considered formatting in R:</p>
 <li>D - any non-digit</li>
 <li>s - any space character, including space, tab, and new line</li>
 <li>S - any non-space character</li>
-<li>b - a word boundary, such as a space after what is specified before
-this</li>
+<li>b - a word boundary, such as a space or parenthesis before or after
+what is specified in the regex E.g. double backslash and bab matches
+“ab” in “abc”, but not “bab”, as that word doesn’t start or end with
+“ab”</li>
 <li>B - a non-word boundary, such as another character after what is
-specified before this</li>
+specified before this E.g. double backslash and Bab matches “ab” in
+“dabc”, but not “abc”, as that word starts start (or end) with “ab”</li>
 <li>n - a new line</li>
 <li>t - a tab</li>
 <li>v - a vertical tab</li>
+<li>&lt; - beginning of a word</li>
+<li><blockquote>
+<ul>
+<li>end of a word</li>
+</ul>
+</blockquote></li>
+<li>A - beginning of a string</li>
+<li>z or Z - end of a string Depends on programming language</li>
+</ul>
+</div>
+<div id="inline-modifiers" class="section level2">
+<h2>Inline Modifiers</h2>
+<p>Modifiers change the mode of the following regex part. You do not to
+include the following part in parenthesis</p>
+<ul>
+<li>(?i) - case-insensitive mode</li>
+<li>(?s) - ?</li>
+<li>(?m) - multiline mode</li>
+<li>(?x) - free-spacing mode</li>
+<li>(?n) - turns all parentheses into non-capture mode</li>
 </ul>
 </div>
 <div id="built-in-classes" class="section level2">
 <h2>Built-in classes</h2>
 <p>Some of the above can also be specified as built-in classes with the
-following formatting [:class:]. Most of these have alternatives
+following formatting [[:class:]]. Most of these have alternatives
 above.</p>
 <ul>
-<li>[:alpha:] - any letter</li>
-<li>[:lower:] - any lowercase letter</li>
-<li>[:upper:] - any uppercase letter</li>
-<li>[:digit:] - any digit</li>
-<li>[:alnum:] - any letter or number</li>
-<li>[:xdigit:] - any hexadecimal digit</li>
-<li>[:punct:] - any punctuation character</li>
-<li>[:graph:] - any letter, number, or punctuation character</li>
-<li>[:space:] - e.g. a space, a tab, or a new line</li>
+<li>[[:alpha:]] - any letter</li>
+<li>[[:lower:]] - any lowercase letter</li>
+<li>[[:upper:]] - any uppercase letter</li>
+<li>[[:digit:]] - any digit</li>
+<li>[[:alnum:]] - any letter or number</li>
+<li>[[:xdigit:]] - any hexadecimal digit</li>
+<li>[[:punct:]] - any punctuation character</li>
+<li>[[:graph:]] - any letter, number, or punctuation character</li>
+<li>[[:space:]] - e.g. a space, a tab, or a new line</li>
+<li>[[:blank:]] - blank characters, such as space and tab</li>
 </ul>
+</div>
+<div id="lookarounds" class="section level2">
+<h2>Lookarounds</h2>
+<p>Lookarounds will look for the match you specify, either before or
+after the match (based on your expression). It will only match if the
+lookaround condition is met, but it will not actually capture the part
+in the lookaround. Lookahead or lookbehind refers to whether it is
+actually moving in its matching</p>
+<ul>
+<li>(?=) - Positive lookahead
+<ul>
+<li>E.g. if you have (?=), it is similar as saying, if there are 10
+digits here, match the first 5 of them</li>
+</ul></li>
+<li>(?&lt;=) - Positive lookbehind
+<ul>
+<li>E.g. if you have (?&lt;=cat, it is simlar as saying if there is a
+number before “cat”, match with “cat”</li>
+</ul></li>
+<li>(?!) - Negative lookahead
+<ul>
+<li>E.g. if you have (?!theatre)the+, it is simlar to saying if the word
+isn’t preeceded by “theatre”, match “the” and any letter after it</li>
+</ul></li>
+<li>(?&lt;!) - Negative lookbehind
+<ul>
+<li>E.g. if you have (?&lt;!mon)ster, it is the same as saying if you
+have three letters, that are not “mon”, and the “ster”, match those
+three letters and “ster”</li>
+</ul></li>
+</ul>
+</div>
+<div id="other-more-advanced-stuff" class="section level2">
+<h2>Other more advanced stuff</h2>
+<ul>
+<li>(?:) - a non-capture group, so that you do not capture what is
+inside of the group</li>
+</ul>
+</div>
+<div id="exercises" class="section level1">
+<h1>Exercises</h1>
+<p>I asked ChatGPT to make me some exercises to practice using regex
+with incresing difficulty. I started out not giving it my notes to see
+what it would ask me to do and to see whether there is anything I might
+not have learned about yet.</p>
+<div id="exercise-1" class="section level2">
+<h2>Exercise 1</h2>
+<p>Match only the word “blue” but not “blues” or “blueberry”</p>
+<pre class="r"><code>string1 &lt;- c(&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;yellow&quot;, &quot;blues&quot;, &quot;blueberry&quot;, &quot;black&quot;)
+grep(&quot;[blue]$&quot;, string1, value = TRUE)</code></pre>
+<pre><code>## [1] &quot;blue&quot;</code></pre>
+</div>
+<div id="exercise-2" class="section level2">
+<h2>Exercise 2</h2>
+<p>Match “running”, “jumping”, and “swimming”, but not “run”, “jump”, or
+“swim”.</p>
+<pre class="r"><code>string2 &lt;- c(&quot;run&quot;, &quot;jump&quot;, &quot;swim&quot;, &quot;running&quot;, &quot;jumping&quot;, &quot;swimming&quot;, &quot;singer&quot;)
+grep(&quot;(ing)$&quot;, string2, value = TRUE)</code></pre>
+<pre><code>## [1] &quot;running&quot;  &quot;jumping&quot;  &quot;swimming&quot;</code></pre>
+</div>
+<div id="exercise-3" class="section level2">
+<h2>Exercise 3</h2>
+<p>Match “123”, “456”, and “999”, but not “12”, “1000”, or “a123”.</p>
+<pre class="r"><code>string3 &lt;- c(&quot;123&quot;, &quot;456&quot;, &quot;999&quot;, &quot;12&quot;, &quot;1000&quot;, &quot;a123&quot;, &quot;7890&quot;)
+grep(&quot;^[[:digit:]]{3}$&quot;, string3, value = TRUE)</code></pre>
+<pre><code>## [1] &quot;123&quot; &quot;456&quot; &quot;999&quot;</code></pre>
+</div>
+<div id="exercise-4" class="section level2">
+<h2>Exercise 4</h2>
+<p>Match “unhappy”, “unclear”, and “undo”, but not “fun”, “runner”, or
+“union”.</p>
+<pre class="r"><code>string4 &lt;- c(&quot;unhappy&quot;, &quot;unclear&quot;, &quot;undo&quot;, &quot;fun&quot;, &quot;runner&quot;, &quot;union&quot;, &quot;unique&quot;, &quot;under&quot;)
+grep(&quot;^(un)([[:alpha:]]{2}$|[[:alpha:]]{5})$&quot;, string4, value = TRUE)</code></pre>
+<pre><code>## [1] &quot;unhappy&quot; &quot;unclear&quot; &quot;undo&quot;</code></pre>
+</div>
+<div id="exercise-5" class="section level2">
+<h2>Exercise 5</h2>
+<p>Match “<a href="mailto:user@example.com"
+class="email">user@example.com</a>”, “<a
+href="mailto:test.email@domain.net"
+class="email">test.email@domain.net</a>”, but not “notAnEmail”, “<a
+href="mailto:missing@dotcom" class="email">missing@dotcom</a>”, or
+“<span class="citation">@missinguser.com</span>”.</p>
+<pre class="r"><code>string5 &lt;- c(&quot;user@example.com&quot;, &quot;test.email@domain.net&quot;, &quot;notAnEmail&quot;, &quot;missing@dotcom&quot;, &quot;@missinguser.com&quot;, &quot;valid123@server.org&quot;)
+grep(&quot;(@[^missing]|[^missing]@)&quot;, string5, value = TRUE)</code></pre>
+<pre><code>## [1] &quot;user@example.com&quot;      &quot;test.email@domain.net&quot; &quot;missing@dotcom&quot;       
+## [4] &quot;valid123@server.org&quot;</code></pre>
+</div>
 </div>
 <div class="footnotes footnotes-end-of-document">
 <hr />

@@ -6,6 +6,8 @@ Look at this book chapter that has a part on regex and which is what I used for 
 
 Also this: https://r4ds.hadley.nz/regexps
 
+Used the cheatsheet at this resrouce: https://hypebright.nl/en/r-en/ultimate-cheatsheet-for-regex-in-r-2/
+
 Goals of the current portfolio project:
 
 - Understand the overall logic of regex
@@ -26,7 +28,7 @@ Some of the metacharacters:
   - E.g. ^I think, will find all lines that start with "I think"
 - "$" means end of the line
   - E.g. morning$ finds all lines that end with "morning"
-- "[]" allows for several charcters that would be accepted
+- "[]" allows for several characters that would be accepted
   - E.g. "[Bb] [Uu] [Ss] [Hh]" find all lines that have the word "bush" written, no matter whether the characters are all small letters, capital letters, or a mix between them. For example, "bush", "Bush", and "BUSH" would all be matched with this expression
   - You can also include ranges of letters or numbers within the square brackets
     - E.g. [a-z],[0-9], or [a-zA-Z]
@@ -39,10 +41,11 @@ Some of the metacharacters:
   - E.g. flood|fire would match any line that contains flood or fire
 - "()" indicates that whatever is before it goes for everything inside of the parenthesis
   - E.g. ^([Gg]ood|[Bb]ad) means that the line has to start with either "Good", "good", "Bad", or "bad". While ^[Gg]ood|[Bb]ad would mean that it has to start with "Good" or "good", or contain "Bad" or "bad"
-- "?" means that the part is optional
+- "?" means that the part is optional, but if you have, it can only happen once. It either has the character before it or nothing, but it can't have anything else, and it can't have anything else following it
   - [Gg]eorge( [Ww]\.)? [Bb]ush would accept "George W. Bush", but also just "George Bush"
 - "\" means you escape the regex meaning of that character
   - [Gg]eorge( [Ww]\.)? [Bb]ush would mean you are looking for e.g. "George W. Bush" while just having [Gg]eorge( [Ww].)? [Bb]ush would mean there could be any character after the W, such as "George  WA Bush"
+  - You can also do this by enclosing the character in square brackets, e.g. [.] would match a period only
 - "*" means repeat any number of times, including 0
   - E.g. (.*) would match with lines containing (), either empty or with any string of any length
   - This metacharacter is greedy, meaning that it will match the longest possible match it can find
@@ -50,13 +53,16 @@ Some of the metacharacters:
     - You can turn off the greedy function with a "?", to make it lazy instead
       - ^s(.*?)s$
 - "+" means repeated any number of times, but at least once
+  In contrast to *, which is any number of times, including zero
   - E.g. (.+) would match () with any string of any length in it, but not empty
 - "{}" are interval ranges of how many times something can be repeated
   - E.g. [Bb]ush( +[^ ]+ +){1,5} debate would match with any string that has "Bush" or "bush", then between one or five words, then the word "debate"
   - You do not have to specify a range, you can also put in only one number, meaning that it has to be repeated exactly that number of times, or a number with a comma, meaning it has to be repeated at least the specified number of times, but with no upper limit
     - E.g. {2} or {3,}
-- "\1" or any other number means find the repeat of what was matched earlier in the parentheses
+- "\1" or any other number means find the repeat of what was matched earlier in the parentheses. The number represents what group to find the same match as.
+  - E.g. (\\d\\d)\\+(\\d\\d)=\2\\+\1 could match 12+65=65+12 
   - +([a-zA-Z]+) +\1 + would match any lines that have two words that are repeated after each other, such as "one one" or "so so"
+  - You can use this with str_replace to switch the order of characters in a string
   
   
 Most of these notes come from [this lecture]([https://www.youtube.com/watch?v=NvHjYOilOf8)
@@ -84,13 +90,19 @@ Here are some of the main R functions used with regex:
 - regmatches() - Like regexec(), but returns the actual matches of the string, as well as the part specified in the parenthesis
 - substr() - If you have the indeces of strings already, you can use substr() to extract the relevant string by index
 
-_
+
 ### Tidyverse - Stringr
 
 Tidyverse has the library stringr which has a maybe more intuitive function setup and names. For example, all the functions take the data as the first argument and the regex as the second argument.
 
-- str_subset() - like grep(value = TRUE) which return a character vector with the matches
+- str_view() - shows you the string, where the match in your string is highlighed by being surrounded with <>
+- str_subset() - like grep(value = TRUE) which return a character vector with the matches only
+- str_which() - returns an integer vector giving the position of the strings that match
 - str_detect() - like grepl() which returns a TRUE/FALSE vector for matches
+  - You can combine filter and str_detect to filter by a regex
+    - E.g. filter(str_detect(name, "x"))
+  - You can also combine summarize or other stat functions with filter to calculate stats by the regex
+    - E.g. mean(str_detect(name, "x")) will give proportions of names with an x in it per year
 - str_extract() - like regexpr() and regmatches(), which extracts the string matches of the output
 - str_match() - like regexec(), returning a matrix with the parenthesized sub-expressions
   - First column is first character of match and second is first character of match with the content in the parenthesis
@@ -98,6 +110,22 @@ Tidyverse has the library stringr which has a maybe more intuitive function setu
 - str_replace_all() - like gsub, replacing all the strings
 - str_locate() - like regexpr(), which returns the index of the first match and the length of the match, for the first match
 - str_locate_all() - like gregexpr(), which returns the index of the first match and the length of the match, for all the matches
+- str_count() - counts the number of matches in each string
+  - You can combine this with mutate to e.g. make a new variable counting the number of vowels in a string
+- separete_wider_regex() - take information from one column and separete it into several columns based on a regex
+  - E.g. separate_wider_regex(str, patterns = c("<", name = "[A-Za-z]+", ">-", gender = ".", "_", age = "[0-9]+")) will get the information out of strings like "<Sheryl>-F_34"
+  - If it fails, you can apparently use too_few = "debug", I don't know what it does, but it should be helpful
+
+
+#### Optional parameters
+
+- ignore_case = TRUE - the regex will ignore whether the characters are lower or upper case
+- dotall = TRUE - lets a . match everything, including a new line?
+- multiline = TRUE - matches the start or end of each line instead of just each string
+  - Instead of being lazy based on string, it is lazy based on each new line
+- comments = TRUE - ignores spaces, newlines, and # and everything following it in your expression. You can therefore add spaces and comments in the middle of your expresison (with line shifts) to make it more readable
+  - If you then want to match a space, escape it with a backslash
+  
 
 
 ## Special characters from literals
@@ -110,23 +138,110 @@ You can use a backslash to make normal literals a metacharacter. All of these sh
 - D - any non-digit
 - s - any space character, including space, tab, and new line
 - S - any non-space character
-- b - a word boundary, such as a space after what is specified before this
+- b - a word boundary, such as a space or parenthesis before or after what is specified in the regex
+  E.g. double backslash and bab matches "ab" in "abc", but not "bab", as that word doesn't start or end with "ab"
 - B - a non-word boundary, such as another character after what is specified before this
+  E.g. double backslash and Bab matches "ab" in "dabc", but not "abc", as that word starts start (or end) with "ab"
 - n - a new line
 - t - a tab
 - v - a vertical tab
+- < - beginning of a word
+- > - end of a word
+- A - beginning of a string
+- z or Z - end of a string
+  Depends on programming language
+  
+  
+## Inline Modifiers
+
+Modifiers change the mode of the following regex part. You do not to include the following part in parenthesis
+
+- (?i) - case-insensitive mode
+- (?s) - ?
+- (?m) - multiline mode
+- (?x) - free-spacing mode
+- (?n) - turns all parentheses into non-capture mode
+
 
 
 ## Built-in classes
 
-Some of the above can also be specified as built-in classes with the following formatting [:class:]. Most of these have alternatives above.
+Some of the above can also be specified as built-in classes with the following formatting [[:class:]]. Most of these have alternatives above.
 
-- [:alpha:] - any letter
-- [:lower:] - any lowercase letter
-- [:upper:] - any uppercase letter
-- [:digit:] - any digit
-- [:alnum:] - any letter or number
-- [:xdigit:] - any hexadecimal digit
-- [:punct:] - any punctuation character
-- [:graph:] - any letter, number, or punctuation character
-- [:space:] - e.g. a space, a tab, or a new line
+- [[:alpha:]] - any letter
+- [[:lower:]] - any lowercase letter
+- [[:upper:]] - any uppercase letter
+- [[:digit:]] - any digit
+- [[:alnum:]] - any letter or number
+- [[:xdigit:]] - any hexadecimal digit
+- [[:punct:]] - any punctuation character
+- [[:graph:]] - any letter, number, or punctuation character
+- [[:space:]] - e.g. a space, a tab, or a new line
+- [[:blank:]] - blank characters, such as space and tab
+
+
+## Lookarounds
+Lookarounds will look for the match you specify, either before or after the match (based on your expression). It will only match if the lookaround condition is met, but it will not actually capture the part in the lookaround. Lookahead or lookbehind refers to whether it is actually moving in its matching 
+
+- (?=) - Positive lookahead
+  - E.g. if you have (?=\d{10})\d{5}, it is similar as saying, if there are 10 digits here, match the first 5 of them
+- (?<=) - Positive lookbehind
+  - E.g. 	if you have (?<=\d)cat, it is simlar as saying if there is a number before "cat", match with "cat"
+- (?!) - Negative lookahead
+  - E.g. if you have (?!theatre)the\w+, it is simlar to saying if the word isn't preeceded by "theatre", match "the" and any letter after it
+- (?<!) - Negative lookbehind
+  - E.g. if you have \w{3}(?<!mon)ster, it is the same as saying if you have three letters, that are not "mon", and the "ster", match those three letters and "ster"
+
+
+## Other more advanced stuff
+
+- (?:) - a non-capture group, so that you do not capture what is inside of the group
+
+
+# Exercises
+
+I asked ChatGPT to make me some exercises to practice using regex with incresing difficulty. I started out not giving it my notes to see what it would ask me to do and to see whether there is anything I might not have learned about yet.
+
+## Exercise 1
+
+Match only the word "blue" but not "blues" or "blueberry"
+```{r ex-1}
+string1 <- c("red", "green", "blue", "yellow", "blues", "blueberry", "black")
+grep("[blue]$", string1, value = TRUE)
+```
+
+## Exercise 2
+
+Match "running", "jumping", and "swimming", but not "run", "jump", or "swim".
+```{r ex-2}
+string2 <- c("run", "jump", "swim", "running", "jumping", "swimming", "singer")
+grep("(ing)$", string2, value = TRUE)
+```
+
+## Exercise 3
+
+Match "123", "456", and "999", but not "12", "1000", or "a123".
+```{r ex-3}
+string3 <- c("123", "456", "999", "12", "1000", "a123", "7890")
+grep("^[[:digit:]]{3}$", string3, value = TRUE)
+```
+
+## Exercise 4
+
+Match "unhappy", "unclear", and "undo", but not "fun", "runner", or "union".
+```{r ex-4}
+string4 <- c("unhappy", "unclear", "undo", "fun", "runner", "union", "unique", "under")
+grep("^(un)([[:alpha:]]{2}$|[[:alpha:]]{5})$", string4, value = TRUE)
+```
+
+## Exercise 5
+
+Match "user@example.com", "test.email@domain.net", but not "notAnEmail", "missing@dotcom", or "@missinguser.com".
+```{r ex-5}
+string5 <- c("user@example.com", "test.email@domain.net", "notAnEmail", "missing@dotcom", "@missinguser.com", "valid123@server.org")
+grep("(@[^missing]|[^missing]@)", string5, value = TRUE)
+```
+
+
+
+
