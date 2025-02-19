@@ -1,5 +1,5 @@
 ---
-title: "ggplot"
+title: "ggplot + Data visualization libraries"
 ---
 
 # General information about ggplot

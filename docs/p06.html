@@ -423,7 +423,24 @@ same match as.
 are repeated after each other, such as “one one” or “so so”</li>
 <li>You can use this with str_replace to switch the order of characters
 in a string</li>
+<li>If you need more than 9 back-references (in which you should
+probably name them instead), some languages interpret \10 as a
+back-reference to 1 with a 0 afterward and other to the group 10. You
+can write it as \g{10} to make sure it is interpreted as the category
+10</li>
 </ul></li>
+<li>You can name a capture group with (?<NAME>regex)
+<ul>
+<li>It is a little unclear how to get the backreference, it should be
+either \k<NAME> or (?P=NAME). The code to capture the replacement string
+is also a little unclear, but could be ${NAME}, \g<NAME>, $+{NAME}, or
+it is not possible and you have to use just \1</li>
+</ul></li>
+<li>Capture groups are numbered from left to right, even if they do not
+capture anything. Likewise, if you run over a capture group several
+times, it will still just have that one number it got originally. If you
+capture several matches for one group, it will return the last match
+when called upon</li>
 </ul>
 <p>Most of these notes come from <a
 href="%5Bhttps://www.youtube.com/watch?v=NvHjYOilOf8">this
@@ -601,6 +618,16 @@ specified before this E.g. double backslash and Bab matches “ab” in
 </blockquote></li>
 <li>A - beginning of a string</li>
 <li>z or Z - end of a string Depends on programming language</li>
+<li>G - beginning of string or end of previous match
+<ul>
+<li>E.g. if you want to only get the results from Jane on a score board,
+you can use the following regex (?:Jane| +:() to get the numbers from
+“Tarzan A:33 B:32 C:36 Jane A:35 B:33 C:31”
+<ul>
+<li>You could also do this will lookbehinds, but G is more
+economical</li>
+</ul></li>
+</ul></li>
 </ul>
 </div>
 <div id="inline-modifiers" class="section level2">
@@ -608,11 +635,41 @@ specified before this E.g. double backslash and Bab matches “ab” in
 <p>Modifiers change the mode of the following regex part. You do not to
 include the following part in parenthesis</p>
 <ul>
-<li>(?i) - case-insensitive mode</li>
-<li>(?s) - ?</li>
-<li>(?m) - multiline mode</li>
-<li>(?x) - free-spacing mode</li>
-<li>(?n) - turns all parentheses into non-capture mode</li>
+<li><p>(?i) - case-insensitive mode</p></li>
+<li><p>(?s) - matches across lines</p>
+<ul>
+<li>Like if everything was on one line</li>
+</ul></li>
+<li><p>(?m) - multiline mode</p>
+<ul>
+<li>Usually, anchors like ^ or $ only match the beginning or end of a
+string. If you turn on multiline mode, it will match the end or
+beginning of each line instead</li>
+</ul></li>
+<li><p>(?x) - free-spacing mode</p>
+<ul>
+<li>You can write your regex with whitespace and line breaks that are
+not interpreted as characters to be matched. This allows for spacing out
+the regex to be more readable</li>
+<li>E.g. var wordWithDigitAndCapRegex = new Regex( @“(?x) # Free-spacing
+mode</li>
+</ul>
+<p>^ # Assert that position = beginning of string</p>
+<p id="lookahead" class="heading">Lookahead</p>
+<p>(?= # Start lookahead \D* # Match any non-digits \d # Match one digit
+) # End lookahead</p>
+<p id="matching-section" class="heading">Matching Section</p>
+<p>\w* # Match any word chars [A-Z] # Match one upper-case letter \w* #
+Match any word chars</p>
+<p>$ # Assert that position = end of string “);</p>
+<ul>
+<li>Now, to match a space, use either [ ] or “\”</li>
+<li>Also, make sure you turn on free-space mode before using a space or
+line break in your code</li>
+<li>Lastly, be aware that whitespace still separates components in the
+code. For example, \12 is different from \1 2</li>
+</ul></li>
+<li><p>(?n) - turns all parentheses into non-capture mode</p></li>
 </ul>
 </div>
 <div id="built-in-classes" class="section level2">
@@ -638,17 +695,21 @@ above.</p>
 <p>Lookarounds will look for the match you specify, either before or
 after the match (based on your expression). It will only match if the
 lookaround condition is met, but it will not actually capture the part
-in the lookaround. Lookahead or lookbehind refers to whether it is
-actually moving in its matching</p>
+in the lookaround. Lookahead or lookbehind refers to which direction it
+is looking in. The reason it doesn’t capture anything is that it is like
+it hasn’t moved further in reading the string when reaching a
+lookaround, is stays stagnant, looks ahead or behind (without moving)
+and then it starts moving when it gets to the code past the
+lookaround</p>
 <ul>
 <li>(?=) - Positive lookahead
 <ul>
-<li>E.g. if you have (?=), it is similar as saying, if there are 10
-digits here, match the first 5 of them</li>
+<li>E.g. if you have (?=\d{10})\d{5}, it is similar as saying, if there
+are 10 digits here, match the first 5 of them</li>
 </ul></li>
 <li>(?&lt;=) - Positive lookbehind
 <ul>
-<li>E.g. if you have (?&lt;=cat, it is simlar as saying if there is a
+<li>E.g. if you have (?&lt;=\d)cat, it is simlar as saying if there is a
 number before “cat”, match with “cat”</li>
 </ul></li>
 <li>(?!) - Negative lookahead
@@ -662,6 +723,22 @@ isn’t preeceded by “theatre”, match “the” and any letter after it</li>
 have three letters, that are not “mon”, and the “ster”, match those
 three letters and “ster”</li>
 </ul></li>
+<li>If you test multiple conditions, you can usually use n-1
+lookarounds, where n is the number of conditions you have. This is
+because you need to capture something too, so the last condition can be
+a capture group instead of a lookaround.</li>
+<li>Also be aware, if you test multiple conditions, that since the
+lookahead doesn’t move, if you have two lookaheads, they will start from
+the same position, not subsequent positions.</li>
+<li>When you decide on whether you should use a lookahead or lookbehind,
+see what would require matching the fewest characters. There is usually
+one position that is more efficient than the other.</li>
+<li>You can nest lookarounds, for example this regex
+\d+(?=<em>(?!</em>)) to find numbers that is followed by one, but not
+more than one underscore.</li>
+<li>It is often good practice to anchor lookarounds, as that makes them
+fail or succeed immediately, instead of running through the whole
+string, as long as that is not what we want to do</li>
 </ul>
 </div>
 <div id="other-more-advanced-stuff" class="section level2">
@@ -669,7 +746,34 @@ three letters and “ster”</li>
 <ul>
 <li>(?:) - a non-capture group, so that you do not capture what is
 inside of the group</li>
+<li>[[:&lt;:]] - beginning of word boundary. Only match if at the
+beginning of a word. Nothing can come before it, the word starts with
+what has been provided
+<ul>
+<li>E.g. [[:&lt;:]]cat matches cat and catfish, but not tomcat</li>
+<li>Similar to ?=)?</li>
+</ul></li>
+<li>[[:&gt;:]] - end of word boundary, nothing can come after it, the
+word stops there
+<ul>
+<li>E.g. cat[[:&gt;:]] matches cat and tomcat, but not catfish</li>
+<li>Similar to ?&lt;=)?</li>
+</ul></li>
 </ul>
+<p>There is a difference between delimiters and boundaries. Boundaries
+look at whether there is a difference between what comes before and
+after the relevant part. A lookaround will only look in one direction.
+You can however use both a lookahead and lookbehind to detect
+boundaries.</p>
+<p>If you make a boundary yourself, you can define it and then later
+call it by that name. For example:</p>
+<p>(?x) # free-spacing mode (?(DEFINE) # Define some subroutines (?<A1>
+# Define “A1” boundary # This boundary matches when # one side is a
+letter and # the other is a number
+(?i)(?&lt;=^|\d)(?=[a-z])|(?&lt;=[a-z])(?=$|\d) ) # End A1 definition )
+# End DEFINE</p>
+<p>The actual regex matching starts here We can use our “A1” boundary
+wherever we like (?&amp;A1)cat(?&amp;A1)</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>

@@ -63,6 +63,10 @@ Some of the metacharacters:
   - E.g. (\\d\\d)\\+(\\d\\d)=\2\\+\1 could match 12+65=65+12 
   - +([a-zA-Z]+) +\1 + would match any lines that have two words that are repeated after each other, such as "one one" or "so so"
   - You can use this with str_replace to switch the order of characters in a string
+  - If you need more than 9 back-references (in which you should probably name them instead), some languages interpret \\10 as a back-reference to 1 with a 0 afterward and other to the group 10. You can write it as \\g{10} to make sure it is interpreted as the category 10
+- You can name a capture group with (?<NAME>regex)
+  - It is a little unclear how to get the backreference, it should be either \\k<NAME> or (?P=NAME). The code to capture the replacement string is also a little unclear, but could be ${NAME}, \\g<NAME>, $+{NAME}, or it is not possible and you have to use just \\1
+- Capture groups are numbered from left to right, even if they do not capture anything. Likewise, if you run over a capture group several times, it will still just have that one number it got originally. If you capture several matches for one group, it will return the last match when called upon
   
   
 Most of these notes come from [this lecture]([https://www.youtube.com/watch?v=NvHjYOilOf8)
@@ -150,6 +154,9 @@ You can use a backslash to make normal literals a metacharacter. All of these sh
 - A - beginning of a string
 - z or Z - end of a string
   Depends on programming language
+- G - beginning of string or end of previous match
+  - E.g. if you want to only get the results from Jane on a score board, you can use the following regex (?:Jane|\G) \w+:(\d+) to get the numbers from "Tarzan A:33 B:32 C:36 Jane A:35 B:33 C:31"
+    - You could also do this will lookbehinds, but G is more economical
   
   
 ## Inline Modifiers
@@ -157,9 +164,33 @@ You can use a backslash to make normal literals a metacharacter. All of these sh
 Modifiers change the mode of the following regex part. You do not to include the following part in parenthesis
 
 - (?i) - case-insensitive mode
-- (?s) - ?
+- (?s) - matches across lines
+  - Like if everything was on one line
 - (?m) - multiline mode
+  - Usually, anchors like ^ or $ only match the beginning or end of a string. If you turn on multiline mode, it will match the end or beginning of each line instead
 - (?x) - free-spacing mode
+  - You can write your regex with whitespace and line breaks that are not interpreted as characters to be matched. This allows for spacing out the regex to be more readable
+  - E.g. var wordWithDigitAndCapRegex = new Regex(
+@"(?x)      # Free-spacing mode
+
+  ^         # Assert that position = beginning of string
+  
+  #########   Lookahead   ##########
+  (?=       # Start lookahead
+     \\D*       # Match any non-digits
+     \\d        # Match one digit
+  )         # End lookahead
+
+  ######## Matching Section ########
+  \\w*       # Match any word chars
+  [A-Z]     # Match one upper-case letter
+  \\w*       # Match any word chars
+  
+  $         # Assert that position = end of string
+");
+  - Now, to match a space, use either [ ] or "\\ "
+  - Also, make sure you turn on free-space mode before using a space or line break in your code
+  - Lastly, be aware that whitespace still separates components in the code. For example, \\12 is different from \\1 2
 - (?n) - turns all parentheses into non-capture mode
 
 
@@ -181,21 +212,51 @@ Some of the above can also be specified as built-in classes with the following f
 
 
 ## Lookarounds
-Lookarounds will look for the match you specify, either before or after the match (based on your expression). It will only match if the lookaround condition is met, but it will not actually capture the part in the lookaround. Lookahead or lookbehind refers to whether it is actually moving in its matching 
+Lookarounds will look for the match you specify, either before or after the match (based on your expression). It will only match if the lookaround condition is met, but it will not actually capture the part in the lookaround. Lookahead or lookbehind refers to which direction it is looking in. The reason it doesn't capture anything is that it is like it hasn't moved further in reading the string when reaching a lookaround, is stays stagnant, looks ahead or behind (without moving) and then it starts moving when it gets to the code past the lookaround 
 
 - (?=) - Positive lookahead
-  - E.g. if you have (?=\d{10})\d{5}, it is similar as saying, if there are 10 digits here, match the first 5 of them
+  - E.g. if you have (?=\\d{10})\\d{5}, it is similar as saying, if there are 10 digits here, match the first 5 of them
 - (?<=) - Positive lookbehind
-  - E.g. 	if you have (?<=\d)cat, it is simlar as saying if there is a number before "cat", match with "cat"
+  - E.g. 	if you have (?<=\\d)cat, it is simlar as saying if there is a number before "cat", match with "cat"
 - (?!) - Negative lookahead
   - E.g. if you have (?!theatre)the\w+, it is simlar to saying if the word isn't preeceded by "theatre", match "the" and any letter after it
 - (?<!) - Negative lookbehind
   - E.g. if you have \w{3}(?<!mon)ster, it is the same as saying if you have three letters, that are not "mon", and the "ster", match those three letters and "ster"
+  
+- If you test multiple conditions, you can usually use n-1 lookarounds, where n is the number of conditions you have. This is because you need to capture something too, so the last condition can be a capture group instead of a lookaround.
+- Also be aware, if you test multiple conditions, that since the lookahead doesn't move, if you have two lookaheads, they will start from the same position, not subsequent positions.
+- When you decide on whether you should use a lookahead or lookbehind, see what would require matching the fewest characters. There is usually one position that is more efficient than the other.
+- You can nest lookarounds, for example this regex \\d+(?=_(?!_)) to find numbers that is followed by one, but not more than one underscore.
+- It is often good practice to anchor lookarounds, as that makes them fail or succeed immediately, instead of running through the whole string, as long as that is not what we want to do
 
 
 ## Other more advanced stuff
 
 - (?:) - a non-capture group, so that you do not capture what is inside of the group
+- [[:<:]] - beginning of word boundary. Only match if at the beginning of a word. Nothing can come before it, the word starts with what has been provided
+  - E.g. [[:<:]]cat matches cat and catfish, but not tomcat
+  - Similar to \b(?=\w)?
+- [[:>:]] - end of word boundary, nothing can come after it, the word stops there
+  - E.g. cat[[:>:]] matches cat and tomcat, but not catfish
+  - Similar to \b(?<=\w)?
+
+There is a difference between delimiters and boundaries. Boundaries look at whether there is a difference between what comes before and after the relevant part. A lookaround will only look in one direction. You can however use both a lookahead and lookbehind to detect boundaries.
+
+If you make a boundary yourself, you can define it and then later call it by that name. For example:
+
+(?x)             # free-spacing mode
+(?(DEFINE)       # Define some subroutines
+   (?<A1>           # Define "A1" boundary
+                    # This boundary matches when
+                    # one side is a letter and
+                    # the other is a number
+   (?i)(?<=^|\\d)(?=[a-z])|(?<=[a-z])(?=$|\\d)
+   )                # End A1 definition
+)                # End DEFINE
+
+The actual regex matching starts here
+We can use our "A1" boundary wherever we like
+(?&A1)cat(?&A1)
 
 
 # Exercises
