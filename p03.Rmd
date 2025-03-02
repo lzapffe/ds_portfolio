@@ -86,3 +86,13 @@ You can use path_package() to find the path for a file based on some strings to 
 ## Other packages
 
 readr to get files imported properly, for example, not having all strings converted to factors automatically such as happens with base r
+
+
+## To do list
+
+- Add in how to integrate base R into pipelines if needed
+- Discuss piping (how to do it + benefits of it)
+  - Less repetitive code
+- Make an overview of the Tidyverse packages and what they do
+- Do a deep dive into some of the packages and go over useful functions
+- Discuss how Tidyverse usually has functions for things that would take a lot of code to do in base R - one benefit

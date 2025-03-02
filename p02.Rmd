@@ -549,4 +549,9 @@ scaling <- c(2, 4, 6, 8)
 
 I think, at this point, that I can't fully take advantage of the vectorized operations before I learn to deal with functions better. I will come back to this after I have worked through the module on functions. If I still feel like I need more practice after that module, I might make a separate portfolio project for that.
 
-Also, note to myself, look up vapply(). I don't have any notes on it.
+## To do list for finishing the project
+
+- Add information about vapply()
+- Add a quick guide/summary of the functions to the end of the document
+- Figure out how to use nested anonymous functions
+- Add the scenario from data wrangling the PAC data where the for loop worked better than vectorized operations because it is recursive

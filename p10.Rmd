@@ -1,5 +1,5 @@
 ---
-title: "Suggestions for Course Improvements"
+title: "Automating the Scoring of the Sleepin' Deacon Challenge"
 ---
 
-Text
+I am making a script that will automatically score the Sleepin' Deacon challenge they have at Wake Forest University, so that they do not have to do it manually, like they are doing now. Most of this is currently happening in a private repo, since it uses confidential data. However, I will eventually make some fake data that can be shown here to illustrate my code and what it is doing.

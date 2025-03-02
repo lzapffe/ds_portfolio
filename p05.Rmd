@@ -109,3 +109,11 @@ One of the hardest parts of webscraping is finding the selectors you need to get
 ## Dynamic sites
 
 If what you see on the webpage isn't the same as in the html object you get, you are probably dealing with a dynamic page. In that case, html_element() and rvest won't work, since they download the static html object. Instead, the webpage dynamically makes the content with javascript. To webscrape these dynamic pages, you need to simulate running the webpage, so that Javascript is running, while extracting data.
+
+
+## To do list
+
+- Figure out how to read dynamic html webpages
+- Look into their API and get the data from there too
+- Get the Python data set and get data from there too
+- Discuss the benefits and drawbacks of the 3 different approaches for getting the data from the webpage

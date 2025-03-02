@@ -2,6 +2,8 @@
 title: "Data Wrangling of PAC Data Set"
 ---
 
+Most of the work on this project is happening in a private repo since the data is confidential. When I am done with it, I will make some fake data and demonstrate what I did here.
+
 ## Pivoting from wide to long
 
 I have a fairly tricky wide to long conversion. To get the right function, I will build it up in layers, starting with getting one and one thing correct and then adding additional challenges from the original data set until I get the entire conversion right.

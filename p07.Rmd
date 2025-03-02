@@ -69,3 +69,10 @@ The trunk-based flow involves a different view on branches, as having many branc
 ## Reflections on Git Workflows
 
 I don't typically create code that needs to be in different versions, so I think something like Git flow that has 5 different types of branches might be a little more complicated than what I need. However, I find the idea of using GitHub flow, with only feature and main branches, intriguing. I get the benefit of using a trunk-based method, so that one doesn't have to deal with merge conflicts all the time. However, even though it requires a little more work in terms of keeping an overview to make sure features aren't overlapping, it seems like the workflow could be better organized with a flow like GitHub. For example, if working on some data wrangling, I could have one branch for main, one for running some more advanced models, one for data wrangling, and one for drawing inferences from some statistical tests. This would separate the different actions more and also give a much better overview (at least in GitKraken) of the different mini-projects I am working on. I therefore want to try out using GitHub with GitKraken and see how much of a problem merge conflicts might become. If it gets too complicated, a trunk-based method might be better. However, I do want to at least try to GitHub flow method first.
+
+
+## To do list
+
+- Finish working through the GitKraken introductory course and get the certification
+- Add the notes (that are currently hand-written) from the course to this page
+- Practice some of the GitKraken features, for example by creating pull requests to add the contract from project 1 to the course

@@ -288,3 +288,10 @@ ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
 geom_rect() draws a rectangle around a point of interest
 geom_segment() draws an arrow to the point of interest
 
+
+## To do list
+
+- Add info about grammar of graphics
+- Explore making ggplot APA style
+- Explore different things one can do with ggplot
+- Explore other libraries for data visualization too?

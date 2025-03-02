@@ -775,55 +775,16 @@ letter and # the other is a number
 <p>The actual regex matching starts here We can use our “A1” boundary
 wherever we like (?&amp;A1)cat(?&amp;A1)</p>
 </div>
-<div id="exercises" class="section level1">
-<h1>Exercises</h1>
-<p>I asked ChatGPT to make me some exercises to practice using regex
-with incresing difficulty. I started out not giving it my notes to see
-what it would ask me to do and to see whether there is anything I might
-not have learned about yet.</p>
-<div id="exercise-1" class="section level2">
-<h2>Exercise 1</h2>
-<p>Match only the word “blue” but not “blues” or “blueberry”</p>
-<pre class="r"><code>string1 &lt;- c(&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;yellow&quot;, &quot;blues&quot;, &quot;blueberry&quot;, &quot;black&quot;)
-grep(&quot;[blue]$&quot;, string1, value = TRUE)</code></pre>
-<pre><code>## [1] &quot;blue&quot;</code></pre>
-</div>
-<div id="exercise-2" class="section level2">
-<h2>Exercise 2</h2>
-<p>Match “running”, “jumping”, and “swimming”, but not “run”, “jump”, or
-“swim”.</p>
-<pre class="r"><code>string2 &lt;- c(&quot;run&quot;, &quot;jump&quot;, &quot;swim&quot;, &quot;running&quot;, &quot;jumping&quot;, &quot;swimming&quot;, &quot;singer&quot;)
-grep(&quot;(ing)$&quot;, string2, value = TRUE)</code></pre>
-<pre><code>## [1] &quot;running&quot;  &quot;jumping&quot;  &quot;swimming&quot;</code></pre>
-</div>
-<div id="exercise-3" class="section level2">
-<h2>Exercise 3</h2>
-<p>Match “123”, “456”, and “999”, but not “12”, “1000”, or “a123”.</p>
-<pre class="r"><code>string3 &lt;- c(&quot;123&quot;, &quot;456&quot;, &quot;999&quot;, &quot;12&quot;, &quot;1000&quot;, &quot;a123&quot;, &quot;7890&quot;)
-grep(&quot;^[[:digit:]]{3}$&quot;, string3, value = TRUE)</code></pre>
-<pre><code>## [1] &quot;123&quot; &quot;456&quot; &quot;999&quot;</code></pre>
-</div>
-<div id="exercise-4" class="section level2">
-<h2>Exercise 4</h2>
-<p>Match “unhappy”, “unclear”, and “undo”, but not “fun”, “runner”, or
-“union”.</p>
-<pre class="r"><code>string4 &lt;- c(&quot;unhappy&quot;, &quot;unclear&quot;, &quot;undo&quot;, &quot;fun&quot;, &quot;runner&quot;, &quot;union&quot;, &quot;unique&quot;, &quot;under&quot;)
-grep(&quot;^(un)([[:alpha:]]{2}$|[[:alpha:]]{5})$&quot;, string4, value = TRUE)</code></pre>
-<pre><code>## [1] &quot;unhappy&quot; &quot;unclear&quot; &quot;undo&quot;</code></pre>
-</div>
-<div id="exercise-5" class="section level2">
-<h2>Exercise 5</h2>
-<p>Match “<a href="mailto:user@example.com"
-class="email">user@example.com</a>”, “<a
-href="mailto:test.email@domain.net"
-class="email">test.email@domain.net</a>”, but not “notAnEmail”, “<a
-href="mailto:missing@dotcom" class="email">missing@dotcom</a>”, or
-“<span class="citation">@missinguser.com</span>”.</p>
-<pre class="r"><code>string5 &lt;- c(&quot;user@example.com&quot;, &quot;test.email@domain.net&quot;, &quot;notAnEmail&quot;, &quot;missing@dotcom&quot;, &quot;@missinguser.com&quot;, &quot;valid123@server.org&quot;)
-grep(&quot;(@[^missing]|[^missing]@)&quot;, string5, value = TRUE)</code></pre>
-<pre><code>## [1] &quot;user@example.com&quot;      &quot;test.email@domain.net&quot; &quot;missing@dotcom&quot;       
-## [4] &quot;valid123@server.org&quot;</code></pre>
-</div>
+<div id="to-do-list" class="section level2">
+<h2>To do list</h2>
+<ul>
+<li>Work through the last few crossword regex exercises and document
+it</li>
+<li>Go through the last black belt pages on rexegg page</li>
+<li>Go over all your notes and organize it better</li>
+<li>Check the formatting of the rendered document. The special
+characters tends to be read as a special character by rmarkdown</li>
+</ul>
 </div>
 <div class="footnotes footnotes-end-of-document">
 <hr />

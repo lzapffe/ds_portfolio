@@ -259,50 +259,12 @@ We can use our "A1" boundary wherever we like
 (?&A1)cat(?&A1)
 
 
-# Exercises
 
-I asked ChatGPT to make me some exercises to practice using regex with incresing difficulty. I started out not giving it my notes to see what it would ask me to do and to see whether there is anything I might not have learned about yet.
+## To do list
 
-## Exercise 1
-
-Match only the word "blue" but not "blues" or "blueberry"
-```{r ex-1}
-string1 <- c("red", "green", "blue", "yellow", "blues", "blueberry", "black")
-grep("[blue]$", string1, value = TRUE)
-```
-
-## Exercise 2
-
-Match "running", "jumping", and "swimming", but not "run", "jump", or "swim".
-```{r ex-2}
-string2 <- c("run", "jump", "swim", "running", "jumping", "swimming", "singer")
-grep("(ing)$", string2, value = TRUE)
-```
-
-## Exercise 3
-
-Match "123", "456", and "999", but not "12", "1000", or "a123".
-```{r ex-3}
-string3 <- c("123", "456", "999", "12", "1000", "a123", "7890")
-grep("^[[:digit:]]{3}$", string3, value = TRUE)
-```
-
-## Exercise 4
-
-Match "unhappy", "unclear", and "undo", but not "fun", "runner", or "union".
-```{r ex-4}
-string4 <- c("unhappy", "unclear", "undo", "fun", "runner", "union", "unique", "under")
-grep("^(un)([[:alpha:]]{2}$|[[:alpha:]]{5})$", string4, value = TRUE)
-```
-
-## Exercise 5
-
-Match "user@example.com", "test.email@domain.net", but not "notAnEmail", "missing@dotcom", or "@missinguser.com".
-```{r ex-5}
-string5 <- c("user@example.com", "test.email@domain.net", "notAnEmail", "missing@dotcom", "@missinguser.com", "valid123@server.org")
-grep("(@[^missing]|[^missing]@)", string5, value = TRUE)
-```
-
-
+- Work through the last few crossword regex exercises and document it
+- Go through the last black belt pages on rexegg page
+- Go over all your notes and organize it better
+- Check the formatting of the rendered document. The special characters tends to be read as a special character by rmarkdown
 
 

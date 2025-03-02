@@ -295,6 +295,9 @@ $(document).ready(function () {
 </div>
 
 
+<p>Most of the work on this project is happening in a private repo since
+the data is confidential. When I am done with it, I will make some fake
+data and demonstrate what I did here.</p>
 <div id="pivoting-from-wide-to-long" class="section level2">
 <h2>Pivoting from wide to long</h2>
 <p>I have a fairly tricky wide to long conversion. To get the right
@@ -302,12 +305,17 @@ function, I will build it up in layers, starting with getting one and
 one thing correct and then adding additional challenges from the
 original data set until I get the entire conversion right.</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.3.3</code></pre>
+<pre><code>## Warning: package &#39;tidyr&#39; was built under R version 4.3.3</code></pre>
+<pre><code>## Warning: package &#39;readr&#39; was built under R version 4.3.3</code></pre>
+<pre><code>## Warning: package &#39;purrr&#39; was built under R version 4.3.3</code></pre>
+<pre><code>## Warning: package &#39;lubridate&#39; was built under R version 4.3.3</code></pre>
 <pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.4     ✔ readr     2.1.4
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-## ✔ ggplot2   3.4.4     ✔ tibble    3.2.1
-## ✔ lubridate 1.9.3     ✔ tidyr     1.3.0
-## ✔ purrr     1.0.2     
+## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+## ✔ purrr     1.0.4     
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
@@ -378,25 +386,25 @@ y2YSR1 &lt;- c(1, 3)
 y3YSR1 &lt;- c(2, 4)
 y2YSR2 &lt;- c(5, 6)
 y3YSR2 &lt;- c(7, 8)
-f2HHOG &lt;- c(11, 12)
+f2HHOG_f &lt;- c(11, 12)
 
-data &lt;- tibble(id, y2YSR1, y2YSR2, y3YSR1, y3YSR2, f2HHOG)
+data &lt;- tibble(id, y2YSR1, y2YSR2, y3YSR1, y3YSR2, f2HHOG_f)
 
 data</code></pre>
 <pre><code>## # A tibble: 2 × 6
-##      id y2YSR1 y2YSR2 y3YSR1 y3YSR2 f2HHOG
-##   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-## 1  1001      1      5      2      7     11
-## 2  1002      3      6      4      8     12</code></pre>
+##      id y2YSR1 y2YSR2 y3YSR1 y3YSR2 f2HHOG_f
+##   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;
+## 1  1001      1      5      2      7       11
+## 2  1002      3      6      4      8       12</code></pre>
 <pre class="r"><code>data %&gt;%
-  pivot_longer(-id, names_to = c(&quot;Wave&quot;, &quot;.value&quot;), names_pattern = &quot;^[[:alpha:]](\\d)(.*)&quot;)</code></pre>
+  pivot_longer(-id, names_to = c(&quot;Wave&quot;, &quot;.value&quot;), names_pattern = &quot;^[[:alpha:]](\\d)(.*)(?:_[[:alpha:]])?&quot;)</code></pre>
 <pre><code>## # A tibble: 4 × 5
-##      id Wave   YSR1  YSR2  HHOG
-##   &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1  1001 2         1     5    11
-## 2  1001 3         2     7    NA
-## 3  1002 2         3     6    12
-## 4  1002 3         4     8    NA</code></pre>
+##      id Wave   YSR1  YSR2 HHOG_f
+##   &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+## 1  1001 2         1     5     11
+## 2  1001 3         2     7     NA
+## 3  1002 2         3     6     12
+## 4  1002 3         4     8     NA</code></pre>
 </div>
 
 

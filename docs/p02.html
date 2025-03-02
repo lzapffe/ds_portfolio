@@ -13,7 +13,7 @@
 
 <title>Vectorized Operations</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -405,17 +405,17 @@ lapply(x, mean)</code></pre>
 ## [1] 2.5
 ## 
 ## $b
-## [1] 0.1547753
+## [1] -0.4792673
 ## 
 ## $c
-## [1] 0.9937145
+## [1] 0.8271334
 ## 
 ## $d
-## [1] 4.889033</code></pre>
+## [1] 4.900248</code></pre>
 <pre class="r"><code>x &lt;- list(a = 1:4, b = rnorm(10), c = rnorm(20, 1), d = rnorm(100, 5))
 sapply(x, mean)</code></pre>
-<pre><code>##          a          b          c          d 
-## 2.50000000 0.07143147 0.69589925 5.16180887</code></pre>
+<pre><code>##         a         b         c         d 
+## 2.5000000 0.4168502 0.9452686 4.7821260</code></pre>
 </div>
 <div id="tapply" class="section level3">
 <h3>tapply()</h3>
@@ -440,14 +440,14 @@ and retain the columns. See the following examples, taken from the
 bookchapter, for reference:</p>
 <pre class="r"><code>x &lt;- matrix(rnorm(200), 20, 10)
 apply(x, 2, mean)  ## Take the mean of each column</code></pre>
-<pre><code>##  [1]  0.15860851 -0.21480186 -0.14697295  0.17757541 -0.10784846  0.07528593
-##  [7]  0.05083412 -0.10657147 -0.26325655 -0.06456723</code></pre>
+<pre><code>##  [1] -0.255835494  0.323663562  0.404549203  0.219309838 -0.195045621
+##  [6]  0.427827986  0.287536283 -0.001953477  0.055482212  0.227427929</code></pre>
 <pre class="r"><code>x &lt;- matrix(rnorm(200), 20, 10)
 apply(x, 1, sum)   ## Take the mean of each row</code></pre>
-<pre><code>##  [1]  5.01298234 -1.08478716 -2.54568616 -0.05238125  6.60117120  1.92634471
-##  [7] -0.03160889 -3.36041481  3.31667219 -3.33567488  6.25433464 -0.76718262
-## [13] -1.60401870  0.92668406  2.19229513  1.95451276 -0.39379585 -3.85101252
-## [19]  3.96952563 -0.25537889</code></pre>
+<pre><code>##  [1]  6.8788425  0.7350061  1.4718512  4.4731932 -3.4983261 -2.1403590
+##  [7]  2.3118546  3.3545398 -2.8803448 -0.1315209  1.6334995  3.8311647
+## [13]  8.1784673 -2.7667929  5.9596484 -0.4420489 -3.0861825 -1.6950480
+## [19]  1.0633264  2.5860169</code></pre>
 <p>The following are some examples of functions that could be written as
 apply()</p>
 <p>rowSums = apply(x, 1, sum) rowMeans = apply(x, 1, mean) colSums =
@@ -502,16 +502,16 @@ want to do it for values of mu and sigma increasing from 1 to 10. If we
 try doing this in the function itself, which is not adapted for
 vectorized operations, we only get one number.</p>
 <pre class="r"><code>sumsq(1:10, 1:10, x)  ## This is not what we want</code></pre>
-<pre><code>## [1] 114.7911</code></pre>
+<pre><code>## [1] 109.8744</code></pre>
 <p>While we can apply mapply() to run the 10 values in paralell.</p>
 <pre class="r"><code>mapply(sumsq, 1:10, 1:10, MoreArgs = list(x = x))</code></pre>
-<pre><code>##  [1] 165.93726 112.14140 103.46600 100.86390  99.85803  99.41886  99.21852
-##  [8]  99.13025  99.09832  99.09592</code></pre>
+<pre><code>##  [1] 236.9020 139.3520 119.7682 112.4012 108.7570 106.6509 105.3048 104.3819
+##  [9] 103.7154 103.2145</code></pre>
 <p>You can also apparently do this with the Vectorize() function</p>
 <pre class="r"><code>vsumsq &lt;- Vectorize(sumsq, c(&quot;mu&quot;, &quot;sigma&quot;))
 vsumsq(1:10, 1:10, x)</code></pre>
-<pre><code>##  [1] 165.93726 112.14140 103.46600 100.86390  99.85803  99.41886  99.21852
-##  [8]  99.13025  99.09832  99.09592</code></pre>
+<pre><code>##  [1] 236.9020 139.3520 119.7682 112.4012 108.7570 106.6509 105.3048 104.3819
+##  [9] 103.7154 103.2145</code></pre>
 <p>I don’t think I fully understand how this works yet, but I might get
 it a little more later. Or it might not be the most important thing to
 know.</p>
@@ -530,28 +530,28 @@ print(f)</code></pre>
 ## Levels: 1 2 3</code></pre>
 <pre class="r"><code>split(x, f)</code></pre>
 <pre><code>## $`1`
-##  [1] -0.11323387 -0.05832885  0.92910968  0.10565397  0.21263837 -1.46880834
-##  [7] -1.56380076  0.75434837  0.16056924  2.50355598
+##  [1] -0.80954347  0.08450331  0.86832737 -1.18516765 -0.51024753  0.69144509
+##  [7] -1.59731378 -0.82273883  1.26458448  0.42203323
 ## 
 ## $`2`
-##  [1] 0.9791221 0.7379039 0.9124813 0.9750945 0.4801033 0.4014753 0.3119851
-##  [8] 0.4209428 0.5072586 0.5309017
+##  [1] 0.49408923 0.04762569 0.10054890 0.96889474 0.19872356 0.67302968
+##  [7] 0.47043986 0.09758659 0.76573890 0.77802537
 ## 
 ## $`3`
-##  [1]  1.9796390  1.5772139  0.6491167  1.5609242  0.9933054 -0.5834119
-##  [7]  0.5559274  0.5532843  1.7896677  0.9799925</code></pre>
+##  [1] -0.03357667  2.10448715  0.81111361  1.60812706  2.99971577  1.39880734
+##  [7]  1.67758423  0.95329747  0.93490720  0.17146632</code></pre>
 <p>This seems very similar to tapply(), but with factors instead of just
 a list.</p>
 <p>This is an example in combination with lapply()</p>
 <pre class="r"><code>lapply(split(x, f), mean)</code></pre>
 <pre><code>## $`1`
-## [1] 0.1461704
+## [1] -0.1594118
 ## 
 ## $`2`
-## [1] 0.6257269
+## [1] 0.4594703
 ## 
 ## $`3`
-## [1] 1.005566</code></pre>
+## [1] 1.262593</code></pre>
 <p>With this, you can for example look at a data frame and split up the
 calculations or stats based on a variable (as a factor), such as month
 or city. You can even split it up in combinations of two or more
@@ -668,22 +668,22 @@ mat_square</code></pre>
 <p>3.1. Create a matrix mat &lt;- matrix(rnorm(20), nrow = 5).</p>
 <pre class="r"><code>mat &lt;- matrix(rnorm(20), nrow = 5)
 mat</code></pre>
-<pre><code>##            [,1]        [,2]        [,3]       [,4]
-## [1,] -1.2203829  0.10611682 -0.76428203 -0.4041791
-## [2,] -0.4894836 -0.23301270  0.74640084  0.9789309
-## [3,] -0.3559775 -0.88864719 -0.59093388 -1.0051328
-## [4,] -1.1371094 -0.85333376 -0.61608331 -0.8223547
-## [5,] -1.0785499 -0.02171489 -0.08560403 -0.7401492</code></pre>
+<pre><code>##            [,1]       [,2]       [,3]       [,4]
+## [1,]  0.3916660 -1.8772616 -0.3134781  0.8344110
+## [2,] -0.0579682 -0.4172683 -0.2979700  0.1346763
+## [3,] -1.7447869 -1.2262525 -1.4264391 -1.0416823
+## [4,] -0.4409696 -1.9185339 -0.6049280 -0.8157241
+## [5,] -0.4792468  0.5064583 -2.0634519 -1.0376077</code></pre>
 <p>3.2. Use apply() to calculate the mean of each row.</p>
 <pre class="r"><code>apply(mat, MARGIN = 1,  mean)</code></pre>
-<pre><code>## [1] -0.5706818  0.2507089 -0.7101729 -0.8572203 -0.4815045</code></pre>
+<pre><code>## [1] -0.2411657 -0.1596325 -1.3597902 -0.9450389 -0.7684620</code></pre>
 <p>3.3. Use apply() to find the sum of each column.</p>
 <pre class="r"><code>apply(mat, MARGIN = 2, sum)</code></pre>
-<pre><code>## [1] -4.281503 -1.890592 -1.310502 -1.992885</code></pre>
+<pre><code>## [1] -2.331306 -4.932858 -4.706267 -1.925927</code></pre>
 <p>3.4. Write a custom function that calculates the range (max - min)
 and use apply() to calculate the range for each row.</p>
 <pre class="r"><code>apply(mat, MARGIN = 1, function(x) {max(x)-min(x)})</code></pre>
-<pre><code>## [1] 1.3264997 1.4684145 0.6491552 0.5210261 1.0568350</code></pre>
+<pre><code>## [1] 2.7116725 0.5519446 0.7031047 1.4775643 2.5699102</code></pre>
 <p>I might actually be a genius. Just saying.</p>
 </div>
 <div id="using-lapply-and-sapply" class="section level3">
@@ -695,29 +695,29 @@ my_list</code></pre>
 ## [1] 1 2 3 4 5
 ## 
 ## $b
-##  [1]  1.2136671 -0.9909217 -1.3411723  2.3140079  0.7325177  0.4525823
-##  [7] -0.7220704 -0.4840603  0.1886351 -2.0188184
+##  [1] -0.67254860  0.41471200  0.18617083  0.19509419 -0.08061874 -1.48075630
+##  [7]  1.06183310  0.62760874 -0.30506446  0.91714466
 ## 
 ## $c
-##  [1] 0.573467361 0.878665503 0.176591896 0.975301402 0.013345320 0.248245261
-##  [7] 0.408788529 0.343851200 0.664278903 0.979008607 0.657349559 0.463943382
-## [13] 0.809817069 0.893070395 0.719314152 0.466349300 0.001522829 0.938894439
-## [19] 0.256330372 0.076131162</code></pre>
+##  [1] 0.699260326 0.103613925 0.005899737 0.401482266 0.761359445 0.390274437
+##  [7] 0.225035444 0.331592335 0.014514490 0.692534455 0.559977707 0.886427105
+## [13] 0.232146481 0.534395330 0.029966666 0.152187860 0.501706188 0.521837053
+## [19] 0.521532583 0.787719924</code></pre>
 <p>4.2. Use lapply() to calculate the mean of each vector.</p>
 <pre class="r"><code>lapply(my_list, mean)</code></pre>
 <pre><code>## $a
 ## [1] 3
 ## 
 ## $b
-## [1] -0.0655633
+## [1] 0.08635754
 ## 
 ## $c
-## [1] 0.5272133</code></pre>
+## [1] 0.4176732</code></pre>
 <p>4.3. Use sapply() to calculate the standard deviation of each
 vector.</p>
 <pre class="r"><code>sapply(my_list, sd)</code></pre>
 <pre><code>##         a         b         c 
-## 1.5811388 1.2984447 0.3292542</code></pre>
+## 1.5811388 0.7657380 0.2737341</code></pre>
 <p>4.4. Create an anonymous function inside lapply() to find the sum of
 squares for each vector.</p>
 <pre class="r"><code>lapply(my_list, function(x) {sum(x^2)})</code></pre>
@@ -725,10 +725,10 @@ squares for each vector.</p>
 ## [1] 55
 ## 
 ## $b
-## [1] 15.21661
+## [1] 5.351769
 ## 
 ## $c
-## [1] 7.618836</code></pre>
+## [1] 4.912695</code></pre>
 </div>
 <div id="using-tapply" class="section level3">
 <h3>5. Using tapply()</h3>
@@ -775,50 +775,50 @@ raised to its corresponding exponent.</p>
 )
 df</code></pre>
 <pre><code>##    id group    score
-## 1   1     X 66.02405
-## 2   2     X 66.65061
-## 3   3     X 84.42258
-## 4   4     X 90.58513
-## 5   5     Y 67.12986
-## 6   6     Y 82.12424
-## 7   7     Y 79.42857
-## 8   8     Y 61.50586
-## 9   9     Z 83.30331
-## 10 10     Z 89.20151
-## 11 11     Z 74.40754
-## 12 12     Z 62.12162</code></pre>
+## 1   1     X 79.80745
+## 2   2     X 73.57125
+## 3   3     X 68.94021
+## 4   4     X 82.15553
+## 5   5     Y 89.57898
+## 6   6     Y 62.14297
+## 7   7     Y 81.31027
+## 8   8     Y 91.97435
+## 9   9     Z 79.08057
+## 10 10     Z 81.42201
+## 11 11     Z 79.28596
+## 12 12     Z 57.87518</code></pre>
 <p>7.2. Use split() to split the data frame by group.</p>
 <pre class="r"><code>split(df, df$group)</code></pre>
 <pre><code>## $X
 ##   id group    score
-## 1  1     X 66.02405
-## 2  2     X 66.65061
-## 3  3     X 84.42258
-## 4  4     X 90.58513
+## 1  1     X 79.80745
+## 2  2     X 73.57125
+## 3  3     X 68.94021
+## 4  4     X 82.15553
 ## 
 ## $Y
 ##   id group    score
-## 5  5     Y 67.12986
-## 6  6     Y 82.12424
-## 7  7     Y 79.42857
-## 8  8     Y 61.50586
+## 5  5     Y 89.57898
+## 6  6     Y 62.14297
+## 7  7     Y 81.31027
+## 8  8     Y 91.97435
 ## 
 ## $Z
 ##    id group    score
-## 9   9     Z 83.30331
-## 10 10     Z 89.20151
-## 11 11     Z 74.40754
-## 12 12     Z 62.12162</code></pre>
+## 9   9     Z 79.08057
+## 10 10     Z 81.42201
+## 11 11     Z 79.28596
+## 12 12     Z 57.87518</code></pre>
 <p>7.3. Use lapply() to calculate the mean score for each group.</p>
 <pre class="r"><code>lapply(split(df$score, df$group), mean)</code></pre>
 <pre><code>## $X
-## [1] 76.92059
+## [1] 76.11861
 ## 
 ## $Y
-## [1] 72.54713
+## [1] 81.25164
 ## 
 ## $Z
-## [1] 77.25849</code></pre>
+## [1] 74.41593</code></pre>
 <p>7.4. Write a combined split() and lapply() operation to count the
 number of rows in each group.</p>
 <pre class="r"><code>lapply(split(df, df$group), nrow)</code></pre>
@@ -842,30 +842,31 @@ n &lt;- c(10, 15, 20, 25, 30)</code></pre>
 rnorm().</p>
 <pre class="r"><code>mapply(rnorm, n, means, sds)</code></pre>
 <pre><code>## [[1]]
-##  [1] 6.587254 5.077465 3.949759 5.049046 4.276187 4.824780 4.953370 5.815780
-##  [9] 4.196315 4.600778
+##  [1] 4.760780 5.900225 3.961986 5.324977 6.531223 4.290437 5.437039 2.288421
+##  [9] 4.039508 5.090975
 ## 
 ## [[2]]
-##  [1]  9.491575  9.525934  9.965969 11.810609  9.688054 11.959002 11.249133
-##  [8]  7.468037 12.451296  8.590849  8.237399 11.005000  9.526543  9.866033
-## [15] 13.584320
+##  [1] 13.119490  9.742963  9.950347  9.990421  9.080033 10.349887 10.321438
+##  [8] 10.413328 12.262220 11.895523 14.187889  8.001314 12.074374  8.498489
+## [15] 11.228212
 ## 
 ## [[3]]
-##  [1] 18.682940  8.601052 12.707909 17.023559 19.773609 20.561111 13.676630
-##  [8] 10.678533 15.577291 15.146644 19.864097 14.587841 21.126757 18.226760
-## [15] 18.091072 17.597927 14.621473 14.962010 15.162681 10.599492
+##  [1] 14.367512 15.574306 14.903381 14.030542 11.942492  8.401302 13.548926
+##  [8] 15.497085 19.885337 13.463921 13.245739 14.659575 12.274250 14.610470
+## [15] 19.882319 17.365951 10.713192 18.059990 20.516768 19.526645
 ## 
 ## [[4]]
-##  [1] 17.05244 20.98287 21.38156 20.72942 23.92972 28.90501 24.31544 16.59567
-##  [9] 17.51083 16.33153 22.56124 19.06812 16.51967 13.09233 13.69630 22.26859
-## [17] 13.88139 20.89459 24.92007 28.01635 14.22191 21.18265 17.54194 15.57917
-## [25] 18.12483
+##  [1] 18.05898 23.62352 25.24534 22.69809 16.36658 24.34893 16.59920 24.43416
+##  [9] 11.32583 22.76436 18.03655  9.88826 23.74151 23.28515 21.80183 23.62741
+## [17] 15.39390 21.32888 22.37629 18.14673 21.71295 17.18692 20.34460 18.96431
+## [25] 24.43704
 ## 
 ## [[5]]
-##  [1] 17.15369 23.47837 21.85185 28.95511 20.09583 22.12028 16.92436 33.45545
-##  [9] 22.69908 26.73226 22.16143 24.06596 23.53716 25.72129 22.92419 24.95363
-## [17] 18.51807 23.31254 24.68469 29.75695 26.36538 19.78843 26.60182 26.45384
-## [25] 31.01763 22.19741 23.70483 21.14325 21.36365 24.01440</code></pre>
+##  [1] 31.117826  8.642468 14.251301 30.219057 30.921935 21.499361 22.889680
+##  [8] 16.637737 26.914271 28.596012 22.366313 23.751991 19.802311 26.573215
+## [15] 31.442377 32.723155 23.573434 23.859572 17.402242 26.299998 20.145896
+## [22] 23.594404 21.263639 23.999826 22.403846 30.378840 23.151117 26.006620
+## [29] 17.468224 35.622332</code></pre>
 </div>
 <div id="combining-multiple-functions---challenge"
 class="section level3">
@@ -878,49 +879,49 @@ class="section level3">
 )
 df</code></pre>
 <pre><code>##    category   value1   value2
-## 1         A 46.18800 28.80519
-## 2         A 33.98901 30.99226
-## 3         A 60.03818 33.11307
-## 4         A 36.86446 32.74072
-## 5         A 56.68990 26.25724
-## 6         B 49.43280 28.02183
-## 7         B 37.15527 34.78740
-## 8         B 55.51256 26.50069
-## 9         B 57.45560 30.36698
-## 10        B 59.58709 30.82717
-## 11        C 36.54938 30.18566
-## 12        C 56.04038 32.90768
-## 13        C 48.86282 45.76265
-## 14        C 41.56135 42.11286
-## 15        C 65.06789 28.10787</code></pre>
+## 1         A 58.46643 34.61080
+## 2         A 60.98746 30.95541
+## 3         A 56.69892 37.48236
+## 4         A 51.07308 20.94262
+## 5         A 50.20159 26.97068
+## 6         B 51.58975 32.26405
+## 7         B 40.81544 37.02571
+## 8         B 52.71673 33.14903
+## 9         B 53.67346 35.78910
+## 10        B 41.00327 21.59406
+## 11        C 52.62432 20.21049
+## 12        C 66.09211 31.56838
+## 13        C 46.92185 24.70802
+## 14        C 50.38175 26.82369
+## 15        C 51.47400 36.32366</code></pre>
 <p>9.2. Use split() and lapply() to calculate the mean of value1 and
 value2 for each category.</p>
 <pre class="r"><code>lapply(split(df$value1, df$category), mean)</code></pre>
 <pre><code>## $A
-## [1] 46.75391
+## [1] 55.4855
 ## 
 ## $B
-## [1] 51.82867
+## [1] 47.95973
 ## 
 ## $C
-## [1] 49.61637</code></pre>
+## [1] 53.4988</code></pre>
 <pre class="r"><code>lapply(split(df$value2, df$category), mean)</code></pre>
 <pre><code>## $A
-## [1] 30.38169
+## [1] 30.19237
 ## 
 ## $B
-## [1] 30.10081
+## [1] 31.96439
 ## 
 ## $C
-## [1] 35.81535</code></pre>
+## [1] 27.92685</code></pre>
 <p>9.3. Use mapply() to calculate the sum of squares for value1 and
 value2 for each category.</p>
 <pre class="r"><code>mapply(function(x) { sum(x)^2 }, split(df$value1, df$category))</code></pre>
 <pre><code>##        A        B        C 
-## 54648.20 67155.26 61544.59</code></pre>
+## 76966.01 57503.39 71553.05</code></pre>
 <pre class="r"><code>mapply(function(x) { sum(x)^2 }, split(df$value2, df$category))</code></pre>
 <pre><code>##        A        B        C 
-## 23076.18 22651.47 32068.47</code></pre>
+## 22789.49 25543.06 19497.72</code></pre>
 <p>9.4. Compare the results with a loop-based approach.</p>
 <pre class="r"><code>vect_a &lt;- c()
 vect_b &lt;- c()
@@ -935,11 +936,11 @@ for (i in 1:length(df$category)){
   }
 }
 (mean(vect_a))</code></pre>
-<pre><code>## [1] 46.75391</code></pre>
+<pre><code>## [1] 55.4855</code></pre>
 <pre class="r"><code>(mean(vect_b))</code></pre>
-<pre><code>## [1] 51.82867</code></pre>
+<pre><code>## [1] 47.95973</code></pre>
 <pre class="r"><code>(mean(vect_c))</code></pre>
-<pre><code>## [1] 49.61637</code></pre>
+<pre><code>## [1] 53.4988</code></pre>
 <p>That was a lot more extensive and thought-consuming than using
 vectorized operations, I see the appeal</p>
 </div>
@@ -1062,9 +1063,18 @@ vectorized operations before I learn to deal with functions better. I
 will come back to this after I have worked through the module on
 functions. If I still feel like I need more practice after that module,
 I might make a separate portfolio project for that.</p>
-<p>Also, note to myself, look up vapply(). I don’t have any notes on
-it.</p>
 </div>
+</div>
+<div id="to-do-list-for-finishing-the-project" class="section level2">
+<h2>To do list for finishing the project</h2>
+<ul>
+<li>Add information about vapply()</li>
+<li>Add a quick guide/summary of the functions to the end of the
+document</li>
+<li>Figure out how to use nested anonymous functions</li>
+<li>Add the scenario from data wrangling the PAC data where the for loop
+worked better than vectorized operations because it is recursive</li>
+</ul>
 </div>
 </div>
 

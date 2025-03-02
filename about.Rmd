@@ -2,21 +2,19 @@
 title: "About This Website"
 ---
 
-This portfolio consists of 10 projects. These projects are:
+This portfolio consists of the following 10 projects:
 
-1. Improving the class contract - 100% finished
-2. Vectorized operations - Paused until I learn more about functions
+1. Improving the class contract
+2. Vectorized operations
 3. Tidyverse vs base R
-4. ggplot
-5. Exploring data visualization libraries
+4. ggplot + Exploring data visualization libraries
+5. Web scraping stock data
 6. Regex
 7. GitKraken and advanced workflows
-8. 
+8. Getting GitHub certified
 9. Data Wrangling of PAC data set
-10. Course improvements
+10. Automating the scoring of the Sleepin' Deacon challenge
 
-The projects were started in the following order:
-10, 1, 2, 4, 3
+The projects are ordered after when they were initiated. However, they were worked on simultaneously, so the order does not necessarily reflect the order in which they were finished.
 
-The projects were finished in the following order:
-1, 
+The following projects are finished: 1
