@@ -54,7 +54,7 @@ I, Linn Zapffe, agree to :
 - [ ] **Module 5, 02/10 - 02/16 : Effective Data Visualization**
   - [ ] Finish Lab 4 by Sunday: 02/09
   - [ ] Finish Lab 5 by Sunday: 02/09
-- [ ] **Module 6, 02/17 - 02/23 : Confounding and communication**
+- [ ] **Module 6, 02/17 - 02/23 : Confounding and Communication**
   - [ ] Schedule a check-in with Mason by Sunday: 02/23
 - [ ] **Module 7, 02/24 - 03/02 : Web scraping**
   - [ ] Finish Lab 6 by Sunday: 02/23
