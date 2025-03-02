@@ -66,8 +66,8 @@ stock_URL <- search_page %>%
   #html_elements("link")
 stock_URL
 
-sess <- read_html_live("https://www.morningstar.no/no/screener/fund.aspx#?filtersSelectedValue=%7B%22term%22:%22LU0048574536%22%7D&page=1&sortField=legalName&sortOrder=asc")
-sess$view()
+#sess <- read_html_live("https://www.morningstar.no/no/screener/fund.aspx#?filtersSelectedValue=%7B%22term%22:%22LU0048574536%22%7D&page=1&sortField=legalName&sortOrder=asc")
+#sess$view()
 ```
 
 It looks like we might be able to get rvest to click on stuff on the webpage by using html$click in rvest or clickElement() in RSelenium
