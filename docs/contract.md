@@ -1,6 +1,6 @@
 Grading Contract
 ================
-January 23 2025
+March 02 2025
 
 <!--- How to use this Rmarkdown document
 The text above this comment is the YAML header. Change the variables under "params" into what is relevant for you and your situation. In cases where there are choices, you have to choose one of those choices. Make sure you spell your parameter the same was as one of the choices and also to have the same capital or small letters.
@@ -50,18 +50,15 @@ I, Linn Zapffe, agree to :
   - [ ] Propose your contract to Mason by Sunday: 01/26
 - [ ] **Module 3, 01/27 - 02/02 : Tidyverse**
   - [ ] Finish Lab 3 by Sunday: 02/02
-  - [ ] Finish portfolio piece 1 by Sunday: 02/02
 - [ ] **Module 4, 02/03 - 02/09 : Data Diving with Tidyverse**
 - [ ] **Module 5, 02/10 - 02/16 : Effective Data Visualization**
   - [ ] Finish Lab 4 by Sunday: 02/09
-  - [ ] Finish Lab 5 by Sunday: 02/16
-  - [ ] Finish portfolio piece 2 by Sunday: 02/16
+  - [ ] Finish Lab 5 by Sunday: 02/09
 - [ ] **Module 6, 02/17 - 02/23 : Web scraping**
   - [ ] Schedule a check-in with Mason by Sunday: 02/23
 - [ ] **Module 7, 02/24 - 03/02 : Functions and Automation**
   - [ ] Finish Lab 6 by Sunday: 02/23
-  - [ ] Finish Lab 7 by Sunday: 03/02
-  - [ ] Finish portfolio piece 3 by Sunday: 03/02
+  - [ ] Finish Lab 7 by Sunday: 02/23
 - [ ] **Module 8, 03/03 - 03/09 : Data and Ethics**
   - [ ] Finish Lab 8 by Sunday: 03/09
 - [ ] **Spring break! - 03/10 - 03/16**
@@ -69,16 +66,11 @@ I, Linn Zapffe, agree to :
   - [ ] Finish Lab 9 by Sunday: 03/23
 - [ ] **Module 10, 03/24 - 03/30 : Overfitting and Cross-validation**
   - [ ] Finish Lab 10 by Sunday: 03/30
-  - [ ] Finish portfolio piece 4 by Sunday: 03/23
 - [ ] **Module 11, 03/31 - 04/06 : Quantifying Uncertainty**
   - [ ] Finish Lab 11 by Sunday: 04/06
-  - [ ] Finish portfolio piece 5 by Sunday: 04/06
 - [ ] **Module 12, 04/07 - 04/13 : Base R and Simulating Data**
-  - [ ] Finish portfolio piece 6 by Sunday: 04/13
 - [ ] **Module 13, 04/14 - 04/20 : Large Language Models**
-  - [ ] Finish portfolio pieces 7 and 8 by Sunday: 04/20
 - [ ] **Module 14, 04/21 - 04/27 : Interactive Web Apps**
-  - [ ] Finish portfolio piece 9 and 10 by Sunday: 04/27
 - [ ] **Portfolio completion**
   - Due on Sunday: 04/27
 
