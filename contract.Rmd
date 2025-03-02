@@ -74,6 +74,7 @@ modules_list = c(
   "Tidyverse",
   "Data Diving with Tidyverse",
   "Effective Data Visualization",
+  "Confounding and communication",
   "Web scraping",
   "Functions and Automation",
   "Data and Ethics",

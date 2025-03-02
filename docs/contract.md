@@ -54,23 +54,23 @@ I, Linn Zapffe, agree to :
 - [ ] **Module 5, 02/10 - 02/16 : Effective Data Visualization**
   - [ ] Finish Lab 4 by Sunday: 02/09
   - [ ] Finish Lab 5 by Sunday: 02/09
-- [ ] **Module 6, 02/17 - 02/23 : Web scraping**
+- [ ] **Module 6, 02/17 - 02/23 : Confounding and communication**
   - [ ] Schedule a check-in with Mason by Sunday: 02/23
-- [ ] **Module 7, 02/24 - 03/02 : Functions and Automation**
+- [ ] **Module 7, 02/24 - 03/02 : Web scraping**
   - [ ] Finish Lab 6 by Sunday: 02/23
   - [ ] Finish Lab 7 by Sunday: 02/23
-- [ ] **Module 8, 03/03 - 03/09 : Data and Ethics**
+- [ ] **Module 8, 03/03 - 03/09 : Functions and Automation**
   - [ ] Finish Lab 8 by Sunday: 03/09
 - [ ] **Spring break! - 03/10 - 03/16**
-- [ ] **Module 9, 03/17 - 03/23 : Modeling the Tidy way!**
+- [ ] **Module 9, 03/17 - 03/23 : Data and Ethics**
   - [ ] Finish Lab 9 by Sunday: 03/23
-- [ ] **Module 10, 03/24 - 03/30 : Overfitting and Cross-validation**
+- [ ] **Module 10, 03/24 - 03/30 : Modeling the Tidy way!**
   - [ ] Finish Lab 10 by Sunday: 03/30
-- [ ] **Module 11, 03/31 - 04/06 : Quantifying Uncertainty**
+- [ ] **Module 11, 03/31 - 04/06 : Overfitting and Cross-validation**
   - [ ] Finish Lab 11 by Sunday: 04/06
-- [ ] **Module 12, 04/07 - 04/13 : Base R and Simulating Data**
-- [ ] **Module 13, 04/14 - 04/20 : Large Language Models**
-- [ ] **Module 14, 04/21 - 04/27 : Interactive Web Apps**
+- [ ] **Module 12, 04/07 - 04/13 : Quantifying Uncertainty**
+- [ ] **Module 13, 04/14 - 04/20 : Base R and Simulating Data**
+- [ ] **Module 14, 04/21 - 04/27 : Large Language Models**
 - [ ] **Portfolio completion**
   - Due on Sunday: 04/27
 

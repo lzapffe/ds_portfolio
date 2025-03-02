@@ -1,6 +1,6 @@
 Grading Contract
 ================
-January 23 2025
+March 02 2025
 
 <!--- How to use this Rmarkdown document
 The text above this comment is the YAML header. Change the variables under "params" into what is relevant for you and your situation. In cases where there are choices, you have to choose one of those choices. Make sure you spell your parameter the same was as one of the choices and also to have the same capital or small letters.
@@ -56,28 +56,28 @@ I, Linn Zapffe, agree to :
 - [ ] **Module 5, 02/10 - 02/16 : Effective Data Visualization**
   - [ ] Finish Lab 5 by Sunday: 02/16
   - [ ] Finish portfolio piece 2 by Sunday: 02/16
-- [ ] **Module 6, 02/17 - 02/23 : Web scraping**
+- [ ] **Module 6, 02/17 - 02/23 : Confounding and communication**
   - [ ] Finish Lab 6 by Sunday: 02/23
   - [ ] Schedule a check-in with Mason by Sunday: 02/23
-- [ ] **Module 7, 02/24 - 03/02 : Functions and Automation**
+- [ ] **Module 7, 02/24 - 03/02 : Web scraping**
   - [ ] Finish Lab 7 by Sunday: 03/02
   - [ ] Finish portfolio piece 3 by Sunday: 03/02
-- [ ] **Module 8, 03/03 - 03/09 : Data and Ethics**
+- [ ] **Module 8, 03/03 - 03/09 : Functions and Automation**
   - [ ] Finish Lab 8 by Sunday: 03/09
 - [ ] **Spring break! - 03/10 - 03/16**
-- [ ] **Module 9, 03/17 - 03/23 : Modeling the Tidy way!**
+- [ ] **Module 9, 03/17 - 03/23 : Data and Ethics**
   - [ ] Finish Lab 9 by Sunday: 03/23
   - [ ] Finish portfolio piece 4 by Sunday: 03/23
-- [ ] **Module 10, 03/24 - 03/30 : Overfitting and Cross-validation**
+- [ ] **Module 10, 03/24 - 03/30 : Modeling the Tidy way!**
   - [ ] Finish Lab 10 by Sunday: 03/30
-- [ ] **Module 11, 03/31 - 04/06 : Quantifying Uncertainty**
+- [ ] **Module 11, 03/31 - 04/06 : Overfitting and Cross-validation**
   - [ ] Finish Lab 11 by Sunday: 04/06
   - [ ] Finish portfolio piece 5 by Sunday: 04/06
-- [ ] **Module 12, 04/07 - 04/13 : Base R and Simulating Data**
+- [ ] **Module 12, 04/07 - 04/13 : Quantifying Uncertainty**
   - [ ] Finish portfolio piece 6 by Sunday: 04/13
-- [ ] **Module 13, 04/14 - 04/20 : Large Language Models**
+- [ ] **Module 13, 04/14 - 04/20 : Base R and Simulating Data**
   - [ ] Finish portfolio pieces 7 and 8 by Sunday: 04/20
-- [ ] **Module 14, 04/21 - 04/27 : Interactive Web Apps**
+- [ ] **Module 14, 04/21 - 04/27 : Large Language Models**
   - [ ] Finish portfolio piece 9 and 10 by Sunday: 04/27
 - [ ] **Portfolio completion**
   - Due on Sunday: 04/27
