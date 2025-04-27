@@ -289,6 +289,93 @@ geom_rect() draws a rectangle around a point of interest
 geom_segment() draws an arrow to the point of interest
 
 
+
+## Libraries
+
+ggpattern creates cool patterns, but crashes R when it gets too complicated. For example, this code works without ggpattern, but not with ggpattern. Other graphs that didn't have facetting worked with ggpattern. I checked this on the lab computer too and it still crashes, so it isn't due to my computer not being strong enough.
+```{r thesis-plot-diff-scores-ext-age, eval = FALSE}
+avg_diff_score_df %>% 
+   select(diff_sc_ext_fm_mean, diff_sc_ext_fm_sd, diff_sc_ext_fc_mean, diff_sc_ext_fc_sd, diff_sc_ext_mc_mean, diff_sc_ext_mc_sd, Age_cat) %>%
+  pivot_longer(cols = -Age_cat, names_to = c("raters", ".value"), names_pattern = "[[:alpha:]]+_sc_ext_([[:alpha:]]+)_([[:alpha:]]+)") %>%
+  mutate(
+    raters = case_when(
+      raters == "fm" ~ "Father - Mother",
+      raters == "fc" ~ "Father - Child",
+      raters == "mc" ~ "Mother - Child"
+    )
+  ) %>% 
+  ggplot(aes(x = Age_cat, y = mean)) +
+  geom_bar(stat = "identity", color = "black", fill = "white", width = 0.4) +
+  geom_errorbar(aes(ymin = mean - sd, ymax = mean + sd), width = 0.20) +
+  facet_wrap(vars(raters), nrow = 3) +
+  #ylim(-10, 5) +
+  theme_classic() +
+  theme(axis.text.x = element_text(colour = "black"), 
+        axis.text.y = element_text(colour = "black"),
+        axis.line.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        panel.grid.major.y = element_line(),
+        panel.grid.minor.y = element_line(),
+        strip.background = element_blank()) +
+  #coord_cartesian(expand = FALSE, xlim = c(0.5, 3.5), ylim = c(-10, 5)) +
+  geom_hline(aes(yintercept = 0)) +
+  labs(
+    x = "Age Category",
+    y = "Mean Difference Scores"
+  )
+```
+
+Internalizing scores:
+```{r thesis-plot-diff-scores-int-age, eval = FALSE}
+avg_diff_score_df %>% 
+   select(diff_sc_int_fm_mean, diff_sc_int_fm_sd, diff_sc_int_fc_mean, diff_sc_int_fc_sd, diff_sc_int_mc_mean, diff_sc_int_mc_sd, Age_cat) %>%
+  pivot_longer(cols = -Age_cat, names_to = c("raters", ".value"), names_pattern = "[[:alpha:]]+_sc_int_([[:alpha:]]+)_([[:alpha:]]+)") %>%
+  mutate(
+    raters = case_when(
+      raters == "fm" ~ "Father - Mother",
+      raters == "fc" ~ "Father - Child",
+      raters == "mc" ~ "Mother - Child"
+    )
+  ) %>% 
+  ggplot(aes(x = Age_cat, y = mean)) +
+  geom_bar(stat = "identity", width = 0.4) +
+  geom_col_pattern(aes(pattern = "mean"), pattern = "stripe", pattern_colour =  "lightgrey", color = "black", fill = "white", width = 0.4) +
+  geom_errorbar(aes(ymin = mean - sd, ymax = mean + sd), width = 0.20) +
+  facet_wrap(vars(raters), nrow = 3) +
+  #ylim(-10, 5) +
+  theme_classic() +
+  theme(axis.text.x = element_text(colour = "black"), 
+        axis.text.y = element_text(colour = "black"),
+        axis.line.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        panel.grid.major.y = element_line(),
+        panel.grid.minor.y = element_line(),
+        strip.background = element_blank()) +
+  #coord_cartesian(expand = FALSE, xlim = c(0.5, 3.5), ylim = c(-10, 5)) +
+  geom_hline(aes(yintercept = 0)) +
+  labs(
+    x = "Age Category",
+    y = "Mean Difference Scores"
+  )
+```
+
+
+## Random stuff
+
+1.
+Self-made discrete scale: scale_fill_manual(values = c("#F2FFDA", "#D3F3B4", "#BFE9B4", "#7FCD97", "#7FCDBB", "#41C6BD", "#41B6C4", "#1D9FC0", "#1D91C0", "#2273A9", "#225EA8", "#415EAC", "#253494", "#18337D", "#081D58", "#051644"))
+
+2.
+Things go on top of each other. If you make width of bar .5 and width of pattern in ggplot .4, you see things going out on the sides.
+
+3.
+How to make graphs APA style. See thesis project
+
+4. change fig.height and width in r chunk code parameter to change the plot size. Looks like the default is 7.5 in height?
+
+5. use str_wrap with width = 80 to make the title of a plot not go beyond the plot and be cut off. Creates a new line instead.
+
+
 ## To do list
 
 - Add info about grammar of graphics

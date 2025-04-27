@@ -243,9 +243,6 @@ $(document).ready(function () {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">Home</a>
-</li>
-<li>
   <a href="about.html">About</a>
 </li>
 <li>
@@ -277,6 +274,9 @@ $(document).ready(function () {
 </li>
 <li>
   <a href="p10.html">Portfolio 10</a>
+</li>
+<li>
+  <a href="p11.html">Portfolio 11</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -342,6 +342,8 @@ brackets
 <li>“[^]” means do not match
 <ul>
 <li>E.g. [^?.]$ would be all lines that do not end with ? or .</li>
+<li>You can use this to stop a full match if you have a greedy
+quantifier and know a character that should not be matched</li>
 </ul></li>
 <li>“.” means any character
 <ul>
@@ -400,6 +402,9 @@ contrast to *, which is any number of times, including zero
 <ul>
 <li>E.g. (.+) would match () with any string of any length in it, but
 not empty</li>
+<li>Works on the character immediately to the left of it, such as “s”,
+“2” or “”. If you want more to be repeated together, you need to
+encompass it in parentheses</li>
 </ul></li>
 <li>“{}” are interval ranges of how many times something can be repeated
 <ul>
@@ -775,6 +780,234 @@ letter and # the other is a number
 <p>The actual regex matching starts here We can use our “A1” boundary
 wherever we like (?&amp;A1)cat(?&amp;A1)</p>
 </div>
+<div id="quantifiers" class="section level2">
+<h2>Quantifiers</h2>
+<ul>
+<li>For example +</li>
+<li>All quantifiers are by default greedy, meaning that they will match
+as much as possible
+<ul>
+<li>For example, using on 123 will match 123, not 1 or 12</li>
+<li>The quantifier is also docile, meaning that it will give back parts
+if needed to match the rest of the string</li>
+<li>For example, if you use A+. to match on AAA, the A+ will first match
+all of AAA, then the . will fail to match anything. Therefore, the A+
+part gives up one A, so that it can match with . Ultimately, the A+
+therefore matches AA and the . matches A
+<ul>
+<li>If you instead have A+.., the A+ will match the first A and each .
+will match each own A.</li>
+</ul></li>
+<li>Similarly, if you have the regex .*apple and the string A tasty
+apple, the . will first match everything, then backtrack when apple
+isn’t matched, until it can match it. The ultimate result will therefore
+be that the . takes “A tasty” and the apple part matches with
+“apple”.</li>
+<li>The fact that it is greedy does not mean that it matches the longest
+match whenever in the string, but that it matches as much as possible
+from the first possible match
+<ul>
+<li>E.g. if you have 12 9999 and use it will match 12 and not 9999, even
+though it is greedy</li>
+</ul></li>
+</ul></li>
+<li>You can add a ? to a quantifier to make it lazy, so it matches as
+few characters as possible for the match to occur</li>
+<li>The quantifier ? matches with none or one match
+<ul>
+<li>For example, the match ?E will match with 123E in the string 123EEE,
+not with all of it, because the ? only need to match with 123 to get an
+E afterward, not all of 123EE</li>
+</ul></li>
+<li>Lazy quantifiers match with as little as possible
+<ul>
+<li>Most lazy quantifiers are also helpful, meaning that it originally
+starts the match with the smallest possible match, then expands until
+the whole string matches
+<ul>
+<li>E.g. in our ??E example, it starts matching nothing, since ? can be
+nothing, but then fails to match the E. Therefore, it tries adding 1,
+but still fails. Only after adding 123 does it succeed with a whole
+match, as the next character is E. This is lazy, but helpful
+behavior</li>
+<li>The lazy quantifier matches the smallest possible match from the
+starting point, not for the entire string</li>
+</ul></li>
+</ul></li>
+<li>You can make a quantifier possessive by adding a + to it. This
+negates the docile behavior for greedy quantifiers
+<ul>
+<li>E.g. A+. will match the string AAA, but A++. won’t, as all A’s are
+taken up with the “A++” part, so that there is nothing left for the
+.</li>
+<li>Sometimes, you can make a quantifier possessive if you know that it
+won’t matter, especially if your match might fail. This will speed up
+the code, since it doesn’t have to constantly back-track</li>
+<li>Some engines, like R, looks at the string before starting and
+automatically makes a regex part possessive if this doesn’t affect the
+matching, to make the code faster.
+<ul>
+<li>This can be turned off with (*NO_AUTO_POSSESS)</li>
+</ul></li>
+</ul></li>
+<li>The process of the engine going back when a pattern fails to see
+whether making other choices (e.g. matching fewer characters with a +)
+would lead to a match is called backtracking
+<ul>
+<li>Can help you catch more matches, but can also lead to the code
+running for a long time as the engine keeps backtracking to try all
+variations of how the regex can be applied to a match to see whether any
+of them will lead to a match</li>
+</ul></li>
+<li>There are some quantifiers that can lead to a lot of backtracking,
+called explosive quantifiers
+<ul>
+<li>These includes *, +, {x, }, or a specified range with a high number,
+like 10 or more</li>
+<li>This can especially happen if you have two quantifiers in different
+places that can lead to an exponential number of possible variations
+<ul>
+<li>E.g. (A+)*</li>
+</ul></li>
+<li>Another way of looking at this is to use contrast in your regex
+patterns. If you have a lot of parts of the regex that can fit multiple
+parts of the string, there will be many variations, while if you have
+more specific expressions, there will be less backtracking since there
+are fewer variations</li>
+<li>You can use atomic groups to counteract this
+<ul>
+<li>Put a regex expression inside of (?&gt;) to make the group
+atomic</li>
+<li>Then, after the engine runs through the group, it cannot backtrack
+to try other variations</li>
+<li>Atomic groups with one character and a quantifier is often the same
+as a possessive quantifier
+<ul>
+<li>E.g. (?&gt;A+) is equal to A++, (?&gt;A<em>) is equal to A</em>+,
+and (?&gt;A?) is equivalent to A?+</li>
+</ul></li>
+</ul></li>
+<li>Generally, be as specific and concise as you can in your patterns to
+decrease backtracking
+<ul>
+<li>E.g. not (A|AA)+, but A+</li>
+</ul></li>
+</ul></li>
+<li>+, ?, and * are all greedy, but docile, matching one or more, zero
+or one, and zero or more parts of a string
+<ul>
+<li>Add + do either of these to make it greedy and possessive, so that
+it won’t backtrack to make the match work</li>
+<li>Add ? to either of these to make them lazy, so that they match to as
+few matches as possible. All of these lazy matches are still helpful, so
+it will be lazy by default, but take more if needed</li>
+</ul></li>
+</ul>
+</div>
+<div id="conditionals" class="section level2">
+<h2>Conditionals</h2>
+<ul>
+<li>You can add conditionals with the following syntax: (?(A)X|Y)
+<ul>
+<li>This statement says that if A is TRUE, then you do X. If not, do
+Y</li>
+<li>(?(A)X) means if A, do X
+<ul>
+<li>No else statement</li>
+</ul></li>
+<li>(?(A)|X) means if not A, do X. If A, match empty string</li>
+</ul></li>
+<li>You can force a regex to fail if it has a specific condition
+<ul>
+<li>E.g. Lets say that you want to match two possible combinations of
+words. Consider an ID system where you have a lot of IDs, followed by a
+status of either pending or active. However, some of the IDs are
+temporary, designated with the IDs beginning with TMP. These temporary
+IDs can only be active, not pending. Therefore, we will make a regex
+that can capture all of the valid IDs, but ignore the unvalid cases
+(temporary IDs that are pending). The regex
+^(TMP)?_(?:active|pending(?(1)(?!)))$. This code will capture “TMP” as
+an optional capture group, then some numbers, an underscore, and either
+the status pending or active. If it catches active, everything is fine.
+However, if it captures pending, and the first capture group is matched
+(meaning the string starts with “TMP”), then the match will
+automatically fail because of the (?!)
+<ul>
+<li>This example was developed in co-junction with ChatGPT</li>
+</ul></li>
+<li>You can also fail with an if-else-then statement
+<ul>
+<li>E.g. ^(TMP)?_(?:active|pending(?(1)|(?!)))$. In this code, there is
+either an active status, or whether there is a pending status and a
+“TMP” start string (i.e. the capture group has been set). If this is not
+the case, then it fails.
+<ul>
+<li>This is an opposite condition for the TMP and pending scenario as
+with only the if-else statement</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+<div id="recursive-regexs" class="section level2">
+<h2>Recursive regexs</h2>
+<ul>
+<li>You can add (?R) to repeat a pattern a selected number of times,
+instead of writing it all out.
+<ul>
+<li>E.g. (?R)? to match “aaa111bbb222”
+<ul>
+<li>You could alternatively use the regex “(?:)+”</li>
+</ul></li>
+</ul></li>
+<li>You can add a conditional to the expression
+<ul>
+<li>E.g. Match a repeat of the word until the end of the string with
+“abc(?:$|(?R))”</li>
+</ul></li>
+<li>You can use these recursive regex to match more complicated
+patterns, like palindromes
+<ul>
+<li>E.g. ()(?:(?R)|?)\1
+<ul>
+<li>I haven’t fully parsed how this regex works, but it is something to
+look into for more complicated expressions</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+<div id="backtracking-control-verbs" class="section level2">
+<h2>Backtracking Control Verbs</h2>
+<ul>
+<li>You can use backtracking control verbs to change what the engine
+does during a backtrack
+<ul>
+<li>The verbs will therefore not have any effect on the code (i.e be
+skipped) when matching and only have an effect if the regex needs to
+backtrack the matching</li>
+</ul></li>
+<li>There are many control verbs:
+<ul>
+<li>(*THEN) - Used with a conditional expression. Stops the match and
+moves on to the next possible condition (other side of |)
+<ul>
+<li>E.g. “Comedian: (?:B+ (<em>THEN)Murray|E+ (</em>THEN)Murphy|P+
+Sellers)” to match the name of a comedian in a string. The (*THEN) makes
+it so that the expression does not backtrack if the last name is not the
+right one, given the first letter of the first name</li>
+<li>In most situations you wouldn’t really need the (<em>THEN), but if
+you were to have a very long string before the (</em>THEN) statement, it
+could speed up the expression by getting rid of the backtracking. In
+this scenario, you could write it as “Comedian: (?:B+ Murray|E+
+Murphy|P+ Sellers)” since the string isn’t that long anyway</li>
+</ul></li>
+<li>(*PRUNE) - Stops the match if it tries to backtrack past the
+expression</li>
+<li>(*SKIP)</li>
+<li>(*COMMIT)</li>
+</ul></li>
+</ul>
+</div>
 <div id="to-do-list" class="section level2">
 <h2>To do list</h2>
 <ul>
@@ -784,6 +1017,16 @@ it</li>
 <li>Go over all your notes and organize it better</li>
 <li>Check the formatting of the rendered document. The special
 characters tends to be read as a special character by rmarkdown</li>
+</ul>
+</div>
+<div id="fun-fact" class="section level2">
+<h2>Fun-fact</h2>
+<ul>
+<li>You can actually use explosive quantifiers to ReDoS attack a webpage
+by giving a regex that will have it run a very large number of
+variation, to eventually slow down or shut down a webpage - <a
+href="https://en.wikipedia.org/wiki/ReDoS"
+class="uri">https://en.wikipedia.org/wiki/ReDoS</a></li>
 </ul>
 </div>
 <div class="footnotes footnotes-end-of-document">

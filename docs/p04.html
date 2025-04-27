@@ -243,9 +243,6 @@ $(document).ready(function () {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">Home</a>
-</li>
-<li>
   <a href="about.html">About</a>
 </li>
 <li>
@@ -278,6 +275,9 @@ $(document).ready(function () {
 <li>
   <a href="p10.html">Portfolio 10</a>
 </li>
+<li>
+  <a href="p11.html">Portfolio 11</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -301,7 +301,6 @@ $(document).ready(function () {
 <pre class="r"><code>library(palmerpenguins)</code></pre>
 <pre><code>## Warning: package &#39;palmerpenguins&#39; was built under R version 4.3.3</code></pre>
 <pre class="r"><code>library(ggplot2)</code></pre>
-<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.3.3</code></pre>
 <p>The ggplot function, in its most basic form, takes a dataset and the
 dimensions/axes of the plot. Then you add the actual data points with
 e.g. data_point() This can for example look like ggplot(data = dataset,
@@ -321,8 +320,8 @@ If you add geom_point(), you will get:</p>
        mapping = aes(x = bill_depth_mm, y = bill_length_mm,
                      color = species)) +
   geom_point()</code></pre>
-<pre><code>## Warning: Removed 2 rows containing missing values or values outside the scale range
-## (`geom_point()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values or values
+## outside the scale range (`geom_point()`).</code></pre>
 <p><img src="p04_files/figure-html/demonstration%20with%20geom_point-1.png" width="672" /></p>
 <div id="labels" class="section level3">
 <h3>Labels</h3>
@@ -337,8 +336,8 @@ where it shows up:</p>
        x = &quot;Bill depth (mm)&quot;, y = &quot;Bill length (mm)&quot;,
        color = &quot;Species&quot;,
        caption = &quot;Source: Palmer Station LTER / palmerpenguins package&quot;)</code></pre>
-<pre><code>## Warning: Removed 2 rows containing missing values or values outside the scale range
-## (`geom_point()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values or values
+## outside the scale range (`geom_point()`).</code></pre>
 <p><img src="p04_files/figure-html/labels-1.png" width="672" /></p>
 <p>You can also add geom_text() or geom_label() (creates a box around
 the label) to get text on the plot itself. If you don’t want all the
@@ -379,31 +378,33 @@ the plot, to see the nuances more clearly</p>
 <h3>Histograms</h3>
 <pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm)) +
   geom_histogram()</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<pre><code>## Warning: Removed 2 rows containing non-finite outside the scale range
-## (`stat_bin()`).</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value
+## with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite outside the
+## scale range (`stat_bin()`).</code></pre>
 <p><img src="p04_files/figure-html/histogram-1.png" width="672" /></p>
 <p>You can change the binwidth (the amount included in one bar in the
 histogram) by specifying binwidth in the geom_histogram() function. See
 examples:</p>
 <pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm)) +
   geom_histogram(binwidth = 20)</code></pre>
-<pre><code>## Warning: Removed 2 rows containing non-finite outside the scale range
-## (`stat_bin()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite outside the
+## scale range (`stat_bin()`).</code></pre>
 <p><img src="p04_files/figure-html/histogram%20high%20binwidth-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm)) +
   geom_histogram(binwidth = 1)</code></pre>
-<pre><code>## Warning: Removed 2 rows containing non-finite outside the scale range
-## (`stat_bin()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite outside the
+## scale range (`stat_bin()`).</code></pre>
 <p><img src="p04_files/figure-html/histogram%20small%20binwidth-1.png" width="672" /></p>
 <p>You can add colors to fill in the histogram based on another
 variable. In that case, you should also specify alpha (transparency) to
 see the value lines better.</p>
 <pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm, fill = species)) +
   geom_histogram(alpha = 0.60)</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<pre><code>## Warning: Removed 2 rows containing non-finite outside the scale range
-## (`stat_bin()`).</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value
+## with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite outside the
+## scale range (`stat_bin()`).</code></pre>
 <p><img src="p04_files/figure-html/histogram%20color-1.png" width="672" /></p>
 <p>If you add fill you get the bars filled in, if you add color, you get
 the outline of the bar colored.</p>
@@ -412,8 +413,8 @@ the outline of the bar colored.</p>
 <h3>Density plot</h3>
 <pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm, color = species)) +
   geom_density()</code></pre>
-<pre><code>## Warning: Removed 2 rows containing non-finite outside the scale range
-## (`stat_density()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite outside the
+## scale range (`stat_density()`).</code></pre>
 <p><img src="p04_files/figure-html/density%20plot-1.png" width="672" /></p>
 <p>You can add color to get individual lines with color, fill to fill in
 the lines (like mountains), shape seemingly just adds several lines that
@@ -423,13 +424,13 @@ looks really ugly, like something you drew in paint.</p>
 adjust. See examples</p>
 <pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm, color = species)) +
   geom_density(adjust = 0.5)</code></pre>
-<pre><code>## Warning: Removed 2 rows containing non-finite outside the scale range
-## (`stat_density()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite outside the
+## scale range (`stat_density()`).</code></pre>
 <p><img src="p04_files/figure-html/density%20plot%20low%20adjustment-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm, color = species)) +
   geom_density(adjust = 2)</code></pre>
-<pre><code>## Warning: Removed 2 rows containing non-finite outside the scale range
-## (`stat_density()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite outside the
+## scale range (`stat_density()`).</code></pre>
 <p><img src="p04_files/figure-html/density%20plot%20high%20adjustment-1.png" width="672" /></p>
 <p>I think adjust = 1 is the standard.</p>
 </div>
@@ -437,39 +438,40 @@ adjust. See examples</p>
 <h3>Box plot</h3>
 <pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm)) +
   geom_boxplot()</code></pre>
-<pre><code>## Warning: Removed 2 rows containing non-finite outside the scale range
-## (`stat_boxplot()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite outside the
+## scale range (`stat_boxplot()`).</code></pre>
 <p><img src="p04_files/figure-html/box%20plot-1.png" width="672" /></p>
 <p>You can also add variables to the y-axis:</p>
 <pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm, y = species)) +
   geom_boxplot()</code></pre>
-<pre><code>## Warning: Removed 2 rows containing non-finite outside the scale range
-## (`stat_boxplot()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite outside the
+## scale range (`stat_boxplot()`).</code></pre>
 <p><img src="p04_files/figure-html/box%20plot%20y-axis-1.png" width="672" /></p>
 </div>
 <div id="scatterplot" class="section level3">
 <h3>Scatterplot</h3>
 <pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
   geom_point()</code></pre>
-<pre><code>## Warning: Removed 2 rows containing missing values or values outside the scale range
-## (`geom_point()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values or values
+## outside the scale range (`geom_point()`).</code></pre>
 <p><img src="p04_files/figure-html/scatterplot-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
   geom_point() +
   geom_smooth()</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;</code></pre>
-<pre><code>## Warning: Removed 2 rows containing non-finite outside the scale range
-## (`stat_smooth()`).</code></pre>
-<pre><code>## Warning: Removed 2 rows containing missing values or values outside the scale range
-## (`geom_point()`).</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula =
+## &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite outside the
+## scale range (`stat_smooth()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values or values
+## outside the scale range (`geom_point()`).</code></pre>
 <p><img src="p04_files/figure-html/scatterplot%20smooth-1.png" width="672" /></p>
 </div>
 <div id="hex-plot" class="section level3">
 <h3>Hex plot</h3>
 <pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
   geom_hex()</code></pre>
-<pre><code>## Warning: Removed 2 rows containing non-finite outside the scale range
-## (`stat_binhex()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite outside the
+## scale range (`stat_binhex()`).</code></pre>
 <p><img src="p04_files/figure-html/hex%20plot-1.png" width="672" /></p>
 </div>
 <div id="bar-chart" class="section level3">
@@ -501,8 +503,8 @@ addition to having fill in the aesthetics). See below:</p>
 <h3>Violin plots</h3>
 <pre class="r"><code>ggplot(penguins, aes(x = species, y = flipper_length_mm)) +
   geom_violin()</code></pre>
-<pre><code>## Warning: Removed 2 rows containing non-finite outside the scale range
-## (`stat_ydensity()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite outside the
+## scale range (`stat_ydensity()`).</code></pre>
 <p><img src="p04_files/figure-html/violin%20plot-1.png" width="672" /></p>
 </div>
 <div id="ridge-plots" class="section level3">
@@ -524,22 +526,22 @@ element_blank(), axis.text.y = element_blank())</p>
   theme(
     axis.ticks.y = element_blank(),
     axis.text.y = element_blank())</code></pre>
-<pre><code>## Warning: Removed 2 rows containing non-finite outside the scale range
-## (`stat_boxplot()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite outside the
+## scale range (`stat_boxplot()`).</code></pre>
 <p><img src="p04_files/figure-html/box%20plot%20no%20y%20axes%20labels-1.png" width="672" /></p>
 <p>Note that the plot now has no labels or values on the y-axis.</p>
 <p>You can also change themes to change the layout of the plot.</p>
 <pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm)) +
   geom_boxplot() + 
   theme_bw()</code></pre>
-<pre><code>## Warning: Removed 2 rows containing non-finite outside the scale range
-## (`stat_boxplot()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite outside the
+## scale range (`stat_boxplot()`).</code></pre>
 <p><img src="p04_files/figure-html/box%20plot%20bw%20theme-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm)) +
   geom_boxplot() + 
   theme_minimal()</code></pre>
-<pre><code>## Warning: Removed 2 rows containing non-finite outside the scale range
-## (`stat_boxplot()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite outside the
+## scale range (`stat_boxplot()`).</code></pre>
 <p><img src="p04_files/figure-html/box%20plot%20minimal%20theme-1.png" width="672" /></p>
 </div>
 <div
@@ -556,35 +558,123 @@ argument to geom_smooth(). See the following three examples</p>
 <pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
   geom_point(aes(color = species)) +
   geom_smooth()</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;</code></pre>
-<pre><code>## Warning: Removed 2 rows containing non-finite outside the scale range
-## (`stat_smooth()`).</code></pre>
-<pre><code>## Warning: Removed 2 rows containing missing values or values outside the scale range
-## (`geom_point()`).</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula =
+## &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite outside the
+## scale range (`stat_smooth()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values or values
+## outside the scale range (`geom_point()`).</code></pre>
 <p><img src="p04_files/figure-html/weird%20smooth%201-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
   geom_point() +
   geom_smooth()</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;</code></pre>
-<pre><code>## Warning: Removed 2 rows containing non-finite outside the scale range
-## (`stat_smooth()`).</code></pre>
-<pre><code>## Warning: Removed 2 rows containing missing values or values outside the scale range
-## (`geom_point()`).</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula =
+## &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite outside the
+## scale range (`stat_smooth()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values or values
+## outside the scale range (`geom_point()`).</code></pre>
 <p><img src="p04_files/figure-html/weird%20smooth%202-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
   geom_point() +
   geom_smooth(color = &quot;blue&quot;)</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;</code></pre>
-<pre><code>## Warning: Removed 2 rows containing non-finite outside the scale range
-## (`stat_smooth()`).</code></pre>
-<pre><code>## Warning: Removed 2 rows containing missing values or values outside the scale range
-## (`geom_point()`).</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula =
+## &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite outside the
+## scale range (`stat_smooth()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values or values
+## outside the scale range (`geom_point()`).</code></pre>
 <p><img src="p04_files/figure-html/weird%20smooth%203-1.png" width="672" /></p>
 </div>
 <div id="geoms" class="section level2">
 <h2>Geoms</h2>
 <p>geom_rect() draws a rectangle around a point of interest
 geom_segment() draws an arrow to the point of interest</p>
+</div>
+<div id="libraries" class="section level2">
+<h2>Libraries</h2>
+<p>ggpattern creates cool patterns, but crashes R when it gets too
+complicated. For example, this code works without ggpattern, but not
+with ggpattern. Other graphs that didn’t have facetting worked with
+ggpattern. I checked this on the lab computer too and it still crashes,
+so it isn’t due to my computer not being strong enough.</p>
+<pre class="r"><code>avg_diff_score_df %&gt;% 
+   select(diff_sc_ext_fm_mean, diff_sc_ext_fm_sd, diff_sc_ext_fc_mean, diff_sc_ext_fc_sd, diff_sc_ext_mc_mean, diff_sc_ext_mc_sd, Age_cat) %&gt;%
+  pivot_longer(cols = -Age_cat, names_to = c(&quot;raters&quot;, &quot;.value&quot;), names_pattern = &quot;[[:alpha:]]+_sc_ext_([[:alpha:]]+)_([[:alpha:]]+)&quot;) %&gt;%
+  mutate(
+    raters = case_when(
+      raters == &quot;fm&quot; ~ &quot;Father - Mother&quot;,
+      raters == &quot;fc&quot; ~ &quot;Father - Child&quot;,
+      raters == &quot;mc&quot; ~ &quot;Mother - Child&quot;
+    )
+  ) %&gt;% 
+  ggplot(aes(x = Age_cat, y = mean)) +
+  geom_bar(stat = &quot;identity&quot;, color = &quot;black&quot;, fill = &quot;white&quot;, width = 0.4) +
+  geom_errorbar(aes(ymin = mean - sd, ymax = mean + sd), width = 0.20) +
+  facet_wrap(vars(raters), nrow = 3) +
+  #ylim(-10, 5) +
+  theme_classic() +
+  theme(axis.text.x = element_text(colour = &quot;black&quot;), 
+        axis.text.y = element_text(colour = &quot;black&quot;),
+        axis.line.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        panel.grid.major.y = element_line(),
+        panel.grid.minor.y = element_line(),
+        strip.background = element_blank()) +
+  #coord_cartesian(expand = FALSE, xlim = c(0.5, 3.5), ylim = c(-10, 5)) +
+  geom_hline(aes(yintercept = 0)) +
+  labs(
+    x = &quot;Age Category&quot;,
+    y = &quot;Mean Difference Scores&quot;
+  )</code></pre>
+<p>Internalizing scores:</p>
+<pre class="r"><code>avg_diff_score_df %&gt;% 
+   select(diff_sc_int_fm_mean, diff_sc_int_fm_sd, diff_sc_int_fc_mean, diff_sc_int_fc_sd, diff_sc_int_mc_mean, diff_sc_int_mc_sd, Age_cat) %&gt;%
+  pivot_longer(cols = -Age_cat, names_to = c(&quot;raters&quot;, &quot;.value&quot;), names_pattern = &quot;[[:alpha:]]+_sc_int_([[:alpha:]]+)_([[:alpha:]]+)&quot;) %&gt;%
+  mutate(
+    raters = case_when(
+      raters == &quot;fm&quot; ~ &quot;Father - Mother&quot;,
+      raters == &quot;fc&quot; ~ &quot;Father - Child&quot;,
+      raters == &quot;mc&quot; ~ &quot;Mother - Child&quot;
+    )
+  ) %&gt;% 
+  ggplot(aes(x = Age_cat, y = mean)) +
+  geom_bar(stat = &quot;identity&quot;, width = 0.4) +
+  geom_col_pattern(aes(pattern = &quot;mean&quot;), pattern = &quot;stripe&quot;, pattern_colour =  &quot;lightgrey&quot;, color = &quot;black&quot;, fill = &quot;white&quot;, width = 0.4) +
+  geom_errorbar(aes(ymin = mean - sd, ymax = mean + sd), width = 0.20) +
+  facet_wrap(vars(raters), nrow = 3) +
+  #ylim(-10, 5) +
+  theme_classic() +
+  theme(axis.text.x = element_text(colour = &quot;black&quot;), 
+        axis.text.y = element_text(colour = &quot;black&quot;),
+        axis.line.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        panel.grid.major.y = element_line(),
+        panel.grid.minor.y = element_line(),
+        strip.background = element_blank()) +
+  #coord_cartesian(expand = FALSE, xlim = c(0.5, 3.5), ylim = c(-10, 5)) +
+  geom_hline(aes(yintercept = 0)) +
+  labs(
+    x = &quot;Age Category&quot;,
+    y = &quot;Mean Difference Scores&quot;
+  )</code></pre>
+</div>
+<div id="random-stuff" class="section level2">
+<h2>Random stuff</h2>
+<ol style="list-style-type: decimal">
+<li><p>Self-made discrete scale: scale_fill_manual(values = c(“#F2FFDA”,
+“#D3F3B4”, “#BFE9B4”, “#7FCD97”, “#7FCDBB”, “#41C6BD”, “#41B6C4”,
+“#1D9FC0”, “#1D91C0”, “#2273A9”, “#225EA8”, “#415EAC”, “#253494”,
+“#18337D”, “#081D58”, “#051644”))</p></li>
+<li><p>Things go on top of each other. If you make width of bar .5 and
+width of pattern in ggplot .4, you see things going out on the
+sides.</p></li>
+<li><p>How to make graphs APA style. See thesis project</p></li>
+<li><p>change fig.height and width in r chunk code parameter to change
+the plot size. Looks like the default is 7.5 in height?</p></li>
+<li><p>use str_wrap with width = 80 to make the title of a plot not go
+beyond the plot and be cut off. Creates a new line instead.</p></li>
+</ol>
 </div>
 <div id="to-do-list" class="section level2">
 <h2>To do list</h2>

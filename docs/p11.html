@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Making a lab 0</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Portfolio</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="p01.html">Portfolio 1</a>
+</li>
+<li>
+  <a href="p02.html">Portfolio 2</a>
+</li>
+<li>
+  <a href="p03.html">Portfolio 3</a>
+</li>
+<li>
+  <a href="p04.html">Portfolio 4</a>
+</li>
+<li>
+  <a href="p05.html">Portfolio 5</a>
+</li>
+<li>
+  <a href="p06.html">Portfolio 6</a>
+</li>
+<li>
+  <a href="p07.html">Portfolio 7</a>
+</li>
+<li>
+  <a href="p08.html">Portfolio 8</a>
+</li>
+<li>
+  <a href="p09.html">Portfolio 9</a>
+</li>
+<li>
+  <a href="p10.html">Portfolio 10</a>
+</li>
+<li>
+  <a href="p11.html">Portfolio 11</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Making a lab 0</h1>
+
+</div>
+
+
+<p>I made this lab instead of doing one myself. I remember the beginning
+of the class being overwhelming and confusing for some people, so I will
+make a lab that goes over how to get started and set up the class. This
+will be especially helpful for when the class is adapted for
+undergrads.</p>
+<p>One of the main changes that would make the beginning of the class
+easier is: Change up module 0 and 1 and lab 1. Make the things they are
+doing clearer and not have unecessary information this early on.</p>
+<p>Strip out all of the customization and cool stuff from the first one
+or two modules. It is fine later on, but to beging with everything is
+new and overwhelming. I think you would be better off giving students
+just the bare minimum and keep all customizations and cool things as
+either ODD or as cool facts later.</p>
+<p>The thought is that lab 0 can be included in module 0. However,
+module 0 and 1 should probably be edited a little for this lab to fit
+in. I think that will overall make the ease into the class easier. I am
+basing this on my experinece (as I didn’t know Git before starting), as
+well as all of the students I was helping during the first few weeks of
+the class. Some problems kept coming up and I have tried to make this
+lab so that those confusions won’t occur as much.</p>
+<p>Some other general notes:</p>
+<ul>
+<li>The language is too technical in the beginning, it is probably
+intimidating for people that are already overwhelmed by all the new
+stuff. For example, “Install R, a free software environment for
+statistical computing and graphics from CRAN, the Comprehensive R
+Archive Network. I highly recommend you install a precompiled binary
+distribution for your operating system – use the links up at the top of
+the CRAN page linked above!” Dumb it down to the bare necessities,
+students don’t need to know all of this. It is like the scaffolding with
+the labs, you start with a lot of scaffolding (and dumbing down) and
+then you can add more advanced stuff (and language) later.</li>
+</ul>
+<p>Lab 0 - Setting up the course</p>
+<ul>
+<li>A quick overview of the course
+<ul>
+<li>What each week looks like</li>
+<li>Modules, videos and articles</li>
+<li>Activities</li>
+<li>Labs</li>
+</ul></li>
+<li>Reading the syllabus</li>
+<li>Downloading R and R studio
+<ul>
+<li>Printing hello world?</li>
+</ul></li>
+<li>Difference between R and R studio, file types, knitting</li>
+<li>Introduce github, what is it, how does it work
+<ul>
+<li>Info about push and pull
+<ul>
+<li>videos?</li>
+</ul></li>
+</ul></li>
+<li>Find the contract and make it</li>
+<li>Setting up portfolios
+<ul>
+<li>Getting the webpage</li>
+<li>Making changes and pushing them</li>
+</ul></li>
+<li>How to find labs
+<ul>
+<li>Find lab 0 and fill out the questions
+<ul>
+<li>Just checking whether they have done everything and have them write
+a few things. Have something to hand in and go through the motions, so
+that lab 2 seems easier</li>
+</ul></li>
+</ul></li>
+</ul>
+<div id="lab-0---getting-started-and-setting-up-the-course"
+class="section level1">
+<h1>Lab 0 - Getting Started and Setting up the Course</h1>
+<p>Hi, welcome to the first lab in your data science class! The
+following lab will help you get an overview over the course, getting
+started with R, and setting up the course. After doing this lab, you
+should be ready to start fully engaging in the course and to code. There
+are a lot of new concepts and programs when starting to code. However,
+if you get past this first bit of the class, it will get more familiar
+to you and it will get easier.</p>
+<div id="course-overview" class="section level2">
+<h2>Course Overview</h2>
+<p>There are several components to the class. The biggest component is
+the modules. Every week, you will work on a module. Each module has
+videos, slides, and articles that will guide you through the material
+covered in that module. Some modules have activities that you can work
+on to learn the skills that are covered in the modules.</p>
+<p>Furthermore, there are two types of assignments in the class: labs
+and portfolio projects. There is a lab after every module. So after
+working through the module and learning about a topic, you can try it
+out and show what you have learned in the lab. The portfolio projects
+are done on the side and are a place where you can show what you have
+learned in broader terms. Maybe you want to build on something you
+learned from a module? Maybe you want to try out something you learned
+from a module on your own data (like your thesis data)? Or maybe there
+is something else you are curious about that you would like to learn
+more about? All of these are great things to do for your portfolio
+projects.</p>
+<!--I didn't include any more information about grades and number of assignments, as I just want to introduce the overall structure of the class, especially since I will be referring to it later in the lab + they have all of that information available to them in the syllabus -->
+</div>
+<div id="syllabus" class="section level2">
+<h2>Syllabus</h2>
+<p>To get started with the class, you will want to know what is in the
+syllabus. Therefore, if you haven’t already, read (or at least skim
+over) the syllabus. You can find it <a
+href="https://smasongarrison.github.io/syllabi/index.html">here</a>.
+There is a general part to the syllabus, as well as a part specific for
+this class. Read both the general and class-specific parts, that will
+set you up for doing well in the course.</p>
+</div>
+<div id="downloading-r" class="section level2">
+<h2>Downloading R</h2>
+<p>After you have read the syllabus, you will have to download the
+software that we will be using to program in this class. There are two
+things you need to install. The first is R, which is the actual program
+that runs your code and translate it into actions.</p>
+<p>If you have a Windows computer, go to this <a
+href="https://cran.r-project.org/bin/windows/base/">page</a> and
+download R from the link saying “Download R for Windows”. There will be
+a number in this title which is just the number of the current newest
+version, so it doesn’t matter what the number is, as long as it says
+Download R.</p>
+<p>If you have a Mac, go to this <a
+href="https://cran.r-project.org/bin/macosx/">page</a> and download R
+from the blue link to the left. It will say “R” with a number and some
+other letters. That is the link you want to click on to download R.</p>
+<p>If you have Linux, good for you! Go to this <a
+href="https://cran.r-project.org/bin/linux/">page</a> and click through
+the relevant folders to get to the appropriate download file.</p>
+<p>Click through the different prompts to successfully install R.</p>
+<p>If you already have R installed on your computer from earlier,
+reinstall R to get the most up-to-date version.</p>
+</div>
+<div id="testing-r" class="section level2">
+<h2>Testing R</h2>
+<p>Now, let’s make sure you successfully downloaded R on your
+computer.</p>
+<p>On Windows, click the Windows symbol in the bottom left corner of
+your computer. Write “R” and see whether you can see an app called R
+x.x.x where the x’s are some numbers indicating your version of R. If
+you can’t see it, go to the Apps tab in the menu and you should find it
+there.</p>
+<p>On Mac, you can either click the Blue R icon with a grey circle
+behind it or search for the R program by clicking Command and space, and
+typing R. You will then see a program called R x.x.x where the x’s are
+some numbers indicating your version of R.</p>
+<p>You have now just opened R for the first time. To test it out, you
+can type in a command which is traditionally the first thing code one
+writes when learning programming. Type in “print(”Hello World!“)”
+without the first and last quotation marks in the white box. You should
+get an output stating “[1]”Hello World!““. You just ran your first code,
+asking R to print the text Hello World!.</p>
+</div>
+<div id="downloading-rstudio" class="section level2">
+<h2>Downloading RStudio</h2>
+<p>As you might have noticed when writing this R code, is that the R
+program has a very basic user interface (layout). The design is rather
+old and there are not a lot of buttons and options. The R programming
+language is in itself very well-done and advanced. However, it is made
+for coding, not to have a cool layout and a lot of options outside the
+code. People therefore generally</p>
+<p>Have them open R and test it out. Explain what it is, then introduce
+R studio</p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

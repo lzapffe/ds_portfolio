@@ -88,6 +88,17 @@ You can use path_package() to find the path for a file based on some strings to 
 readr to get files imported properly, for example, not having all strings converted to factors automatically such as happens with base r
 
 
+## Things to look at
+
+### For advanced vectorized functions and dplyr project
+
+1. Do.call() vs vectorized operations
+2. Map.dffr in purr (this is depricated) vs vecotrized operations
+3. .attributes function (not just dplyr)
+4. Vectorized operations building on previous output. Now I only know how to do this with loops
+5. across(), rowwise(), any_of(), all_of(), everything(), ~, .x (is column?)
+6. !! from rlang to dynamically evaluate expressions. Uses := instead of =
+
 ## To do list
 
 - Add in how to integrate base R into pipelines if needed

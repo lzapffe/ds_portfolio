@@ -34,6 +34,7 @@ Some of the metacharacters:
     - E.g. [a-z],[0-9], or [a-zA-Z]
 - "[^]" means do not match
   - E.g. [^?.]$ would be all lines that do not end with ? or .
+  - You can use this to stop a full match if you have a greedy quantifier and know a character that should not be matched
 - "." means any character
   - E.g. 9.11 could match with "9-11", "9/11", and "9211"
   - The period can also match nothing, like "911"
@@ -55,6 +56,7 @@ Some of the metacharacters:
 - "+" means repeated any number of times, but at least once
   In contrast to *, which is any number of times, including zero
   - E.g. (.+) would match () with any string of any length in it, but not empty
+  - Works on the character immediately to the left of it, such as "s", "2" or "\w". If you want more to be repeated together, you need to encompass it in parentheses
 - "{}" are interval ranges of how many times something can be repeated
   - E.g. [Bb]ush( +[^ ]+ +){1,5} debate would match with any string that has "Bush" or "bush", then between one or five words, then the word "debate"
   - You do not have to specify a range, you can also put in only one number, meaning that it has to be repeated exactly that number of times, or a number with a comma, meaning it has to be repeated at least the specified number of times, but with no upper limit
@@ -259,6 +261,88 @@ We can use our "A1" boundary wherever we like
 (?&A1)cat(?&A1)
 
 
+## Quantifiers
+
+- For example +
+- All quantifiers are by default greedy, meaning that they will match as much as possible
+  - For example, using \d+ on 123 will match 123, not 1 or 12
+  - The quantifier is also docile, meaning that it will give back parts if needed to match the rest of the string
+  - For example, if you use A+. to match on AAA, the A+ will first match all of AAA, then the . will fail to match anything. Therefore, the A+ part gives up one A, so that it can match with . Ultimately, the A+ therefore matches AA and the . matches A
+    - If you instead have A+.., the A+ will match the first A and each . will match each own A.
+  - Similarly, if you have the regex .*apple and the string A tasty apple, the . will first match everything, then backtrack when apple isn't matched, until it can match it. The ultimate result will therefore be that the . takes "A tasty " and the apple part matches with "apple".
+  - The fact that it is greedy does not mean that it matches the longest match whenever in the string, but that it matches as much as possible from the first possible match
+    - E.g. if you have 12 9999 and use \d+ it will match 12 and not 9999, even though it is greedy
+- You can add a ? to a quantifier to make it lazy, so it matches as few characters as possible for the match to occur
+- The quantifier ? matches with none or one match
+  - For example, the match \w*?E will match with 123E in the string 123EEE, not with all of it, because the \w? only need to match with 123 to get an E afterward, not all of 123EE
+- Lazy quantifiers match with as little as possible
+  - Most lazy quantifiers are also helpful, meaning that it originally starts the match with the smallest possible match, then expands until the whole string matches
+    - E.g. in our \w??E example, it starts matching nothing, since ? can be nothing, but then fails to match the E. Therefore, it tries adding 1, but still fails. Only after adding 123 does it succeed with a whole match, as the next character is E. This is lazy, but helpful behavior
+    - The lazy quantifier matches the smallest possible match from the starting point, not for the entire string
+- You can make a quantifier possessive by adding a + to it. This negates the docile behavior for greedy quantifiers
+  - E.g. A+. will match the string AAA, but A++. won't, as all A's are taken up with the "A++" part, so that there is nothing left for the .
+  - Sometimes, you can make a quantifier possessive if you know that it won't matter, especially if your match might fail. This will speed up the code, since it doesn't have to constantly back-track
+  - Some engines, like R, looks at the string before starting and automatically makes a regex part possessive if this doesn't affect the matching, to make the code faster.
+    - This can be turned off with (*NO_AUTO_POSSESS)
+- The process of the engine going back when a pattern fails to see whether making other choices (e.g. matching fewer characters with a +) would lead to a match is called backtracking
+  - Can help you catch more matches, but can also lead to the code running for a long time as the engine keeps backtracking to try all variations of how the regex can be applied to a match to see whether any of them will lead to a match
+- There are some quantifiers that can lead to a lot of backtracking, called explosive quantifiers
+  - These includes *, +, {x, }, or a specified range with a high number, like 10 or more
+  - This can especially happen if you have two quantifiers in different places that can lead to an exponential number of possible variations
+    - E.g. (A+)*
+  - Another way of looking at this is to use contrast in your regex patterns. If you have a lot of parts of the regex that can fit multiple parts of the string, there will be many variations, while if you have more specific expressions, there will be less backtracking since there are fewer variations 
+  - You can use atomic groups to counteract this
+    - Put a regex expression inside of (?>) to make the group atomic
+    - Then, after the engine runs through the group, it cannot backtrack to try other variations
+    - Atomic groups with one character and a quantifier is often the same as a possessive quantifier
+      - E.g. (?>A+) is equal to A++, (?>A*) is equal to A*+, and (?>A?) is equivalent to A?+
+  - Generally, be as specific and concise as you can in your patterns to decrease backtracking
+    - E.g. not (A|AA)+, but A+
+    
+- +, ?, and * are all greedy, but docile, matching one or more, zero or one, and zero or more parts of a string
+  - Add + do either of these to make it greedy and possessive, so that it won't backtrack to make the match work
+  - Add ? to either of these to make them lazy, so that they match to as few matches as possible. All of these lazy matches are still helpful, so it will be lazy by default, but take more if needed
+
+
+## Conditionals
+
+- You can add conditionals with the following syntax: (?(A)X|Y)
+  - This statement says that if A is TRUE, then you do X. If not, do Y
+  - (?(A)X) means if A, do X
+    - No else statement
+  - (?(A)|X) means if not A, do X. If A, match empty string
+- You can force a regex to fail if it has a specific condition
+  - E.g. Lets say that you want to match two possible combinations of words. Consider an ID system where you have a lot of IDs, followed by a status of either pending or active. However, some of the IDs are temporary, designated with the IDs beginning with TMP. These temporary IDs can only be active, not pending. Therefore, we will make a regex that can capture all of the valid IDs, but ignore the unvalid cases (temporary IDs that are pending). The regex ^(TMP)?\d+_(?:active|pending(?(1)(?!)))$. This code will capture "TMP" as an optional capture group, then some numbers, an underscore, and either the status pending or active. If it catches active, everything is fine. However, if it captures pending, and the first capture group is matched (meaning the string starts with "TMP"), then the match will automatically fail because of the (?!)
+    - This example was developed in co-junction with ChatGPT
+  - You can also fail with an if-else-then statement
+    - E.g. ^(TMP)?\d+_(?:active|pending(?(1)|(?!)))$. In this code, there is either an active status, or whether there is a pending status and a "TMP" start string (i.e. the capture group has been set). If this is not the case, then it fails.
+      - This is an opposite condition for the TMP and pending scenario as with only the if-else statement
+      
+      
+## Recursive regexs
+
+- You can add (?R) to repeat a pattern a selected number of times, instead of writing it all out.
+  - E.g. \w{3}\d{3}(?R)? to match "aaa111bbb222"
+    - You could alternatively use the regex "(?:\w{3}\d{3})+"
+- You can add a conditional to the expression
+  - E.g. Match a repeat of the word until the end of the string with "abc(?:$|(?R))"
+- You can use these recursive regex to match more complicated patterns, like palindromes
+  - E.g. (\w)(?:(?R)|\w?)\1
+    - I haven't fully parsed how this regex works, but it is something to look into for more complicated expressions
+    
+    
+## Backtracking Control Verbs
+
+- You can use backtracking control verbs to change what the engine does during a backtrack
+  - The verbs will therefore not have any effect on the code (i.e be skipped) when matching and only have an effect if the regex needs to backtrack the matching
+- There are many control verbs:
+  - (*THEN) - Used with a conditional expression. Stops the match and moves on to the next possible condition (other side of |)
+    - E.g. "Comedian: (?:B\w+ (*THEN)Murray|E\w+ (*THEN)Murphy|P\w+ Sellers)" to match the name of a comedian in a string. The (*THEN) makes it so that the expression does not backtrack if the last name is not the right one, given the first letter of the first name
+    - In most situations you wouldn't really need the (*THEN), but if you were to have a very long string before the (*THEN) statement, it could speed up the expression by getting rid of the backtracking. In this scenario, you could write it as "Comedian: (?:B\w+ Murray|E\w+ Murphy|P\w+ Sellers)" since the string isn't that long anyway
+  - (*PRUNE) - Stops the match if it tries to backtrack past the expression
+  - (*SKIP)
+  - (*COMMIT)
+
 
 ## To do list
 
@@ -268,3 +352,6 @@ We can use our "A1" boundary wherever we like
 - Check the formatting of the rendered document. The special characters tends to be read as a special character by rmarkdown
 
 
+## Fun-fact
+
+- You can actually use explosive quantifiers to ReDoS attack a webpage by giving a regex that will have it run a very large number of variation, to eventually slow down or shut down a webpage - https://en.wikipedia.org/wiki/ReDoS

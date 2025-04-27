@@ -1,0 +1,14 @@
+---
+title: "TEST"
+author: "Linn Zapffe"
+date: "2025-04-16"
+output: html_document
+---
+
+This is a test
+
+External `HTML` file can be included in an `<iframe>` element:
+
+```{r, echo=FALSE}
+htmltools::includeHTML("docs/p03.html")
+```
