@@ -3,27 +3,29 @@ output_dir: docs
 navbar:
   title: "Portfolio"
   left:
+    - text: "Home"
+      href: index.html
     - text: "About"
       href: about.html
-    - text: "Portfolio 1"
+    - text: "Project 1"
       href: p01.html
-    - text: "Portfolio 2"
+    - text: "Project 2"
       href: p02.html
-    - text: "Portfolio 3"
+    - text: "Project 3"
       href: p03.html
-    - text: "Portfolio 4"
+    - text: "Project 4"
       href: p04.html
-    - text: "Portfolio 5"
+    - text: "Project 5"
       href: p05.html
-    - text: "Portfolio 6"
+    - text: "Project 6"
       href: p06.html
-    - text: "Portfolio 7"
+    - text: "Project 7"
       href: p07.html
-    - text: "Portfolio 8"
+    - text: "Project 8"
       href: p08.html
-    - text: "Portfolio 9"
+    - text: "Project 9"
       href: p09.html
-    - text: "Portfolio 10"
+    - text: "Project 10"
       href: p10.html
-    - text: "Portfolio 11"
+    - text: "Project 11"
       href: p11.html
