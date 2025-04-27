@@ -16,22 +16,3 @@ I have learned a lot working on this portfolio and I hope that you might too loo
 Sincerely,
 
 Linn Zapffe
-
-
-
-This portfolio consists of the following 10 projects:
-
-1. Improving the class contract
-2. Vectorized operations
-3. Tidyverse vs base R
-4. ggplot + Exploring data visualization libraries
-5. Web scraping stock data
-6. Regex
-7. GitKraken and advanced workflows
-8. Getting GitHub certified
-9. Data Wrangling of PAC data set
-10. Automating the scoring of the Sleepin' Deacon challenge
-
-The projects are ordered after when they were initiated. However, they were worked on simultaneously, so the order does not necessarily reflect the order in which they were finished.
-
-The following projects are finished: 1
