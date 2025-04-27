@@ -1,7 +1,7 @@
 name: "Linn's Portfolio from Data Science with R Class"
 output_dir: docs
 navbar:
-  title: "Linn's Portfolio from Data Science with R Class"
+  title: "Portfolio for the Data Science with R Class"
   left:
     - text: "Home"
       href: index.html

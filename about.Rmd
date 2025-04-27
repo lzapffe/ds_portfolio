@@ -7,7 +7,7 @@ The portfolio consists of 10 projects + 1 lab. I have designed these projects to
 
 The focus on the deep-dives has been to learn about the topic and then write it up in a way so that I can come back and use it for reference later. I will for example not learn all of the regex possibilities by heart, but instead get an overview and general understanding of what works, so that I know what to look for when I need something. The applied problems have on the other hand been more focused on solving a real-world problem and whatever that has required is what I have gotten practice in. It is therefore a little less structured than the deep dives. However, these are often some of the projects where I have learned the most, since they have had challenges with no apparent good solution, that has often required me to test out various approaches or have to learn more about a function to use it differently than what I might have done previously.
 
-I have learned a lot working on this portfolio and I hope that you might too looking over it.
+I have learned a lot working on this portfolio and I hope that you might too from looking over it.
 
 <!-- The "br" part adds another empty line so that I get an additional line before signing the introduction -->
 
