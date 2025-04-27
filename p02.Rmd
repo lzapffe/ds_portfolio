@@ -555,3 +555,4 @@ I think, at this point, that I can't fully take advantage of the vectorized oper
 - Add a quick guide/summary of the functions to the end of the document
 - Figure out how to use nested anonymous functions
 - Add the scenario from data wrangling the PAC data where the for loop worked better than vectorized operations because it is recursive
+- Add Tidyverse solutions?

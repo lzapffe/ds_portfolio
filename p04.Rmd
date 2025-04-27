@@ -380,5 +380,7 @@ How to make graphs APA style. See thesis project
 
 - Add info about grammar of graphics
 - Explore making ggplot APA style
+  - Pattern library and the problem I ran into
 - Explore different things one can do with ggplot
 - Explore other libraries for data visualization too?
+- Add in general commands for ggplot

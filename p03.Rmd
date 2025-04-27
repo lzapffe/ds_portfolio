@@ -107,3 +107,8 @@ readr to get files imported properly, for example, not having all strings conver
 - Make an overview of the Tidyverse packages and what they do
 - Do a deep dive into some of the packages and go over useful functions
 - Discuss how Tidyverse usually has functions for things that would take a lot of code to do in base R - one benefit
+- Add dplyr commands
+- Add base vs R code to show the difference
+- Look into recipies?
+- Look up weird dplyr things I have seen
+- Reflection on Tydymodels?

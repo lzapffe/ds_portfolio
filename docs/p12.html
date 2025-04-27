@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Linn Zapffe" />
+
+<meta name="date" content="2025-04-27" />
+
+<title>Web Scraping Stock Data 2</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Portfolio for the Data Science with R Class</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="p01.html">Project 1</a>
+</li>
+<li>
+  <a href="p02.html">Project 2</a>
+</li>
+<li>
+  <a href="p03.html">Project 3</a>
+</li>
+<li>
+  <a href="p04.html">Project 4</a>
+</li>
+<li>
+  <a href="p05.html">Project 5</a>
+</li>
+<li>
+  <a href="p06.html">Project 6</a>
+</li>
+<li>
+  <a href="p07.html">Project 7</a>
+</li>
+<li>
+  <a href="p08.html">Project 8</a>
+</li>
+<li>
+  <a href="p09.html">Project 9</a>
+</li>
+<li>
+  <a href="p10.html">Project 10</a>
+</li>
+<li>
+  <a href="p11.html">Project 11</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Web Scraping Stock Data 2</h1>
+<h4 class="author">Linn Zapffe</h4>
+<h4 class="date">2025-04-27</h4>
+
+</div>
+
+
+<p>My beloved dad has disowned my many times due to my unfiltered
+comments and said that the money will now instead go to starting a
+non-profit supporting orphaned owls. So, I need to get back on his good
+side. In addition, he spends a few days every year gathering last years’
+data on the stocks that he is following. As a programmer, I know that
+everything that is tedious and done manually, can be done automatically
+with programming. So, this project will try to automate my dad’s yearly
+data collection. The goals for this project is:</p>
+<ul>
+<li>To get un-disowned from my dad</li>
+<li>To save my dad some days every year collecting his data</li>
+<li>Learning to use and get comfortable with web scraping</li>
+<li>Learning more about web scraping as a tool to gather data</li>
+<li>Get experience with using web scraping and problem solving for some
+less straightforward scenarios of gathering data</li>
+<li>To use programming to solve a real-world problem</li>
+</ul>
+<div id="the-data-to-be-gathered" class="section level2">
+<h2>The data to be gathered</h2>
+<p>The current script will work with a list of 10 random stocks and try
+to get the data from those.</p>
+<pre class="r"><code># To read in the list of stocks from an Excel file
+library(readxl)</code></pre>
+<pre><code>## Warning: package &#39;readxl&#39; was built under R version 4.3.3</code></pre>
+<pre class="r"><code># To check path access for web scraping
+library(robotstxt)</code></pre>
+<pre><code>## Warning: package &#39;robotstxt&#39; was built under R version 4.3.3</code></pre>
+<pre class="r"><code># Get web scraping and html related functions
+library(rvest)</code></pre>
+<pre><code>## Warning: package &#39;rvest&#39; was built under R version 4.3.3</code></pre>
+</div>
+<div id="loading-the-data-into-a-data-frame" class="section level2">
+<h2>Loading the data into a data frame</h2>
+<p>Reading the xlsx file into r:</p>
+<pre class="r"><code>data_df &lt;- read_xlsx(&quot;Liste over fondsnavn utvalg.xlsx&quot;)</code></pre>
+</div>
+<div id="checking-access-to-url" class="section level2">
+<h2>Checking access to URL</h2>
+<p>We need to get access to the following URL: <a
+href="https://morningstar.no/no/"
+class="uri">https://morningstar.no/no/</a>. So, I will check whether we
+can web scrape it here:</p>
+<pre class="r"><code>paths_allowed(&quot;https://morningstar.no/no/&quot;)</code></pre>
+<pre><code>##  morningstar.no</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>So far, so good. We have access to the webpage.</p>
+</div>
+<div id="the-plan---workflow" class="section level2">
+<h2>The plan - workflow</h2>
+<p>Getting the desired data, involves searching up each stock on their
+webpage, retrieving the URL for the webpage of that stock, adding a tag
+to the URL to get to the history tab for that stock, then extract the
+relevant data for the desired year.</p>
+<p>We have to search up each URL, since the tag they use to index each
+stock seems to be a random number, and is unfortunately not based on the
+stock’s ID.</p>
+</div>
+<div id="get-the-urls" class="section level2">
+<h2>Get the URLs</h2>
+<pre class="r"><code># Here is the URL for searching for the first page: https://www.morningstar.no/no/screener/fund.aspx#?filtersSelectedValue=%7B%22term%22:%22LU0048574536%22%7D&amp;page=1&amp;sortField=legalName&amp;sortOrder=asc
+
+search_page &lt;- read_html(&quot;https://www.morningstar.no/no/screener/fund.aspx#?filtersSelectedValue=%7B%22term%22:%22LU0048574536%22%7D&amp;page=1&amp;sortField=legalName&amp;sortOrder=asc&quot;)</code></pre>
+<p>Get the URL of the actual stock page:</p>
+<pre class="r"><code>stock_URL &lt;- search_page %&gt;%
+  html_elements(&quot;.ec-table__investment-link&quot;)
+  #html_elements(&quot;link&quot;)
+stock_URL</code></pre>
+<pre><code>## {xml_nodeset (0)}</code></pre>
+<pre class="r"><code>#sess &lt;- read_html_live(&quot;https://www.morningstar.no/no/screener/fund.aspx#?filtersSelectedValue=%7B%22term%22:%22LU0048574536%22%7D&amp;page=1&amp;sortField=legalName&amp;sortOrder=asc&quot;)
+#sess$view()</code></pre>
+<p>It looks like we might be able to get rvest to click on stuff on the
+webpage by using html$click in rvest or clickElement() in RSelenium</p>
+</div>
+<div id="web-scraping-basics" class="section level2">
+<h2>Web scraping Basics</h2>
+<p>Taken from <a href="https://r4ds.hadley.nz/webscraping"
+class="uri">https://r4ds.hadley.nz/webscraping</a></p>
+<p>Every html page has a html element that consists of two children: a
+header and a body.</p>
+<p>href contains links</p>
+<p>You can use read_html() from rvest to get a html object</p>
+<p>CSS = Cascading style sheets. It is a tool for defining visual
+styling of html. You can use CSS selectors to scrape data as they define
+patterns for locating html elements. For example, .title, where title is
+a specific title string, will grab the matching element with the class
+“title”.</p>
+<p>html_elements() will give you all elements matches, while
+html_element() will give you as many outputs as you gave inputs. If
+there are more outputs, than inputs, the function will return the first
+outputs. If you are searching for an element that doesn’t exist,
+html_element() will return a missing value and html_elements() will
+return a list of 0. You typically use html_elements() to get the
+relevant strings/observations and html_element() to get the one variable
+you need from the string. If you use html_element() to get the variable
+and there isn’t one, it will just put NA in its place. However, if you
+use html_elements() if will give you one less row/observation, which can
+make it hard to match the vector with another vector or data frame,
+since the lenghts will be different.</p>
+<p>html_text2() - extracts the plain text from a html string or object.
+It removes all tags, attributes, and so on. html_attr() - extracts data
+from attributes. For example the URL from href. html_table() - extracts
+a html table</p>
+<p>If a page has a table, you can use html_element(“table”) and pipe it
+into html_table(). Then you can use select() to get the
+variables/columns you need.</p>
+<div id="finding-selectors" class="section level3">
+<h3>Finding selectors</h3>
+<p>One of the hardest parts of webscraping is finding the selectors you
+need to get the data you want. You can use the tool SelectorGadget in
+Chrome. You can also right click on an element and chose inspect to get
+more information about it. Chrome is the best for this. Inside the
+elements view, you can right-click on an element and chose “copy as
+selector” to get a selector that will extract just that data.</p>
+<p><a href="https://kittygiraudel.github.io/selectors-explained/">This
+webpage - called Selectors Explained</a> provides plain English
+explanations of CSS selectors that you can provide it.</p>
+<p><a href="https://flukeout.github.io/">This webpage - Select the
+plates</a> has a game/tutorial you can work your way through to learn
+more about selectors.</p>
+<p><a
+href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors">This
+webpage</a> has throurough information on different CSS selectors</p>
+</div>
+</div>
+<div id="dynamic-sites" class="section level2">
+<h2>Dynamic sites</h2>
+<p>If what you see on the webpage isn’t the same as in the html object
+you get, you are probably dealing with a dynamic page. In that case,
+html_element() and rvest won’t work, since they download the static html
+object. Instead, the webpage dynamically makes the content with
+javascript. To webscrape these dynamic pages, you need to simulate
+running the webpage, so that Javascript is running, while extracting
+data.</p>
+</div>
+<div id="to-do-list" class="section level2">
+<h2>To do list</h2>
+<ul>
+<li>Figure out how to read dynamic html webpages</li>
+<li>Look into their API and get the data from there too</li>
+<li>Get the Python data set and get data from there too</li>
+<li>Discuss the benefits and drawbacks of the 3 different approaches for
+getting the data from the webpage</li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

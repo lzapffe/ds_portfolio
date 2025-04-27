@@ -1,5 +1,11 @@
 ---
-title: "Automating the Scoring of the Sleepin' Deacon Challenge"
+title: "Suggestions for Course Improvements"
 ---
 
-I am making a script that will automatically score the Sleepin' Deacon challenge they have at Wake Forest University, so that they do not have to do it manually, like they are doing now. Most of this is currently happening in a private repo, since it uses confidential data. However, I will eventually make some fake data that can be shown here to illustrate my code and what it is doing.
+## To-do list:
+
+- Go over course improvement list and copy it over here
+- Work through module 13 - 17 and add suggestions for those
+- Pull request for contract
+- Pull request for quick fixes
+- Post rest of the suggestions as issues

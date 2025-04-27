@@ -11,7 +11,7 @@
 
 
 
-<title>GitKraken and Advanced Workflows</title>
+<title>Thesis - Data Wrangling</title>
 
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -238,45 +238,48 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">Portfolio</a>
+      <a class="navbar-brand" href="index.html">Portfolio for the Data Science with R Class</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
   <a href="about.html">About</a>
 </li>
 <li>
-  <a href="p01.html">Portfolio 1</a>
+  <a href="p01.html">Project 1</a>
 </li>
 <li>
-  <a href="p02.html">Portfolio 2</a>
+  <a href="p02.html">Project 2</a>
 </li>
 <li>
-  <a href="p03.html">Portfolio 3</a>
+  <a href="p03.html">Project 3</a>
 </li>
 <li>
-  <a href="p04.html">Portfolio 4</a>
+  <a href="p04.html">Project 4</a>
 </li>
 <li>
-  <a href="p05.html">Portfolio 5</a>
+  <a href="p05.html">Project 5</a>
 </li>
 <li>
-  <a href="p06.html">Portfolio 6</a>
+  <a href="p06.html">Project 6</a>
 </li>
 <li>
-  <a href="p07.html">Portfolio 7</a>
+  <a href="p07.html">Project 7</a>
 </li>
 <li>
-  <a href="p08.html">Portfolio 8</a>
+  <a href="p08.html">Project 8</a>
 </li>
 <li>
-  <a href="p09.html">Portfolio 9</a>
+  <a href="p09.html">Project 9</a>
 </li>
 <li>
-  <a href="p10.html">Portfolio 10</a>
+  <a href="p10.html">Project 10</a>
 </li>
 <li>
-  <a href="p11.html">Portfolio 11</a>
+  <a href="p11.html">Project 11</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -290,181 +293,18 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">GitKraken and Advanced Workflows</h1>
+<h1 class="title toc-ignore">Thesis - Data Wrangling</h1>
 
 </div>
 
 
-<p>This project will look into GitKraken and more advanced workflows
-with Git/GitKraken. First, it will involve switching from using GitHub
-to GitKraken. Then, it will involve learning about more advanced
-workflows that might not be 100% necessary for projects that I am
-working on currently for this class, but which could involve a lot of
-fail-safes for when I potentially work with more advanced and
-comprehensive projects. It is better to learn how to do this now than
-later, when I really need it. Therefore, this project will have the
-following goals:</p>
-<ul>
-<li>To set up GitKraken successfully</li>
-<li>Learn basic usage of GitKraken, such as pulling, pushing, and
-connecting to local repositories</li>
-<li>Learn about more advanced workflows with Git, such as using forks,
-merges, and branches</li>
-<li>To become comfortable using GitKraken and more advanced
-workflows</li>
-<li>The final goal of this project will be to create a pull request from
-a forked version of this class to update the contract template that was
-made in project 1, as well as change some other minor problems, such as
-broken or out-of-date links in the course</li>
-</ul>
-<div id="gitkraken" class="section level1">
-<h1>GitKraken</h1>
-<div id="setting-up-gitkraken" class="section level2">
-<h2>Setting up GitKraken</h2>
-<p>Got GitKraken downloaded and signed in. It is now also linked to
-Github (by following the prompting in the GitKraken tutorial) and I have
-opened the public repositories that I have stored locally on my
-computer. I can’t open the private ones yet, since I don’t have the
-student developer pack through GitHub.</p>
-<p>After fighting with GitHub student developer pack for a while, I got
-it. They rejected me first, which I think is because my GitHub profile
-didn’t have enough identifying information. So I added my name and
-address to the billing information, a profile picture, a bio about me
-being a Wake Forest student, my location, my full name displayed on the
-profile, and connected my OrcID account. I can always remove things
-later. I also got a enrollment verification that I tried submitting.
-They didn’t want a pdf, so I converted it to a png. However, after
-having submitted it once and gotten rejected, I wasn’t allowed to submit
-the same documentation again (even though the problems were more likely
-related to the GitHub profile information). I tried converting the pdf
-to png again, hoping the document would have some different metadata and
-that GitHub would let me submit it again, but that didn’t work.
-Eventually, I had to print out my enrollment verification and take a
-picture from my computer camera of the printed enrollment verification.
-That got me verified within a few days. So, long story short, sign up to
-GitHub with your student account to begin with. If you already have a
-GitHub account, change all your profile information to identify who you
-are and then hand in an application.</p>
-</div>
-<div id="basic-gui-of-gitkraken" class="section level2">
-<h2>Basic GUI of GitKraken</h2>
-<p>Most of the notes here are taken from the <a
-href="https://help.gitkraken.com/gitkraken-desktop/interface/#elementor-toc__heading-anchor-0">GitKraken
-help sides</a></p>
-<p>There is a tool bar in the top middle of the screen when you open a
-repository. It has several buttons, including:</p>
-<ul>
-<li>Undo - Undo whatever change you just made. However, this only works
-if you did the change locally, not remotely</li>
-<li>Redo - Redo whatever undo you just made. Note that this only works
-for local and not remote actions</li>
-<li>Pull - This is to pull any changes. It will do a few different
-things based on what you have set as your default. To see what you
-default it (and change it) click on the little arrow and select another
-option. “Fetch” will only get the change, but not merge it, while the
-other options will do different levels of merging</li>
-<li>Push - Pushes your changes remotely</li>
-<li>Branch - Creates a new branch for whatever branch you are currently
-selected (see the colored branches/bars on the timeline window for the
-repository)</li>
-<li>Stash - Stash something?</li>
-<li>Pop - Pop your stash to your Whiip?</li>
-<li>Terminal - Opens the terminal (think cmd) to Git. Has autocomplete
-to guide you through using the terminal</li>
-</ul>
-</div>
-</div>
-<div id="more-advanced-workflows" class="section level1">
-<h1>More Advanced Workflows</h1>
-<p>Most of this material comes from the workflow part of the <a
-href="https://learn.gitkraken.com/courses/git-foundations">Foundations
-of Git Certification Course by GitKraken</a>. The rest, such as
-trunk-based workflows and some further details come from various pages
-on Google.</p>
-<div id="the-different-types-of-workflows" class="section level2">
-<h2>The Different Types of Workflows</h2>
-<p>There are many types of workflows and after having gone over several
-of them, I will highlight the characteristics of the main ones here and
-then evaluate what I think seems to be the most relevant to the type of
-work I do.</p>
-<div id="github-flow" class="section level3">
-<h3>GitHub flow</h3>
-<p>GitHub flow is often used in scenarios when you do not have to
-support multiple versions of a code. One maintains a main branch that is
-only for code that has been tested and which we know work. Then, one
-keep different feature branches, one branch per feature or bug fix, to
-develop new features. When the code for the features is done, one can
-create a pull request that someone else on the team can look over and
-then merge that branch with the main branch.</p>
-</div>
-<div id="git-flow" class="section level3">
-<h3>Git flow</h3>
-<p>Git flow is a more elaborate strategy that involves many different
-types of branches. This flow is especially helpful if one has several
-versions of a product that has to be maintained at once.</p>
-<p>The flow uses 5 different types of branches:</p>
-<ul>
-<li>main - Production-ready code that can be released</li>
-<li>develop - Pre-production code with newly developed features that are
-in the process of being tested</li>
-<li>feature - Working on a new feature. This branch will typically be
-merged with the develop branch as code is finished.</li>
-<li>release - Finishing touches and minor bugs for preparing new
-production releases</li>
-<li>hotfix - Quickly address necessary changes in your main branch. You
-typically branch this from your main branch and merge it with both the
-main and develop branch afterward.</li>
-</ul>
-</div>
-<div id="trunk-based-flow" class="section level3">
-<h3>Trunk-based flow</h3>
-<p>The trunk-based flow involves a different view on branches, as having
-many branches at once, especially those that last for a while, can
-quickly lead to a lot of merge conflicts (the same code has been changed
-by different people in different versions of the file, without updating
-the file in-between). Therefore, this workflow uses minimal with feature
-branches, only if necessary, for example if testing out a highly
-experimental feature. If one uses a feature branch, this should pull and
-push to the main branch as often as possible and should be merged back
-into main as soon as possible too. The changes being made to the main
-branch while checking out (working in) the main branch should also often
-pull and push their changes as often as possible. This way, everyone are
-working on updated versions of code and there will be minimal with merge
-conflicts.</p>
-</div>
-</div>
-<div id="reflections-on-git-workflows" class="section level2">
-<h2>Reflections on Git Workflows</h2>
-<p>I don’t typically create code that needs to be in different versions,
-so I think something like Git flow that has 5 different types of
-branches might be a little more complicated than what I need. However, I
-find the idea of using GitHub flow, with only feature and main branches,
-intriguing. I get the benefit of using a trunk-based method, so that one
-doesn’t have to deal with merge conflicts all the time. However, even
-though it requires a little more work in terms of keeping an overview to
-make sure features aren’t overlapping, it seems like the workflow could
-be better organized with a flow like GitHub. For example, if working on
-some data wrangling, I could have one branch for main, one for running
-some more advanced models, one for data wrangling, and one for drawing
-inferences from some statistical tests. This would separate the
-different actions more and also give a much better overview (at least in
-GitKraken) of the different mini-projects I am working on. I therefore
-want to try out using GitHub with GitKraken and see how much of a
-problem merge conflicts might become. If it gets too complicated, a
-trunk-based method might be better. However, I do want to at least try
-to GitHub flow method first.</p>
-</div>
 <div id="to-do-list" class="section level2">
-<h2>To do list</h2>
+<h2>To-do List:</h2>
 <ul>
-<li>Finish working through the GitKraken introductory course and get the
-certification</li>
-<li>Add the notes (that are currently hand-written) from the course to
-this page</li>
-<li>Practice some of the GitKraken features, for example by creating
-pull requests to add the contract from project 1 to the course</li>
+<li>Paste pdf with the project code</li>
+<li>Make sure there is no sensitive information being published</li>
+<li>Reflect on issues and new skills attained</li>
 </ul>
-</div>
 </div>
 
 
