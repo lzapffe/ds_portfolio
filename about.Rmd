@@ -2,17 +2,22 @@
 title: "About This Website"
 ---
 
-This website contains my portfolio for the [Data Science for Psychologists](https://datascience4psych.github.io/DataScience4Psych/) class.
-The portfolio consists of 10 projects + 1 lab. I have designed these projects to fall into mainly one of two categories. They either consists of taking a deep-dive into a topic I feel like I should know more about to improve my coding or they consists of an applied real-world problem that requires me to use R to solve novel problems and get more practice with programming. I have aimed to make a fairly even distribution between these two types of projects, so that I will both learn more advanced R topics and advance my code knowledge, as well as get practice using these skills in realistic problems, that are often not as straight-forward as in the practice questions and labs we are using in this course. The last project is a lab I designed to ease students more into the class, which was done as a substitue for doing a lab.
+This portfolio consists of the following 10 projects:
 
-The focus on the deep-dives has been to learn about the topic and then write it up in a way so that I can come back and use it for reference later. I will for example not learn all of the regex possibilities by heart, but instead get an overview and general understanding of what works, so that I know what to look for when I need something. The applied problems have on the other hand been more focused on solving a real-world problem and whatever that has required is what I have gotten practice in. It is therefore a little less structured than the deep dives. However, these are often some of the projects where I have learned the most, since they have had challenges with no apparent good solution, that has often required me to test out various approaches or have to learn more about a function to use it differently than what I might have done previously.
+1. [Improving the Code for the Grading Contract](https://lzapffe.github.io/ds_portfolio/p01.html)
+2. [Vectorized Operations](https://lzapffe.github.io/ds_portfolio/p02.html)
+3. [Tidyverse vs Base R](https://lzapffe.github.io/ds_portfolio/p03.html)
+4. [ggplot and Data Visualization](https://lzapffe.github.io/ds_portfolio/p04.html)
+5. [Git, GitKraken, and Advanced Workflows](https://lzapffe.github.io/ds_portfolio/p05.html)
+6. [Regex](https://lzapffe.github.io/ds_portfolio/p06.html)
+7. [Thesis - Data Wrangling](https://lzapffe.github.io/ds_portfolio/p07.html)
+8. [Thesis - Data Analyses](https://lzapffe.github.io/ds_portfolio/p08.html)
+9. [Sleepin’ Deacon](https://lzapffe.github.io/ds_portfolio/p09.html)
+10. [Suggestions for Course Improvements](https://lzapffe.github.io/ds_portfolio/p10.html)
+11. [Making Lab 0](https://lzapffe.github.io/ds_portfolio/p11.html)
 
-I have learned a lot working on this portfolio and I hope that you might too from looking over it.
+The projects are ordered after when they were initiated. However, they were worked on simultaneously, so the order does not necessarily reflect the order in which they were finished.
 
-<!-- The "br" part adds another empty line so that I get an additional line before signing the introduction -->
+The following projects are finished: 1
 
- <br>
-
-Sincerely,
-
-Linn Zapffe
+The repository has some additional plans for projects, including a web scraping project.
