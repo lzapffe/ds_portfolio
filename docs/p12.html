@@ -13,7 +13,7 @@
 
 <meta name="date" content="2025-04-27" />
 
-<title>Web Scraping Stock Data 2</title>
+<title>Web Scraping Stock Data</title>
 
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -295,7 +295,7 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Web Scraping Stock Data 2</h1>
+<h1 class="title toc-ignore">Web Scraping Stock Data</h1>
 <h4 class="author">Linn Zapffe</h4>
 <h4 class="date">2025-04-27</h4>
 
@@ -324,14 +324,11 @@ less straightforward scenarios of gathering data</li>
 <p>The current script will work with a list of 10 random stocks and try
 to get the data from those.</p>
 <pre class="r"><code># To read in the list of stocks from an Excel file
-library(readxl)</code></pre>
-<pre><code>## Warning: package &#39;readxl&#39; was built under R version 4.3.3</code></pre>
-<pre class="r"><code># To check path access for web scraping
-library(robotstxt)</code></pre>
-<pre><code>## Warning: package &#39;robotstxt&#39; was built under R version 4.3.3</code></pre>
-<pre class="r"><code># Get web scraping and html related functions
+library(readxl)
+# To check path access for web scraping
+library(robotstxt)
+# Get web scraping and html related functions
 library(rvest)</code></pre>
-<pre><code>## Warning: package &#39;rvest&#39; was built under R version 4.3.3</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;rvest&#39;</code></pre>
 <pre><code>## The following object is masked from &#39;package:readr&#39;:
@@ -449,6 +446,40 @@ data.</p>
 <li>Get the Python data set and get data from there too</li>
 <li>Discuss the benefits and drawbacks of the 3 different approaches for
 getting the data from the webpage</li>
+</ul>
+</div>
+<div id="links-that-i-was-using" class="section level2">
+<h2>Links that I was using</h2>
+<ul>
+<li><a
+href="https://aatt.io/newsletters/how-to-find-and-use-hidden-apis-to-automate-processes"
+class="uri">https://aatt.io/newsletters/how-to-find-and-use-hidden-apis-to-automate-processes</a></li>
+<li><a
+href="https://www.morningstar.com/business/brands/data-analytics/products/direct/features/python-package"
+class="uri">https://www.morningstar.com/business/brands/data-analytics/products/direct/features/python-package</a></li>
+<li><a href="https://pypi.org/project/morningstar-data/"
+class="uri">https://pypi.org/project/morningstar-data/</a></li>
+<li><a href="https://developer.morningstar.com/direct-web-services"
+class="uri">https://developer.morningstar.com/direct-web-services</a></li>
+<li><a
+href="https://developer.morningstar.com/direct-web-services/documentation/documentation/get-started/quick-start"
+class="uri">https://developer.morningstar.com/direct-web-services/documentation/documentation/get-started/quick-start</a></li>
+<li><a
+href="https://developer.morningstar.com/direct-web-services/documentation/documentation/get-started/quick-start"
+class="uri">https://developer.morningstar.com/direct-web-services/documentation/documentation/get-started/quick-start</a></li>
+<li><a
+href="https://developer.morningstar.com/direct-web-services/api-visualization-library/api-visualization-library/api-visualization-library/page"
+class="uri">https://developer.morningstar.com/direct-web-services/api-visualization-library/api-visualization-library/api-visualization-library/page</a></li>
+<li><a
+href="https://www.rdocumentation.org/packages/textreadr/versions/1.2.0"
+class="uri">https://www.rdocumentation.org/packages/textreadr/versions/1.2.0</a></li>
+<li><a href="https://cran.r-project.org/web/packages/tm/index.html"
+class="uri">https://cran.r-project.org/web/packages/tm/index.html</a></li>
+<li><a
+href="https://www.google.com/search?client=firefox-b-1-d&amp;q=r+api+wrapper+for+morningstar"
+class="uri">https://www.google.com/search?client=firefox-b-1-d&amp;q=r+api+wrapper+for+morningstar</a></li>
+<li><a href="https://rdrr.io/cran/RTL/src/R/morningstar.R"
+class="uri">https://rdrr.io/cran/RTL/src/R/morningstar.R</a></li>
 </ul>
 </div>
 

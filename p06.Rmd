@@ -6,7 +6,7 @@ Look at this book chapter that has a part on regex and which is what I used for 
 
 Also this: https://r4ds.hadley.nz/regexps
 
-Used the cheatsheet at this resrouce: https://hypebright.nl/en/r-en/ultimate-cheatsheet-for-regex-in-r-2/
+Used the cheatsheet at this resource: https://hypebright.nl/en/r-en/ultimate-cheatsheet-for-regex-in-r-2/
 
 Goals of the current portfolio project:
 
@@ -66,6 +66,7 @@ Some of the metacharacters:
   - +([a-zA-Z]+) +\1 + would match any lines that have two words that are repeated after each other, such as "one one" or "so so"
   - You can use this with str_replace to switch the order of characters in a string
   - If you need more than 9 back-references (in which you should probably name them instead), some languages interpret \\10 as a back-reference to 1 with a 0 afterward and other to the group 10. You can write it as \\g{10} to make sure it is interpreted as the category 10
+  - The capture group 0 is usually the entire match of the expression
 - You can name a capture group with (?<NAME>regex)
   - It is a little unclear how to get the backreference, it should be either \\k<NAME> or (?P=NAME). The code to capture the replacement string is also a little unclear, but could be ${NAME}, \\g<NAME>, $+{NAME}, or it is not possible and you have to use just \\1
 - Capture groups are numbered from left to right, even if they do not capture anything. Likewise, if you run over a capture group several times, it will still just have that one number it got originally. If you capture several matches for one group, it will return the last match when called upon
@@ -212,6 +213,12 @@ Some of the above can also be specified as built-in classes with the following f
 - [[:space:]] - e.g. a space, a tab, or a new line
 - [[:blank:]] - blank characters, such as space and tab
 
+- You can also make your own with ranges
+  - E.g. [[:alpha:]] could also be [A-z] and [[:lower:]] could also be [a-z]
+  - E.g. [ -~] is all printable characters in the ASCII table
+  - E.g. [!-~] is all printable characters in the ASCII table, except for space
+  - E.g. (?![a-zA-Z0-9])[!-~] is all special characters
+
 
 ## Lookarounds
 Lookarounds will look for the match you specify, either before or after the match (based on your expression). It will only match if the lookaround condition is met, but it will not actually capture the part in the lookaround. Lookahead or lookbehind refers to which direction it is looking in. The reason it doesn't capture anything is that it is like it hasn't moved further in reading the string when reaching a lookaround, is stays stagnant, looks ahead or behind (without moving) and then it starts moving when it gets to the code past the lookaround 
@@ -235,6 +242,7 @@ Lookarounds will look for the match you specify, either before or after the matc
 ## Other more advanced stuff
 
 - (?:) - a non-capture group, so that you do not capture what is inside of the group
+  - It is good practice to always use a non-capture group if you need the parenthesis for the expression, but don't need to capture what is inside of it
 - [[:<:]] - beginning of word boundary. Only match if at the beginning of a word. Nothing can come before it, the word starts with what has been provided
   - E.g. [[:<:]]cat matches cat and catfish, but not tomcat
   - Similar to \b(?=\w)?
@@ -331,7 +339,7 @@ We can use our "A1" boundary wherever we like
     - I haven't fully parsed how this regex works, but it is something to look into for more complicated expressions
     
     
-## Backtracking Control Verbs
+## Control Verbs
 
 - You can use backtracking control verbs to change what the engine does during a backtrack
   - The verbs will therefore not have any effect on the code (i.e be skipped) when matching and only have an effect if the regex needs to backtrack the matching
@@ -339,18 +347,58 @@ We can use our "A1" boundary wherever we like
   - (*THEN) - Used with a conditional expression. Stops the match and moves on to the next possible condition (other side of |)
     - E.g. "Comedian: (?:B\w+ (*THEN)Murray|E\w+ (*THEN)Murphy|P\w+ Sellers)" to match the name of a comedian in a string. The (*THEN) makes it so that the expression does not backtrack if the last name is not the right one, given the first letter of the first name
     - In most situations you wouldn't really need the (*THEN), but if you were to have a very long string before the (*THEN) statement, it could speed up the expression by getting rid of the backtracking. In this scenario, you could write it as "Comedian: (?:B\w+ Murray|E\w+ Murphy|P\w+ Sellers)" since the string isn't that long anyway
-  - (*PRUNE) - Stops the match if it tries to backtrack past the expression
-  - (*SKIP)
-  - (*COMMIT)
+  - (*PRUNE) - Stops the match if it tries to backtrack past the expression. Starts over again if there are more terms to the regex (e.g. a conditional)
+    - E.g. "\w{2,4} (*PRUNE)Murray|Bill Burr|Peter Sellers" to match a comedian's name again. If you have the name Bill Burr, the code will match the first part looking for 2 to 4 letters. When the B in Burr does not match the M, the match does not backtrack to only fitt "Bil" from the previous word, but does instead move straight over to the second conditional term, looking for a match to "Bill Burr"
+    - Useful to hinder excessive backtracking for long strings
+  - (*SKIP) - Stops the match if it tried to backtrack past the expression. Starts the match again from the string position where it was after the Skip if there are more terms to the regex (e.g. a conditional)
+  - (*COMMIT) - Stops the match no matter whether there are other options if it tries to backtrack past the verb. Either the current match works or the entire regex fails to match
+  
+- There are also some verbs that are not backtracking verbs
+  - (*ACCEPT) - Accepts the match, no matter what comes next
+    - E.g. "B(?:A|I|O(*ACCEPT))Z" to match BAZ, BIZ, and BO. You could have written BAZ|BIZ|BO, but if Z were to be some long and complicated subroutine, Accept will make the regex more readable
+  - (*FAIL) - Fails the current token in the string
+    - Will lead it to automatically start backtracking
+    - Can also be written as (*F)
+  - (*MARK) - Marks the position which can be accessed later at $REGMARK to see which path the code took
+    - Can also use a short-hand like (*:some_tag), without the MARK part
+
+- You can use a combination of SKIP and FAIL to define what you do not want
+  - E.g. "{[^}]*}(*SKIP)(*FAIL)|\b\w+\b" will match all words except for those encolsed in curly-brackets. Here, if the word has curly-brackets it matches the whole word, when hits skip and fail. It fails, so it will try to backtrack, but the skip tells it to not go past the current match, which is all of the string. Therefore, leading to an automatic fail
+    - This is an useful way to define things you do not want to match, without creating too complicated expressions
+    
+    
+## Cool, Random Tricks
+
+- To match an even number of characters, you can use "^(?:..)+$"
+  - This will match two characters, then do that as many times as necessary with the +, and then end because of the $
+  - You can similarly look at whether the number of strings is a multiple of n with "^(?:.{n})+$"
+  
+  
+## General advise not fitting other sections
+
+- Be as specific as you can and add contrast whenever you can
+  - E.g. "^\D+\d{3}$" this regex will be more efficient than "^.+\d{3}$" for matching three letters and three digits
+- Likewise, always be as specific as you can be
 
 
 ## To do list
 
-- Work through the last few crossword regex exercises and document it
-- Go through the last black belt pages on rexegg page
 - Go over all your notes and organize it better
 - Check the formatting of the rendered document. The special characters tends to be read as a special character by rmarkdown
 
+
+## Practice
+
+I finished the 15 regex crosswords at [regexcrosswords.com](https://regexcrossword.com/) to get some practice with the regex. I also used regex is several of my applied projects to easily change column names, find relevant columns, and naming columns. It has saved me a lot of time so far, especially when working with bigger data sets, such as the Parenting Across Cultures data set that I worked on for two of my projects.
+
+Insert Screenshot?
+
+
+## Final notes
+
+Things I didn't look further into, but could be future areas:
+- [PCRE callouts](https://www.rexegg.com/pcre-callouts.php)
+  - The use of this wasn't that well-described on the page and I didn't see an immediate use for it, so I didn't put much more effort into learning to use it
 
 ## Fun-fact
 

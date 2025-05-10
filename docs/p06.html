@@ -304,7 +304,7 @@ href="https://bookdown.org/rdpeng/rprogdatascience/regular-expressions.html"
 class="uri">https://bookdown.org/rdpeng/rprogdatascience/regular-expressions.html</a></p>
 <p>Also this: <a href="https://r4ds.hadley.nz/regexps"
 class="uri">https://r4ds.hadley.nz/regexps</a></p>
-<p>Used the cheatsheet at this resrouce: <a
+<p>Used the cheatsheet at this resource: <a
 href="https://hypebright.nl/en/r-en/ultimate-cheatsheet-for-regex-in-r-2/"
 class="uri">https://hypebright.nl/en/r-en/ultimate-cheatsheet-for-regex-in-r-2/</a></p>
 <p>Goals of the current portfolio project:</p>
@@ -436,6 +436,8 @@ probably name them instead), some languages interpret \10 as a
 back-reference to 1 with a 0 afterward and other to the group 10. You
 can write it as \g{10} to make sure it is interpreted as the category
 10</li>
+<li>The capture group 0 is usually the entire match of the
+expression</li>
 </ul></li>
 <li>You can name a capture group with (?<NAME>regex)
 <ul>
@@ -686,16 +688,26 @@ code. For example, \12 is different from \1 2</li>
 following formatting [[:class:]]. Most of these have alternatives
 above.</p>
 <ul>
-<li>[[:alpha:]] - any letter</li>
-<li>[[:lower:]] - any lowercase letter</li>
-<li>[[:upper:]] - any uppercase letter</li>
-<li>[[:digit:]] - any digit</li>
-<li>[[:alnum:]] - any letter or number</li>
-<li>[[:xdigit:]] - any hexadecimal digit</li>
-<li>[[:punct:]] - any punctuation character</li>
-<li>[[:graph:]] - any letter, number, or punctuation character</li>
-<li>[[:space:]] - e.g. a space, a tab, or a new line</li>
-<li>[[:blank:]] - blank characters, such as space and tab</li>
+<li><p>[[:alpha:]] - any letter</p></li>
+<li><p>[[:lower:]] - any lowercase letter</p></li>
+<li><p>[[:upper:]] - any uppercase letter</p></li>
+<li><p>[[:digit:]] - any digit</p></li>
+<li><p>[[:alnum:]] - any letter or number</p></li>
+<li><p>[[:xdigit:]] - any hexadecimal digit</p></li>
+<li><p>[[:punct:]] - any punctuation character</p></li>
+<li><p>[[:graph:]] - any letter, number, or punctuation
+character</p></li>
+<li><p>[[:space:]] - e.g. a space, a tab, or a new line</p></li>
+<li><p>[[:blank:]] - blank characters, such as space and tab</p></li>
+<li><p>You can also make your own with ranges</p>
+<ul>
+<li>E.g. [[:alpha:]] could also be [A-z] and [[:lower:]] could also be
+[a-z]</li>
+<li>E.g. [ -~] is all printable characters in the ASCII table</li>
+<li>E.g. [!-~] is all printable characters in the ASCII table, except
+for space</li>
+<li>E.g. (?![a-zA-Z0-9])[!-~] is all special characters</li>
+</ul></li>
 </ul>
 </div>
 <div id="lookarounds" class="section level2">
@@ -753,7 +765,12 @@ string, as long as that is not what we want to do</li>
 <h2>Other more advanced stuff</h2>
 <ul>
 <li>(?:) - a non-capture group, so that you do not capture what is
-inside of the group</li>
+inside of the group
+<ul>
+<li>It is good practice to always use a non-capture group if you need
+the parenthesis for the expression, but don’t need to capture what is
+inside of it</li>
+</ul></li>
 <li>[[:&lt;:]] - beginning of word boundary. Only match if at the
 beginning of a word. Nothing can come before it, the word starts with
 what has been provided
@@ -979,8 +996,8 @@ look into for more complicated expressions</li>
 </ul></li>
 </ul>
 </div>
-<div id="backtracking-control-verbs" class="section level2">
-<h2>Backtracking Control Verbs</h2>
+<div id="control-verbs" class="section level2">
+<h2>Control Verbs</h2>
 <ul>
 <li>You can use backtracking control verbs to change what the engine
 does during a backtrack
@@ -1005,22 +1022,112 @@ this scenario, you could write it as “Comedian: (?:B+ Murray|E+
 Murphy|P+ Sellers)” since the string isn’t that long anyway</li>
 </ul></li>
 <li>(*PRUNE) - Stops the match if it tries to backtrack past the
-expression</li>
-<li>(*SKIP)</li>
-<li>(*COMMIT)</li>
+expression. Starts over again if there are more terms to the regex
+(e.g. a conditional)
+<ul>
+<li>E.g. “ (*PRUNE)Murray|Bill Burr|Peter Sellers” to match a comedian’s
+name again. If you have the name Bill Burr, the code will match the
+first part looking for 2 to 4 letters. When the B in Burr does not match
+the M, the match does not backtrack to only fitt “Bil” from the previous
+word, but does instead move straight over to the second conditional
+term, looking for a match to “Bill Burr”</li>
+<li>Useful to hinder excessive backtracking for long strings</li>
 </ul></li>
+<li>(*SKIP) - Stops the match if it tried to backtrack past the
+expression. Starts the match again from the string position where it was
+after the Skip if there are more terms to the regex (e.g. a
+conditional)</li>
+<li>(*COMMIT) - Stops the match no matter whether there are other
+options if it tries to backtrack past the verb. Either the current match
+works or the entire regex fails to match</li>
+</ul></li>
+<li>There are also some verbs that are not backtracking verbs
+<ul>
+<li>(*ACCEPT) - Accepts the match, no matter what comes next
+<ul>
+<li>E.g. “B(?:A|I|O(*ACCEPT))Z” to match BAZ, BIZ, and BO. You could
+have written BAZ|BIZ|BO, but if Z were to be some long and complicated
+subroutine, Accept will make the regex more readable</li>
+</ul></li>
+<li>(*FAIL) - Fails the current token in the string
+<ul>
+<li>Will lead it to automatically start backtracking</li>
+<li>Can also be written as (*F)</li>
+</ul></li>
+<li>(*MARK) - Marks the position which can be accessed later at $REGMARK
+to see which path the code took
+<ul>
+<li>Can also use a short-hand like (*:some_tag), without the MARK
+part</li>
+</ul></li>
+</ul></li>
+<li>You can use a combination of SKIP and FAIL to define what you do not
+want
+<ul>
+<li>E.g. “{[^}]<em>}(</em>SKIP)(*FAIL)|+ will match all words except for
+those encolsed in curly-brackets. Here, if the word has curly-brackets
+it matches the whole word, when hits skip and fail. It fails, so it will
+try to backtrack, but the skip tells it to not go past the current
+match, which is all of the string. Therefore, leading to an automatic
+fail
+<ul>
+<li>This is an useful way to define things you do not want to match,
+without creating too complicated expressions</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+<div id="cool-random-tricks" class="section level2">
+<h2>Cool, Random Tricks</h2>
+<ul>
+<li>To match an even number of characters, you can use “^(?:..)+$”
+<ul>
+<li>This will match two characters, then do that as many times as
+necessary with the +, and then end because of the $</li>
+<li>You can similarly look at whether the number of strings is a
+multiple of n with “^(?:.{n})+$”</li>
+</ul></li>
+</ul>
+</div>
+<div id="general-advise-not-fitting-other-sections"
+class="section level2">
+<h2>General advise not fitting other sections</h2>
+<ul>
+<li>Be as specific as you can and add contrast whenever you can
+<ul>
+<li>E.g. “^+<span class="math inline">\(&quot; this regex will be more
+efficient than &quot;^.+\d{3}\)</span>” for matching three letters and
+three digits</li>
+</ul></li>
+<li>Likewise, always be as specific as you can be</li>
 </ul>
 </div>
 <div id="to-do-list" class="section level2">
 <h2>To do list</h2>
 <ul>
-<li>Work through the last few crossword regex exercises and document
-it</li>
-<li>Go through the last black belt pages on rexegg page</li>
 <li>Go over all your notes and organize it better</li>
 <li>Check the formatting of the rendered document. The special
 characters tends to be read as a special character by rmarkdown</li>
 </ul>
+</div>
+<div id="practice" class="section level2">
+<h2>Practice</h2>
+<p>I finished the 15 regex crosswords at <a
+href="https://regexcrossword.com/">regexcrosswords.com</a> to get some
+practice with the regex. I also used regex is several of my applied
+projects to easily change column names, find relevant columns, and
+naming columns. It has saved me a lot of time so far, especially when
+working with bigger data sets, such as the Parenting Across Cultures
+data set that I worked on for two of my projects.</p>
+<p>Insert Screenshot?</p>
+</div>
+<div id="final-notes" class="section level2">
+<h2>Final notes</h2>
+<p>Things I didn’t look further into, but could be future areas: - <a
+href="https://www.rexegg.com/pcre-callouts.php">PCRE callouts</a> - The
+use of this wasn’t that well-described on the page and I didn’t see an
+immediate use for it, so I didn’t put much more effort into learning to
+use it</p>
 </div>
 <div id="fun-fact" class="section level2">
 <h2>Fun-fact</h2>

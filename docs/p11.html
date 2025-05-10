@@ -372,6 +372,8 @@ that lab 2 seems easier</li>
 <div id="lab-0---getting-started-and-setting-up-the-course"
 class="section level1">
 <h1>Lab 0 - Getting Started and Setting up the Course</h1>
+<div id="part-1---the-course-r-and-rstudio" class="section level2">
+<h2>Part 1 - The course, R, and Rstudio</h2>
 <p>Hi, welcome to the first lab in your data science class! The
 following lab will help you get an overview over the course, getting
 started with R, and setting up the course. After doing this lab, you
@@ -379,8 +381,8 @@ should be ready to start fully engaging in the course and to code. There
 are a lot of new concepts and programs when starting to code. However,
 if you get past this first bit of the class, it will get more familiar
 to you and it will get easier.</p>
-<div id="course-overview" class="section level2">
-<h2>Course Overview</h2>
+<div id="course-overview" class="section level3">
+<h3>Course Overview</h3>
 <p>There are several components to the class. The biggest component is
 the modules. Every week, you will work on a module. Each module has
 videos, slides, and articles that will guide you through the material
@@ -399,8 +401,8 @@ more about? All of these are great things to do for your portfolio
 projects.</p>
 <!--I didn't include any more information about grades and number of assignments, as I just want to introduce the overall structure of the class, especially since I will be referring to it later in the lab + they have all of that information available to them in the syllabus -->
 </div>
-<div id="syllabus" class="section level2">
-<h2>Syllabus</h2>
+<div id="syllabus" class="section level3">
+<h3>Syllabus</h3>
 <p>To get started with the class, you will want to know what is in the
 syllabus. Therefore, if you haven’t already, read (or at least skim
 over) the syllabus. You can find it <a
@@ -409,8 +411,8 @@ There is a general part to the syllabus, as well as a part specific for
 this class. Read both the general and class-specific parts, that will
 set you up for doing well in the course.</p>
 </div>
-<div id="downloading-r" class="section level2">
-<h2>Downloading R</h2>
+<div id="downloading-r" class="section level3">
+<h3>Downloading R</h3>
 <p>After you have read the syllabus, you will have to download the
 software that we will be using to program in this class. There are two
 things you need to install. The first is R, which is the actual program
@@ -432,8 +434,8 @@ the relevant folders to get to the appropriate download file.</p>
 <p>If you already have R installed on your computer from earlier,
 reinstall R to get the most up-to-date version.</p>
 </div>
-<div id="testing-r" class="section level2">
-<h2>Testing R</h2>
+<div id="testing-r" class="section level3">
+<h3>Testing R</h3>
 <p>Now, let’s make sure you successfully downloaded R on your
 computer.</p>
 <p>On Windows, click the Windows symbol in the bottom left corner of
@@ -452,16 +454,371 @@ without the first and last quotation marks in the white box. You should
 get an output stating “[1]”Hello World!““. You just ran your first code,
 asking R to print the text Hello World!.</p>
 </div>
-<div id="downloading-rstudio" class="section level2">
-<h2>Downloading RStudio</h2>
+<div id="downloading-rstudio" class="section level3">
+<h3>Downloading RStudio</h3>
 <p>As you might have noticed when writing this R code, is that the R
 program has a very basic user interface (layout). The design is rather
 old and there are not a lot of buttons and options. The R programming
 language is in itself very well-done and advanced. However, it is made
 for coding, not to have a cool layout and a lot of options outside the
-code. People therefore generally</p>
-<p>Have them open R and test it out. Explain what it is, then introduce
-R studio</p>
+code. People therefore generally use another program to provide a
+graphic user interface (layout) that is easier to use and has more
+options. One of the main ones, and the one we will use in this class, is
+Rstudio.</p>
+<p>You can download the Rstudio Desktop <a
+href="https://posit.co/download/rstudio-desktop/">here</a>. The big blue
+button to the right should have the right version for your computer.
+However, you can also scroll further down on the page to see a list with
+the download link for Windows, Mac, Linux, and so on.</p>
+</div>
+<div id="basics-of-rstudio" class="section level3">
+<h3>Basics of Rstudio</h3>
+<p>Now you can open Rstudio and start using it. You remember when you
+tried writing your first code in R? You can now try to do the same in
+Rstudio. Type in “print(”Hello World!“)” without the first and last
+quotation marks in the little window at the bottom to the left, called
+“Console”. That should produce the same output “[1]”Hello World!“” as
+running this code in R itself, as all you did in the console was to run
+the R code. However, as you might notice, there are several other
+windows in Rstudio too. The bottom right window is where you can see all
+the plots in your current project (which we will come back to soon). In
+addition, there is also where you might see any plots you make, as well
+as help pages for functions and libraries (more on that later). The top
+right window is your environment. This shows everything you have saved
+in your current R session. Since you have not saved anything yet, this
+will be empty. However, later, when we do start to save variables, you
+will see them listed in that window. Lastly, the top left window is
+where you will likely write most of your code. It is where you create
+documents with code that you can later save, similar to Word. Anything
+you run in that window will be displayed in the Console window (bottom
+left).</p>
+<p>Now, lets try to actually do something in Rstudio. First, whenever
+you work in Rstudio, you would likely want to create a project. A
+project is like a Rstudio file that is saved in a folder on your
+computer, that tells Rstudio where to look for relevant files.
+Therefore, if you are doing anything that uses more than one file (which
+is usually always), you want to create a project for it. This could for
+example be if you have an R script(R code), as well as a data file that
+you use with your R script. To create a project, click on “File” in the
+top left corner and chose “New project”. Then chose “New directory”,
+“New project”, and enter the name of the project, as well as chose where
+to save your project by clicking “Browse” and saving your project in the
+folder where you want it. You now have a new R project. You can see the
+R project file in your “Files” window to the bottom right in Rstudio.
+The file will be named NAME.Rproj, where NAME is the name you gave it,
+and the “.Rproj” ending specified that the file type is an
+R-project.</p>
+<p>Next, you want to create a file with some R code in your project. The
+most simple way to do this is to click on the button to the top left
+that is a white box with a green circle with a white cross on it. Then,
+chose “R script”. This will open a white page in the window to the top
+left. You can write some R code in this window. For example, try typing
+three things over three lines:</p>
+<p>print(“Hello World!”) 3+5 min(3, 7, 12)</p>
+<p>When you have the text in your document, highlight all three lines of
+code and click on the button saying “Run” right above the window. When
+you run the code, you can see that it pops up in the Console, the bottom
+left window. You can also see that it runs each line separately and
+gives you the output for each line. The blue text (with an arrow) is
+your code, while the black text with a number before it is the output.
+The first code printed the words “Hello World!”, the second code did 3 +
+5, which is 8, and the third line of code found the minimum value of 3,
+7, and 12, which is 3. The top left window therefore stores all your
+code and when you run your code from this window, that sends the code to
+the Console, where it runs the code and give you the output. You can
+save your R script file by clicking the floppy disk (save) icon at the
+top of the window to the top left.</p>
+<p>Now, it is very useful to be able to easily save the code you run in
+a document, like the Rscript you just created. However, it can get a bit
+tedious to have all your code saved in the top left window and all of
+the output in the bottom left window. In addition, you would maybe
+sometimes want to add some text to the code and output, maybe to add an
+interpretation of some output or an explanation of what the code is
+doing. All of this is a lot easier in a file type called Rmarkdown,
+which allows you to have code, output, and text in the same document.
+The result is sort of like a report, where you see everything on the
+same page.</p>
+<p>Therefore, let us try to make an Rmarkdown file. You do this by
+clicking on the button to the top left, the one that has a white box,
+covered by a green circle, with a white cross in it. Chose “Rmarkdown”
+and click “Ok” in the next box to open your Rmarkdown document. The
+Rmarkdown document will already have some prefilled information. For
+example, there is some text inside of three dashes (—). These dashes and
+the information between the two lines of dashes is called the YAML
+header. This is some general information about your document, such as
+the title of it, the author, the date it was created, and the desired
+output. You can easily change this information. For example, change the
+title from “untitled” to “My first Rmarkdown document”. Next, change the
+name that got added as default to how you want it written. Remember to
+have your name and start and end it with a quotation sign (“).</p>
+<p>Anything after the three dashes is the main text of your document.
+There are two parts currently, the dark grey part is where your code
+goes and anything white is normal text. The difference between the R
+script you created earlier and the Rmarkdown document is that the R
+script only had one type of input, the code. While the Rmarkdown
+document has code, text, and as you will see later, output. Therefore,
+the part that would normally be in an R script, is the same as is inside
+of the grey boxes. The Rmarkdown document is therefore similar to the
+Rscript, just that you can surround the code (grey boxes) with normal
+text and output. Let us try this. Instead of having the three lines you
+had in your R script all together, try adding each line to each of the
+three grey boxes you currently have in your Rmarkdown document. To do
+this, leave the first and last line of the grey box (contains ’’’) as it
+is, but switch out the middle line with one of the lines of code from
+your R script. Then, add a sentence or two above each plot that explains
+what the code does. When adding normal text, make sure you do so on the
+white background and not inside of the code chunks (which are grey).
+Then, you can delete the other text on the white background that was
+there from when you created the Rmarkdown document. That means anything
+that is not in the grey boxes, nor in the YAML header.</p>
+<p>Now, you can run the code you added. There are two ways in which to
+do this:</p>
+<ol style="list-style-type: decimal">
+<li>You can run each code individually in the document. You do this by
+clicking on the green arrow to the top right on the code chunk (grey
+box) you want to run. Do this for all three code chunks. You can see
+that the output of the code chunk pops up below the code chunk as the
+code is ran.</li>
+<li>You can “knit” the report, which means that you run all of the code
+at once, and that Rstudio produces a report that contains your code,
+output, and text. Try doing this by hitting the blue yarn ball symbol
+that says “Knit” at the top of the top left window. You can see your
+report pop up when it is done in the right bottom window where you can
+read it over.</li>
+</ol>
+<p>Running individual code chunk can be helpful when you are writing
+code or just want to see one part of the code. However, knitting the
+document gives you an overview of all of the code and output. Knitting
+the document also runs all the code over again, so if you were to make a
+change in a code chunk above the one you are currently working on, this
+could create problems if you do not update the code in-between before
+running some later code. This potential problem is not a concern when
+knitting a document, since all the code gets re-run anyway. You start
+with a clean slate.</p>
+<p>If you look back at your files in the bottom right window (you might
+have to click the “Files” tab to see the files and not your knitted
+Rmarkdown report), you can see that there are two new files there. One
+is the Rmarkdown file you created with the code and text. The file has
+the ending “.Rmd” in its file name. When you knit this file, it will
+automatically save all changes to the .Rmd file and produce a new file
+with your report. Your Rmarkdown document it set to output html code by
+default (you can see that the output it specified to html in the YAML
+header). However, you might also in some instances see that it produces
+an .md file, which is often used for Github. The .html and .md files
+look very similar, they are just optimized for being displayed with
+different programs. If you want to sometime just look at your report,
+you can click on the .html or .md file in the “Files” window to the
+bottom right and chose either “Open in editor” which shows it in the
+same window, or “View in Web Browser” which opens it in full view in
+your web browser instead.</p>
+<p>Be aware, that any time you rerun your .Rmd file, you update the .md
+or .html file. Therefore, you never want to make changes directly to the
+.md or .html files. If you want to change your report, you would instead
+change it in the .Rmd file and re-knit the file to update your
+report.</p>
+</div>
+</div>
+<div id="part-2---github" class="section level2">
+<h2>Part 2 - Github</h2>
+<p>Now that you know how to use Rstudio and do some basics line of code
+with R, we will move on to how we will save our work in this class and
+setting up the components of the class, such as the grading contract,
+your portfolio, and your labs.</p>
+<div id="github" class="section level3">
+<h3>Github</h3>
+<p>We looked at R and Rstudio in part 1 of this lab and learned how to
+write some basic lines of code and how to use Rmarkdown documents to
+produce reports with code, output, and text. Now, we will look at how we
+can save our work so that it is accessible for others and so that we
+always have a backup if we were to lose the files on our own computer.
+We are going to do this through a program called Github.</p>
+<p>So, what is Github? Github is a cloud-based system, just like Google
+Drive, OneDrive, or iCloud. What they all have in common, is that you
+save your work somewhere else than on your computer. That way, if
+something were to happen with your computer, you could still access your
+files. The fact that the files are stored in a cloud simply means that
+they are stored somewhere on the internet, so that you can access them
+through an account, regardless of which computer or device you are
+using. There is a cloud system that is very commonly used among
+programmers and software developers, and that is Github. It is therefore
+useful to know how to navigate Github, so that you can participate in
+world as a true programmer.</p>
+<p>The first step you have to take is to create a <a
+href="https://github.com/">Github account</a>. I strongly suggest that
+you use your Wake Forest email to create this account, as that will
+automatically give you student access, which offers pro benefits for
+free.</p>
+<details>
+<summary>
+What if I already have a GitHub account that is not affiliated with my
+school email?
+</summary>
+<p>If you already have a GitHub account that is not affiliated with your
+school account, you can manually apply for student access. You can do
+this by clicking on the “Join GitHub Education” on <a
+href="https://github.com/education">this page</a>. It will require you
+to submit an enrollment verification, which you can get in a few days by
+applying for it on Workday. Be aware that someone at GitHub will then
+look at your account to see whether it seems plausible that your account
+and the enrollment letter belongs to the same person. It is therefore
+advisable to include as much information on your GitHub profile as you
+can to identify you. You can for example add a picture of yourself, a
+description of being a Wake Forest student, add your full name, and a
+billing address. If you do not add any of this information, your
+application will likely be denied, so make sure you do this too.</p>
+</details>
+<p>Be aware when making your GitHub account that this account is widely
+used in the programming world as a protfolio or CV or one’s programming
+skills and that the accounts therefore often tends to be somewhat
+formal. You can use an user name such as “funnypunny”, but if you create
+some good public projects and contribute to others projects with that
+account, would you want to add that username on your CV? Instead, make
+sure you add an user name you would be ok making public to a company or
+at your workplace later. It doesn’t have to include your own name, but
+this could be beneficial if you want people to find you easier.</p>
+<details>
+<summary>
+Further tips about chosing a GitHub username
+</summary>
+<ul>
+<li>Incorporate your actual name! People like to know who they’re
+dealing with. Also makes your username easier for people to guess or
+remember.</li>
+<li>Reuse your username from other contexts, e.g., Twitter or Slack.
+But, of course, someone with no GitHub activity will probably be
+squatting on that.</li>
+<li>Pick a username you will be comfortable revealing to your future
+boss.</li>
+<li>Shorter is better than longer.</li>
+<li>Be as unique as possible in as few characters as possible. In some
+settings GitHub auto-completes or suggests usernames.</li>
+<li>Make it timeless. Don’t highlight your current university, employer,
+or place of residence, e.g. JennyFromTheBlock.</li>
+<li>Avoid words laden with special meaning in programming. In Jenny’s
+first inept efforts to script around the GitHub API, she assigned lots
+of issues to the guy with username NA because my vector of GitHub
+usernames contained missing values. A variant of Little Bobby
+Tables.</li>
+<li>Avoid the use of upper vs. lower case to separate words. We highly
+recommend all lowercase. GitHub treats usernames in a case insensitive
+way, but using all lowercase is kinder to people doing downstream
+regular expression work with usernames, in various languages. A better
+strategy for word separation is to use a hyphen - or underscore _.</li>
+</ul>
+</details>
+<p>After making your account, you will also want to download GitHub
+desktop. You can download it at <a
+href="https://desktop.github.com/download/">this link</a>. when it is
+downloaded, log in with the same account that you just made for the
+online version of GitHub.</p>
+<p>After you have successfully downloaded GitHub desktop, go back to
+Github in your browser and create your first repository. You can do this
+by clicking on the plus icon to the top right of the main page and
+choose “New Repository”. You have to create a name for your repository,
+call it my_first_repository or something similar. Then you can choose
+whether the repository is public or private. It is also good practice to
+add a README file, which you can do by checking the box for adding a
+README file. Click Create to create the repository. Now, you have an
+account on Github and your first repository, which is like a project. It
+is like a folder where you can save all of the work and files associated
+with a project. The repository is now associated with your account, so
+that you can log onto Github anywhere and find it.</p>
+<p>However, running long and complicated code on your computer from the
+cloud can be slow and you might also sometimes want to work on your code
+even when you don’t have access to internet. Therefore, we want to make
+a local copy of the repository on your computer, so that you can have
+the files associated with the project on your own computer locally too,
+and not just in the cloud. To do this, click on the green “&lt;&gt;
+Code” button in your repository and choose “Open with GitHub Desktop”.
+GitHub Desktop should launch automatically and you will get a menu that
+says “Clone a repository”. Cloning a repository means to make a copy of
+it. In this case, you are making a local copy (stored on your computer)
+of your remote repository (stored in the cloud by GitHub). The URL of
+your repository should be filled out automatically and the box for the
+local path is where on your computer you want to save the repository.
+You can chose a folder on your computer where you have some of your
+other materials for this class or somewhere else you want it. Be sure
+that you can find back to it again later though.</p>
+</div>
+<div id="using-github" class="section level3">
+<h3>Using GitHub</h3>
+<p>Now that you have made a repository and cloned it, let us try to see
+whether you can get the two repositories (same project) talk to each
+other. In Rstudio, open a new Rmarkdown file, and save it the folder
+with the repository (this should be the same folder that you have your
+Rproject in). If you now go to GitHub desktop, you can see that the file
+name for your Rmarkdown file will be in the left window in GitHub
+Desktop. Make sure that the check box before that file is checked. The
+fact that the file shows up, means that there are changes to that file
+in your local repository (on your computer) that doesn’t exist on the
+remote repository (in the cloud). When you check the box for the file,
+you are saying that you want to update that file in the remote
+repository. Then, before we actually send the changes to the remote
+repository (which is called “Push), we have to give this update a name.
+Write in a short name in the summary section that is informative, so
+that if you look back at the message, you will know what you changed. In
+this example, it could for example be”Added a test Rmarkdown file”. When
+you have your summary, you can push the blue button at the bottom of the
+page called “Commit to main”. This action creates an update that is
+ready to send somewhere. Then, click on the “push” button at the top of
+the page to actually “send” the updates to your remote repository. Now,
+you can go into your repository on the online version of GitHub and see
+that your file has been added there. It is also possible to make changes
+the opposite way, by getting changes from your remote repository to your
+local repository. This is done through a “pull” (instead of push), but
+we will not be requiring doing that for this class.</p>
+</div>
+</div>
+<div id="part-3---setting-up-the-course" class="section level2">
+<h2>Part 3 - Setting up the Course</h2>
+<p>Now that you have learned about R, Rstudio, and using GitHub, you can
+get started on the course work. However, it might be helpful to set up
+some of the the assignments and requirements for the class. In this
+section, we will work on setting up the course by prepping three
+things:</p>
+<ul>
+<li>The contract</li>
+<li>Learning to get and set up labs from the course page</li>
+<li>Setting up your portfolio</li>
+</ul>
+<div id="the-contract" class="section level3">
+<h3>The contract</h3>
+<p>The class is set up to be flexible and as a part of that, you have to
+fill out a grade contract where you set up which grade you are trying to
+get and a time line of when do to the projects and assignments required
+to get that grade. You can read more about this contract grading in the
+syllabus <a
+href="https://smasongarrison.github.io/syllabi/data-science.html#grading-policy-3">here</a>.
+There is a template contract that you can use to make your contract, so
+the first thing we need to do to make this contract is to get that
+template from GitHub and make our own repository for it.</p>
+<p>Go the the following <a
+href="https://github.com/DataScience4Psych/template_contract">webpage to
+find the contract template</a>. This is one of the benefits of using
+GitHub, as one can share a repository with files that others can use,
+such as this contract template. To use the template, you want to click
+on the green button at the top right that says “Use this template” and
+choose “Create a new repository”. Then you make the repository like
+usual. You can choose whether you want to make this repository public or
+private. If you make it public, anyone who looks at your profile can see
+it. After you have made a remote repository (in the cloud), you want to
+clone the repository to your computer (= creating a local repository),
+so that you can work on the contract on your own computer. To open the
+local repository on your computer, open Rstudio, choose “File” in the
+upper left corner, and click on “Open Project…”. Find the file ending on
+“Rproj.” in your repository and open that project. This works since the
+contract template that was made for you included several files,
+including an R project.</p>
+<p>Now, you want to start filling in the contract. You can see that the
+repository has a .Rmd and .md file. Remember that you edit files that
+end with .Rmd and when you knit these files, those updates will show up
+in your .md or .html report. So, open the file ending with .Rmd and
+follow the instructions to fill out the contract. When you are done,
+knit the contract, stage the edits, make a commit message, and push your
+changes to your remote repository. Then go onto Github to make sure that
+your changes are visible in your remote repository.</p>
+<p>Now, it is time to hand in your contract.</p>
+</div>
 </div>
 </div>
 

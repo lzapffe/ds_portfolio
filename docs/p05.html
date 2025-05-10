@@ -305,8 +305,14 @@ workflows that might not be 100% necessary for projects that I am
 working on currently for this class, but which could involve a lot of
 fail-safes for when I potentially work with more advanced and
 comprehensive projects. It is better to learn how to do this now than
-later, when I really need it. Therefore, this project will have the
-following goals:</p>
+later, when I really need it. I also realized that I could need a little
+more knowledge of Git after creating my repository for the portfolio,
+then trying to customize it, and then messing it up so much that I had
+to reset the repository, which also didn’t work because of merge
+conflicts. I realized then that GitHub desktop is too simple and that I
+need to learn more about Git to be able to fix things when I mess up.
+This project ended up starting and ending in two very different places.
+However, here are the goal I had going into the project:</p>
 <ul>
 <li>To set up GitKraken successfully</li>
 <li>Learn basic usage of GitKraken, such as pulling, pushing, and
@@ -315,10 +321,11 @@ connecting to local repositories</li>
 merges, and branches</li>
 <li>To become comfortable using GitKraken and more advanced
 workflows</li>
-<li>The final goal of this project will be to create a pull request from
-a forked version of this class to update the contract template that was
-made in project 1, as well as change some other minor problems, such as
-broken or out-of-date links in the course</li>
+<li>The final goal of this project will be to know enough about Git to
+create a pull request from a forked version of this class to update the
+contract template that was made in project 1, as well as change some
+other minor problems, such as broken or out-of-date links in the
+course</li>
 </ul>
 <div id="gitkraken" class="section level1">
 <h1>GitKraken</h1>
@@ -354,27 +361,6 @@ are and then hand in an application.</p>
 <p>Most of the notes here are taken from the <a
 href="https://help.gitkraken.com/gitkraken-desktop/interface/#elementor-toc__heading-anchor-0">GitKraken
 help sides</a></p>
-<p>There is a tool bar in the top middle of the screen when you open a
-repository. It has several buttons, including:</p>
-<ul>
-<li>Undo - Undo whatever change you just made. However, this only works
-if you did the change locally, not remotely</li>
-<li>Redo - Redo whatever undo you just made. Note that this only works
-for local and not remote actions</li>
-<li>Pull - This is to pull any changes. It will do a few different
-things based on what you have set as your default. To see what you
-default it (and change it) click on the little arrow and select another
-option. “Fetch” will only get the change, but not merge it, while the
-other options will do different levels of merging</li>
-<li>Push - Pushes your changes remotely</li>
-<li>Branch - Creates a new branch for whatever branch you are currently
-selected (see the colored branches/bars on the timeline window for the
-repository)</li>
-<li>Stash - Stash something?</li>
-<li>Pop - Pop your stash to your Whiip?</li>
-<li>Terminal - Opens the terminal (think cmd) to Git. Has autocomplete
-to guide you through using the terminal</li>
-</ul>
 </div>
 </div>
 <div id="more-advanced-workflows" class="section level1">
@@ -457,16 +443,338 @@ problem merge conflicts might become. If it gets too complicated, a
 trunk-based method might be better. However, I do want to at least try
 to GitHub flow method first.</p>
 </div>
-<div id="to-do-list" class="section level2">
-<h2>To-do list:</h2>
+<div id="mid-project-reflection" class="section level2">
+<h2>Mid-project Reflection</h2>
+<p>I have been working through the tutorial/help pages on GitKraken’s
+webpage. It was kind of intimidating to get started with GitKraken
+because there is so much going on. However, what I realized after
+working past the initial set-up and customization pages is that I don’t
+know enough about Git to learn how to use GitKraken. I therefore started
+a side-track of learning Git with the Git <a
+href="https://learn.gitkraken.com/courses/take/git-foundations/lessons/38787021-welcome-to-the-foundations-of-git">foundations
+tutorial</a> by GitKraken. This course was very helpful to learn about
+Git and since it was hosted by GitKraken, it also showed how to do
+everything in GitKraken, as well as in the terminal. I therefore ended
+up doing more of a theoretical deep-dive than the more practical I
+initially envisioned. However, you will see some of the more practical
+aspects being employed in the later projects, projects 7-10, where I
+have used GitKraken and Git extensively. I also ended the project by
+taking the Git foundations certification and passing it.</p>
+<p>I will post the git certificate at the end and the rest of the
+project will consist of notes from going over that course. I took most
+of them on paper, since there was a lot of back-and-forth, so these
+notes will likely not reflect everything I learned, but instead show a
+little bit of it. I aspire to one day integrate all of the notes and
+structure them so that others can learn to use Git and GitKraken from
+the notes. However, in the meantime, I will use it mostly for my own
+reference when I get stuck in GitKraken.</p>
+</div>
+</div>
+<div id="part-2---learning-about-git-and-gitkraken"
+class="section level1">
+<h1>Part 2 - Learning about Git and GitKraken</h1>
+<p>The Git course was hosted by GitKraken, so the Git basics information
+will be integrated with GitKraken specific information throughout this
+section.</p>
+<div id="basics-in-gitkraken" class="section level2">
+<h2>Basics in GitKraken</h2>
 <ul>
-<li>Add hand-written notes about Git and GitKraken</li>
-<li>Go over specialized articles</li>
-<li>Add GitKraken certification</li>
-<li>Practice some of the GitKraken features, for example by creating
-pull requests to add the contract from project 1 to the course? Or a
-part of project 10?</li>
-<li>Add in working on projects 7, 8, and 9 with “correct” workflow?</li>
+<li>GitKraken lets you have several profiles, so you can have a work and
+personal profile. The avatars can be different, you have different
+integrations, you will have a different commit signature, and the
+customizations you make are specific to your profile. You can therefore
+for example have a black background for one profile and a green one for
+another, to easily differentiate which profile you are working with.
+<ul>
+<li>You can also customize the theme of a profile further than the
+option provided in Git by importing themes from internet and dropping
+them in the themes folder in your computer under GitKraken (see file
+path under “UI cutomization”). There you will also find templates made
+by GitKraken that allows you to play around with option to make your own
+theme</li>
+</ul></li>
+<li>You can switch to showing initials instead of your profile picture
+in commits in preferences</li>
+<li>You can type any command or thing you are wondering about in the
+command palette. It is the symbol that looks like a sparkly magic wand
+to the top right in GitKraken. Search for anything you can find there.
+You can also open it with Ctrl + p.
+<ul>
+<li>This command palette can also interact with external programs, for
+example open a repository in an external editor, such as Rstudio</li>
+</ul></li>
+<li>There are many shortcuts you can use in GitKraken:
+<ul>
+<li>Ctrl + l -&gt; Fetch all</li>
+<li>s -&gt; Stage current file</li>
+<li>Ctrl + shift + s -&gt; Stage all files</li>
+<li>Ctrl + enter -&gt; Commit current files with current message</li>
+<li>Ctrl + shift + enter -&gt; Stage all files and commit with current
+message</li>
+<li>Ctrl + shift + m -&gt; Places your cursor in the commit message box
+so that you can write the message directly</li>
+<li>Ctrl + f -&gt; Search in commits</li>
+<li>Ctrl + / -&gt; Opens an overview of keyboard shortcuts</li>
+</ul></li>
+</ul>
+<div id="gui" class="section level3">
+<h3>GUI</h3>
+<p>There are 4 main areas in the GUI when in a repository in GitKraken:
+- The commit graph is in the middle of the screen, with a graph with the
+commit history and the commit message - This graph gives you a quick
+overview of changes, who made them, and any branching or merging that
+may have occurred - You can resize this graph to decide how many paths
+of branching you want to show by dragging the arrow that pops up when
+your cursor is in-between the branches and commit messages in the graph
+- The commit panel is the right-side panel with the unstaged and staged
+files and the box where you can add commit messages. You can click on
+individual files to see the diff view of that file. - When making a
+commit, you can also click on the arrow saying “commit options” right
+above the stage changes to commit button and check the box stating that
+you will automatically make a commit and push the changes to your
+remote, instead of having to manually commit the changes and then push
+them to the remote - The left panel has an overview of all the local and
+remote repositories associated with the current repository and the
+branches associated with these. It also shows you pull requests, issues,
+and team work. - The tool bar is the top bar with quick access to some
+common functions, such as: - Undo - Undo whatever change you just made.
+However, this only works if you did the change locally, not remotely -
+Redo - Redo whatever undo you just made. Note that this only works for
+local and not remote actions - Pull - This is to pull any changes. It
+will do a few different things based on what you have set as your
+default. To see what you default it (and change it) click on the little
+arrow and select another option. “Fetch” will only get the change, but
+not merge it, while the other options will do different levels of
+merging - Push - Pushes your changes remotely - Branch - Creates a new
+branch for whatever branch you are currently selected (see the colored
+branches/bars on the timeline window for the repository) - Stash - Stash
+your changes - Pop - Pop your stash to your WIP - Terminal - Opens the
+terminal to Git. Has autocomplete to guide you through using the
+terminal</p>
+<p>When you click on a staged or unstaged file in GitKraken, you can see
+the diff view of that file, which is the difference between the
+committed file and the file you currently have in your WIP (Work in
+progress). The green lines are lines that have been added or the new
+changes to the file in the WIP compared to the committed file and the
+red are the ones that are removed or the lines as they are in the commit
+(as opposed to the WIP). When you are in the diff view you can click on
+the plus sign when the cursor is hovering over a line to stage
+individual lines of the file instead of the entire file. There are three
+different views of the diff view: hunk view, inline view, and split
+view, try the three different views by clicking on any of the three
+boxes to the top right in the diff view window. - If you want to delete
+your WIP, you can right-click on it (it will be at the top of your
+commit graph) and choose “discard changes” or click the trash icon in
+the commit panel when the WIP is selected.</p>
+<p>You can also edit files themselves in GitKraken, if you for example
+just need to add or remove a quick line before making a commit. You can
+also create new files within GitKraken. The easiest way to create a new
+files seems to be with the command palette. That is the go-to anytime
+you don’t know where something is or are wondering whether something is
+possible in GitKraken.</p>
+<p>When performing Git actions, you can often do these actions by
+grabbing a branch in the work tree and dropping it onto another branch.
+This can for example be done to merge, rebase, or add a pull request for
+a branch. If you want to make customizations to these quick actions,
+like add comments or assign people to a pull request, you can do that by
+clicking on the pull request after doing the action (e.g. in the left
+panel)</p>
+<p>The changes you have made to your local repository that is not yet
+committed, will be in your WIP (work in progress). You can double-click
+on your WIP (it is at the top of your work tree) to open the commit
+panel. If you hover over a file in the commit panel, it will show a
+button that will let you stage that file. You can also double-click on
+the file to get the diff view, where you can examine the differences
+between your committed changes and WIP, as well as stage individual
+lines in a file.</p>
+<p>You can create workspaces where you group together several
+repositories that are related in some way. This allows you to clone,
+pull, and push several repositories at once. You can also click on focus
+view for a workspace and see all updates for all of the repositories
+that have been grouped together, such as commits, issues, and pull
+requests.</p>
+<p>Using interactive rebase in GitKraken</p>
+<p>Using submodules</p>
+<p>Using Git worktree to check out and work in multiple branches at
+once</p>
+</div>
+</div>
+<div id="basics-of-git" class="section level2">
+<h2>Basics of Git</h2>
+<div id="git-concepts" class="section level3">
+<h3>Git Concepts</h3>
+<p>There are two types of repositories: remote and local ones. The
+remote repositories are hosted on internet while the local repositories
+are the ones you have saved on your computer</p>
+<p>A commit is a snapshot of your files at a specific moment. The
+workflow in Git is that you are making changes to files in your current
+repository. This gets saved in your project directory (where you have
+the files for your repository) on your computer. When you want to make
+these changes more permanent, you stage them to indicate that you want
+to move these changes from your WIP to the repository. This saves these
+files from your WIP into a folder in the .git folder, called /index.
+When you actually decide that you are happy with the files you have
+staged and want to make all of these changes a part of your history
+(take a snapshot), you commit them, which saves the changes to the
+/objects folder, also in your .git folder. This way, you have created
+history that is saved in the .git folder, in addition to the changes you
+had from the beginning in your files when working on your WIP.</p>
+<p>You can work with several branches in a repository. However, you can
+only work in one branch at a time. When you are working in a branch, you
+have it “checked out”, which means that any changes you are doing and
+everything you see is from that branch.</p>
+</div>
+<div id="commands" class="section level3">
+<h3>Commands</h3>
+<ul>
+<li><p>Git init -&gt; The commands that create the .git folder. This is
+where all the history and changes that allow you to go back in time gets
+saved. If you delete this folder, you will delete all the history and
+what we consider a repository and instead just be left with the files as
+they currently are in your local repository</p></li>
+<li><p>Git clone -&gt; Creates an exact copy of all files and changes to
+a repository at the time of cloning it</p></li>
+<li><p>Git revert -&gt; A new commit that works like an inverse commit.
+You will still have your history with all your previous commits, but the
+code will look like it was earlier, since the new (revert) commit
+reverted the code to an earlier point.</p>
+<ul>
+<li>You can do this in GitKraken by right-clicking the commit you want
+to revert the repository to and chose “Revert commit”. It will ask
+whether you want to make the changes immediately (which will stage and
+make the commit with a default message) or not (which will stage the
+files, but not make the commit).</li>
+<li>Note that git revert only reverts the repository by making the
+inverse of the selected commit, not all the changes that may have
+occured in between the current and selected commit. Therefore, you have
+to do this multiple times if you want to rever the repository back
+several commits. It is possible to do this faster in the terminal</li>
+</ul></li>
+<li><p>Git checkout</p></li>
+<li><p>Git merge</p></li>
+<li><p>Git rebase</p></li>
+<li><p>Git pull</p></li>
+<li><p>Git request-pull (pull request)</p></li>
+<li><p>Git stash</p></li>
+<li><p>Git cherry-pick</p></li>
+<li><p>Git squash</p></li>
+<li><p>Git tag</p></li>
+<li><p>Git reset</p>
+<ul>
+<li>Soft</li>
+<li>Mixed</li>
+<li>Hard</li>
+</ul></li>
+<li><p>Git</p></li>
+<li><p>Forking a repository</p></li>
+<li><p>Creating hooks</p></li>
+<li><p>Using patches</p></li>
+</ul>
+</div>
+<div id="div-other-things-git" class="section level3">
+<h3>Div other things Git</h3>
+<p>There are a lot of god practices regarding commit messages. Some of
+these practices will be specific to the culture with the other people
+you collaborate with. However, here are some general good practices that
+many people use when making commits:</p>
+<ul>
+<li><p>Only make a commit for one topic or change at at time</p>
+<ul>
+<li>If you have multiple changes at a time, divide them up into multiple
+commits by staging only the relevant files per commit
+<ul>
+<li>This will help if you need to revert a commit for something, as you
+could revert a commit with only the relevant changes, instead of
+reverting a commit and having to tease out the changes you wanted and
+didn’t want.</li>
+</ul></li>
+</ul></li>
+<li><p>Don’t use punctuation</p></li>
+<li><p>Use the imperative verb form</p>
+<ul>
+<li>E.g. Add a new file, modify the Readme file</li>
+</ul></li>
+<li><p>Start the message with either of these categories:</p>
+<ul>
+<li>Feat -&gt; Feature added</li>
+<li>Fix -&gt; Bug fix</li>
+<li>Docs -&gt; Changed documentation</li>
+<li>Style -&gt; Style or formatting changes</li>
+<li>Perf -&gt; Performance improvement</li>
+<li>Test -&gt; Tested a new feature</li>
+<li>E.g. “Feat: Add search feature to commits”</li>
+<li>Using these categories will make it a lot easier to search for
+specific commits later</li>
+</ul></li>
+<li><p>Add * to the end of the commit message if you also added a
+description</p></li>
+<li><p>Git LFS (Large file storage)</p></li>
+</ul>
+</div>
+<div id="using-the-terminal" class="section level3">
+<h3>Using the terminal</h3>
+<p>I like using the GUI and not the terminal for Git, as it is easier to
+keep track of everything. However, it didn’t seem too complicated to use
+the terminal. Here are some basics of how to use it and you can then
+google the specific commands if you need it for anything.</p>
+<ul>
+<li>You can open the terminal in GitKraken by clicking on the Terminal
+button in the tool bar
+<ul>
+<li>The GitKraken terminal has autocomplete that will help you write the
+appropriate commands.</li>
+</ul></li>
+<li>Use git log to see previous commit hashes and messages</li>
+<li>When acting on a commit, you have to refer to at least the first 6
+characters of the hash for that commit</li>
+<li>:qa will exit the current section or window if the terminal asks you
+to do something you don’t want to do, like edit a commit message</li>
+<li>Example commands
+<ul>
+<li>git revert [hash] reverts the repository to a commit</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="git-foundations-certificate" class="section level2">
+<h2>Git Foundations Certificate</h2>
+<p><img
+src="Git%20Foundations%20by%20GitKraken%20Certificate.jpg" /></p>
+</div>
+<div id="final-reflections-and-the-path-forward" class="section level2">
+<h2>Final reflections and the Path Forward</h2>
+<p>Switching from GitHub Desktop to GitKraken and learning more about
+Git has opened my eyes to all the benefits of Git and how it can greatly
+improve my workflow on bigger projects, especially when collaborating
+with others. I have gotten much more comfortable using Git and I notice
+that I can use the terms and concepts a lot more freely, instead of
+having everything be this big mystery. I have adapted a lot of the
+things mentioned here, but there are still some that I could probably
+benefit from working on. For example, I tend to make big commits with a
+lot of changes, that works as a back-up if I would have to change
+anything, but it would be a lot more complicated than if I were to make
+a commit for each change or topic. I think I have adopted a lot of the
+other features though, and my commit messages are a lot better now. As
+you will see moving forward, I am using GitKraken and Git for all of the
+applied projects coming after this, which includes projects 7-10. This
+project has therefore allowed me to improve my workflow, get more into
+the lingo of Git, and learned to take part of the community that uses
+Git, such as sending pull requests for changes to the course pages for
+this course.</p>
+<p>Although I have learned a lot from this project, there are always
+things that can be improved and expanded on. Therefore, here is a list
+of possible next steps that I aspire to take one day:</p>
+<ul>
+<li>Rewrite and clean up in these notes so that they could be used as a
+guide for beginners to Git and GitKraken
+<ul>
+<li>Add pictures to explain everything and show what I am talking about
+instead of just using text</li>
+</ul></li>
+<li>Get more comfortable using GitHub online, as that also offers a lot
+of the features GitKraken does</li>
+<li>Work through some of the more specific tutorials on GitKraken to
+learn some of the things I haven’t gotten to yet</li>
 </ul>
 </div>
 </div>

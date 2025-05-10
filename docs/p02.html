@@ -408,17 +408,31 @@ lapply(x, mean)</code></pre>
 ## [1] 2.5
 ## 
 ## $b
-## [1] -0.632728
+## [1] -0.3107703
 ## 
 ## $c
-## [1] 1.203043
+## [1] 0.6734722
 ## 
 ## $d
-## [1] 5.082883</code></pre>
+## [1] 4.983619</code></pre>
 <pre class="r"><code>x &lt;- list(a = 1:4, b = rnorm(10), c = rnorm(20, 1), d = rnorm(100, 5))
 sapply(x, mean)</code></pre>
 <pre><code>##          a          b          c          d 
-## 2.50000000 0.04593597 1.05323014 4.82484508</code></pre>
+##  2.5000000 -0.4226360  0.7609175  4.8409374</code></pre>
+</div>
+<div id="vapply" class="section level3">
+<h3>vapply()</h3>
+<p>Similar to sapply and lapply(), but you can define what type of input
+you are expecting. For example, using FUN.VALUE = numeric(1) says that
+you are expecting the input to be numeric, with a single digit.
+FUN.VALUE = data.frame(1) indicates that you are expecting a single data
+frame. If the input is not in the excepted format, you will get an
+error. This can be helpful for example if you have string numbers, but
+want them to be numeric. Using vapply() instead of sapply() or lapply()
+then adds in a check for variable type and can create an error, instead
+of having a silent error happen later in the code. There is an argument
+for simplifying the output that produces similar output as lapply() or
+sapply().</p>
 </div>
 <div id="tapply" class="section level3">
 <h3>tapply()</h3>
@@ -430,27 +444,29 @@ calculations in x by the membership in y with tapply().</p>
 <p>For example, tapply(x, y, mean)</p>
 <p>There is also a parameter called simplify (TRUE or FALSE). If it is
 true it gives output similar to that of sapply(), while if it is false,
-it will give output similar to that of lapply().</p>
+it will give output similar to that of lapply(). If it is true, the
+output will always be an array. An array is similar to a matrix, as a
+matrix is a 2 dimensional array.</p>
 </div>
 <div id="apply" class="section level3">
 <h3>apply()</h3>
 <p>Used on an array, like a matrix. You can specify which direction you
 want it to act on, either rows or columns.</p>
 <p>The second parameter, called MARGINS, determine whether you apply the
-funtion to the column or the row. If the value is 1, you collapse the
+function to the column or the row. If the value is 1, you collapse the
 columns and retain the rows. If the value is 2, you collapse the rows
 and retain the columns. See the following examples, taken from the
 bookchapter, for reference:</p>
 <pre class="r"><code>x &lt;- matrix(rnorm(200), 20, 10)
 apply(x, 2, mean)  ## Take the mean of each column</code></pre>
-<pre><code>##  [1] -0.020565719  0.003112847 -0.296775487 -0.178758132 -0.078938979
-##  [6]  0.004129142  0.188537137  0.204465434  0.352245130 -0.075464396</code></pre>
+<pre><code>##  [1] -0.05476248  0.08801030  0.20328432  0.16957234 -0.21461377 -0.42816045
+##  [7]  0.13711626  0.08920606 -0.44559500  0.07361317</code></pre>
 <pre class="r"><code>x &lt;- matrix(rnorm(200), 20, 10)
 apply(x, 1, sum)   ## Take the mean of each row</code></pre>
-<pre><code>##  [1] -1.07970592 -1.03521129  2.12277609  0.46739003 -4.91952619 -0.04613031
-##  [7] -1.13615902 -3.83882042  3.22077657 -0.27380250  0.57551030  4.54744841
-## [13]  0.91387767  1.38605958 -0.33172781  5.74996049 -0.56996947 -1.12208201
-## [19] -3.34067516 -6.66988541</code></pre>
+<pre><code>##  [1] -1.2026622 -3.1323678  2.0997132  1.4442149 -2.7783634  1.6685869
+##  [7] -0.6173170 -2.7266519  1.2372130 -2.4744345  0.1728629  0.3819699
+## [13] -3.3699461 -4.9873725  1.6828111  3.6103156  0.4366493 -0.2161430
+## [19] -0.6927168  4.8013746</code></pre>
 <p>The following are some examples of functions that could be written as
 apply()</p>
 <p>rowSums = apply(x, 1, sum) rowMeans = apply(x, 1, mean) colSums =
@@ -505,19 +521,24 @@ want to do it for values of mu and sigma increasing from 1 to 10. If we
 try doing this in the function itself, which is not adapted for
 vectorized operations, we only get one number.</p>
 <pre class="r"><code>sumsq(1:10, 1:10, x)  ## This is not what we want</code></pre>
-<pre><code>## [1] 121.0359</code></pre>
+<pre><code>## [1] 121.3082</code></pre>
 <p>While we can apply mapply() to run the 10 values in paralell.</p>
 <pre class="r"><code>mapply(sumsq, 1:10, 1:10, MoreArgs = list(x = x))</code></pre>
-<pre><code>##  [1] 226.1127 139.4398 121.0450 113.8157 110.1079 107.8985 106.4488 105.4318
-##  [9] 104.6825 104.1093</code></pre>
+<pre><code>##  [1] 181.61298 116.80949 105.87366 102.40550 100.96452 100.27050  99.90536
+##  [8]  99.70294  99.58781  99.52238</code></pre>
 <p>You can also apparently do this with the Vectorize() function</p>
 <pre class="r"><code>vsumsq &lt;- Vectorize(sumsq, c(&quot;mu&quot;, &quot;sigma&quot;))
 vsumsq(1:10, 1:10, x)</code></pre>
-<pre><code>##  [1] 226.1127 139.4398 121.0450 113.8157 110.1079 107.8985 106.4488 105.4318
-##  [9] 104.6825 104.1093</code></pre>
+<pre><code>##  [1] 181.61298 116.80949 105.87366 102.40550 100.96452 100.27050  99.90536
+##  [8]  99.70294  99.58781  99.52238</code></pre>
 <p>I don’t think I fully understand how this works yet, but I might get
 it a little more later. Or it might not be the most important thing to
 know.</p>
+<p>mapply differs from e.g. lapply if you have multiple lists and
+elements as lapply iterates through each list in total, while mapply
+iterates through each element in a list, not necessarily iterating over
+each list per iteration like lapply does. See exercise 13 for an
+example.</p>
 </div>
 <div id="split" class="section level3">
 <h3>split()</h3>
@@ -533,28 +554,28 @@ print(f)</code></pre>
 ## Levels: 1 2 3</code></pre>
 <pre class="r"><code>split(x, f)</code></pre>
 <pre><code>## $`1`
-##  [1]  0.3644155  1.0994111 -0.2842094  1.3088279 -1.6156570  2.1236522
-##  [7]  0.9830825 -0.7167603 -0.4598488  2.2861235
+##  [1] -0.9706373  1.0461454 -0.4081018  0.5292572  0.8528591 -0.1334782
+##  [7]  0.8197633  0.6431363 -0.6639123 -2.1674846
 ## 
 ## $`2`
-##  [1] 0.73888608 0.14337732 0.18083187 0.84082386 0.77831500 0.06758716
-##  [7] 0.62536098 0.29922451 0.39290393 0.89329891
+##  [1] 0.61899369 0.51424101 0.78116060 0.02568869 0.69256446 0.61800854
+##  [7] 0.31398035 0.23270333 0.02292010 0.58076062
 ## 
 ## $`3`
-##  [1]  0.5727972  2.1469468  2.5845865  1.9736880  2.3921110  0.9765048
-##  [7] -0.2746575  0.9815332  0.5840439  1.6568708</code></pre>
+##  [1]  0.3107843  0.8207667  2.7980980  0.4211566  2.1489083  1.7839261
+##  [7]  1.4778491  0.4113216 -0.2345241  0.7249822</code></pre>
 <p>This seems very similar to tapply(), but with factors instead of just
 a list.</p>
 <p>This is an example in combination with lapply()</p>
 <pre class="r"><code>lapply(split(x, f), mean)</code></pre>
 <pre><code>## $`1`
-## [1] 0.5089037
+## [1] -0.0452453
 ## 
 ## $`2`
-## [1] 0.496061
+## [1] 0.4401021
 ## 
 ## $`3`
-## [1] 1.359442</code></pre>
+## [1] 1.066327</code></pre>
 <p>With this, you can for example look at a data frame and split up the
 calculations or stats based on a variable (as a factor), such as month
 or city. You can even split it up in combinations of two or more
@@ -575,10 +596,10 @@ vectorized operations.</p>
 </div>
 <div id="practice" class="section level1">
 <h1>Practice!</h1>
-<p>So far, I have learned about apply(), lapply(), sapply(), tapply(),
-mapply(), and split() with lapply(). I know need some practice using
-these functions to get comfortable with the logic behind them, when to
-use each, and how they work.</p>
+<p>So far, I have learned about apply(), lapply(), sapply(), vapply(),
+tapply(), mapply(), and split() with lapply(). I know need some practice
+using these functions to get comfortable with the logic behind them,
+when to use each, and how they work.</p>
 <p>First, I fed ChatGPT with all the notes I have up until this point
 and asked it to make some exercises, with varying difficulty, that could
 be used to practice what is in this document so far and further deepen
@@ -671,22 +692,22 @@ mat_square</code></pre>
 <p>3.1. Create a matrix mat &lt;- matrix(rnorm(20), nrow = 5).</p>
 <pre class="r"><code>mat &lt;- matrix(rnorm(20), nrow = 5)
 mat</code></pre>
-<pre><code>##            [,1]       [,2]        [,3]       [,4]
-## [1,]  1.9978642 -1.0017879 -0.03564697 -0.3480124
-## [2,]  1.5582321 -0.8224324 -2.08630085  1.3519640
-## [3,]  0.5506567  1.3563808  0.67753431 -0.9632794
-## [4,] -1.9141004  0.6793583  1.49832018  0.6637342
-## [5,] -1.3338711  2.0976959 -0.75104770 -0.4859083</code></pre>
+<pre><code>##             [,1]       [,2]       [,3]       [,4]
+## [1,] -0.54159375 -1.6740705 -0.0920111 -0.2299882
+## [2,] -0.02735148 -0.8395179 -0.7203667  0.8137564
+## [3,] -1.08277738  0.3200057 -0.5097532  0.6992116
+## [4,]  0.06565335  1.4934568 -0.1757002  1.8100932
+## [5,]  1.51211178 -1.2742024  0.9545854 -1.4610005</code></pre>
 <p>3.2. Use apply() to calculate the mean of each row.</p>
 <pre class="r"><code>apply(mat, MARGIN = 1,  mean)</code></pre>
-<pre><code>## [1]  0.1531042263  0.0003656992  0.4053230858  0.2318280902 -0.1182827867</code></pre>
+<pre><code>## [1] -0.63441589 -0.19336994 -0.14332832  0.79837578 -0.06712646</code></pre>
 <p>3.3. Use apply() to find the sum of each column.</p>
 <pre class="r"><code>apply(mat, MARGIN = 2, sum)</code></pre>
-<pre><code>## [1]  0.8587816  2.3092147 -0.6971410  0.2184980</code></pre>
+<pre><code>## [1] -0.07395747 -1.97432833 -0.54324591  1.63207242</code></pre>
 <p>3.4. Write a custom function that calculates the range (max - min)
 and use apply() to calculate the range for each row.</p>
 <pre class="r"><code>apply(mat, MARGIN = 1, function(x) {max(x)-min(x)})</code></pre>
-<pre><code>## [1] 2.999652 3.644533 2.319660 3.412421 3.431567</code></pre>
+<pre><code>## [1] 1.582059 1.653274 1.781989 1.985793 2.973112</code></pre>
 <p>I might actually be a genius. Just saying.</p>
 </div>
 <div id="using-lapply-and-sapply" class="section level3">
@@ -698,28 +719,29 @@ my_list</code></pre>
 ## [1] 1 2 3 4 5
 ## 
 ## $b
-##  [1] -0.8519365 -0.1459264 -0.3563063 -1.4741708  1.8649098 -0.5488213
-##  [7] -0.1403539  0.5745658  2.3959985 -1.0297327
+##  [1] -0.41644432  2.00056606  0.31239028  0.71580378 -0.39538984  0.94338240
+##  [7] -0.53526866 -0.08127385 -1.55020243  1.16658333
 ## 
 ## $c
-##  [1] 0.2404181 0.2115626 0.8296189 0.2840289 0.6997789 0.8511337 0.9959414
-##  [8] 0.8583127 0.1095291 0.8861303 0.4499178 0.6770080 0.4520387 0.2681281
-## [15] 0.5575171 0.7900763 0.2924418 0.8849890 0.2160178 0.9240003</code></pre>
+##  [1] 3.713580e-01 5.201974e-01 4.684895e-01 3.323538e-01 4.161642e-01
+##  [6] 9.527327e-01 7.364585e-01 4.577937e-01 1.348928e-05 7.262433e-01
+## [11] 2.751679e-01 2.771581e-01 7.972446e-01 8.203043e-02 5.238943e-01
+## [16] 8.048555e-01 1.705406e-01 7.608406e-01 9.090297e-01 4.664726e-01</code></pre>
 <p>4.2. Use lapply() to calculate the mean of each vector.</p>
 <pre class="r"><code>lapply(my_list, mean)</code></pre>
 <pre><code>## $a
 ## [1] 3
 ## 
 ## $b
-## [1] 0.02882262
+## [1] 0.2160147
 ## 
 ## $c
-## [1] 0.5739295</code></pre>
+## [1] 0.5024519</code></pre>
 <p>4.3. Use sapply() to calculate the standard deviation of each
 vector.</p>
 <pre class="r"><code>sapply(my_list, sd)</code></pre>
 <pre><code>##         a         b         c 
-## 1.5811388 1.2458372 0.2960043</code></pre>
+## 1.5811388 1.0232028 0.2732433</code></pre>
 <p>4.4. Create an anonymous function inside lapply() to find the sum of
 squares for each vector.</p>
 <pre class="r"><code>lapply(my_list, function(x) {sum(x^2)})</code></pre>
@@ -727,10 +749,10 @@ squares for each vector.</p>
 ## [1] 55
 ## 
 ## $b
-## [1] 13.9773
+## [1] 9.889119
 ## 
 ## $c
-## [1] 8.252654</code></pre>
+## [1] 6.467735</code></pre>
 </div>
 <div id="using-tapply" class="section level3">
 <h3>5. Using tapply()</h3>
@@ -777,50 +799,50 @@ raised to its corresponding exponent.</p>
 )
 df</code></pre>
 <pre><code>##    id group    score
-## 1   1     X 65.36995
-## 2   2     X 73.81071
-## 3   3     X 71.12182
-## 4   4     X 92.01367
-## 5   5     Y 51.86055
-## 6   6     Y 67.39874
-## 7   7     Y 61.99355
-## 8   8     Y 90.65907
-## 9   9     Z 73.14401
-## 10 10     Z 77.24729
-## 11 11     Z 84.09370
-## 12 12     Z 68.06968</code></pre>
+## 1   1     X 61.13301
+## 2   2     X 81.25121
+## 3   3     X 83.78483
+## 4   4     X 82.05420
+## 5   5     Y 65.64827
+## 6   6     Y 60.67791
+## 7   7     Y 78.56560
+## 8   8     Y 55.94615
+## 9   9     Z 77.88460
+## 10 10     Z 69.99812
+## 11 11     Z 90.61512
+## 12 12     Z 55.55310</code></pre>
 <p>7.2. Use split() to split the data frame by group.</p>
 <pre class="r"><code>split(df, df$group)</code></pre>
 <pre><code>## $X
 ##   id group    score
-## 1  1     X 65.36995
-## 2  2     X 73.81071
-## 3  3     X 71.12182
-## 4  4     X 92.01367
+## 1  1     X 61.13301
+## 2  2     X 81.25121
+## 3  3     X 83.78483
+## 4  4     X 82.05420
 ## 
 ## $Y
 ##   id group    score
-## 5  5     Y 51.86055
-## 6  6     Y 67.39874
-## 7  7     Y 61.99355
-## 8  8     Y 90.65907
+## 5  5     Y 65.64827
+## 6  6     Y 60.67791
+## 7  7     Y 78.56560
+## 8  8     Y 55.94615
 ## 
 ## $Z
 ##    id group    score
-## 9   9     Z 73.14401
-## 10 10     Z 77.24729
-## 11 11     Z 84.09370
-## 12 12     Z 68.06968</code></pre>
+## 9   9     Z 77.88460
+## 10 10     Z 69.99812
+## 11 11     Z 90.61512
+## 12 12     Z 55.55310</code></pre>
 <p>7.3. Use lapply() to calculate the mean score for each group.</p>
 <pre class="r"><code>lapply(split(df$score, df$group), mean)</code></pre>
 <pre><code>## $X
-## [1] 75.57904
+## [1] 77.05581
 ## 
 ## $Y
-## [1] 67.97797
+## [1] 65.20948
 ## 
 ## $Z
-## [1] 75.63867</code></pre>
+## [1] 73.51274</code></pre>
 <p>7.4. Write a combined split() and lapply() operation to count the
 number of rows in each group.</p>
 <pre class="r"><code>lapply(split(df, df$group), nrow)</code></pre>
@@ -844,30 +866,30 @@ n &lt;- c(10, 15, 20, 25, 30)</code></pre>
 rnorm().</p>
 <pre class="r"><code>mapply(rnorm, n, means, sds)</code></pre>
 <pre><code>## [[1]]
-##  [1] 5.042799 5.751703 3.856507 4.528897 4.023116 3.095402 5.826937 3.709452
-##  [9] 5.126441 5.894943
+##  [1] 5.175446 6.593929 4.972001 6.212214 6.541573 5.175851 5.367041 5.349077
+##  [9] 4.979354 6.625947
 ## 
 ## [[2]]
-##  [1] 12.865024 11.743059 10.447651 12.164370 10.910011  7.884805 14.890373
-##  [8]  9.548097  9.376352 10.423603  9.642446  8.112724  9.385543 11.470136
-## [15] 13.280491
+##  [1] 11.441475 11.178267  5.617626  6.846727 12.021493  8.627050  7.703119
+##  [8]  8.434207  7.832780  8.407590  8.116337  9.145193 11.512295 10.726038
+## [15]  9.331938
 ## 
 ## [[3]]
-##  [1] 14.23372 12.28298 16.12687 11.36307 15.55209 17.76543 20.21165 19.38025
-##  [9] 17.23002 10.80892 15.73482 13.51253 21.09481 21.44474 17.22892 19.53122
-## [17] 15.13791 15.74422 12.91181 21.17546
+##  [1] 17.69354 10.84114 14.92420 13.08170 19.12742 16.00757 11.67545 12.20723
+##  [9] 15.28805 12.30886 15.14985 17.80240 19.23632 15.00160 10.08495 18.25284
+## [17] 18.29907 14.13510 15.48024 13.38656
 ## 
 ## [[4]]
-##  [1] 15.96734 22.50456 18.66170 24.32091 24.49790 15.75552 17.85622 19.00619
-##  [9] 22.41971 18.04144 16.83924 21.92766 26.66149 20.37916 22.68661 19.04109
-## [17] 20.09639 20.69421 20.74911 22.35031 17.09944 21.27644 17.79514 18.38852
-## [25] 18.07873
+##  [1] 18.134167 18.654437 14.478099 14.628643 19.238643 16.552123 18.007843
+##  [8] 15.438800 27.031627 16.463177 19.456612 19.778975 20.304149 26.482035
+## [15] 23.140284 22.551205 22.102863 17.305893 21.758029 19.930651 18.086725
+## [22] 18.657712 22.443832  8.766127 21.997322
 ## 
 ## [[5]]
-##  [1] 18.48247 36.27759 28.48188 26.41313 27.43405 23.17995 16.48146 24.41668
-##  [9] 19.57087 28.47338 19.95184 20.69321 28.52518 33.71508 28.80846 17.93197
-## [17] 20.46225 23.04885 23.07052 24.79983 33.71864 35.82876 26.46053 24.53176
-## [25] 18.38497 23.41360 30.92224 26.49761 18.94943 25.37785</code></pre>
+##  [1] 25.50325 20.20103 26.74228 23.88710 34.19685 22.78981 30.04085 27.41140
+##  [9] 22.84665 23.82466 26.67533 29.31072 18.69953 16.81804 15.30139 32.17154
+## [17] 17.15642 19.54647 26.51973 24.78316 33.88690 18.59809 20.57987 22.78046
+## [25] 17.94119 25.97080 14.28542 16.58520 25.26510 14.75983</code></pre>
 </div>
 <div id="combining-multiple-functions---challenge"
 class="section level3">
@@ -880,49 +902,49 @@ class="section level3">
 )
 df</code></pre>
 <pre><code>##    category   value1   value2
-## 1         A 55.35055 29.19518
-## 2         A 58.78036 21.46810
-## 3         A 42.55285 43.73840
-## 4         A 49.07254 30.84205
-## 5         A 64.45210 23.13244
-## 6         B 57.53726 29.50403
-## 7         B 44.58429 16.70269
-## 8         B 61.97640 28.57191
-## 9         B 49.52364 36.44535
-## 10        B 47.98937 36.25684
-## 11        C 45.55591 36.65035
-## 12        C 56.49763 26.38665
-## 13        C 64.54173 28.06480
-## 14        C 40.28445 31.01673
-## 15        C 36.72778 30.94094</code></pre>
+## 1         A 57.89320 22.03425
+## 2         A 52.05400 24.26628
+## 3         A 57.93887 40.05833
+## 4         A 49.74902 29.64731
+## 5         A 46.56421 35.62302
+## 6         B 50.01390 26.69877
+## 7         B 51.89737 32.82431
+## 8         B 36.87557 35.35570
+## 9         B 60.55784 29.78443
+## 10        B 67.73541 24.19402
+## 11        C 40.72034 28.59275
+## 12        C 50.13636 38.56932
+## 13        C 51.59031 28.10567
+## 14        C 39.53367 32.69687
+## 15        C 24.12927 35.02464</code></pre>
 <p>9.2. Use split() and lapply() to calculate the mean of value1 and
 value2 for each category.</p>
 <pre class="r"><code>lapply(split(df$value1, df$category), mean)</code></pre>
 <pre><code>## $A
-## [1] 54.04168
+## [1] 52.83986
 ## 
 ## $B
-## [1] 52.32219
+## [1] 53.41602
 ## 
 ## $C
-## [1] 48.7215</code></pre>
+## [1] 41.22199</code></pre>
 <pre class="r"><code>lapply(split(df$value2, df$category), mean)</code></pre>
 <pre><code>## $A
-## [1] 29.67524
+## [1] 30.32584
 ## 
 ## $B
-## [1] 29.49616
+## [1] 29.77144
 ## 
 ## $C
-## [1] 30.6119</code></pre>
+## [1] 32.59785</code></pre>
 <p>9.3. Use mapply() to calculate the sum of squares for value1 and
 value2 for each category.</p>
 <pre class="r"><code>mapply(function(x) { sum(x)^2 }, split(df$value1, df$category))</code></pre>
 <pre><code>##        A        B        C 
-## 73012.58 68440.29 59344.61</code></pre>
+## 69801.27 71331.78 42481.31</code></pre>
 <pre class="r"><code>mapply(function(x) { sum(x)^2 }, split(df$value2, df$category))</code></pre>
 <pre><code>##        A        B        C 
-## 22015.49 21750.59 23427.20</code></pre>
+## 22991.42 22158.47 26565.49</code></pre>
 <p>9.4. Compare the results with a loop-based approach.</p>
 <pre class="r"><code>vect_a &lt;- c()
 vect_b &lt;- c()
@@ -937,11 +959,11 @@ for (i in 1:length(df$category)){
   }
 }
 (mean(vect_a))</code></pre>
-<pre><code>## [1] 54.04168</code></pre>
+<pre><code>## [1] 52.83986</code></pre>
 <pre class="r"><code>(mean(vect_b))</code></pre>
-<pre><code>## [1] 52.32219</code></pre>
+<pre><code>## [1] 53.41602</code></pre>
 <pre class="r"><code>(mean(vect_c))</code></pre>
-<pre><code>## [1] 48.7215</code></pre>
+<pre><code>## [1] 41.22199</code></pre>
 <p>That was a lot more extensive and thought-consuming than using
 vectorized operations, I see the appeal</p>
 </div>
@@ -1026,11 +1048,35 @@ is the limitation in what I know about functions and maybe not so much
 the vectorized operations. Functions might be an interesting portfolio
 project for later. In the meantime, I will continue practicing
 vectorized operations.</p>
+<p>Trying it again as of 1st of May, 2025:</p>
+<p>10.3. Use mapply() to scale the values in the array by different
+factors for each layer.</p>
+<pre class="r"><code>arr &lt;- array(1:24, dim = c(4, 3, 2))
+scale &lt;- c(10, 2)
+mapply(function(i, scale) {arr[,,i]*scale}, i = 1:2, scale, SIMPLIFY = FALSE)</code></pre>
+<pre><code>## [[1]]
+##      [,1] [,2] [,3]
+## [1,]   10   50   90
+## [2,]   20   60  100
+## [3,]   30   70  110
+## [4,]   40   80  120
+## 
+## [[2]]
+##      [,1] [,2] [,3]
+## [1,]   26   34   42
+## [2,]   28   36   44
+## [3,]   30   38   46
+## [4,]   32   40   48</code></pre>
+<p>I got it with a little help from ChatGPT. I was trying to do
+mapply(function(arr, i, scale) {arr[,,i]*scale}, arr, i = 1:2, scale,
+SIMPLIFY = FALSE), but it didn’t work because it couldn’t iterate
+through arr. So arr can be called in the anonymous function, but not as
+a parameter of it.</p>
 </div>
 <div id="working-from-loops-to-vectorized-operations---exercises"
 class="section level2">
 <h2>Working from loops to vectorized operations - Exercises</h2>
-<p>The following section will have some exercisees converting code using
+<p>The following section will have some exercises converting code using
 loops to vectorized operations. I wanted to do this because I feel like
 I can fairly easily think in terms of loops when designing code and I
 want to practice thinking with vectorized operations instead. In
@@ -1064,18 +1110,224 @@ vectorized operations before I learn to deal with functions better. I
 will come back to this after I have worked through the module on
 functions. If I still feel like I need more practice after that module,
 I might make a separate portfolio project for that.</p>
+<p>1st of May, 2025: I am back, now at the end of the semester. Let us
+see whether I can do this exercise now.</p>
+<pre class="r"><code>mat &lt;- matrix(1:12, nrow = 4, ncol = 3)
+scaling &lt;- c(2, 4, 6, 8)
+scaled_mat &lt;- mapply(function(mat, scaling) {mat*scaling}, mat, scaling)
+scaled_mat &lt;- matrix(scaled_mat, nrow = 4, ncol = 3)
+scaled_mat</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    2   10   18
+## [2,]    8   24   40
+## [3,]   18   42   66
+## [4,]   32   64   96</code></pre>
+</div>
+<div id="calculate-column-means-of-a-matrix" class="section level3">
+<h3>12. Calculate Column Means of a Matrix</h3>
+<p>Code with loops:</p>
+<pre class="r"><code># A 4x3 matrix
+mat &lt;- matrix(1:12, nrow = 4, ncol = 3)
+
+# Using a loop to calculate the mean of each column
+col_means &lt;- numeric(ncol(mat))
+for (j in 1:ncol(mat)) {
+  col_means[j] &lt;- mean(mat[, j])
+}
+col_means</code></pre>
+<pre><code>## [1]  2.5  6.5 10.5</code></pre>
+<p>Code rewritten with vectorized functions:</p>
+<pre class="r"><code># A 4x3 matrix
+mat &lt;- matrix(1:12, nrow = 4, ncol = 3)
+
+apply(mat, 2, mean)</code></pre>
+<pre><code>## [1]  2.5  6.5 10.5</code></pre>
+</div>
+<div id="scale-elements-in-a-list" class="section level3">
+<h3>13. Scale Elements in a List</h3>
+<p>Code with loop:</p>
+<pre class="r"><code># A list of numeric vectors
+lst &lt;- list(a = 1:4, b = 5:8, c = 9:12)
+
+# A vector of scaling factors
+scaling &lt;- c(2, 3, 4)
+
+# Using a loop to scale each element of the list by its corresponding factor
+scaled_lst &lt;- list()
+for (i in seq_along(lst)) {
+  scaled_lst[[i]] &lt;- lst[[i]] * scaling[i]
+}
+scaled_lst</code></pre>
+<pre><code>## [[1]]
+## [1] 2 4 6 8
+## 
+## [[2]]
+## [1] 15 18 21 24
+## 
+## [[3]]
+## [1] 36 40 44 48</code></pre>
+<p>Code with vectorized operations:</p>
+<pre class="r"><code># A list of numeric vectors
+lst &lt;- list(a = 1:4, b = 5:8, c = 9:12)
+
+# A vector of scaling factors
+scaling &lt;- c(2, 3, 4)
+
+#lapply(lst, function(lst, scaling) {lst*scaling}, scaling)
+
+mapply(function(lst, scaling) {lst*scaling}, lst, scaling, SIMPLIFY = FALSE)</code></pre>
+<pre><code>## $a
+## [1] 2 4 6 8
+## 
+## $b
+## [1] 15 18 21 24
+## 
+## $c
+## [1] 36 40 44 48</code></pre>
+<p>I first tried using lapply, which didn’t work as it was going element
+by element instead of list by list. mapply works by iterating over
+parameters instead of elements. mapply therefore applies the nested
+lists pairwise (e.g. lst[1] with mat[1] and lst[2] with mat[2]). The
+functions therefore produce different results.</p>
+</div>
+<div id="calculate-grouped-means" class="section level3">
+<h3>14. Calculate Grouped Means</h3>
+<p>Code with loops:</p>
+<pre class="r"><code># A numeric vector
+x &lt;- c(5, 10, 15, 20, 25, 30, 35, 40, 45)
+
+# A grouping factor
+group &lt;- c(1, 1, 2, 2, 2, 3, 3, 3, 3)
+
+# Using a loop to calculate the mean for each group
+unique_groups &lt;- unique(group)
+group_means &lt;- numeric(length(unique_groups))
+for (i in seq_along(unique_groups)) {
+  group_means[i] &lt;- mean(x[group == unique_groups[i]])
+}
+group_means</code></pre>
+<pre><code>## [1]  7.5 20.0 37.5</code></pre>
+<p>Code with vectorized operations:</p>
+<pre class="r"><code># A numeric vector
+x &lt;- c(5, 10, 15, 20, 25, 30, 35, 40, 45)
+
+# A grouping factor
+group &lt;- c(1, 1, 2, 2, 2, 3, 3, 3, 3)
+
+tapply(x, group, mean)</code></pre>
+<pre><code>##    1    2    3 
+##  7.5 20.0 37.5</code></pre>
+<p>Note that the output is a little different when using tapply(), as it
+shows the grouping number as well as the means, while the solution with
+loops only showed the means and the index alone identified the grouping
+variable.</p>
+</div>
+<div id="reflection" class="section level3">
+<h3>Reflection</h3>
+<p>I have no worked through several exercises using vectorized
+functions, and I think I am starting to get the logic behind it. I would
+still need some more practice before I could confidently use all of the
+functions, know their parameters, and the nuances between their outputs.
+However, I think I have achieved my goal of learning the logic of
+vectorized operations and being able to use them (with a little help
+from the help section).</p>
 </div>
 </div>
-<div id="to-do-list-for-finishing-the-project" class="section level2">
-<h2>To do list for finishing the project</h2>
+<div id="anonymous-functions" class="section level2">
+<h2>Anonymous Functions</h2>
+<p>I have used anonymous functions quite a bit throughout this project,
+so I thought I would formalize it by adding a section on what anonymous
+functions are and how to use them.</p>
+<p>An anonymous function is a function that is not stored as a variable,
+but instead just used in that one instance. It therefore does not have a
+name (hence “anonymous”). The syntax for the anonymous functions is
+function(parameters) function_body. So you start with the word
+“function”, then add any parameters you need, a space, and the action of
+the function. Anonymous functions are great for short functions, but can
+get messy if they are longer.</p>
+</div>
+<div
+id="caveats-to-vectorized-operations---reflection-after-the-end-of-the-semester"
+class="section level2">
+<h2>Caveats to Vectorized Operations - Reflection after the end of the
+semester</h2>
+<p>After having learned more about R, worked on bigger projects in R,
+and learned more about Tidyverse, I have learned that altough the
+vectorized operations used here can often speed up the coding process
+and make it more readable, there are situations in which other
+approaches work better.</p>
+<div id="loops" class="section level3">
+<h3>Loops</h3>
+<p>First, as stated in the introduction of this project, I started out
+being very familiar with loops, but less so with vectorized operations.
+I have however, through working on some of the applied projects coming
+later, learned that loops sometimes work better than vectorized
+operations. This occurs in scenarios where one wants to use the outcome
+of one iteration in the next iteration. There might be some workarounds
+for doing this with vectorized operations, but it seems like loops
+(although a little slower) are easier to use for these purposes.
+However, in any other case, vectorized operations make clearer code and
+run faster than loops. Therefore, it seems like vectorized operations
+should usually be used when I think about using loops.</p>
+</div>
+<div id="tidyverse-solutions" class="section level3">
+<h3>Tidyverse solutions</h3>
+<p>Tidyverse has a lot of useful functions that can sometimes mitigate
+the need for using the vectorized functions investigated in the current
+project. Therefore, it is usually good practice to google whether there
+is a Tidyverse (or other) function for what you want to do before
+starting to write code for it yourself. I have found several functions I
+didn’t know about earlier from googling when I have needed something and
+it has saved me from writing out a lot more complicated code. In
+addition, there are often easier Tidyverse solutions compared to writing
+code using the base R vectorized operations such as apply(). See next
+project for more information about Tidyverse vs base R.</p>
+</div>
+</div>
+<div id="cheat-sheet" class="section level2">
+<h2>Cheat sheet</h2>
+<p>Here is a quick overview of the different functions in base R for
+vectorized operations and what they do, for reference later:</p>
 <ul>
-<li>Add information about vapply()</li>
-<li>Add a quick guide/summary of the functions to the end of the
-document</li>
-<li>Figure out how to use nested anonymous functions</li>
-<li>Add the scenario from data wrangling the PAC data where the for loop
-worked better than vectorized operations because it is recursive</li>
-<li>Add Tidyverse solutions?</li>
+<li>lapply() - acts on a list and returns a list
+<ul>
+<li>Coerces the input to a list (nested if it has nested lists)</li>
+<li>Has 3 parameters: list, function, parameters of the second
+function</li>
+</ul></li>
+<li>sapply() - like lapply(), but with simplified results
+<ul>
+<li>Results in unnested lists or matrices if all of the lists have the
+same lenght
+<ul>
+<li>If not, it produces the same results as lapply()</li>
+</ul></li>
+</ul></li>
+<li>vapply() - similar to lapply() and sapply(), but also validates the
+input type and length
+<ul>
+<li>Has a simplification parameter (similar to lapply() vs
+sapply())</li>
+</ul></li>
+<li>tapply() - applies a function to defined groupings in the list
+<ul>
+<li>Has three parameters: x-vector, y-grouping, and function</li>
+<li>Has a simplification parameter (similar to lapply() vs sapply())
+apply() - applied to an array, like a data frame or matrix</li>
+<li>If the parameter margins is 1, it will apply the function to each
+row, while margins = 2 will apply the function to each column</li>
+<li>The output will be a vector</li>
+</ul></li>
+<li>mapply() - Like running lapply() in parallel across parameters of a
+function
+<ul>
+<li>mapply(function, funct_param1, funct_param2)</li>
+</ul></li>
+<li>Combining split() and lapply() - like tapply(), but with factors
+instead of a grouping vector
+<ul>
+<li>Can also be used on data frames</li>
+</ul></li>
 </ul>
 </div>
 </div>
