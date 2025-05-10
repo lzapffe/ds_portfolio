@@ -2,27 +2,52 @@
 title: "Tidyverse vs base R"
 ---
 
-# Basics with data frames
+So, I started this project with a goal of looking into Tidyverse. I learned to program in Python first and then R and I am mostly used to using base R and not Tidyverse. However, I know that a lot of people think that Tidyverse is a lot better. So my goal starting this project was to contrast and compare Tidyverse and base R and the come to a conclusion regarding which seemed to be the most helpful and when. However, I ended up going in a little more informal direction. As I learned more about the basics of Tidyverse, I started trying to use it more to learn more about it and ended up really liking it in the end. It is a little different than base R and Python as I was thaugt it, but if you know how to use it, it can really speed up coding and making the output easier to interpret. There are still plenty of cases in which the Tidyverse solutions aren't flexible enough and I have had to revert to using base R, but now I always google whether there is a function for something in Tidyverse before starting writing a complicated and often vectorized function in base R. Most often than not, there has been a function for it in Tidyverse. I think most of the work I have done has been behind the scenes when working on the applied projects (projects 7, 8, and 9), where I have progressively (altough this is not reflected in the progression of the projects, but instead the time of when I worked on the projects) used more and more Tidyverse solutions instead of solutions in base R.
 
-Matrices can only take data of one type, while a data frame can have columns with different types of objects.
-
-You can use summary(df), head(df), tail(df), str(df)
-
-Data frames are a special case of lists where each list have the same length
+I have therefore now switch to using Tidyverse by default wherever I can and rather fall back on base R when that is needed. I still think that base R is useful because it offers a lot more flexibility than Tidyverse. However, Tidyverse is improving fast and has had a solution for most of the scenarios I have been in. The following section will go over some of the notes and reflections I have made about Tidyverse so that I can come back for reference later. However, this is fairly rough, as most of the learning have happened through playing around with Tidyverse solutions when working on my applied projects. Those projects might therefore be a better metric of what I have learned about Tidyverse than this section. I am anyway eager to share the notes that I do have so far and to brainstorm further challenges, considerations, and opportunities in Tidyverse to look further into later. I deleted the sections I originally had about Tidyverse vs base R as they were intended to let me compare and contrast when to use each. This isn't necessary anymore since my default has become to use Tidyverse until that doesn't seem to offer enough flexibility and then switch to base R.
 
 
-# Tibbles vs data frames
+# General Tidyverse Notes
 
-The following are notes taken from the course materials.
+Tidyverse has gotten a lot of attention when it comes to data science and I have mostly encountered it through Pandas in Python and how there is some controversy around it as Pandas is based on R. However, it seems to have a lot of really useful functions that speed up writing the code and makes things a lot easier to read.
 
-Tibbles were made to make fewer assumptions (which were sometimes wrong) when dealing with data frames and to also display things easier. The tibbles will also often offer more helpful warnings. Here are some examples of differences between data frames and tibbles:
+Tidyverse is considered an universe of libraries. Some libraries are considered part of the core of Tidyverse. These are the libraries that get loaded automatically when you load the Tidyverse library. These include:
 
-- A data frame will automatically change spaces to periods in column names. Tibbles keep them.
-- If you try calling a column that doesn't exist. A tibble will give you a warning saying that that column doesn't exist, while a data frame will just say "NULL"
-- Tibbles always give you a tibble when subsetting. A data frame can give you a matrix or vector depending on whether the subsetted data conforms to the requirements for those objects
--  Data frames do partial matching with column names. So if your column is "tree_hugger" and you call "tree", it will assume you mean "tree_hugger". A tibble will just say that the "tree" column doesn't exist.
-- Historical fact: data frames also used to coerce strings to factors, but it doesn't anymore
+- ggplot2 - Creating flexible graphs
+- dplyr - Easy data wrangling and manipulation
+- tidyr - Functions for wrangling tibbles and and data frames, such as pivoting
+- readr - Reads in data into R from other file formats
+- purrr - Functions for vectorized operations without using loops
+- tibble - Type of data frame that is more user-friendly
+- stringr - Functions to manipulate strings and text
+- forcats - Functions to manipulate factors
+- lubridate - functions to manipulate dates and time in R
 
+As you will see, I have mostly used dplyr and ggplot2 in the code for this portfolio.
+
+In addition, there are other libraries that from the Tidyverse universe that you can load separately, including:
+
+- broom - Summarizes data from models into a tibble
+  - Has three functions, tidy(), glance(), and augment()
+  - What you use with Tyidymodels to get quick and clear output from your models
+- cli - Color palettes
+- conflicted - Throws you an error if you are using a function that exists in multiple loaded packages, so that you have to specify which package to get the function from. Reduces the chance of using the wrong function due to conflicting functions
+- dbplyr - dplyr for data bases
+  - Allows you to use remote data bases as if they were loaded into your memory
+- dtplyr - Backend for data tables
+  - Allow you to write dplyr code, but have it automatically be translated into code that works on data tables. This can be desirable as data tables are faster than tibbles
+- googledrive - Allows you to interact with Google Drive through R
+  - You can get files, get the drive, edits files, share them, and so on
+- googlesheets4 - Allows you to create and edits Google sheets from R
+- haven - Read and write data to and from SPSS, Stata, and SAS files
+- 
+
+
+In addition, there are also Tidymodels. As of now, I think other individual packages for the various statistical methods work better. But Tidymodels might be more useful in a few years, so I might come back to evaluate it then. However, as of now, I do not use Tidymodels. There are several libraries in Tidymodels that are a part of the core, including tidymodels, rsample, parsnip, recipes, workflows, tune, yardstick, broom, dials.
+
+# Dplyr
+
+Dplyr 
 
 # Useful dplyr functions
 
@@ -106,9 +131,10 @@ readr to get files imported properly, for example, not having all strings conver
   - Less repetitive code
 - Make an overview of the Tidyverse packages and what they do
 - Do a deep dive into some of the packages and go over useful functions
-- Discuss how Tidyverse usually has functions for things that would take a lot of code to do in base R - one benefit
 - Add dplyr commands
-- Add base vs R code to show the difference
-- Look into recipies?
 - Look up weird dplyr things I have seen
-- Reflection on Tydymodels?
+
+
+# Things to look into more in the future
+
+- Try out some of the Tidymodels libraries that seem interesting, especially recipies, workflows, and rsample

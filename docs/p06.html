@@ -298,15 +298,29 @@ $(document).ready(function () {
 </div>
 
 
-<p>Look at this book chapter that has a part on regex and which is what
-I used for vectorized operations: <a
-href="https://bookdown.org/rdpeng/rprogdatascience/regular-expressions.html"
-class="uri">https://bookdown.org/rdpeng/rprogdatascience/regular-expressions.html</a></p>
-<p>Also this: <a href="https://r4ds.hadley.nz/regexps"
-class="uri">https://r4ds.hadley.nz/regexps</a></p>
-<p>Used the cheatsheet at this resource: <a
-href="https://hypebright.nl/en/r-en/ultimate-cheatsheet-for-regex-in-r-2/"
-class="uri">https://hypebright.nl/en/r-en/ultimate-cheatsheet-for-regex-in-r-2/</a></p>
+<p>I have used several resources for my deep-dive into regex. These
+include:</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=NvHjYOilOf8">Regex intro
+YouTube video</a></li>
+<li><a
+href="https://www.datacamp.com/tutorial/regex-r-regular-expressions-guide">Regex
+Tutorial by DataCamp</a></li>
+<li><a
+href="https://hypebright.nl/en/r-en/ultimate-cheatsheet-for-regex-in-r-2/">Regex
+Cheatsheet</a></li>
+<li><a
+href="https://bookdown.org/rdpeng/rprogdatascience/regular-expressions.html">Regex
+functions in base R</a></li>
+<li><a href="https://r4ds.hadley.nz/regexps">Regex functions in
+Tidyverse</a></li>
+<li><a href="https://www.rexegg.com/">RexEgg Tutorials</a>
+<ul>
+<li>This is where most of the regex knowledge comes from and where I
+have spent the most time. I ended up working through all of the black
+belt portions, the main tutorial, and regex style guide</li>
+</ul></li>
+</ul>
 <p>Goals of the current portfolio project:</p>
 <ul>
 <li>Understand the overall logic of regex</li>
@@ -315,6 +329,28 @@ class="uri">https://hypebright.nl/en/r-en/ultimate-cheatsheet-for-regex-in-r-2/<
 expressions, even if it requires some Googling to look up symbols</li>
 <li>Demystifying regex</li>
 </ul>
+<p>Similar to with the last project, this project started with the quest
+to demystifying regex, as I have seen a lot of Stack overflow posts with
+solutions that look Greek. I wanted to be able to understand what people
+were suggesting and also learning it since it seemed useful. I learned
+regex and ended up finding some really good uses of it. You can even see
+that I have used in in project 7: Data wrangling quite a lot of
+efficiently find columns, rename them, and pivot the data set. I
+actually got more into it than I thought I would and therefore started
+on the Black Belt pages with Rexegg. This project therefore ended up
+being very much a deep-dive into the topic (more than I thought I
+would). I have notes from everything I learned, written as of when I
+learned them, so the organization of it could probably be updated, but
+that is a project for later.</p>
+<p>Disclaimer: Rmarkdown (and html) interprets a lot of the special
+characters used in regex as a function. Therefore, creating a knitted
+html page that displays the syntax and not the action of the special
+characters has required playing around with escape characters in the
+Rmarkdown file. That means that the syntax for any regex is as displayed
+in the knitted file and not the Rmarkdown file. Therefore, always refer
+to the output file when looking up anything. I have gone over the
+document to look for places where the displayed syntax is off, but it is
+very possible that I could have missed some.</p>
 <div id="basics-of-regex" class="section level2">
 <h2>Basics of Regex</h2>
 <p>Regex expressions consists of literals and metacharacers, which is
@@ -328,8 +364,10 @@ gives you all the lines that contains the string “golf”.</p>
 <ul>
 <li>E.g. ^I think, will find all lines that start with “I think”</li>
 </ul></li>
-<li>“<span class="math inline">\(&quot; means end of the line
-- E.g. morning\)</span> finds all lines that end with”morning”</li>
+<li>“$” means end of the line
+<ul>
+<li>E.g. morning$ finds all lines that end with “morning”</li>
+</ul></li>
 <li>“[]” allows for several characters that would be accepted
 <ul>
 <li>E.g. “[Bb] [Uu] [Ss] [Hh]” find all lines that have the word “bush”
@@ -362,10 +400,8 @@ fire</li>
 of the parenthesis
 <ul>
 <li>E.g. ^([Gg]ood|[Bb]ad) means that the line has to start with either
-“Good”, “good”, “Bad”, or “bad”. While <a href="#fn1"
-class="footnote-ref" id="fnref1"><sup>1</sup></a>ood|[Bb]ad would mean
-that it has to start with “Good” or “good”, or contain “Bad” or
-“bad”</li>
+“Good”, “good”, “Bad”, or “bad”. While ^[Gg]ood|[Bb]ad would mean that
+it has to start with “Good” or “good”, or contain “Bad” or “bad”</li>
 </ul></li>
 <li>“?” means that the part is optional, but if you have, it can only
 happen once. It either has the character before it or nothing, but it
@@ -374,7 +410,7 @@ can’t have anything else, and it can’t have anything else following it
 <li>[Gg]eorge( [Ww].)? [Bb]ush would accept “George W. Bush”, but also
 just “George Bush”</li>
 </ul></li>
-<li>“" means you escape the regex meaning of that character
+<li>“\” means you escape the regex meaning of that character
 <ul>
 <li>[Gg]eorge( [Ww].)? [Bb]ush would mean you are looking for
 e.g. “George W. Bush” while just having [Gg]eorge( [Ww].)? [Bb]ush would
@@ -406,7 +442,7 @@ contrast to *, which is any number of times, including zero
 <li>E.g. (.+) would match () with any string of any length in it, but
 not empty</li>
 <li>Works on the character immediately to the left of it, such as “s”,
-“2” or “”. If you want more to be repeated together, you need to
+“2” or “\w”. If you want more to be repeated together, you need to
 encompass it in parentheses</li>
 </ul></li>
 <li>“{}” are interval ranges of how many times something can be repeated
@@ -426,7 +462,7 @@ specified number of times, but with no upper limit
 earlier in the parentheses. The number represents what group to find the
 same match as.
 <ul>
-<li>E.g. (\d\d)\+(\d\d)=\2\+\1 could match 12+65=65+12</li>
+<li>E.g. (\d\d)\+(\d\d)=\2+\1 could match 12+65=65+12</li>
 <li>+([a-zA-Z]+) +\1 + would match any lines that have two words that
 are repeated after each other, such as “one one” or “so so”</li>
 <li>You can use this with str_replace to switch the order of characters
@@ -452,18 +488,9 @@ times, it will still just have that one number it got originally. If you
 capture several matches for one group, it will return the last match
 when called upon</li>
 </ul>
-<p>Most of these notes come from <a
-href="%5Bhttps://www.youtube.com/watch?v=NvHjYOilOf8">this
-lecture</a></p>
 </div>
 <div id="regex-functions-in-r" class="section level2">
 <h2>Regex functions in R</h2>
-<p>Most of these notes are taken from the bookchapter on <a
-href="https://bookdown.org/rdpeng/rprogdatascience/regular-expressions.html">Regular
-Expressions in the R Programming for Data Science book</a>. In addition,
-some are also taken from this <a
-href="https://www.datacamp.com/tutorial/regex-r-regular-expressions-guide">Datacamp
-Regex tutorial</a></p>
 <p>Here are some of the main R functions used with regex:</p>
 <ul>
 <li>grep() - Searches for matches with a regex and returns a vector with
@@ -505,14 +532,11 @@ the match and the length of it, as well as the start character index of
 the match with the part that is in the parenthesis and the length of
 that part
 <ul>
-<li>E.g. regexec(“
-<dd>
-[F|f]ound on (.*?)
-</dd>
-“) would give both the start character index of the”&lt;” that matches
-the rest of the expression and the length of the match, in addition to
-the first character index of the character starting after “on” and how
-long that is.</li>
+<li>E.g. regexec(“&lt;dd&gt;[F|f]ound on (.*?)&lt;/dd&gt;“) would give
+both the start character index of the”&lt;” that matches the rest of the
+expression and the length of the match, in addition to the first
+character index of the character starting after “on” and how long that
+is.</li>
 </ul></li>
 <li>regmatches() - Like regexec(), but returns the actual matches of the
 string, as well as the part specified in the parenthesis</li>
@@ -600,41 +624,36 @@ more readable
 </div>
 <div id="special-characters-from-literals" class="section level2">
 <h2>Special characters from literals</h2>
-<p>You can use a backslash to make normal literals a metacharacter. All
-of these should follow a backslahs, but aren’t here as that is
-considered formatting in R:</p>
+<p>You can use a backslash to make normal literals a metacharacter</p>
 <ul>
-<li>w - any word character, including digit, letter, and underscore</li>
-<li>W - any non-word character</li>
-<li>d - any digit</li>
-<li>D - any non-digit</li>
-<li>s - any space character, including space, tab, and new line</li>
-<li>S - any non-space character</li>
-<li>b - a word boundary, such as a space or parenthesis before or after
+<li>\w - any word character, including digit, letter, and
+underscore</li>
+<li>\W - any non-word character</li>
+<li>\d - any digit</li>
+<li>\D - any non-digit</li>
+<li>\s - any space character, including space, tab, and new line</li>
+<li>\S - any non-space character</li>
+<li>\b - a word boundary, such as a space or parenthesis before or after
 what is specified in the regex E.g. double backslash and bab matches
 “ab” in “abc”, but not “bab”, as that word doesn’t start or end with
 “ab”</li>
-<li>B - a non-word boundary, such as another character after what is
+<li>\B - a non-word boundary, such as another character after what is
 specified before this E.g. double backslash and Bab matches “ab” in
 “dabc”, but not “abc”, as that word starts start (or end) with “ab”</li>
-<li>n - a new line</li>
-<li>t - a tab</li>
-<li>v - a vertical tab</li>
-<li>&lt; - beginning of a word</li>
-<li><blockquote>
-<ul>
-<li>end of a word</li>
-</ul>
-</blockquote></li>
-<li>A - beginning of a string</li>
-<li>z or Z - end of a string Depends on programming language</li>
-<li>G - beginning of string or end of previous match
+<li>\n - a new line</li>
+<li>\t - a tab</li>
+<li>\v - a vertical tab</li>
+<li>\&lt; - beginning of a word</li>
+<li>\&gt; - end of a word</li>
+<li>\A - beginning of a string</li>
+<li>\z or \Z - end of a string Depends on programming language</li>
+<li>\G - beginning of string or end of previous match
 <ul>
 <li>E.g. if you want to only get the results from Jane on a score board,
-you can use the following regex (?:Jane| +:() to get the numbers from
-“Tarzan A:33 B:32 C:36 Jane A:35 B:33 C:31”
+you can use the following regex (?:Jane|\G) \w+:(\d+) to get the numbers
+from “Tarzan A:33 B:32 C:36 Jane A:35 B:33 C:31”
 <ul>
-<li>You could also do this will lookbehinds, but G is more
+<li>You could also do this will lookbehinds, but \G is more
 economical</li>
 </ul></li>
 </ul></li>
@@ -642,44 +661,44 @@ economical</li>
 </div>
 <div id="inline-modifiers" class="section level2">
 <h2>Inline Modifiers</h2>
-<p>Modifiers change the mode of the following regex part. You do not to
-include the following part in parenthesis</p>
+<p>Modifiers change the mode of the following regex part. There is a way
+of changing the mode in a regex function, but using inline modifiers
+seem to be easeri. They will change the “mode” of the following regex,
+to match whatever the modifier is. This can save you from a lot of extra
+code, especially if you want e.g. all of your regex expression to be
+case insensitive.</p>
 <ul>
-<li><p>(?i) - case-insensitive mode</p></li>
-<li><p>(?s) - matches across lines</p>
+<li>(?i) - case-insensitive mode</li>
+<li>(?s) - matches across lines
 <ul>
-<li>Like if everything was on one line</li>
+<li>As if everything was on one line</li>
 </ul></li>
-<li><p>(?m) - multiline mode</p>
+<li>(?m) - multiline mode
 <ul>
 <li>Usually, anchors like ^ or $ only match the beginning or end of a
 string. If you turn on multiline mode, it will match the end or
 beginning of each line instead</li>
 </ul></li>
-<li><p>(?x) - free-spacing mode</p>
+<li>(?x) - free-spacing mode
 <ul>
 <li>You can write your regex with whitespace and line breaks that are
 not interpreted as characters to be matched. This allows for spacing out
 the regex to be more readable</li>
-<li>E.g. var wordWithDigitAndCapRegex = new Regex( @“(?x) # Free-spacing
-mode</li>
-</ul>
-<p>^ # Assert that position = beginning of string</p>
-<p id="lookahead" class="heading">Lookahead</p>
-<p>(?= # Start lookahead \D* # Match any non-digits \d # Match one digit
-) # End lookahead</p>
-<p id="matching-section" class="heading">Matching Section</p>
-<p>\w* # Match any word chars [A-Z] # Match one upper-case letter \w* #
-Match any word chars</p>
-<p>$ # Assert that position = end of string “);</p>
-<ul>
+<li>E.g. var wordWithDigitAndCapRegex = new Regex( <br> @“(?x) #
+Free-spacing mode <br> <br> ^ # Assert that position = beginning of
+string <br> <br> ######### Lookahead ########## <br> (?= # Start
+lookahead <br> \D* # Match any non-digits <br> \d # Match one digit <br>
+) # End lookahead <br> <br> ######## Matching Section ######## <br> \w*
+# Match any word chars <br> [A-Z] # Match one upper-case letter <br> \w*
+# Match any word chars <br> <br> $ # Assert that position = end of
+string <br>”);</li>
 <li>Now, to match a space, use either [ ] or “\”</li>
 <li>Also, make sure you turn on free-space mode before using a space or
 line break in your code</li>
 <li>Lastly, be aware that whitespace still separates components in the
 code. For example, \12 is different from \1 2</li>
 </ul></li>
-<li><p>(?n) - turns all parentheses into non-capture mode</p></li>
+<li>(?n) - turns all parentheses into non-capture mode</li>
 </ul>
 </div>
 <div id="built-in-classes" class="section level2">
@@ -688,18 +707,17 @@ code. For example, \12 is different from \1 2</li>
 following formatting [[:class:]]. Most of these have alternatives
 above.</p>
 <ul>
-<li><p>[[:alpha:]] - any letter</p></li>
-<li><p>[[:lower:]] - any lowercase letter</p></li>
-<li><p>[[:upper:]] - any uppercase letter</p></li>
-<li><p>[[:digit:]] - any digit</p></li>
-<li><p>[[:alnum:]] - any letter or number</p></li>
-<li><p>[[:xdigit:]] - any hexadecimal digit</p></li>
-<li><p>[[:punct:]] - any punctuation character</p></li>
-<li><p>[[:graph:]] - any letter, number, or punctuation
-character</p></li>
-<li><p>[[:space:]] - e.g. a space, a tab, or a new line</p></li>
-<li><p>[[:blank:]] - blank characters, such as space and tab</p></li>
-<li><p>You can also make your own with ranges</p>
+<li>[[:alpha:]] - any letter</li>
+<li>[[:lower:]] - any lowercase letter</li>
+<li>[[:upper:]] - any uppercase letter</li>
+<li>[[:digit:]] - any digit</li>
+<li>[[:alnum:]] - any letter or number</li>
+<li>[[:xdigit:]] - any hexadecimal digit</li>
+<li>[[:punct:]] - any punctuation character</li>
+<li>[[:graph:]] - any letter, number, or punctuation character</li>
+<li>[[:space:]] - e.g. a space, a tab, or a new line</li>
+<li>[[:blank:]] - blank characters, such as space and tab</li>
+<li>You can also make your own with ranges
 <ul>
 <li>E.g. [[:alpha:]] could also be [A-z] and [[:lower:]] could also be
 [a-z]</li>
@@ -753,9 +771,9 @@ the same position, not subsequent positions.</li>
 <li>When you decide on whether you should use a lookahead or lookbehind,
 see what would require matching the fewest characters. There is usually
 one position that is more efficient than the other.</li>
-<li>You can nest lookarounds, for example this regex
-\d+(?=<em>(?!</em>)) to find numbers that is followed by one, but not
-more than one underscore.</li>
+<li>You can nest lookarounds, for example this regex \d+(?=_(?!_)) to
+find numbers that is followed by one, but not more than one
+underscore.</li>
 <li>It is often good practice to anchor lookarounds, as that makes them
 fail or succeed immediately, instead of running through the whole
 string, as long as that is not what we want to do</li>
@@ -776,13 +794,13 @@ beginning of a word. Nothing can come before it, the word starts with
 what has been provided
 <ul>
 <li>E.g. [[:&lt;:]]cat matches cat and catfish, but not tomcat</li>
-<li>Similar to ?=)?</li>
+<li>Similar to \b(?=\w)?</li>
 </ul></li>
 <li>[[:&gt;:]] - end of word boundary, nothing can come after it, the
 word stops there
 <ul>
 <li>E.g. cat[[:&gt;:]] matches cat and tomcat, but not catfish</li>
-<li>Similar to ?&lt;=)?</li>
+<li>Similar to \b(?&lt;=\w)?</li>
 </ul></li>
 </ul>
 <p>There is a difference between delimiters and boundaries. Boundaries
@@ -791,14 +809,14 @@ after the relevant part. A lookaround will only look in one direction.
 You can however use both a lookahead and lookbehind to detect
 boundaries.</p>
 <p>If you make a boundary yourself, you can define it and then later
-call it by that name. For example:</p>
-<p>(?x) # free-spacing mode (?(DEFINE) # Define some subroutines (?<A1>
-# Define “A1” boundary # This boundary matches when # one side is a
-letter and # the other is a number
-(?i)(?&lt;=^|\d)(?=[a-z])|(?&lt;=[a-z])(?=$|\d) ) # End A1 definition )
-# End DEFINE</p>
-<p>The actual regex matching starts here We can use our “A1” boundary
-wherever we like (?&amp;A1)cat(?&amp;A1)</p>
+call it by that name. For example: <br> <br> (?x) # free-spacing mode
+<br> (?(DEFINE) # Define some subroutines <br> (?<A1> # Define “A1”
+boundary <br> # This boundary matches when <br> # one side is a letter
+and <br> # the other is a number <br>
+(?i)(?&lt;=^|\d)(?=[a-z])|(?&lt;=[a-z])(?=$|\d) <br> ) # End A1
+definition <br> ) # End DEFINE <br></p>
+<p>The actual regex matching starts here <br> We can use our “A1”
+boundary wherever we like <br> (?&amp;A1)cat(?&amp;A1)</p>
 </div>
 <div id="quantifiers" class="section level2">
 <h2>Quantifiers</h2>
@@ -903,8 +921,8 @@ to try other variations</li>
 <li>Atomic groups with one character and a quantifier is often the same
 as a possessive quantifier
 <ul>
-<li>E.g. (?&gt;A+) is equal to A++, (?&gt;A<em>) is equal to A</em>+,
-and (?&gt;A?) is equivalent to A?+</li>
+<li>E.g. (?&gt;A+) is equal to A++, (?&gt;A*) is equal to A*+, and
+(?&gt;A?) is equivalent to A?+</li>
 </ul></li>
 </ul></li>
 <li>Generally, be as specific and concise as you can in your patterns to
@@ -1011,15 +1029,15 @@ backtrack the matching</li>
 <li>(*THEN) - Used with a conditional expression. Stops the match and
 moves on to the next possible condition (other side of |)
 <ul>
-<li>E.g. “Comedian: (?:B+ (<em>THEN)Murray|E+ (</em>THEN)Murphy|P+
-Sellers)” to match the name of a comedian in a string. The (*THEN) makes
-it so that the expression does not backtrack if the last name is not the
-right one, given the first letter of the first name</li>
-<li>In most situations you wouldn’t really need the (<em>THEN), but if
-you were to have a very long string before the (</em>THEN) statement, it
-could speed up the expression by getting rid of the backtracking. In
-this scenario, you could write it as “Comedian: (?:B+ Murray|E+
-Murphy|P+ Sellers)” since the string isn’t that long anyway</li>
+<li>E.g. “Comedian: (?:B+ (*THEN)Murray|E+ (*THEN)Murphy|P+ Sellers)” to
+match the name of a comedian in a string. The (*THEN) makes it so that
+the expression does not backtrack if the last name is not the right one,
+given the first letter of the first name</li>
+<li>In most situations you wouldn’t really need the (*THEN), but if you
+were to have a very long string before the (*THEN) statement, it could
+speed up the expression by getting rid of the backtracking. In this
+scenario, you could write it as “Comedian: (?:B+ Murray|E+ Murphy|P+
+Sellers)” since the string isn’t that long anyway</li>
 </ul></li>
 <li>(*PRUNE) - Stops the match if it tries to backtrack past the
 expression. Starts over again if there are more terms to the regex
@@ -1039,7 +1057,7 @@ after the Skip if there are more terms to the regex (e.g. a
 conditional)</li>
 <li>(*COMMIT) - Stops the match no matter whether there are other
 options if it tries to backtrack past the verb. Either the current match
-works or the entire regex fails to match</li>
+works or the entire regex fails to match <br> <br></li>
 </ul></li>
 <li>There are also some verbs that are not backtracking verbs
 <ul>
@@ -1057,8 +1075,8 @@ subroutine, Accept will make the regex more readable</li>
 <li>(*MARK) - Marks the position which can be accessed later at $REGMARK
 to see which path the code took
 <ul>
-<li>Can also use a short-hand like (*:some_tag), without the MARK
-part</li>
+<li>Can also use a short-hand like (*:some_tag), without the MARK part
+<br> <br></li>
 </ul></li>
 </ul></li>
 <li>You can use a combination of SKIP and FAIL to define what you do not
@@ -1077,73 +1095,84 @@ without creating too complicated expressions</li>
 </ul></li>
 </ul>
 </div>
-<div id="cool-random-tricks" class="section level2">
-<h2>Cool, Random Tricks</h2>
+<div id="div-other-comments-that-didnt-fit-anywhere-else"
+class="section level2">
+<h2>Div other comments that didn’t fit anywhere else</h2>
 <ul>
-<li>To match an even number of characters, you can use “^(?:..)+$”
+<li>Cool trick: To match an even number of characters, you can use
+“^(?:..)+$”
 <ul>
 <li>This will match two characters, then do that as many times as
 necessary with the +, and then end because of the $</li>
 <li>You can similarly look at whether the number of strings is a
 multiple of n with “^(?:.{n})+$”</li>
 </ul></li>
-</ul>
-</div>
-<div id="general-advise-not-fitting-other-sections"
-class="section level2">
-<h2>General advise not fitting other sections</h2>
+<li>General advise: Be as specific as you can when creating regex and
+add contrast whenever you can
 <ul>
-<li>Be as specific as you can and add contrast whenever you can
-<ul>
-<li>E.g. “^+<span class="math inline">\(&quot; this regex will be more
-efficient than &quot;^.+\d{3}\)</span>” for matching three letters and
-three digits</li>
+<li>E.g. “^\D+\d{3}$” this regex will be more efficient than “^.+\d{3}$”
+for matching three letters and three digits</li>
 </ul></li>
-<li>Likewise, always be as specific as you can be</li>
-</ul>
-</div>
-<div id="to-do-list" class="section level2">
-<h2>To do list</h2>
+<li>Thing I didn’t look into that closely: <a
+href="https://www.rexegg.com/pcre-callouts.php">PCRE callouts</a>
 <ul>
-<li>Go over all your notes and organize it better</li>
-<li>Check the formatting of the rendered document. The special
-characters tends to be read as a special character by rmarkdown</li>
+<li>The use of this wasn’t that well-described on the page and I didn’t
+see an immediate use for it, so I didn’t put much more effort into
+learning to use it</li>
+</ul></li>
+<li>Fun fact I learned: You can actually use explosive quantifiers to
+ReDoS attack a webpage by giving a regex that will have it run a very
+large number of variation, to eventually slow down or shut down a
+webpage <a href="https://en.wikipedia.org/wiki/ReDoS">see more at
+Wikipedia</a>
+<ul>
+<li>I had heard about ReDos attacks earlier, but I didn’t know what it
+was, so learning that was interesting</li>
+</ul></li>
 </ul>
 </div>
 <div id="practice" class="section level2">
 <h2>Practice</h2>
-<p>I finished the 15 regex crosswords at <a
-href="https://regexcrossword.com/">regexcrosswords.com</a> to get some
-practice with the regex. I also used regex is several of my applied
-projects to easily change column names, find relevant columns, and
-naming columns. It has saved me a lot of time so far, especially when
-working with bigger data sets, such as the Parenting Across Cultures
-data set that I worked on for two of my projects.</p>
-<p>Insert Screenshot?</p>
+<p>I started creating questions with ChatGPT like I did for project 2,
+but they seemed kind of random and didn’t really reflect what I would
+use Regex for when applying it. Instead I came across these <a
+href="https://regexcrossword.com/">Regex crosswords</a>, which are still
+not very applied, but involved a lot less set up with string for every
+question like ChatGPT’s questions did. So, I switched over to working on
+the crosswords to practice using, reading, and interpreting regex
+expressions and got farily good at it at the end. I worked through all
+of the 15 basic crosswords.</p>
+<p><img src="Regex%20crosswords.png" /></p>
 </div>
-<div id="final-notes" class="section level2">
-<h2>Final notes</h2>
-<p>Things I didn’t look further into, but could be future areas: - <a
-href="https://www.rexegg.com/pcre-callouts.php">PCRE callouts</a> - The
-use of this wasn’t that well-described on the page and I didn’t see an
-immediate use for it, so I didn’t put much more effort into learning to
-use it</p>
-</div>
-<div id="fun-fact" class="section level2">
-<h2>Fun-fact</h2>
+<div id="final-reflection" class="section level2">
+<h2>Final Reflection</h2>
+<p>I learned a lot from working on this project and certainly feel like
+I have demystified regex. I used it a lot when working on some of the
+later projects, especially project 7: Data Wrangling and some of the
+things I did with the regex would have taken me forever to do manually
+since there were so many columns in the data set. I therefore see the
+use of learning regex and think it was totally worth the time to learn
+it. I am not so sure about some of the more black belt related concepts,
+but I figured that learning all of it would mean that I would be able to
+be as flexible as possible with regex should I need it in the future.
+There are still a few things I would like to do to further this
+project:</p>
 <ul>
-<li>You can actually use explosive quantifiers to ReDoS attack a webpage
-by giving a regex that will have it run a very large number of
-variation, to eventually slow down or shut down a webpage - <a
-href="https://en.wikipedia.org/wiki/ReDoS"
-class="uri">https://en.wikipedia.org/wiki/ReDoS</a></li>
+<li>Go over the text and create a more coherent section. Right now it is
+loosely ordered after when I learned it (with a little back and forth
+when writing).</li>
+<li>Add more examples to illustrate the difference for people that might
+not know regex already</li>
+<li>Explore tools that help you build and validate regex expressions.
+Now I just do this manually by creating strings and testing what happens
+with different variations, but it is easy to forget about some
+variations to test and then get weird results.
+<ul>
+<li>I tried using chatGPT a few times and it is really not good with
+regex. But I would like to look further into pages like <a
+href="https://regex101.com/">this build page</a>.</li>
+</ul></li>
 </ul>
-</div>
-<div class="footnotes footnotes-end-of-document">
-<hr />
-<ol>
-<li id="fn1"><p>Gg<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
-</ol>
 </div>
 
 
