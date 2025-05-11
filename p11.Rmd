@@ -180,16 +180,31 @@ Now that you have made a repository and cloned it, let us try to see whether you
 Now that you have learned about R, Rstudio, and using GitHub, you can get started on the course work. However, it might be helpful to set up some of the the assignments and requirements for the class. In this section, we will work on setting up the course by prepping three things:
 
 - The contract
-- Learning to get and set up labs from the course page
 - Setting up your portfolio
+- Learning to get and set up labs from the course page
 
 
 ### The contract
 
 The class is set up to be flexible and as a part of that, you have to fill out a grade contract where you set up which grade you are trying to get and a time line of when do to the projects and assignments required to get that grade. You can read more about this contract grading in the syllabus [here](https://smasongarrison.github.io/syllabi/data-science.html#grading-policy-3). There is a template contract that you can use to make your contract, so the first thing we need to do to make this contract is to get that template from GitHub and make our own repository for it.
 
-Go the the following [webpage to find the contract template](https://github.com/DataScience4Psych/template_contract). This is one of the benefits of using GitHub, as one can share a repository with files that others can use, such as this contract template. To use the template, you want to click on the green button at the top right that says "Use this template" and choose "Create a new repository". Then you make the repository like usual. You can choose whether you want to make this repository public or private. If you make it public, anyone who looks at your profile can see it. After you have made a remote repository (in the cloud), you want to clone the repository to your computer (= creating a local repository), so that you can work on the contract on your own computer. To open the local repository on your computer, open Rstudio, choose "File" in the upper left corner, and click on "Open Project...". Find the file ending on "Rproj." in your repository and open that project. This works since the contract template that was made for you included several files, including an R project.
+Go the the following [webpage to find the contract template](https://github.com/DataScience4Psych/template_contract). This is one of the benefits of using GitHub, as one can share a repository with files that others can use, such as this contract template. To use the template, you want to click on the green button at the top right that says "Use this template" and choose "Create a new repository". Then you make the repository like usual. You can choose whether you want to make this repository public or private. If you make it public, anyone who looks at your profile or has a link can see it. If you make it private, you have to add Mason as a collaborator on your repository for her to be able to see it. It is therefore probably easier to make it public, but if you would want to make it private, there are ways in which you can do that too. After you have made a remote repository (in the cloud), you want to clone the repository to your computer (= creating a local repository), so that you can work on the contract on your own computer. To open the local repository on your computer, open Rstudio, choose "File" in the upper left corner, and click on "Open Project...". Find the file ending on "Rproj." in your repository and open that project. This works since the contract template that was made for you included several files, including an R project.
 
 Now, you want to start filling in the contract. You can see that the repository has a .Rmd and .md file. Remember that you edit files that end with .Rmd and when you knit these files, those updates will show up in your .md or .html report. So, open the file ending with .Rmd and follow the instructions to fill out the contract. When you are done, knit the contract, stage the edits, make a commit message, and push your changes to your remote repository. Then go onto Github to make sure that your changes are visible in your remote repository.
 
-Now, it is time to hand in your contract. 
+Now, it is time to hand in your contract. To do this, you need to find the repository that is for handing in your contract for your semester. This is typically called year_contract, where year is the current year. You can find it by searching for contract in the repositories at the Data Science for Psychologists GitHub [course page](https://github.com/DataScience4Psych?q=contract&type=all&language=&sort=). Click on the repository and then the "Issues" tab at the top of the page. Then click the green "New issue" button to create a submission for your contract. You add a title, which should contain your name and for the main text, you want to link to your repository, preferably both the .rmd file and the .md file. That way, it is easy to look at the output you have created, as well as the code behind it. To link to your repository, add a square bracket "[", write the text you have to be displayed, for example "Contract .rmd file", then a closing square bracket "]", then an opening parenthesis "(", the url or link to your file in GitHub online, and a closing parenthesis ")". Do this for both of your files. If you are unsure of the link to your files, you can find them by going into your contract repository, clicking on the file you want the link for and copying the link to that page. If you have any comments or questions, you can also add those to your issue/submission. When you are done, you can click the green "Create" button at the bottom right to submit the issue. Make sure everything looks good and double-check the links to make sure they lead the reader to the right place. This is how you will submit all assignments for the course.
+
+Congratulations, you just completed your first assignment!
+
+
+### The portfolio
+
+tre
+
+
+### Handing in the lab
+
+gdfs
+
+
+# Final Reflections
