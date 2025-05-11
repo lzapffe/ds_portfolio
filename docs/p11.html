@@ -298,77 +298,79 @@ $(document).ready(function () {
 </div>
 
 
-<p>I made this lab instead of doing one myself. I remember the beginning
-of the class being overwhelming and confusing for some people, so I will
-make a lab that goes over how to get started and set up the class. This
-will be especially helpful for when the class is adapted for
-undergrads.</p>
-<p>One of the main changes that would make the beginning of the class
-easier is: Change up module 0 and 1 and lab 1. Make the things they are
-doing clearer and not have unecessary information this early on.</p>
-<p>Strip out all of the customization and cool stuff from the first one
-or two modules. It is fine later on, but to beging with everything is
-new and overwhelming. I think you would be better off giving students
-just the bare minimum and keep all customizations and cool things as
-either ODD or as cool facts later.</p>
-<p>The thought is that lab 0 can be included in module 0. However,
-module 0 and 1 should probably be edited a little for this lab to fit
-in. I think that will overall make the ease into the class easier. I am
-basing this on my experinece (as I didn’t know Git before starting), as
-well as all of the students I was helping during the first few weeks of
-the class. Some problems kept coming up and I have tried to make this
-lab so that those confusions won’t occur as much.</p>
-<p>Some other general notes:</p>
+<p>I made this lab instead of doing another lab from the course myself.
+When choosing what lab to make, I wanted to do a lab 0, since I remember
+helping a lot of students who were confused with all of the set-up and
+initial stages of the course. I also remember finding the beginning a
+little confusing myself, since there were several new components and it
+can be hard to keep track of all the different things that have to be
+done and all the different programs (e.g. R, Rstudio, GitHub, GitHub
+Desktop). I have therefore created this lab that will take the students
+to the basics of the course, how to use R and Rstudio, how to use GitHub
+and GitHub Desktop, and set up the class with a contract, initialing the
+portfolio webpage, and handing in their first lab. The hope is that this
+will make it easier for the students to get started with the course,
+because they get a direct introduction to R and Rstudio, GitHub and
+GitHub Desktop, get the main assignments and their repositories set up,
+and also get some basic practice with creating R markdown documents,
+creating and cloning repositories, knitting documents, pushing changes
+to their remote repositories, and handing in assignments by creating
+issues. It also has everything in one place, so that it will hopefully
+be easier to not get confused about what to do where and not miss out on
+an important step.</p>
+<p>I think that implementing this lab would require changing both module
+0 and 1 and instead have a module that is just plain onboarding
+activities and getting started. The next module, module 1, can then
+start directly on R programming since the students already know some of
+the basics of the programs we are using and have gotten started with the
+course.</p>
+<p>I have made the lab with the following considerations in mind:</p>
 <ul>
-<li>The language is too technical in the beginning, it is probably
-intimidating for people that are already overwhelmed by all the new
-stuff. For example, “Install R, a free software environment for
-statistical computing and graphics from CRAN, the Comprehensive R
-Archive Network. I highly recommend you install a precompiled binary
-distribution for your operating system – use the links up at the top of
-the CRAN page linked above!” Dumb it down to the bare necessities,
-students don’t need to know all of this. It is like the scaffolding with
-the labs, you start with a lot of scaffolding (and dumbing down) and
-then you can add more advanced stuff (and language) later.</li>
+<li>I have tried to remove all the technical language that isn’t
+essential for the students and which might make them feel overwhelmed
+when there are already so many new things. For example, the page that
+guides the students through installing R says “Install R, a free
+software environment for statistical computing and graphics from CRAN,
+the Comprehensive R Archive Network. I highly recommend you install a
+precompiled binary distribution for your operating system – use the
+links up at the top of the CRAN page linked above!”. I have tried to not
+introduce any more terms than necessary and guide the students through
+all the steps, so that they can get a little more confident in their
+skills before exposing them to things like CRAN.</li>
+<li>I have tried to put everything the student will need to know and get
+set-up with to get started with the course in one place. That way, they
+can’t get lost, which seemed to happen with the students this semester.
+Especially about the contract, since several students didn’t know that
+they had to do it, where it was, and someone also wrote everything in
+the .md file and had to move it all over to the .rmd file. The current
+lab will hopefully make the students a little more independent during
+the onboarding, since there is only one place to go to and therefore a
+lower chance of getting lost or confused.</li>
+<li>Likewise, I have added a lot of scaffolding where the students are
+guided through exactly what to do. This is to try to reduce their
+cognitive load so that they can get used to the programs and going
+through the motions first. Later in the course, there does not need to
+be as much scaffolding.</li>
+<li>I have tried to take out all unnecessary information or cool
+features that they do not immediately need. This is again to reduce the
+cognitive load so that they can focus on the main things now and then
+deal with things like customizing the Rstudio themes later. I think that
+will also make the students enjoy it more. I would therefore not take
+out these facts and features, but move them to a later module.</li>
+<li>I have based a lot of the concepts I elaborate on, such as file
+types, on questions I got from other students or things I saw the other
+students struggling with the course, as well as what I found challenging
+and confusing myself. The lab does therefore hopefully elaborate on some
+of the current main points of confusion.</li>
 </ul>
-<p>Lab 0 - Setting up the course</p>
-<ul>
-<li>A quick overview of the course
-<ul>
-<li>What each week looks like</li>
-<li>Modules, videos and articles</li>
-<li>Activities</li>
-<li>Labs</li>
-</ul></li>
-<li>Reading the syllabus</li>
-<li>Downloading R and R studio
-<ul>
-<li>Printing hello world?</li>
-</ul></li>
-<li>Difference between R and R studio, file types, knitting</li>
-<li>Introduce github, what is it, how does it work
-<ul>
-<li>Info about push and pull
-<ul>
-<li>videos?</li>
-</ul></li>
-</ul></li>
-<li>Find the contract and make it</li>
-<li>Setting up portfolios
-<ul>
-<li>Getting the webpage</li>
-<li>Making changes and pushing them</li>
-</ul></li>
-<li>How to find labs
-<ul>
-<li>Find lab 0 and fill out the questions
-<ul>
-<li>Just checking whether they have done everything and have them write
-a few things. Have something to hand in and go through the motions, so
-that lab 2 seems easier</li>
-</ul></li>
-</ul></li>
-</ul>
+<p>There is a lot of onboarding and introductions to do for this course,
+so this lab ended up being divided into three sections. It is currently
+written as a rough draft and they will need more editing before being
+ready to be used. However, I think a little workshopping on the language
+and adding in a little more air and numbered steps into the labs so that
+they do not become as dense will go a long way. I hope these end up
+becoming useful!</p>
+<p><br></p>
 <div id="lab-0---getting-started-and-setting-up-the-course"
 class="section level1">
 <h1>Lab 0 - Getting Started and Setting up the Course</h1>
@@ -616,6 +618,7 @@ or .html file. Therefore, you never want to make changes directly to the
 .md or .html files. If you want to change your report, you would instead
 change it in the .Rmd file and re-knit the file to update your
 report.</p>
+<p><br></p>
 </div>
 </div>
 <div id="part-2---github" class="section level2">
@@ -667,15 +670,16 @@ description of being a Wake Forest student, add your full name, and a
 billing address. If you do not add any of this information, your
 application will likely be denied, so make sure you do this too.</p>
 </details>
-<p>Be aware when making your GitHub account that this account is widely
-used in the programming world as a protfolio or CV or one’s programming
-skills and that the accounts therefore often tends to be somewhat
-formal. You can use an user name such as “funnypunny”, but if you create
-some good public projects and contribute to others projects with that
-account, would you want to add that username on your CV? Instead, make
-sure you add an user name you would be ok making public to a company or
-at your workplace later. It doesn’t have to include your own name, but
-this could be beneficial if you want people to find you easier.</p>
+<p><br> Be aware when making your GitHub account that this account is
+widely used in the programming world as a protfolio or CV or one’s
+programming skills and that the accounts therefore often tends to be
+somewhat formal. You can use an user name such as “funnypunny”, but if
+you create some good public projects and contribute to others projects
+with that account, would you want to add that username on your CV?
+Instead, make sure you add an user name you would be ok making public to
+a company or at your workplace later. It doesn’t have to include your
+own name, but this could be beneficial if you want people to find you
+easier.</p>
 <details>
 <summary>
 Further tips about chosing a GitHub username
@@ -706,7 +710,7 @@ regular expression work with usernames, in various languages. A better
 strategy for word separation is to use a hyphen - or underscore _.</li>
 </ul>
 </details>
-<p>After making your account, you will also want to download GitHub
+<p><br> After making your account, you will also want to download GitHub
 desktop. You can download it at <a
 href="https://desktop.github.com/download/">this link</a>. when it is
 downloaded, log in with the same account that you just made for the
@@ -715,14 +719,14 @@ online version of GitHub.</p>
 Github in your browser and create your first repository. You can do this
 by clicking on the plus icon to the top right of the main page and
 choose “New Repository”. You have to create a name for your repository,
-call it my_first_repository or something similar. Then you can choose
-whether the repository is public or private. It is also good practice to
-add a README file, which you can do by checking the box for adding a
-README file. Click Create to create the repository. Now, you have an
-account on Github and your first repository, which is like a project. It
-is like a folder where you can save all of the work and files associated
-with a project. The repository is now associated with your account, so
-that you can log onto Github anywhere and find it.</p>
+call it lab_0 or something similar. Then you can choose whether the
+repository is public or private. It is also good practice to add a
+README file, which you can do by checking the box for adding a README
+file. Click Create to create the repository. Now, you have an account on
+Github and your first repository, which is like a project. It is like a
+folder where you can save all of the work and files associated with a
+project. The repository is now associated with your account, so that you
+can log onto Github anywhere and find it.</p>
 <p>However, running long and complicated code on your computer from the
 cloud can be slow and you might also sometimes want to work on your code
 even when you don’t have access to internet. Therefore, we want to make
@@ -744,29 +748,42 @@ that you can find back to it again later though.</p>
 <h3>Using GitHub</h3>
 <p>Now that you have made a repository and cloned it, let us try to see
 whether you can get the two repositories (same project) talk to each
-other. In Rstudio, open a new Rmarkdown file, and save it the folder
-with the repository (this should be the same folder that you have your
-Rproject in). If you now go to GitHub desktop, you can see that the file
-name for your Rmarkdown file will be in the left window in GitHub
-Desktop. Make sure that the check box before that file is checked. The
-fact that the file shows up, means that there are changes to that file
-in your local repository (on your computer) that doesn’t exist on the
-remote repository (in the cloud). When you check the box for the file,
-you are saying that you want to update that file in the remote
-repository. Then, before we actually send the changes to the remote
-repository (which is called “Push), we have to give this update a name.
-Write in a short name in the summary section that is informative, so
-that if you look back at the message, you will know what you changed. In
-this example, it could for example be”Added a test Rmarkdown file”. When
-you have your summary, you can push the blue button at the bottom of the
-page called “Commit to main”. This action creates an update that is
-ready to send somewhere. Then, click on the “push” button at the top of
-the page to actually “send” the updates to your remote repository. Now,
-you can go into your repository on the online version of GitHub and see
-that your file has been added there. It is also possible to make changes
-the opposite way, by getting changes from your remote repository to your
-local repository. This is done through a “pull” (instead of push), but
-we will not be requiring doing that for this class.</p>
+other. In Rstudio, click on the “File” button in the top left corner and
+create a new project. You can name it whatever you want and the rest of
+the information is not that important. The important part is that you
+save it inside of the folder that is your local repository. That means,
+inside the folder you created when cloning your repository in GitHub.
+Now that you have initiated an Rproject, open a new Rmarkdown file
+(click on the white box with a green circle with a white cross in the
+top left corner and chose “R markdown”), and save it the same folder
+with the repository (this should be folder you are currently working
+in). It does not matter what you name the file and you do not have to
+edit any of the text, just leave it as it is. You do however want to
+knit it, so click on the button with the blue ball of yarn that says
+“Knit” above your window with text from your Rmarkdown file. Wait until
+you see the output document pop up.</p>
+<p>If you now go to GitHub desktop, you can see that the file name for
+your Rmarkdown file will be in the left window in GitHub Desktop. Make
+sure that the check box before that file is checked. The fact that the
+file shows up, means that there are changes to that file in your local
+repository (on your computer) that doesn’t exist on the remote
+repository (in the cloud). When you check the box for the file, you are
+saying that you want to update that file in the remote repository. Then,
+before we actually send the changes to the remote repository (which is
+called “Push), we have to give this update a name. Write in a short name
+in the summary section that is informative, so that if you look back at
+the message, you will know what you changed. In this example, it could
+for example be”Added a test Rmarkdown file”. When you have your summary,
+you can push the blue button at the bottom of the page called “Commit to
+main”. This action creates an update that is ready to send somewhere.
+Then, click on the “push” button at the top of the page to actually
+“send” the updates to your remote repository. Now, you can go into your
+repository on the online version of GitHub and see that your file has
+been added there. It is also possible to make changes the opposite way,
+by getting changes from your remote repository to your local repository.
+This is done through a “pull” (instead of push), but we will not be
+requiring doing that for this class.</p>
+<p><br></p>
 </div>
 </div>
 <div id="part-3---setting-up-the-course" class="section level2">
@@ -779,7 +796,7 @@ things:</p>
 <ul>
 <li>The contract</li>
 <li>Setting up your portfolio</li>
-<li>Learning to get and set up labs from the course page</li>
+<li>Seeing how you hand in labs</li>
 </ul>
 <div id="the-contract" class="section level3">
 <h3>The contract</h3>
@@ -849,16 +866,61 @@ place. This is how you will submit all assignments for the course.</p>
 </div>
 <div id="the-portfolio" class="section level3">
 <h3>The portfolio</h3>
-<p>tre</p>
+<p>Now, you have to set up your portfolio. This is where you will have
+all the projects you are making for the course. You want to create a
+repository, based on the provided template, for your portfolio. You can
+find the template <a
+href="https://github.com/DataScience4Psych/template_portfolio">here</a>.
+Clone the repository like we did earlier for the contract, by clicking
+the green “Use this template” button and creating a new repository. This
+creates a remote repository (in the cloud). Then you also want to make a
+local repository by linking your computer to the remote repository you
+just created. You do this by going to your repository on GitHub,
+clicking the green “Code” button and clicking “Open with GitHub
+Desktop”. Make sure to save the local repository somewhere you can find
+it later.</p>
+<p>The template you just cloned (copied) allows you to host a webpage on
+GitHub’s page with your portfolio pieces. There are a few more settings
+to follow to publish your webpage so that you can find it with an URL.
+To do this, follow the instructions in the ReadMe in your portfolio
+repository. The Readme file is always displayed at the bottom of the
+repository, so you can scroll past all your files to see it. You should
+always look at the Readme file when looking at someones repository as it
+contains important information you need to engage with the repository.
+Readme files are very common, but not mandatory, so you might
+occasionally find repositories without them. You have already started on
+some of the steps in the Readme, so you can jump directly to step 7 to
+get your webpage published.</p>
+<p>When you get your URL, click on it to see your webpage. This is here
+everything you do for your projects will be displayed. Save the link
+somewhere, as you will need it in the next step.</p>
 </div>
 <div id="handing-in-the-lab" class="section level3">
 <h3>Handing in the lab</h3>
-<p>gdfs</p>
+<p>You have made it all the way to the end! Well done! This is probable
+one of the hardest and most overwhelming parts of the course. However,
+these pages will always be here for reference if you need to come back
+to see how you hand in anything or where your components are.</p>
+<p>The last thing to do before you are done, is to hand in your lab.
+First you want to go to the <a
+href="https://github.com/DataScience4Psych?q=portfol&amp;type=all&amp;language=&amp;sort=">course
+page</a> on GitHub and find the relevant lab submission repository. You
+can search for lab_0 and see whether you can find the repository for
+your course, meaning it has a year in front of it. Click on that
+repository and create an issue in it by clicking on the “Issues” tab at
+the top of the page. Then click on the green “New issue” button to the
+right on the page and fill in a title that has your name on it. For the
+text in the issue, you want to add the URL to your portfolio webpage
+which you saved earlier. Then if you have any comments or questions you
+can add them underneath. Then you can click on the green “Create” button
+to submit your issue (submission). That was it for this lab. Remember
+for future labs that when you start a lab, you want to clone the
+template repository (like we did for the contract and portfolio) and
+then when you submit your lab you want to find the repository that is
+specific for your year and create an issue (submission) with a link to
+your repository with that lab in it.</p>
 </div>
 </div>
-</div>
-<div id="final-reflections" class="section level1">
-<h1>Final Reflections</h1>
 </div>
 
 
