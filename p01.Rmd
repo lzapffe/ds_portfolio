@@ -17,8 +17,7 @@ Goals for the project:
 * Get practice reading and understandig others' code and editing it
 * Practice designing/updating code to solve a problem identified in
     the code, in other words, translating an idea to code.
-* Working with dates in R (tidyverse)
-* Add some features that I would like for the contract to have and therefore have it bug me less
+* Add some features that I would like for the contract to have so that it becomes easier to use for students who take the course in the future.
 
 
 ## Rmarkdown Basics
@@ -40,8 +39,10 @@ Useful links:
 
 - [Rmarkdown instructions with examples and code](http://www.ece.ualberta.ca/~terheide/rmarkdown-how-to/markdown.html)
 
+This project will have the current contract code from that Rmarkdown documents, with my comments about it. I went over it and added comments to make sure that I understood the code and could edit it to add the features that I wanted. The second section has some goals of what I want to improve on to make the contract easier to use and more flexible. Then the third section is the new contract code from the Rmarkdown document after I edited it. In addition to adding new features, I also added comments for the students to guide them through how to fill in the contract, as this is done easily in the course, when the students have a limit knowledge of R and Rmarkdown documents. I formatted all my comments as quotes in this project, so that they would show up on the output.
 
-## The Current Contract Code
+
+# The Current Contract Code
 
 The following is the content of the current  Rmarkdown document for the contract. It is pasted here for reference so that one can see what the original contract looked liked. In addition, this copy will be used to take notes while going over it to understand and document how the original code works. There will therefore be many comments added throughout this code to explain what the current code is doing. This will help me better understand what to change and how. Throughout working with the original document, I have tinkered with it to figure out what the different parts of the code do. That process is not documented here, as that would be too time consuming. So, here is the original contract with my comments added as block quotes. All of the formatting that makes code runnable has been removed so that we will see the code and not the output of it, as well as so that it doesn't take up additional time executing the code when knitting the document.
 
@@ -92,7 +93,7 @@ params:
 
 library(tidyverse)
 
-# R Syllabus Scheduler
+### R Syllabus Scheduler
 
 > Here we define a function that is giving formatted output with the right values (e.g. dates) based on the parameters we have given in the YAML header. This function will be used to fill in most of the place holders in the contract.
 
@@ -187,20 +188,20 @@ advdate <- function(weekonemonday,
 
 > I don't know what the following code was meant to do.
 
-#if(TRUE){  
-#    
-#  dayone <- as.Date("2022-01-10")  
-#  startweek <- "Friday"  
-#} else {  
+\#if(TRUE){  
+\#    
+\#  dayone <- as.Date("2022-01-10")  
+\#  startweek <- "Friday"  
+\#} else {  
   
 > This code assigns the parameters given above to new variable names. This part is not necessary, but makes the contract part a little more readable. Also, it formats the weekonemonday to be a date object instead of a string. Note that this happens outside of the function, but before it is called.
   
-dayone <- as.Date(params$weekonemonday)  
-startweek <- params$startweek  
+dayone <- as.Date(params\$weekonemonday)  
+startweek <- params\$startweek  
 
 
   
-#}
+\#}
 
 
 > Making a list with all the topics in the R course, which is used to get the topic names with indexing when making the schedule in the contract. (They therefore have to be in the right order).
@@ -369,10 +370,10 @@ r setting number of assignments, include = FALSE
 > Setting the required number of labs and portfolio projects given the grade the student wants to make the contract for
 
 
-if (params$grade == "A") {
+if (params\$grade == "A") {
   n_labs <- 11
   n_portfolios <- 10
-} else if (params$grade == "B") {
+} else if (params\$grade == "B") {
   n_labs <- 8
   n_portfolios <- 6
 } else if (params$grade == "Pass") {
@@ -389,8 +390,8 @@ library(tidyverse)
 
 > Defining the parameters as variables which makes it a little less cluttered during the contract itself
 
-monday_week_one <- as.Date(params$mondayweekone)
-deadline_day <- params$deadline_day
+monday_week_one <- as.Date(params\$mondayweekone)
+deadline_day <- params\$deadline_day
 spring_break <- as.Date(params$springbreak)
 
 > Defining a list with all the modules in it, which can be chosen from when making the schedule
@@ -436,7 +437,7 @@ string_details <- function(monday_week_one,
   
   > Then we format the date into a string (happens automatically with format()) in the form of two numbers for day and month, e.g. "03/03"
   
-    > For the rest of the days, we just keep this string version
+  > For the rest of the days, we just keep this string version
     
   date_monday_str <- format(date_monday, format = "%m/%d")  
   date_tuesday_str <- as.Date(monday_week_one + 1 + 7 * (week_num - 1)) %>%
@@ -464,7 +465,7 @@ string_details <- function(monday_week_one,
   
   > paste0 adds the parts in it together to a string, separated by space
     
-    str_line <- paste0("Spring break! - ", date_monday_str, " - ", date_sunday_str)  
+  str_line <- paste0("Spring break! - ", date_monday_str, " - ", date_sunday_str)  
   } else if (!is.null(deadline_day)) {  
     if (deadline_day == "Monday") {  
       str_line <- date_monday_str  
@@ -509,7 +510,7 @@ Now, to move on, read over the text for the contract and change or add anything 
 -->
 
 
-## Terms to Get a Grade of “params$grade”
+### Terms to Get a Grade of “params$grade”
 
 I, params$name, agree to :
 
@@ -591,7 +592,7 @@ I, params$name, agree to :
     - Due on deadline_day:
         string_details(monday_week_one, 15, deadline_day=deadline_day)
 
-## Further guidelines
+### Further guidelines
 
 - According to reasons discussed and agreed upon in advance with the professor, there are some situations which might require some of these deadlines to be moved. If this is the case, I will reach out to the professor and agree on another deadline. The number of assignments that have to be completed satisfactory will not change because of these reasons.
 - If the professor has any concerns about the assignments and whether they reach the standards of being completed "satisfactory", the professor will communicate these concerns with me and, if deemed appropriate by the professor, offer an opportunity to correct them.
@@ -623,5 +624,8 @@ When you are done with the edits to the contract, you can knit it again, push it
 <!--- This contract is adapted from Annie Somerville's contract https://github.com/anniehsom -->
 
 
+# Final Reflection
 
+This project was a good first project to ease into the course and get familiar with some of the features of Rmarkdown and GitHub that I haven't used as much earlier. I also thought it was interesting to work with someone else's code, as I have mostly written my own code and interacted with that in the past. The main goal of this project was to edit the contract to add some features that I think it should have and I did achieve that goal. I saw several students struggle with filling out their contract and hopefully that will also get easier in the future with the added comments.
 
+For reference, [here](https://github.com/lzapffe/ds_portfolio/blob/main/docs/p01_contract.md) is what the new contract looks like in GitHub, where they are hosted for the class. I think I did a fairly good job with it and as the entire course is hosted on GitHub, other students or professors can add their desired features or improvements to it as neccessary.

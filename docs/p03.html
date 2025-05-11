@@ -338,6 +338,8 @@ intended to let me compare and contrast when to use each. This isn’t
 necessary anymore since my default has become to use Tidyverse until
 that doesn’t seem to offer enough flexibility and then switch to base
 R.</p>
+<p>Unless noted otherwise, this information comes from the course notes,
+trying and failing, and the help pages.</p>
 <div id="general-tidyverse-notes" class="section level1">
 <h1>General Tidyverse Notes</h1>
 <p>Tidyverse has gotten a lot of attention when it comes to data science
@@ -388,6 +390,11 @@ memory</li>
 translated into code that works on data tables. This can be desirable as
 data tables are faster than tibbles</li>
 </ul></li>
+<li>glue - Add placeholders for variables in text and print it easily
+<ul>
+<li>E.g. Write emails that adds the name from a variable of each
+person</li>
+</ul></li>
 <li>googledrive - Allows you to interact with Google Drive through R
 <ul>
 <li>You can get files, get the drive, edits files, share them, and so
@@ -397,7 +404,31 @@ on</li>
 R</li>
 <li>haven - Read and write data to and from SPSS, Stata, and SAS
 files</li>
-<li></li>
+<li>hms - Adds a class for storing time in hh:mm:ss format</li>
+<li>httr - Design and process HTTP requests, tailored towards APIs
+<ul>
+<li>There is an updated version called httr2</li>
+</ul></li>
+<li>jsonlite - Work with JSON in R</li>
+<li>magrittr - Allows for piping for more readable code</li>
+<li>modelr - Used to create more user-friendly models
+<ul>
+<li>Tidymodels are best practices in the Tidyverse currently, not
+modelr</li>
+</ul></li>
+<li>pillar - Styling the display/output of data</li>
+<li>ragg - Provides graphics to R (e.g. ggplot)</li>
+<li>readxl - Get data from Excel to R efficiently</li>
+<li>reprex - Prep reprex (reproducible example) for quick reference,
+e.g. when asking for help from others online</li>
+<li>rlang - Some automatic behind the scene stuff and interpolation with
+{{}}?</li>
+<li>rstudioapi - Use APIs easier through R</li>
+<li>rvest - Scrapte data from webpages
+<ul>
+<li>Static, but not dynamic webpages</li>
+</ul></li>
+<li>xml2 - Work with xml and html (mark-up languages) efficiently</li>
 </ul>
 <p>In addition, there are also Tidymodels. As of now, I think other
 individual packages for the various statistical methods work better. But
@@ -405,56 +436,294 @@ Tidymodels might be more useful in a few years, so I might come back to
 evaluate it then. However, as of now, I do not use Tidymodels. There are
 several libraries in Tidymodels that are a part of the core, including
 tidymodels, rsample, parsnip, recipes, workflows, tune, yardstick,
-broom, dials.</p>
+broom, dials. See the <a
+href="https://www.tidymodels.org/packages/">Tidymodels webpage</a> for
+more information.</p>
+</div>
+<div id="magrittr" class="section level1">
+<h1>Magrittr</h1>
+<p>The first library I want to discuss is magrittr, which gets
+automatically loaded with any Tidyverse library. It contains the pipe
+%&gt;% that allows you to write clearer code with more white space,
+instead of in a lot of nested parentheses. For example, I have the
+following code in project 7: Data wrangling: <br> “data_df_long %&gt;%
+<br> select(ext_scale_f, ext_scale_m, ext_scale_c, Age_int) %&gt;% <br>
+pivot_longer(cols = c(ext_scale_f, ext_scale_m, ext_scale_c), names_to
+=”rater”, values_to = “rating”) %&gt;% <br> mutate( <br> rater =
+case_when( <br> rater == “ext_scale_f” ~ “Father”, <br> rater ==
+“ext_scale_m” ~ “Mother”, <br> rater == “ext_scale_c” ~ “Child” <br> ))
+%&gt;% <br> filter(!is.na(rating)) %&gt;% <br> group_by(rater, Age_int)
+%&gt;% count()” <br></p>
+<p>If I were to write this without piping, I would have to write it as:
+“count(group_by(filter(mutate(pivot_longer(select(data_df_long,
+ext_scale_f, ext_scale_m, ext_scale_c, Age_int), cols = c(ext_scale_f,
+ext_scale_m, ext_scale_c), names_to =”rater”, values_to = “rating”),
+<br> rater = case_when( <br> rater == “ext_scale_f” ~ “Father”, <br>
+rater == “ext_scale_m” ~ “Mother”, <br> rater == “ext_scale_c” ~ “Child”
+<br> )), !is.na(rating)), rater, Age_int))” <br></p>
+<p>As you can see, this second block of code is much harder to read,
+because there is so much going on and all of the functions are nested in
+each other, so to read it in the way in which things happen, you have to
+start innermost in the parentheses and work your way outwards, which is
+not intuitive. The magrittr solution does on the other hand have a lot
+of space to clearly separate each step and every sub-step is coded in
+the order they occur. You can therefore read the magrittr code from left
+to right, top to bottom, like when reading normal text. I will mention
+that the code block of what it would look like without magrittr would
+probably not be done in one single block without magrittr, but would
+probably instead be divided into separate substeps that were saved as
+midaries before going to the next step. This can quickly clutter up the
+environment and cause conflicts from overwriting pre-existing variables
+if one is not careful.</p>
+<p>The way the piping works is that it does an action, then it takes the
+output of that action and pipes it in as the first parameter in the next
+function, and so on. This works with the Tidyverse functions and
+libraries because they always have the object acted upon as there first
+parameter (e.g. data frame, tibble, vector, string). However, this is
+not always the case with base R, so be careful with mixing Tidyverse and
+base R code. There are some workarounds though, such as using . as a
+placeholder for the parameter. For example you might have a lot of code
+and then want to pipe it into a plot, which you can do with e.g. z
+%&gt;% f(x, y, arg = .). I found some uses of this when playing around
+with vectorized operations from base R that was mixed in with dplyr
+functions. It is possible that purrr would have been a better option,
+but this does also work.</p>
+<p>The pipe in magrittr is typically written as “%&gt;%”, but you can
+also write it as “|&gt;”. Alternatively, you can also use the shortcut
+Ctrl + shift + m to get the pipe.</p>
+<p>Magrittr also has some additional pipes that have special meanings.
+These aren’t used as much, but can be good to know about:</p>
+<ul>
+<li>%T&gt;% - Returns the left-hand side output instead of the
+right-hand, like %&gt;% does
+<ul>
+<li>E.g. you can use it in the following code to both plot the data and
+calculate the sums of columns. If you have used a normal pipe before
+plot, it would have returned the plot, which is emtpy. Instead, you run
+the code through plot(), which creates a plot, but uses %T&gt;% to
+indicate that you want to pipe the output from matrix(ncol = 2) and not
+plot(), into colSums.
+<ul>
+<li>“rnorm(200) %&gt;% <br> matrix(ncol = 2) %T&gt;% <br> plot() %&gt;%
+# plot usually does not return anything. <br> colSums()</li>
+</ul></li>
+</ul></li>
+<li>%!&gt;% - Makes the piped expression eager (as opposed to %&gt;%
+which is lazy) and evaluates the piped input at each step. This seems to
+mostly be useful if you have output that occurs at each step, such as
+printing a message</li>
+<li>%$% - Separates the variables in a data frame so that you can call
+them individually
+<ul>
+<li>You can’t run the code <br> “mtcars %&gt;% <br> cor(disp, mpg)” as
+this would be equivalent to running <br> “cor(mtcars, disp, mpg)” which
+has too many arguments. <br> Instead you can run <br> “mtcars %$% <br>
+cor(disp, mpg)” which takes the data frame mtcars and separates it for
+each variable, then chooses the variables disp and mpg when they are
+referred to</li>
+</ul></li>
+<li>%&lt;&gt;% works as a pipe, but also saves the output in the
+original variable
+<ul>
+<li>E.g. you can run <br> “mtcars %&lt;&gt;% transform(cyl = cyl * 2)”
+instead of <br> “mtcars &lt;- mtcars %&gt;% <br> transform(cyl = cyl *
+2)”</li>
+</ul></li>
+</ul>
+<p>The section with different types of pipes was in part taken from the
+<a
+href="https://r4ds.had.co.nz/pipes.html#other-tools-from-magrittr">r2ds
+textbook</a>.</p>
+</div>
+<div id="tidyselect" class="section level1">
+<h1>Tidyselect</h1>
+<p>Tidyselect is another one of those libraries that get loaded
+automatically by any library that uses it in the background like
+magrittr. It contains selecting helpers that can be used within other
+functions in Tidyverse to select specific columns in a data frame or
+tibble.</p>
+<p>The following are some of the selector helpers in Tidyselect:</p>
+<ul>
+<li>starts_with() - Starts with a specific prefix</li>
+<li>ends_with() - Ends with a specific prefix</li>
+<li>contains() - Contains a specific string(s) or character(s)</li>
+<li>matches() - Matches a regex</li>
+<li>num_range() - Matches a numerical range
+<ul>
+<li>You can even add a prefix as a parameter and then e.g. find all
+variables from x1 - x10, excluding any variables with a higher number,
+such as x11, x12, and x13
+<ul>
+<li>The code for this would be “data %&gt;% select(num_range(”x”,
+1:10))”</li>
+</ul></li>
+</ul></li>
+<li>all_of() - Takes all of the names or matches in a vector. If some
+are not present, you get an error</li>
+<li>any_of() - Takes all of the names or matches in a vector. If some
+are not present, these will just be ignored</li>
+<li>everything() - Matches all of the variables
+<ul>
+<li>Tidyverse functions sometimes get fuzzy if you just give them a
+whole data frame, instead they seem to prefer to get have the
+eveything() selector helper to indicate that you do indeed want all of
+the columns. Sometimes adding everything() to a function has gotten me
+past errors</li>
+</ul></li>
+<li>last_col() - Choosing the last column
+<ul>
+<li>You can add an offset to this</li>
+</ul></li>
+<li>where() - Selects the variables for which the expression returns
+TRUE
+<ul>
+<li>E.g. “iris %&gt;% select(where(is.factor))”</li>
+</ul></li>
+<li>group_cols() - Selecting all columns the data set are currently
+grouped by</li>
+</ul>
+<p>These selector helpers are very powerful in combination with dplyr
+functions, such as select()</p>
+</div>
+<div id="rlang" class="section level1">
+<h1>Rlang</h1>
+<p>rlang is a library that gets loaded automatically and has more
+under-the-hood functions that works with Tidyverse. I have seen examples
+of solutions using rlang concepts when looking into more complicated
+vectorized operations in Tidyverse, as an alternative of using base R
+(e.g. piping into an argument that is not the first and calling dynamic
+column names).</p>
+<p>When working with base R and columns, one has to add quotation marks
+around the columns to indicate that it is a column name and not a
+variable. If you want to subset some columns from a data frame, you
+would write <br> “subset(df, select = (”col_1”, “col_2”, “col_3”))” <br>
+<br> Tidyverse does on the other hand just assume that you are going to
+supply a column name when you are piping in a data frame, so it adds the
+quotation marks automatically (behind the hood), so that you do not have
+to do it yourself. You can therefore write the base R code above in
+Tidyverse as <br> “df %&gt;% <br> select(col_1, col_2, col_3)” <br> <br>
+This is usually nice and does what you want. However, it becomes a
+problem if you are trying to refer to a dynamic variable (e.g. with a
+column name) rather than the column itself. Tidyverse will then add
+quotation marks around the variable name behind the hood and look for a
+column with that variable name. If it can’t find it it will throw an
+error, even if the variable is assigned to a string that corresponds to
+a column name.</p>
+<p>One way of telling Tidyverse to actually evaluate the string (or
+unquote it) is to add “!!” before the variable.</p>
+<p>If you use !! on both sides of an equal sign, you have to switch it
+out with “:=”. This works the same functionally as “=”</p>
+<p>There is also “!!!” that evaluates the expression and unpacks it, for
+example a vector</p>
+<p>There is some more theory to it, that I haven’t gotten fully into
+yet. However, the following information was based on these two pages: <a
+href="https://dcl-prog.stanford.edu/tidy-eval-detailed.html">Tidy
+eval</a> and <a
+href="https://adv-r.hadley.nz/evaluation.html#tidy-evaluation">Tidy
+evaluation</a> and you can refer to them for more in-depth introductions
+to rlang and its evaluators</p>
+<p>rlang also interprets shortcuts as functions. For example, “~” is
+interpreted to mean “function()” automatically by rlang’s as_function()
+function. You can therefore write “~ .x + 5” instead of “function(x) x +
+5”. When using the tilde, the as_function() in rlang has some default
+names for the parameters that you can use to refer to the right one. As
+with magrittr, “.” is the same as the first parameter. The same is the
+case for “.x”. The second parameter can be called by “.y”. There are no
+more than two possible parameters for using this short hand for
+functions. <a
+href="https://stackoverflow.com/questions/56532119/dplyr-piping-data-difference-between-and-x">Source</a></p>
 </div>
 <div id="dplyr" class="section level1">
 <h1>Dplyr</h1>
-<p>Dplyr</p>
-</div>
-<div id="useful-dplyr-functions" class="section level1">
-<h1>Useful dplyr functions</h1>
-<p>The first argument of dplyr functions is always the data frame. Dplyr
-only takes a data frame or tibble, not a matrix or vector.</p>
-<p>Displaying data:</p>
+<p>Dplyr is probably the Tidyverse library I have used the most and
+enjoyed the most, as it has a lot of functions that really speed up
+dealing with data. In general, the first argument of any dplyr functions
+are always a data frame or tibble. It cannot act upon matrices or
+vectors.</p>
+<div id="the-following-are-some-of-the-main-functions-in-dplyr"
+class="section level2">
+<h2>The following are some of the main functions in dplyr:</h2>
+<div id="subsetting-data-frames" class="section level3">
+<h3>Subsetting data frames</h3>
 <ul>
-<li>names() - show the variable names of the data set</li>
-<li>glimpse() - show variable names and the first few objects per
-column</li>
-</ul>
-<p>Subsetting data:</p>
-<ul>
-<li>select() - pick columns by name
+<li>select() - Select specific columns that you want to subset
 <ul>
 <li>If you want multiple columns, just add them as more parameters</li>
 </ul></li>
-<li>slice() - pick rows using index</li>
-<li>filter() - subsetting rows based on some criteria</li>
-<li>distinct() - filter for unique rows</li>
+<li>filter() - Filter the data set for rows only fulfilling certain
+criteria</li>
+<li>distinct() - Filter the data set for unique rows</li>
+<li>slice() - Pick rows using index</li>
+<li>slice_sample() - Slice a random sample based on desired sample
+size</li>
+<li>pull() - Extract a column as a vector</li>
 </ul>
-<p>Other:</p>
+</div>
+<div id="organizing-data-frames" class="section level3">
+<h3>Organizing data frames</h3>
 <ul>
-<li>arrange() - reorder rows ascending
+<li>relocate() - Change the order of columns in a df</li>
+<li>rename() - Rename a column
+<ul>
+<li>New name = old name as each parameter</li>
+</ul></li>
+<li>arrange() - Reorder rows ascending
 <ul>
 <li>Add desc() as a parameter to make it descending</li>
 </ul></li>
+</ul>
+</div>
+<div id="manipulating-the-data-frame" class="section level3">
+<h3>Manipulating the data frame</h3>
+<ul>
 <li>mutate() - add a new variable
 <ul>
-<li>mutate( number_of_cats = case_when( name == “Ginger Clark” ~ “2”,
-name == “Doug Bass” ~ “3”, TRUE ~ number_of_cats ), number_of_cats =
-as.numeric(number_of_cats) )</li>
-</ul></li>
-<li>group_by() - for grouped operations (calculate per group, like split
-file in SPSS)</li>
-<li>rename() - rename columns</li>
-</ul>
-<p>Stats:</p>
+<li>E.g. mutate( <br> number_of_cats = case_when( <br> name == “Ginger
+Clark” ~ “2”, <br> name == “Doug Bass” ~ “3”, <br> TRUE ~ number_of_cats
+<br> ), <br> number_of_cats = as.numeric(number_of_cats) <br> )
+<br></li>
+<li>Mutate can take a lot of helper functions as parameters
 <ul>
-<li>summarize() - reduce variables to values</li>
-<li>summarize.at() - like summarize, but with multiple variables</li>
-<li>count() - count instance of each value</li>
-<li>n.distinct() - counts number of distinct instances</li>
+<li>The most commonly used one is case_when() which offers conditions so
+that you assign specific values to a variable based on some
+condition</li>
+<li>Also has if_else(), na_if(), pmax(), pmin(), and other functions for
+offsetting values, aggregating values, ranking, and other math
+options</li>
+</ul></li>
+</ul></li>
+<li>add_row() - Add a row</li>
+<li>rownames_to_column() - Make rownames a separate column that contains
+the names
+<ul>
+<li>Tibbles don’t support rownames, but they sometimes come with
+imported data</li>
+</ul></li>
+<li>column_to_rownames() - Make a column the rownames
+<ul>
+<li>Useful if you are exporting the data to a file format or object
+supporting row names</li>
+</ul></li>
 </ul>
-<p>Joining data frames:</p>
+</div>
+<div id="combining-data-frames" class="section level3">
+<h3>Combining data frames</h3>
+<ul>
+<li>bind_cols() - Add columns
+<ul>
+<li>Join functions are generally considered better practice than
+bind_cols(), as it offers more choices</li>
+</ul></li>
+<li>bind_rows() - Add rows together</li>
+<li>union() - Add rows together, but excludes common rows</li>
+<li>union_all() - Add rows together and includes common rows</li>
+<li>intersect() - Gets all rows that are common</li>
+<li>setdiff() - Gets all rows in the first data frame that aren’t in the
+second data frame</li>
+</ul>
+</div>
+<div id="joining-data-frames" class="section level3">
+<h3>Joining data frames</h3>
 <ul>
 <li>left_join() - Take everything that matches with x in y and also
 include anything left over from x</li>
@@ -470,56 +739,175 @@ frame x and y</li>
 <li>anti_join() - Only keep what is different between data frame x and
 y</li>
 </ul>
-<div id="forcats" class="section level2">
-<h2>Forcats</h2>
-<p>You can use path_package() to find the path for a file based on some
-strings to match</p>
 </div>
-<div id="other-packages" class="section level2">
-<h2>Other packages</h2>
-<p>readr to get files imported properly, for example, not having all
-strings converted to factors automatically such as happens with base
-r</p>
-</div>
-<div id="things-to-look-at" class="section level2">
-<h2>Things to look at</h2>
-<div id="for-advanced-vectorized-functions-and-dplyr-project"
-class="section level3">
-<h3>For advanced vectorized functions and dplyr project</h3>
-<ol style="list-style-type: decimal">
-<li>Do.call() vs vectorized operations</li>
-<li>Map.dffr in purr (this is depricated) vs vecotrized operations</li>
-<li>.attributes function (not just dplyr)</li>
-<li>Vectorized operations building on previous output. Now I only know
-how to do this with loops</li>
-<li>across(), rowwise(), any_of(), all_of(), everything(), ~, .x (is
-column?)</li>
-<li>!! from rlang to dynamically evaluate expressions. Uses := instead
-of =</li>
-</ol>
-</div>
-</div>
-<div id="to-do-list" class="section level2">
-<h2>To do list</h2>
+<div id="calculating-statistics" class="section level3">
+<h3>Calculating statistics</h3>
 <ul>
-<li>Add in how to integrate base R into pipelines if needed</li>
-<li>Discuss piping (how to do it + benefits of it)
+<li>summarize() - Calculate summary statistics from a column
 <ul>
-<li>Less repetitive code</li>
+<li>You add the specific statistic you want as a function and give the
+result a name
+<ul>
+<li>Takes first(), last(), nth(), n(), n_distinct(), sum(), min(),
+max(), quantile(), mean(), sd(), var(), and median()
+<ul>
+<li>E.g. “data %&gt;% summarize(mean = mean())”</li>
 </ul></li>
-<li>Make an overview of the Tidyverse packages and what they do</li>
-<li>Do a deep dive into some of the packages and go over useful
-functions</li>
-<li>Add dplyr commands</li>
-<li>Look up weird dplyr things I have seen</li>
+</ul></li>
+<li>Also has conditional related functions, such as summarize_if(),
+summarize_at() (for specific variables), and summarize_all()</li>
+</ul></li>
+<li>count() - Count the number of instances of each value</li>
+<li>add_count() - Counts the number of instances of each value and adds
+it as a column
+<ul>
+<li>Each count will then be repeated for each row with that value</li>
+</ul></li>
+<li>n_distinct() - Counts number of distinct instances</li>
+</ul>
+</div>
+<div id="other-useful-functions" class="section level3">
+<h3>Other Useful Functions</h3>
+<ul>
+<li>names() - Show all the variable names of the data set</li>
+<li>glimpse() - Show all the variable names and the first few objects
+per column</li>
+<li>group_by() - Grouping operations by a value in a variable
+<ul>
+<li>E.g. calculating a statistics per group</li>
+<li>Similar to split file in SPSS</li>
+<li>You can group by several variables by adding paramteres. This gives
+you each combination of multiple variables</li>
+</ul></li>
+<li>ungroup() - Ungrouping the data frame, so that the rest of the
+calcualtions are done on the whole data frame and not by group
+<ul>
+<li>Good practice to always ungroup after using group_by</li>
+</ul></li>
+<li>rowwise() - Perform an action per row (instead of per column, which
+is usually the default)
+<ul>
+<li>Allows you to vectorize functions that aren’t naturally
+vectorized</li>
+</ul></li>
+<li>across() - Indicate that an action should be done for multiple
+columns and not just one
+<ul>
+<li>Is often used together with selector helpers, such as
+everything()</li>
+</ul></li>
 </ul>
 </div>
 </div>
-<div id="things-to-look-into-more-in-the-future" class="section level1">
-<h1>Things to look into more in the future</h1>
+</div>
+<div id="tidyr" class="section level1">
+<h1>Tidyr</h1>
+<p>I haven’t used this as much. However, I am familiar with the
+following functions:</p>
+<ul>
+<li>pivot_longer() - Wide to long conversion of the data frame</li>
+<li>pivot_wider() - Long to wide conversion of the data frame</li>
+</ul>
+<p>Looks like it also has functions to deal with splitting cells,
+expanding tables, handling missing values, and handling nested data</p>
+</div>
+<div id="purrr" class="section level1">
+<h1>Purrr</h1>
+<p>Has a lot of functions for vectorized operations. The most common one
+is map() where a function is applied to each element in a list and
+returns a list. There is also map2() which iterates over two arguments
+at a time</p>
+<p>There are a lot of other map functions, such as map_dfr() and
+map_df(). These are all superseded, meaning that it is considered best
+practices to use other functions. In this case, that would be map() and
+map2(), potentially also with list_rbind() and list_cbind().</p>
+<p>It has a lot of data wrangling and vectorized operations options, but
+I haven’t gotten myself familiar with it. It looks like it would be
+useful as it would allow for combining creating new vectorized functions
+and dplyr, instead of having to combine Tidyverse and base R with the
+apply() family.</p>
+</div>
+<div id="forcats" class="section level1">
+<h1>Forcats</h1>
+<p>Forcats has a lot of quick functions about factors that I have tended
+to stumble over while googling something specific that I have needed.
+Here are some of them:</p>
+<ul>
+<li>factor() - Converts a column/variable to a factor</li>
+<li>levels() - Returns the levels of a factor</li>
+<li>fct_relevel() - Relevel the levels in the factor manually
+<ul>
+<li>There are plenty of function variations that do this automatically
+after certain conditions too</li>
+</ul></li>
+</ul>
+<p>In addition, there are more specific functions to alter the factors,
+such as changing the values of the levels, combining factors, and adding
+or dropping levels. If you are working with factors, it might be worth a
+quick glance over the <a
+href="https://rstudio.github.io/cheatsheets/factors.pdf">Forcats
+Cheatsheet</a></p>
+</div>
+<div id="readr" class="section level1">
+<h1>Readr</h1>
+<p>readr offers a lot more choices when importing files, so you can
+import files with less data cleaning afterward, which is often the case
+when doing so with base R. See the <a
+href="https://rstudio.github.io/cheatsheets/data-import.pdf">Readr
+Cheatsheet</a> for reference.</p>
+</div>
+<div id="stringr" class="section level1">
+<h1>Stringr</h1>
+<p>Stringr has a lot of functions that help find or replace strings. I
+have never gotten that into it, because I know how to use Regex. It
+seems easier to make a regex expression than to always find the one
+specific function to use. However, I am sure there are some helpful
+functions that could speed up my programming here too. If interested,
+here is the <a
+href="https://rstudio.github.io/cheatsheets/strings.pdf">Stringr
+Cheatsheet</a></p>
+</div>
+<div id="lubridate" class="section level1">
+<h1>Lubridate</h1>
+<p>If you are doing anything that uses dates or times, lubridate will
+probably be very helpful. It can easily reformat times, use math to
+substract or add days, years, or time, round time and dates, and deal
+with time zones. Refer to the <a
+href="https://rstudio.github.io/cheatsheets/lubridate.pdf">Lubridate
+Cheatsheet</a> for the most common functions.</p>
+</div>
+<div id="reflection" class="section level1">
+<h1>Reflection</h1>
+<p>Learning about Tidyverse has almost been like learning a separate
+programming language at times. However, it has been really useful and I
+think that the projects I have that have used Tidyverse codes are much
+easier to read and understand and the code is also a lot shorter, which
+means it can be written faster. I am looking forward to expanding my
+knowledge and expertise in Tidyverse in the future, as I always find new
+and exciting functions when looking into Tidyverse. I am especially
+interested in learning more about rlang and other helper functions, that
+offers more of the flexibility that base R does when the standard
+Tidyverse set-up is too specific. As I mentioned in the beginning, I
+have always been a base R user before starting this course, but working
+with Tidyverse has gotten me over to using Tidyverse as a default. The
+more I use it and learn from it, the more I learn how to access some of
+the (lesser knows) features that offers a flexibility similar to that of
+base R. I can only imagine that there will be more and more of these as
+time go by.</p>
+<p>There are still a few more things I would like to look into with
+Tidyverse in the future, including:</p>
 <ul>
 <li>Try out some of the Tidymodels libraries that seem interesting,
 especially recipies, workflows, and rsample</li>
+<li>Add more code and examples to demonstrate the Tidyverse
+functions</li>
+<li>Learn more about rlang, as I have seen several of its symbols come
+up when trying to write more complicated vectorized functions.
+Especially when it becomes a mix between Tidyverse and base R code.</li>
+<li>Learn more about purrr and using it as an alternative to base R’s
+vectorized operations</li>
+<li>Learn about other, maybe lesser-known, Tidyverse libraries and
+functions</li>
 </ul>
 </div>
 

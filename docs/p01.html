@@ -311,9 +311,9 @@ with Rmarkdown, such as place holders</li>
 it</li>
 <li>Practice designing/updating code to solve a problem identified in
 the code, in other words, translating an idea to code.</li>
-<li>Working with dates in R (tidyverse)</li>
-<li>Add some features that I would like for the contract to have and
-therefore have it bug me less</li>
+<li>Add some features that I would like for the contract to have so that
+it becomes easier to use for students who take the course in the
+future.</li>
 </ul>
 <div id="rmarkdown-basics" class="section level2">
 <h2>Rmarkdown Basics</h2>
@@ -351,9 +351,21 @@ the text you want in bold</li>
 href="http://www.ece.ualberta.ca/~terheide/rmarkdown-how-to/markdown.html">Rmarkdown
 instructions with examples and code</a></li>
 </ul>
+<p>This project will have the current contract code from that Rmarkdown
+documents, with my comments about it. I went over it and added comments
+to make sure that I understood the code and could edit it to add the
+features that I wanted. The second section has some goals of what I want
+to improve on to make the contract easier to use and more flexible. Then
+the third section is the new contract code from the Rmarkdown document
+after I edited it. In addition to adding new features, I also added
+comments for the students to guide them through how to fill in the
+contract, as this is done easily in the course, when the students have a
+limit knowledge of R and Rmarkdown documents. I formatted all my
+comments as quotes in this project, so that they would show up on the
+output.</p>
 </div>
-<div id="the-current-contract-code" class="section level2">
-<h2>The Current Contract Code</h2>
+<div id="the-current-contract-code" class="section level1">
+<h1>The Current Contract Code</h1>
 <p>The following is the content of the current Rmarkdown document for
 the contract. It is pasted here for reference so that one can see what
 the original contract looked liked. In addition, this copy will be used
@@ -426,9 +438,8 @@ to handle date objects better.</p>
 </blockquote>
 <p>{r setup, include=FALSE}</p>
 <p>library(tidyverse)</p>
-</div>
-<div id="r-syllabus-scheduler" class="section level1">
-<h1>R Syllabus Scheduler</h1>
+<div id="r-syllabus-scheduler" class="section level3">
+<h3>R Syllabus Scheduler</h3>
 <blockquote>
 <p>Here we define a function that is giving formatted output with the
 right values (e.g. dates) based on the parameters we have given in the
@@ -569,8 +580,8 @@ readable. Also, it formats the weekonemonday to be a date object instead
 of a string. Note that this happens outside of the function, but before
 it is called.</p>
 </blockquote>
-<p>dayone &lt;- as.Date(params<span class="math inline">\(weekonemonday)
-startweek &lt;- params\)</span>startweek</p>
+<p>dayone &lt;- as.Date(params$weekonemonday)<br />
+startweek &lt;- params$startweek</p>
 <p>#}</p>
 <blockquote>
 <p>Making a list with all the topics in the R course, which is used to
@@ -602,6 +613,7 @@ the text, to make the document dynamic and easily adjustable for each
 individual. The code does also call upon the advdate function defined
 earlier.</p>
 </blockquote>
+</div>
 <div id="contract-grades-paramsgrade-contract" class="section level3">
 <h3>Contract Grades – “params$grade” Contract</h3>
 <p>I, params$name, agree to :</p>
@@ -883,12 +895,10 @@ example with the relevant module names and dates. –&gt;</p>
 <p>Setting the required number of labs and portfolio projects given the
 grade the student wants to make the contract for</p>
 </blockquote>
-<p>if (params<span class="math inline">\(grade == &quot;A&quot;) {
-  n_labs &lt;- 11
-  n_portfolios &lt;- 10
-} else if (params\)</span>grade == “B”) { n_labs &lt;- 8 n_portfolios
-&lt;- 6 } else if (params$grade == “Pass”) { n_labs &lt;- 8 n_portfolios
-&lt;- 4 }</p>
+<p>if (params$grade == “A”) { n_labs &lt;- 11 n_portfolios &lt;- 10 }
+else if (params$grade == “B”) { n_labs &lt;- 8 n_portfolios &lt;- 6 }
+else if (params$grade == “Pass”) { n_labs &lt;- 8 n_portfolios &lt;- 4
+}</p>
 <p>r defining variables, include = FALSE</p>
 <blockquote>
 <p>Loading tidyverse, to deal with dates better</p>
@@ -898,9 +908,8 @@ grade the student wants to make the contract for</p>
 <p>Defining the parameters as variables which makes it a little less
 cluttered during the contract itself</p>
 </blockquote>
-<p>monday_week_one &lt;- as.Date(params<span
-class="math inline">\(mondayweekone)
-deadline_day &lt;- params\)</span>deadline_day spring_break &lt;-
+<p>monday_week_one &lt;- as.Date(params$mondayweekone) deadline_day
+&lt;- params$deadline_day spring_break &lt;-
 as.Date(params$springbreak)</p>
 <blockquote>
 <p>Defining a list with all the modules in it, which can be chosen from
@@ -941,7 +950,9 @@ won’t run if it doesn’t have the as.Date() function there.</p>
 <p>Then we format the date into a string (happens automatically with
 format()) in the form of two numbers for day and month, e.g. “03/03”</p>
 </blockquote>
-<pre><code>&gt; For the rest of the days, we just keep this string version</code></pre>
+<blockquote>
+<p>For the rest of the days, we just keep this string version</p>
+</blockquote>
 <p>date_monday_str &lt;- format(date_monday, format = “%m/%d”)<br />
 date_tuesday_str &lt;- as.Date(monday_week_one + 1 + 7 * (week_num - 1))
 %&gt;% format(format = “%m/%d”)<br />
@@ -972,9 +983,10 @@ is no module to do</p>
 <p>paste0 adds the parts in it together to a string, separated by
 space</p>
 </blockquote>
-<pre><code>str_line &lt;- paste0(&quot;Spring break! - &quot;, date_monday_str, &quot; - &quot;, date_sunday_str)  </code></pre>
-<p>} else if (!is.null(deadline_day)) {<br />
-if (deadline_day == “Monday”) {<br />
+<p>str_line &lt;- paste0(“Spring break! -”, date_monday_str, ” - “,
+date_sunday_str)<br />
+} else if (!is.null(deadline_day)) {<br />
+if (deadline_day ==”Monday”) {<br />
 str_line &lt;- date_monday_str<br />
 } else if (deadline_day == “Tuesday”) {<br />
 str_line &lt;- date_tuesday_str<br />
@@ -1024,8 +1036,8 @@ This is the function we defined (made) earlier to make the strings
 the function determines the text that we get from it.</p>
 <p>Now, to move on, read over the text for the contract and change or
 add anything you want to change. –&gt;</p>
-<div id="terms-to-get-a-grade-of-paramsgrade" class="section level2">
-<h2>Terms to Get a Grade of “params$grade”</h2>
+<div id="terms-to-get-a-grade-of-paramsgrade" class="section level3">
+<h3>Terms to Get a Grade of “params$grade”</h3>
 <p>I, params$name, agree to :</p>
 <ol style="list-style-type: decimal">
 <li>Earn “Satisfactory” on r n_labs self-paced lab assignments on the
@@ -1055,6 +1067,7 @@ account and are accessible;</li>
 the projects;</li>
 </ul></li>
 </ol>
+</div>
 <div id="schedule-1" class="section level3">
 <h3>Schedule</h3>
 <ul class="task-list">
@@ -1202,9 +1215,8 @@ deadline_day=deadline_day)</li>
 </ul></li>
 </ul>
 </div>
-</div>
-<div id="further-guidelines-1" class="section level2">
-<h2>Further guidelines</h2>
+<div id="further-guidelines-1" class="section level3">
+<h3>Further guidelines</h3>
 <ul>
 <li>According to reasons discussed and agreed upon in advance with the
 professor, there are some situations which might require some of these
@@ -1283,6 +1295,24 @@ good. It you are satisfied with how it looks, you can hand it in.
 –&gt;</p>
 <!--- This contract is adapted from Annie Somerville's contract https://github.com/anniehsom -->
 </div>
+</div>
+<div id="final-reflection" class="section level1">
+<h1>Final Reflection</h1>
+<p>This project was a good first project to ease into the course and get
+familiar with some of the features of Rmarkdown and GitHub that I
+haven’t used as much earlier. I also thought it was interesting to work
+with someone else’s code, as I have mostly written my own code and
+interacted with that in the past. The main goal of this project was to
+edit the contract to add some features that I think it should have and I
+did achieve that goal. I saw several students struggle with filling out
+their contract and hopefully that will also get easier in the future
+with the added comments.</p>
+<p>For reference, <a
+href="https://github.com/lzapffe/ds_portfolio/blob/main/docs/p01_contract.md">here</a>
+is what the new contract looks like in GitHub, where they are hosted for
+the class. I think I did a fairly good job with it and as the entire
+course is hosted on GitHub, other students or professors can add their
+desired features or improvements to it as neccessary.</p>
 </div>
 
 
