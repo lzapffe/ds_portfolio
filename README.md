@@ -1,1 +1,1 @@
-Thank you for looking at my portfolio for the Data Science in R class I took at Wake Forest University. You can see the webpage with my portfolio at this link: https://lzapffe.github.io/ds_portfolio/index.html
+Thank you for looking at my portfolio for the Data Science in R class I took at Wake Forest University! You can see the webpage with my portfolio at this link: https://lzapffe.github.io/ds_portfolio/index.html
