@@ -24,6 +24,8 @@ Similar to with the last project, this project started with the quest to demysti
 
 Disclaimer: Rmarkdown (and html) interprets a lot of the special characters used in regex as a function. Therefore, creating a knitted html page that displays the syntax and not the action of the special characters has required playing around with escape characters in the Rmarkdown file. That means that the syntax for any regex is as displayed in the knitted file and not the Rmarkdown file. Therefore, always refer to the output file when looking up anything. I have gone over the document to look for places where the displayed syntax is off, but it is very possible that I could have missed some.
 
+<br>
+
 ## Basics of Regex
 
 Regex expressions consists of literals and metacharacers, which is like the actual words and grammar of a language.
@@ -79,6 +81,7 @@ Some of the metacharacters:
   - It is a little unclear how to get the backreference, it should be either \\k<NAME> or (?P=NAME). The code to capture the replacement string is also a little unclear, but could be ${NAME}, \\g<NAME>, $+{NAME}, or it is not possible and you have to use just \\1
 - Capture groups are numbered from left to right, even if they do not capture anything. Likewise, if you run over a capture group several times, it will still just have that one number it got originally. If you capture several matches for one group, it will return the last match when called upon
 
+<br>
 
 ## Regex functions in R
 
@@ -100,6 +103,7 @@ Here are some of the main R functions used with regex:
 - regmatches() - Like regexec(), but returns the actual matches of the string, as well as the part specified in the parenthesis
 - substr() - If you have the indeces of strings already, you can use substr() to extract the relevant string by index
 
+<br>
 
 ### Tidyverse - Stringr
 
@@ -126,6 +130,7 @@ Tidyverse has the library stringr which has a maybe more intuitive function setu
   - E.g. separate_wider_regex(str, patterns = c("<", name = "[A-Za-z]+", ">-", gender = ".", "_", age = "[0-9]+")) will get the information out of strings like "<Sheryl>-F_34"
   - If it fails, you can apparently use too_few = "debug", I don't know what it does, but it should be helpful
 
+<br>
 
 #### Optional parameters
 
@@ -136,7 +141,7 @@ Tidyverse has the library stringr which has a maybe more intuitive function setu
 - comments = TRUE - ignores spaces, newlines, and # and everything following it in your expression. You can therefore add spaces and comments in the middle of your expresison (with line shifts) to make it more readable
   - If you then want to match a space, escape it with a backslash
   
-
+<br>
 
 ## Special characters from literals
 
@@ -163,7 +168,8 @@ You can use a backslash to make normal literals a metacharacter
 - \\G - beginning of string or end of previous match
   - E.g. if you want to only get the results from Jane on a score board, you can use the following regex (?:Jane|\\G) \\w+:(\\d+) to get the numbers from "Tarzan A:33 B:32 C:36 Jane A:35 B:33 C:31"
     - You could also do this will lookbehinds, but \\G is more economical
-  
+
+<br>
   
 ## Inline Modifiers
 
@@ -212,7 +218,7 @@ Modifiers change the mode of the following regex part. There is a way of changin
   - Lastly, be aware that whitespace still separates components in the code. For example, \\12 is different from \\1 2
 - (?n) - turns all parentheses into non-capture mode
 
-
+<br>
 
 ## Built-in classes
 
@@ -234,6 +240,7 @@ Some of the above can also be specified as built-in classes with the following f
   - E.g. [!-~] is all printable characters in the ASCII table, except for space
   - E.g. (?![a-zA-Z0-9])[!-~] is all special characters
 
+<br>
 
 ## Lookarounds
 Lookarounds will look for the match you specify, either before or after the match (based on your expression). It will only match if the lookaround condition is met, but it will not actually capture the part in the lookaround. Lookahead or lookbehind refers to which direction it is looking in. The reason it doesn't capture anything is that it is like it hasn't moved further in reading the string when reaching a lookaround, is stays stagnant, looks ahead or behind (without moving) and then it starts moving when it gets to the code past the lookaround 
@@ -253,6 +260,7 @@ Lookarounds will look for the match you specify, either before or after the matc
 - You can nest lookarounds, for example this regex \\d+(?=\_(?!\_)) to find numbers that is followed by one, but not more than one underscore.
 - It is often good practice to anchor lookarounds, as that makes them fail or succeed immediately, instead of running through the whole string, as long as that is not what we want to do
 
+<br>
 
 ## Other more advanced stuff
 
@@ -295,6 +303,7 @@ We can use our "A1" boundary wherever we like
 <br>
 (?&A1)cat(?&A1)
 
+<br>
 
 ## Quantifiers
 
@@ -337,6 +346,7 @@ We can use our "A1" boundary wherever we like
   - Add + do either of these to make it greedy and possessive, so that it won't backtrack to make the match work
   - Add ? to either of these to make them lazy, so that they match to as few matches as possible. All of these lazy matches are still helpful, so it will be lazy by default, but take more if needed
 
+<br>
 
 ## Conditionals
 
@@ -352,7 +362,8 @@ We can use our "A1" boundary wherever we like
     - E.g. ^(TMP)?\d+_(?:active|pending(?(1)|(?!)))$. In this code, there is either an active status, or whether there is a pending status and a "TMP" start string (i.e. the capture group has been set). If this is not the case, then it fails.
       - This is an opposite condition for the TMP and pending scenario as with only the if-else statement
       
-      
+<br>
+
 ## Recursive regexs
 
 - You can add (?R) to repeat a pattern a selected number of times, instead of writing it all out.
@@ -363,7 +374,8 @@ We can use our "A1" boundary wherever we like
 - You can use these recursive regex to match more complicated patterns, like palindromes
   - E.g. (\w)(?:(?R)|\w?)\1
     - I haven't fully parsed how this regex works, but it is something to look into for more complicated expressions
-    
+  
+<br>
     
 ## Control Verbs
 
@@ -393,8 +405,9 @@ We can use our "A1" boundary wherever we like
 - You can use a combination of SKIP and FAIL to define what you do not want
   - E.g. "{[^}]*}(*SKIP)(*FAIL)|\b\w+\b" will match all words except for those encolsed in curly-brackets. Here, if the word has curly-brackets it matches the whole word, when hits skip and fail. It fails, so it will try to backtrack, but the skip tells it to not go past the current match, which is all of the string. Therefore, leading to an automatic fail
     - This is an useful way to define things you do not want to match, without creating too complicated expressions
-    
-    
+
+<br>
+
 ## Div other comments that didn't fit anywhere else
 
 - Cool trick: To match an even number of characters, you can use "^(?:..)+$"
@@ -407,12 +420,15 @@ We can use our "A1" boundary wherever we like
 - Fun fact I learned: You can actually use explosive quantifiers to ReDoS attack a webpage by giving a regex that will have it run a very large number of variation, to eventually slow down or shut down a webpage [see more at Wikipedia](https://en.wikipedia.org/wiki/ReDoS)
   - I had heard about ReDos attacks earlier, but I didn't know what it was, so learning that was interesting
 
+<br>
 
 ## Practice
 
 I started creating questions with ChatGPT like I did for project 2, but they seemed kind of random and didn't really reflect what I would use Regex for when applying it. Instead I came across these [Regex crosswords](https://regexcrossword.com/), which are still not very applied, but involved a lot less set up with string for every question like ChatGPT's questions did. So, I switched over to working on the crosswords to practice using, reading, and interpreting regex expressions and got farily good at it at the end. I worked through all of the 15 basic crosswords.
 
 ![](Regex crosswords.png)
+
+<br>
 
 ## Final Reflection
 

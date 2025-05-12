@@ -11,8 +11,11 @@ Goals for the project:
 * Comparing and contrasting writing vectorized vs looped code
 * Getting more experience with vectorized operations so that I can confidently apply it to future coding projects
 
+<br>
 
 # The Basics of Vectorized Operations
+
+<br>
 
 ## Examples of simple vectorized operations
 
@@ -52,9 +55,13 @@ print(y)
 x * y 
 ```
 
+<br>
+
 ## The different functions for vectorized operations in r
 
 This information is taken from  on chapter 16 - [Loop Functions](https://bookdown.org/rdpeng/rprogdatascience/loop-functions.html) in the open source textbook "R programming for data science"
+
+<br>
 
 ### lapply()
 
@@ -71,6 +78,7 @@ If the function you pass through lapply() has more parameters that you want to s
 You can enter functions that you define yourself into lapply().
 You can even define it in the lapply() function itself. for example as "lapply(x, function(elt) { elt[,1] })". This creates an **anonymous function** that only exists for the lapply() command and then disappears.
 
+<br>
 
 ### sapply()
 
@@ -89,10 +97,13 @@ x <- list(a = 1:4, b = rnorm(10), c = rnorm(20, 1), d = rnorm(100, 5))
 sapply(x, mean)
 ```
 
+<br>
+
 ### vapply()
 
 Similar to sapply and lapply(), but you can define what type of input you are expecting. For example, using FUN.VALUE = numeric(1) says that you are expecting the input to be numeric, with a single digit. FUN.VALUE = data.frame(1) indicates that you are expecting a single data frame. If the input is not in the excepted format, you will get an error. This can be helpful for example if you have string numbers, but want them to be numeric. Using vapply() instead of sapply() or lapply() then adds in a check for variable type and can create an error, instead of having a silent error happen later in the code. There is an argument for simplifying the output that produces similar output as lapply() or sapply().
 
+<br>
 
 ### tapply()
 
@@ -102,6 +113,7 @@ For example, tapply(x, y, mean)
 
 There is also a parameter called simplify (TRUE or FALSE). If it is true it gives output similar to that of sapply(), while if it is false, it will give output similar to that of lapply(). If it is true, the output will always be an array. An array is similar to a matrix, as a matrix is a 2 dimensional array. 
 
+<br>
 
 ### apply()
 
@@ -125,6 +137,7 @@ rowMeans = apply(x, 1, mean)
 colSums = apply(x, 2, sum)
 colMeans = apply(x, 2, mean
 
+<br>
 
 ### mapply()
 
@@ -180,6 +193,7 @@ I don't think I fully understand how this works yet, but I might get it a little
 
 mapply differs from e.g. lapply if you have multiple lists and elements as lapply iterates through each list in total, while mapply iterates through each element in a list, not necessarily iterating over each list per iteration like lapply does. See exercise 13 for an example.
 
+<br>
 
 ### split()
 
@@ -204,15 +218,21 @@ With this, you can for example look at a data frame and split up the calculation
 
 Remember from earlier, that tapply() is like split() and lapply(), but for vectors only. That means that you cannot use it on data frames.
 
+<br>
+
 ## Check-in
 
 Ok, I think I am starting to get a basic overview of the different functions, what they do, and how they work. Now, I think I might need some practice actually using them. I have asked ChatGPT to come up with exercises for me, so I will use that to get more comfortable using these vectorized operations.
+
+<br>
 
 # Practice!
 
 So far, I have learned about apply(), lapply(), sapply(), vapply(), tapply(), mapply(), and split() with lapply(). I know need some practice using these functions to get comfortable with the logic behind them, when to use each, and how they work.
 
 First, I fed ChatGPT with all the notes I have up until this point and asked it to make some exercises, with varying difficulty, that could be used to practice what is in this document so far and further deepen my understanding. Here are some exercises and my solutions to them from ChatGPT. Some of them might be slightly modified:
+
+<br>
 
 ### 1. Simple Vectorized Operations
 1.1. Create two vectors, a <- 1:5 and b <- 6:10. Then use vectorized operations for the next steps.
@@ -262,6 +282,7 @@ print(g)
 
 That was indeed a lot more work than using vectorized operations.
 
+<br>
 
 ### 2. Matrix Operations
 
@@ -288,6 +309,7 @@ mat_square
 mat > 5
 ```
 
+<br>
 
 ### 3. apply()
 
@@ -316,6 +338,7 @@ apply(mat, MARGIN = 1, function(x) {max(x)-min(x)})
 
 I might actually be a genius. Just saying.
 
+<br>
 
 ### 4. Using lapply() and sapply()
 
@@ -340,6 +363,8 @@ sapply(my_list, sd)
 lapply(my_list, function(x) {sum(x^2)})
 ```
 
+<br>
+
 ### 5. Using tapply()
 
 5.1. Create two vectors:
@@ -358,6 +383,7 @@ tapply(values, groups, mean)
 tapply(values, groups, length)
 ```
 
+<br>
 
 ### 6. Using mapply() - Advanced
 
@@ -380,6 +406,8 @@ for (i in 1:length(base)){
   print(power_fun(base[i],exp[i]))
 }
 ```
+
+<br>
 
 ### 7. Combining split() and lapply() - Advanced
 
@@ -408,6 +436,8 @@ lapply(split(df$score, df$group), mean)
 lapply(split(df, df$group), nrow)
 ```
 
+<br>
+
 ### 8. Simulating Data with mapply() - Advanced
 
 8.1. Simulate data for 5 different groups, each with a mean and standard deviation:
@@ -421,6 +451,8 @@ n <- c(10, 15, 20, 25, 30)
 ```{r ex 8.2.}
 mapply(rnorm, n, means, sds)
 ```
+
+<br>
 
 ### 9. Combining Multiple Functions - Challenge
 
@@ -470,6 +502,7 @@ for (i in 1:length(df$category)){
 
 That was a lot more extensive and thought-consuming than using vectorized operations, I see the appeal
 
+<br>
 
 ### 10. Advanced Matrix Manipulations - Challenge
 
@@ -539,10 +572,13 @@ mapply(function(i, scale) {arr[,,i]*scale}, i = 1:2, scale, SIMPLIFY = FALSE)
 
 I got it with a little help from ChatGPT. I was trying to do mapply(function(arr, i, scale) {arr[,,i]*scale}, arr, i = 1:2, scale, SIMPLIFY = FALSE), but it didn't work because it couldn't iterate through arr. So arr can be called in the anonymous function, but not as a parameter of it.
 
+<br>
 
 ## Working from loops to vectorized operations - Exercises
 
 The following section will have some exercises converting code using loops to vectorized operations. I wanted to do this because I feel like I can fairly easily think in terms of loops when designing code and I want to practice thinking with vectorized operations instead. In addition, it will help compare and contrast loops with vectorized operations. The exercises are taken from ChatGPT.
+
+<br>
 
 ### 11. Multiply Rows of a Matrix by a Vector
 
@@ -581,6 +617,8 @@ scaled_mat <- matrix(scaled_mat, nrow = 4, ncol = 3)
 scaled_mat
 ```
 
+<br>
+
 ### 12. Calculate Column Means of a Matrix
 
 Code with loops:
@@ -603,6 +641,8 @@ mat <- matrix(1:12, nrow = 4, ncol = 3)
 
 apply(mat, 2, mean)
 ```
+
+<br>
 
 ### 13. Scale Elements in a List
 
@@ -637,6 +677,7 @@ mapply(function(lst, scaling) {lst*scaling}, lst, scaling, SIMPLIFY = FALSE)
 
 I first tried using lapply, which didn't work as it was going element by element instead of list by list. mapply works by iterating over parameters instead of elements. mapply therefore applies the nested lists pairwise (e.g. lst[1] with mat[1] and lst[2] with mat[2]). The functions therefore produce different results.
 
+<br>
 
 ### 14. Calculate Grouped Means
 
@@ -670,10 +711,13 @@ tapply(x, group, mean)
 
 Note that the output is a little different when using tapply(), as it shows the grouping number as well as the means, while the solution with loops only showed the means and the index alone identified the grouping variable.
 
+<br>
+
 ### Reflection
 
 I have no worked through several exercises using vectorized functions, and I think I am starting to get the logic behind it. I would still need some more practice before I could confidently use all of the functions, know their parameters, and the nuances between their outputs. However, I think I have achieved my goal of learning the logic of vectorized operations and being able to use them (with a little help from the help section).
 
+<br>
 
 ## Anonymous Functions
 
@@ -681,19 +725,25 @@ I have used anonymous functions quite a bit throughout this project, so I though
 
 An anonymous function is a function that is not stored as a variable, but instead just used in that one instance. It therefore does not have a name (hence "anonymous"). The syntax for the anonymous functions is function(parameters) function_body. So you start with the word "function", then add any parameters you need, a space, and the action of the function. Anonymous functions are great for short functions, but can get messy if they are longer.
 
+<br>
 
 ## Caveats to Vectorized Operations - Reflection after the end of the semester
 
 After having learned more about R, worked on bigger projects in R, and learned more about Tidyverse, I have learned that altough the vectorized operations used here can often speed up the coding process and make it more readable, there are situations in which other approaches work better.
 
+<br>
+
 ### Loops
 
 First, as stated in the introduction of this project, I started out being very familiar with loops, but less so with vectorized operations. I have however, through working on some of the applied projects coming later, learned that loops sometimes work better than vectorized operations. This occurs in scenarios where one wants to use the outcome of one iteration in the next iteration. There might be some workarounds for doing this with vectorized operations, but it seems like loops (although a little slower) are easier to use for these purposes. However, in any other case, vectorized operations make clearer code and run faster than loops. Therefore, it seems like vectorized operations should usually be used when I think about using loops.
+
+<br>
 
 ### Tidyverse solutions
 
 Tidyverse has a lot of useful functions that can sometimes mitigate the need for using the vectorized functions investigated in the current project. Therefore, it is usually good practice to google whether there is a Tidyverse (or other) function for what you want to do before starting to write code for it yourself. I have found several functions I didn't know about earlier from googling when I have needed something and it has saved me from writing out a lot more complicated code. In addition, there are often easier Tidyverse solutions compared to writing code using the base R vectorized operations such as apply(). See next project for more information about Tidyverse vs base R.
 
+<br>
 
 ## Cheat sheet
 

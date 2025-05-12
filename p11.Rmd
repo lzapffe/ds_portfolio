@@ -21,9 +21,13 @@ There is a lot of onboarding and introductions to do for this course, so this la
 
 # Lab 0 - Getting Started and Setting up the Course
 
+<br>
+
 ## Part 1 - The course, R, and Rstudio
 
 Hi, welcome to the first lab in your data science class! The following lab will help you get an overview over the course, getting started with R, and setting up the course. After doing this lab, you should be ready to start fully engaging in the course and to code. There are a lot of new concepts and programs when starting to code. However, if you get past this first bit of the class, it will get more familiar to you and it will get easier.
+
+<br>
 
 ### Course Overview
 
@@ -33,11 +37,13 @@ Furthermore, there are two types of assignments in the class: labs and portfolio
 
 <!--I didn't include any more information about grades and number of assignments, as I just want to introduce the overall structure of the class, especially since I will be referring to it later in the lab + they have all of that information available to them in the syllabus -->
 
+<br>
 
 ### Syllabus
 
 To get started with the class, you will want to know what is in the syllabus. Therefore, if you haven't already, read (or at least skim over) the syllabus. You can find it [here](https://smasongarrison.github.io/syllabi/index.html). There is a general part to the syllabus, as well as a part specific for this class. Read both the general and class-specific parts, that will set you up for doing well in the course.
 
+<br>
 
 ### Downloading R
 
@@ -53,6 +59,7 @@ Click through the different prompts to successfully install R.
 
 If you already have R installed on your computer from earlier, reinstall R to get the most up-to-date version.
 
+<br>
 
 ### Testing R
 
@@ -65,6 +72,7 @@ On Mac, you can either click the Blue R icon with a grey circle behind it or sea
 
 You have now just opened R for the first time. To test it out, you can type in a command which is traditionally the first thing code one writes when learning programming. Type in "print("Hello World!")" without the first and last quotation marks in the white box. You should get an output stating "[1] "Hello World!"". You just ran your first code, asking R to print the text Hello World!.
 
+<br>
 
 ### Downloading RStudio
 
@@ -72,7 +80,7 @@ As you might have noticed when writing this R code, is that the R program has a 
 
 You can download the Rstudio Desktop [here](https://posit.co/download/rstudio-desktop/). The big blue button to the right should have the right version for your computer. However, you can also scroll further down on the page to see a list with the download link for Windows, Mac, Linux, and so on.
 
-
+<br>
 
 ### Basics of Rstudio
 
@@ -111,6 +119,7 @@ Be aware, that any time you rerun your .Rmd file, you update the .md or .html fi
 
 Now that you know how to use Rstudio and do some basics line of code with R, we will move on to how we will save our work in this class and setting up the components of the class, such as the grading contract, your portfolio, and your labs.
 
+<br>
 
 ### Github
 
@@ -150,6 +159,7 @@ After you have successfully downloaded GitHub desktop, go back to Github in your
 
 However, running long and complicated code on your computer from the cloud can be slow and you might also sometimes want to work on your code even when you don't have access to internet. Therefore, we want to make a local copy of the repository on your computer, so that you can have the files associated with the project on your own computer locally too, and not just in the cloud. To do this, click on the green "<> Code" button in your repository and choose "Open with GitHub Desktop". GitHub Desktop should launch automatically and you will get a menu that says "Clone a repository". Cloning a repository means to make a copy of it. In this case, you are making a local copy (stored on your computer) of your remote repository (stored in the cloud by GitHub). The URL of your repository should be filled out automatically and the box for the local path is where on your computer you want to save the repository. You can chose a folder on your computer where you have some of your other materials for this class or somewhere else you want it. Be sure that you can find back to it again later though.
 
+<br>
 
 ### Using GitHub
 
@@ -167,6 +177,7 @@ Now that you have learned about R, Rstudio, and using GitHub, you can get starte
 - Setting up your portfolio
 - Seeing how you hand in labs
 
+<br>
 
 ### The contract
 
@@ -180,6 +191,7 @@ Now, it is time to hand in your contract. To do this, you need to find the repos
 
 Congratulations, you just completed your first assignment!
 
+<br>
 
 ### The portfolio
 
@@ -189,6 +201,7 @@ The template you just cloned (copied) allows you to host a webpage on GitHub's p
 
 When you get your URL, click on it to see your webpage. This is here everything you do for your projects will be displayed. Save the link somewhere, as you will need it in the next step.
 
+<br>
 
 ### Handing in the lab
 

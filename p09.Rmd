@@ -2,12 +2,14 @@
 title: "Sleepin' Deacon"
 ---
 
+I learned that an office on campus manually goes over 16 surveys per person for 200 participants once a year (total of 1,200 surveys) and thought that would be easier to automate with R. So I offered to write a script they could use and they accepted.
 
-## To-do list:
+This project ended up being really interesting since it is the most messy data I have worked with before. People would for example misspell their name on some surveys which makes it hard to match them across the different surveys. I therefore had to think a little differently when making the algorithms to score the data. I ended up deciding on a mechanism where I match everything I can and then add a list of surveys and people that get flagged since I can't match them to the sign-up page successfully. The code therefore produces two Excel files as outputs. The first is the name of all the people in the surveys and a count of number of daily surveys completed, yes or no for completed pre- and post-surveys, a count of the number of late responses, a count of the number of incomplete responses, and lastly a completed or not completed column for the total challenge. The second file has the survey ID, contact information, and reason for flagging for all of the flagged surveys. Someone have to go through these manually and update the first Excel sheet, I don't think there is any way of doing this automatically without opening up for a lot of errors.
 
-- Paste pdf with the project code
-- Make sure there is no sensitive information being published
-- Reflect on issues and new skills attained
+The program worked very well initially and seemed to get the same numbers as those going over it manually got. However, there was an issue with the data collection where I only had access to part of the data, which makes it impossible to validate my results towards those that were attained when going over it manually. In addition, things got busy. The project is therefore set on pause for a bit, but if the office in question wants to pick it back up, I would be happy to do so. The code seems to be more or less done, so it wouldn't require that much work on my end.
 
+Since the data contains confidential information, I will attach a link to the html output in the portfolio repository like I have done for several of the other applied projects.
 
+<br>
 
+**You can find the html file for the semi-automatic scoring of the challenge  [here](https://github.com/lzapffe/ds_portfolio/blob/main/score-completion.html)**

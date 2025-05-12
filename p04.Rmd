@@ -1,5 +1,5 @@
 ---
-title: "ggplot and Data Visualization"
+title: "Ggplot"
 ---
 
 Ggplot is one of the main things I hear people praise when it comes to using R instead of other programming languages such as Python. I have heard arguments as the plots from ggplot looking good and how easy and flexible they are. However, I don't feel like I have been able to fully take advantage of these features of ggplot. The standard graphs they create look really basic, such as this:
@@ -79,6 +79,7 @@ geom_point()"
 <br>
 The defaults work like normal default parameter options in functions, any time you specify something, that goes, but if you do not specify anything, the default option will instead be used.
 
+<br>
 
 ## The layering - Example with Minard's Napoleon's March
 
@@ -210,3 +211,97 @@ With this you can make text bigger or smaller, change the text itself, make it b
 ### Miscallenous sources that have been used throughout the document
 
 - [Intro to Ggplot Tutorial](https://r-statistics.co/Complete-Ggplot2-Tutorial-Part1-With-R-Code.html)
+
+<br>
+
+# Creating APA Style Graphs with Ggplot
+
+One question I have had this semester is whether I can adapt ggplots to follow APA style so that they can be used in papers. I ended up creating some graphs that I included in my thesis in project 8: Data Analyses, so I think that the answer is yes. In this section, I will detail how to adjust ggplot graphs to make them APA style.
+
+One of the most simple graphs was this bar chart with difference scores:
+![](ggplot_pics/thesis-plot.png)
+
+<br>
+
+I created it with the following code:
+<br>
+"ggplot(aes(x = raters, y = mean)) +
+<br>
+  geom_bar(stat = "identity", color = "black", fill = "grey79", width = 0.4) +
+<br>
+  geom_errorbar(aes(ymin = mean - sd, ymax = mean + sd), width = 0.20) +
+<br>
+  ylim(-10, 5) +
+<br>
+  theme_classic() +
+<br>
+  theme(axis.text.x = element_text(colour = "black"), 
+<br>
+        axis.text.y = element_text(colour = "black"),
+<br>
+        axis.line.x = element_blank(),
+<br>
+        axis.ticks.x = element_blank(),
+<br>
+        panel.grid.major.y = element_line(),
+<br>
+        panel.grid.minor.y = element_line()) +
+<br>
+  coord_cartesian(expand = FALSE, xlim = c(0.5, 3.5), ylim = c(-10, 5)) +
+<br>
+  geom_hline(aes(yintercept = 0)) +
+<br>
+  labs(
+<br>
+    x = "Raters",
+<br>
+    y = "Mean Difference Scores"
+<br>
+  )"
+<br>
+<br>
+
+
+These are the main adjustments:
+
+- Adjust the width of the bars with the width parameter in the bar geom
+  - Whether it needs to be wider or thinner depends on the graph and how the defaults in ggplot play out
+- Error bars should have half the width of the bars
+- Add your own limits to the x- and y-scale to make sure they start at 0
+  - You have to include a little extra. For example, if you have the highest point as 5, the limit has to go beyond 5 to show up. It looks like there is some default that does not map data points that are just at the border of the coordinate plane
+- It seems to be the easiest to work from theme_classic() to make the graph APA-style
+  - This could be set as the default theme at the beginning of the document
+- Change the axis text color from grey to black to be more clear. Do this with axis.text.x and axis.text.y = element_text(color = black) in the theme() function
+- Remove the x-axis line and ticks with axis.line.x and axis.ticks.x = element_blank(). This is because the x-axis and ticks are drawn up above the origin, which makes it look like the data points are floating on the axis, which is not how you typically portray the data in APA-style plots.
+  - Instead, we will make a line for the x-axis that goes through the origin manually, with geom_hline(aes(yintercept = 0))
+    - Make it geom_vline if you flip the coordinates
+  - coord_cartesian(expand = FALSE, xlim = c(0.5, 3.5), ylim = c(-10, 5)) also helps drawing the coordinates so that the data points are not floating over the x-axis line
+- Add back panel.grid.major.y = element_line() and panel.grid.minor.y = element_line() to theme() to add grid lines to the plot
+- Add axes titles with x and y in labs()
+
+There are also some additional variations with faceting and flipped coordinates. See project 8: Data analyses for reference for those plots.
+
+  
+<br>
+
+# Packages that interact with ggplot
+
+- plotly - Create interactive graphs - [Found here](https://r-graph-gallery.com/ggplot2-package.html)
+- gridExtra - Add graphs together into one - [Found here](https://r-graph-gallery.com/261-multiple-graphs-on-same-page.html)
+- ggpattern - Add patterns or texture to your graphs
+  - I used this for a little bit and the graphs looked great. However, the plots ended up not loading when they got too complicated (e.g. with faceting). Therefore, the library does not seem to be optimal for more complicated graphs, but should work for quick and smaller graphs
+
+<br>
+
+# Pages and resources I have yet to look at
+
+- From "Change the Order of the Legend" part on this webpage https://r-statistics.co/Complete-Ggplot2-Tutorial-Part2-Customizing-Theme-With-R-Code.html
+- https://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html
+- https://r-graph-gallery.com/
+- https://www.youtube.com/watch?v=qnw1xDnt_Ec
+- https://www.sthda.com/english/wiki/be-awesome-in-ggplot2-a-practical-guide-to-be-highly-effective-r-software-and-data-visualization
+- https://www.datanovia.com/en/blog/ggplot-examples-best-reference/
+- https://www.cedricscherer.com/2019/08/05/a-ggplot2-tutorial-for-beautiful-plotting-in-r/
+- https://github.com/erikgahner/awesome-ggplot2
+- https://metricsf20.classes.ryansafner.com/slides/1.3-slides#67
+- https://rstudio.github.io/cheatsheets/data-visualization.pdf

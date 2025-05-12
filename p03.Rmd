@@ -1,5 +1,5 @@
 ---
-title: "Tidyverse vs base R"
+title: "Tidyverse"
 ---
 
 So, I started this project with a goal of looking into Tidyverse. I learned to program in Python first and then R and I am mostly used to using base R and not Tidyverse. However, I know that a lot of people think that Tidyverse is a lot better. So my goal starting this project was to contrast and compare Tidyverse and base R and the come to a conclusion regarding which seemed to be the most helpful and when. However, I ended up going in a little more informal direction. As I learned more about the basics of Tidyverse, I started trying to use it more to learn more about it and ended up really liking it in the end. It is a little different than base R and Python as I was thaugt it, but if you know how to use it, it can really speed up coding and making the output easier to interpret. There are still plenty of cases in which the Tidyverse solutions aren't flexible enough and I have had to revert to using base R, but now I always google whether there is a function for something in Tidyverse before starting writing a complicated and often vectorized function in base R. Most often than not, there has been a function for it in Tidyverse. I think most of the work I have done has been behind the scenes when working on the applied projects (projects 7, 8, and 9), where I have progressively (altough this is not reflected in the progression of the projects, but instead the time of when I worked on the projects) used more and more Tidyverse solutions instead of solutions in base R.
@@ -8,6 +8,7 @@ I have therefore now switch to using Tidyverse by default wherever I can and rat
 
 Unless noted otherwise, this information comes from the course notes, trying and failing, and the help pages.
 
+<br>
 
 # General Tidyverse Notes
 
@@ -63,6 +64,8 @@ In addition, there are other libraries that from the Tidyverse universe that you
 
 
 In addition, there are also Tidymodels. As of now, I think other individual packages for the various statistical methods work better. But Tidymodels might be more useful in a few years, so I might come back to evaluate it then. However, as of now, I do not use Tidymodels. There are several libraries in Tidymodels that are a part of the core, including tidymodels, rsample, parsnip, recipes, workflows, tune, yardstick, broom, dials. See the [Tidymodels webpage](https://www.tidymodels.org/packages/) for more information.
+
+<br>
 
 # Magrittr
 
@@ -148,6 +151,8 @@ Magrittr also has some additional pipes that have special meanings. These aren't
 
 The section with different types of pipes was in part taken from the [r2ds textbook](https://r4ds.had.co.nz/pipes.html#other-tools-from-magrittr).
 
+<br>
+
 # Tidyselect
 
 Tidyselect is another one of those libraries that get loaded automatically by any library that uses it in the background like magrittr. It contains selecting helpers that can be used within other functions in Tidyverse to select specific columns in a data frame or tibble.
@@ -172,6 +177,8 @@ The following are some of the selector helpers in Tidyselect:
 - group_cols() - Selecting all columns the data set are currently grouped by
 
 These selector helpers are very powerful in combination with dplyr functions, such as select()
+
+<br>
 
 # Rlang
 
@@ -202,12 +209,17 @@ There is some more theory to it, that I haven't gotten fully into yet. However, 
 
 rlang also interprets shortcuts as functions. For example, "~" is interpreted to mean "function()" automatically by rlang's as_function() function. You can therefore write "~ .x + 5" instead of "function(x) x + 5". When using the tilde, the as_function() in rlang has some default names for the parameters that you can use to refer to the right one. As with magrittr, "." is the same as the first parameter. The same is the case for ".x". The second parameter can be called by ".y". There are no more than two possible parameters for using this short hand for functions. [Source](https://stackoverflow.com/questions/56532119/dplyr-piping-data-difference-between-and-x)
 
+<br>
 
 # Dplyr
 
 Dplyr is probably the Tidyverse library I have used the most and enjoyed the most, as it has a lot of functions that really speed up dealing with data. In general, the first argument of any dplyr functions are always a data frame or tibble. It cannot act upon matrices or vectors.
 
+<br>
+
 ## The following are some of the main functions in dplyr:
+
+<br>
 
 ### Subsetting data frames
 
@@ -219,6 +231,7 @@ Dplyr is probably the Tidyverse library I have used the most and enjoyed the mos
 - slice_sample() - Slice a random sample based on desired sample size
 - pull() - Extract a column as a vector
 
+<br>
 
 ### Organizing data frames
 
@@ -228,7 +241,8 @@ Dplyr is probably the Tidyverse library I have used the most and enjoyed the mos
 - arrange() - Reorder rows ascending
   - Add desc() as a parameter to make it descending
   
-  
+<br>
+
 ### Manipulating the data frame
 
 - mutate() - add a new variable
@@ -257,6 +271,7 @@ Dplyr is probably the Tidyverse library I have used the most and enjoyed the mos
 - column_to_rownames() - Make a column the rownames
   - Useful if you are exporting the data to a file format or object supporting row names
 
+<br>
 
 ### Combining data frames
 
@@ -268,7 +283,7 @@ Dplyr is probably the Tidyverse library I have used the most and enjoyed the mos
 - intersect() - Gets all rows that are common
 - setdiff() - Gets all rows in the first data frame that aren't in the second data frame
 
-
+<br>
 
 ### Joining data frames
 
@@ -279,6 +294,7 @@ Dplyr is probably the Tidyverse library I have used the most and enjoyed the mos
 - inner_join() - Just combine what rows are in common in both data frame x and y
 - anti_join() - Only keep what is different between data frame x and y
 
+<br>
 
 ### Calculating statistics
 
@@ -292,6 +308,7 @@ Dplyr is probably the Tidyverse library I have used the most and enjoyed the mos
   - Each count will then be repeated for each row with that value
 - n_distinct() - Counts number of distinct instances
 
+<br>
 
 ### Other Useful Functions
 
@@ -308,6 +325,7 @@ Dplyr is probably the Tidyverse library I have used the most and enjoyed the mos
 - across() - Indicate that an action should be done for multiple columns and not just one
   - Is often used together with selector helpers, such as everything()
 
+<br>
 
 # Tidyr
 
@@ -318,6 +336,7 @@ I haven't used this as much. However, I am familiar with the following functions
 
 Looks like it also has functions to deal with splitting cells, expanding tables, handling missing values, and handling nested data
 
+<br>
 
 # Purrr
 
@@ -327,6 +346,7 @@ There are a lot of other map functions, such as map_dfr() and map_df(). These ar
 
 It has a lot of data wrangling and vectorized operations options, but I haven't gotten myself familiar with it. It looks like it would be useful as it would allow for combining creating new vectorized functions and dplyr, instead of having to combine Tidyverse and base R with the apply() family.
 
+<br>
 
 # Forcats
 
@@ -339,20 +359,25 @@ Forcats has a lot of quick functions about factors that I have tended to stumble
 
 In addition, there are more specific functions to alter the factors, such as changing the values of the levels, combining factors, and adding or dropping levels. If you are working with factors, it might be worth a quick glance over the [Forcats Cheatsheet](https://rstudio.github.io/cheatsheets/factors.pdf)
 
+<br>
 
 # Readr
 
 readr offers a lot more choices when importing files, so you can import files with less data cleaning afterward, which is often the case when doing so with base R. See the [Readr Cheatsheet](https://rstudio.github.io/cheatsheets/data-import.pdf) for reference.
 
+<br>
+
 # Stringr
 
 Stringr has a lot of functions that help find or replace strings. I have never gotten that into it, because I know how to use Regex. It seems easier to make a regex expression than to always find the one specific function to use. However, I am sure there are some helpful functions that could speed up my programming here too. If interested, here is the [Stringr Cheatsheet](https://rstudio.github.io/cheatsheets/strings.pdf)
 
+<br>
 
 # Lubridate
 
 If you are doing anything that uses dates or times, lubridate will probably be very helpful. It can easily reformat times, use math to substract or add days, years, or time, round time and dates, and deal with time zones. Refer to the [Lubridate Cheatsheet](https://rstudio.github.io/cheatsheets/lubridate.pdf) for the most common functions.
 
+<br>
 
 # Reflection
 

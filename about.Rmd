@@ -2,22 +2,20 @@
 title: "About This Website"
 ---
 
-This portfolio consists of the following 10 projects:
+This portfolio consists of the following 11 projects:
 
 1. [Improving the Code for the Grading Contract](https://lzapffe.github.io/ds_portfolio/p01.html)
 2. [Vectorized Operations](https://lzapffe.github.io/ds_portfolio/p02.html)
-3. [Tidyverse vs Base R](https://lzapffe.github.io/ds_portfolio/p03.html)
-4. [ggplot and Data Visualization](https://lzapffe.github.io/ds_portfolio/p04.html)
+3. [Tidyverse](https://lzapffe.github.io/ds_portfolio/p03.html)
+4. [Ggplot](https://lzapffe.github.io/ds_portfolio/p04.html)
 5. [Git, GitKraken, and Advanced Workflows](https://lzapffe.github.io/ds_portfolio/p05.html)
 6. [Regex](https://lzapffe.github.io/ds_portfolio/p06.html)
 7. [Thesis - Data Wrangling](https://lzapffe.github.io/ds_portfolio/p07.html)
 8. [Thesis - Data Analyses](https://lzapffe.github.io/ds_portfolio/p08.html)
 9. [Sleepin’ Deacon](https://lzapffe.github.io/ds_portfolio/p09.html)
 10. [Suggestions for Course Improvements](https://lzapffe.github.io/ds_portfolio/p10.html)
-11. [Making Lab 0](https://lzapffe.github.io/ds_portfolio/p11.html)
+11. [Making a Lab 0](https://lzapffe.github.io/ds_portfolio/p11.html)
 
 The projects are ordered after when they were initiated. However, they were worked on simultaneously, so the order does not necessarily reflect the order in which they were finished.
 
-The following projects are finished: 1
-
-The repository has some additional plans for projects, including a web scraping project.
+The repository has some additional plans for projects, including a web scraping project and an old project 4 (Ggplot) with the initial notes I took while learning about the basic geoms in ggplot, that I later took out.

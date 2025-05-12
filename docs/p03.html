@@ -11,7 +11,7 @@
 
 
 
-<title>Tidyverse vs base R</title>
+<title>Tidyverse</title>
 
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -293,7 +293,7 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Tidyverse vs base R</h1>
+<h1 class="title toc-ignore">Tidyverse</h1>
 
 </div>
 
@@ -340,6 +340,7 @@ that doesn’t seem to offer enough flexibility and then switch to base
 R.</p>
 <p>Unless noted otherwise, this information comes from the course notes,
 trying and failing, and the help pages.</p>
+<p><br></p>
 <div id="general-tidyverse-notes" class="section level1">
 <h1>General Tidyverse Notes</h1>
 <p>Tidyverse has gotten a lot of attention when it comes to data science
@@ -439,6 +440,7 @@ tidymodels, rsample, parsnip, recipes, workflows, tune, yardstick,
 broom, dials. See the <a
 href="https://www.tidymodels.org/packages/">Tidymodels webpage</a> for
 more information.</p>
+<p><br></p>
 </div>
 <div id="magrittr" class="section level1">
 <h1>Magrittr</h1>
@@ -534,6 +536,7 @@ instead of <br> “mtcars &lt;- mtcars %&gt;% <br> transform(cyl = cyl *
 <a
 href="https://r4ds.had.co.nz/pipes.html#other-tools-from-magrittr">r2ds
 textbook</a>.</p>
+<p><br></p>
 </div>
 <div id="tidyselect" class="section level1">
 <h1>Tidyselect</h1>
@@ -584,6 +587,7 @@ grouped by</li>
 </ul>
 <p>These selector helpers are very powerful in combination with dplyr
 functions, such as select()</p>
+<p><br></p>
 </div>
 <div id="rlang" class="section level1">
 <h1>Rlang</h1>
@@ -632,6 +636,7 @@ case for “.x”. The second parameter can be called by “.y”. There are no
 more than two possible parameters for using this short hand for
 functions. <a
 href="https://stackoverflow.com/questions/56532119/dplyr-piping-data-difference-between-and-x">Source</a></p>
+<p><br></p>
 </div>
 <div id="dplyr" class="section level1">
 <h1>Dplyr</h1>
@@ -640,9 +645,11 @@ enjoyed the most, as it has a lot of functions that really speed up
 dealing with data. In general, the first argument of any dplyr functions
 are always a data frame or tibble. It cannot act upon matrices or
 vectors.</p>
+<p><br></p>
 <div id="the-following-are-some-of-the-main-functions-in-dplyr"
 class="section level2">
 <h2>The following are some of the main functions in dplyr:</h2>
+<p><br></p>
 <div id="subsetting-data-frames" class="section level3">
 <h3>Subsetting data frames</h3>
 <ul>
@@ -658,6 +665,7 @@ criteria</li>
 size</li>
 <li>pull() - Extract a column as a vector</li>
 </ul>
+<p><br></p>
 </div>
 <div id="organizing-data-frames" class="section level3">
 <h3>Organizing data frames</h3>
@@ -672,6 +680,7 @@ size</li>
 <li>Add desc() as a parameter to make it descending</li>
 </ul></li>
 </ul>
+<p><br></p>
 </div>
 <div id="manipulating-the-data-frame" class="section level3">
 <h3>Manipulating the data frame</h3>
@@ -705,6 +714,7 @@ imported data</li>
 supporting row names</li>
 </ul></li>
 </ul>
+<p><br></p>
 </div>
 <div id="combining-data-frames" class="section level3">
 <h3>Combining data frames</h3>
@@ -721,6 +731,7 @@ bind_cols(), as it offers more choices</li>
 <li>setdiff() - Gets all rows in the first data frame that aren’t in the
 second data frame</li>
 </ul>
+<p><br></p>
 </div>
 <div id="joining-data-frames" class="section level3">
 <h3>Joining data frames</h3>
@@ -739,6 +750,7 @@ frame x and y</li>
 <li>anti_join() - Only keep what is different between data frame x and
 y</li>
 </ul>
+<p><br></p>
 </div>
 <div id="calculating-statistics" class="section level3">
 <h3>Calculating statistics</h3>
@@ -765,6 +777,7 @@ it as a column
 </ul></li>
 <li>n_distinct() - Counts number of distinct instances</li>
 </ul>
+<p><br></p>
 </div>
 <div id="other-useful-functions" class="section level3">
 <h3>Other Useful Functions</h3>
@@ -797,6 +810,7 @@ columns and not just one
 everything()</li>
 </ul></li>
 </ul>
+<p><br></p>
 </div>
 </div>
 </div>
@@ -810,6 +824,7 @@ following functions:</p>
 </ul>
 <p>Looks like it also has functions to deal with splitting cells,
 expanding tables, handling missing values, and handling nested data</p>
+<p><br></p>
 </div>
 <div id="purrr" class="section level1">
 <h1>Purrr</h1>
@@ -826,6 +841,7 @@ I haven’t gotten myself familiar with it. It looks like it would be
 useful as it would allow for combining creating new vectorized functions
 and dplyr, instead of having to combine Tidyverse and base R with the
 apply() family.</p>
+<p><br></p>
 </div>
 <div id="forcats" class="section level1">
 <h1>Forcats</h1>
@@ -847,6 +863,7 @@ or dropping levels. If you are working with factors, it might be worth a
 quick glance over the <a
 href="https://rstudio.github.io/cheatsheets/factors.pdf">Forcats
 Cheatsheet</a></p>
+<p><br></p>
 </div>
 <div id="readr" class="section level1">
 <h1>Readr</h1>
@@ -855,6 +872,7 @@ import files with less data cleaning afterward, which is often the case
 when doing so with base R. See the <a
 href="https://rstudio.github.io/cheatsheets/data-import.pdf">Readr
 Cheatsheet</a> for reference.</p>
+<p><br></p>
 </div>
 <div id="stringr" class="section level1">
 <h1>Stringr</h1>
@@ -866,6 +884,7 @@ functions that could speed up my programming here too. If interested,
 here is the <a
 href="https://rstudio.github.io/cheatsheets/strings.pdf">Stringr
 Cheatsheet</a></p>
+<p><br></p>
 </div>
 <div id="lubridate" class="section level1">
 <h1>Lubridate</h1>
@@ -875,6 +894,7 @@ substract or add days, years, or time, round time and dates, and deal
 with time zones. Refer to the <a
 href="https://rstudio.github.io/cheatsheets/lubridate.pdf">Lubridate
 Cheatsheet</a> for the most common functions.</p>
+<p><br></p>
 </div>
 <div id="reflection" class="section level1">
 <h1>Reflection</h1>

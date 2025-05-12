@@ -19,6 +19,7 @@ Goals for the project:
     the code, in other words, translating an idea to code.
 * Add some features that I would like for the contract to have so that it becomes easier to use for students who take the course in the future.
 
+<br>
 
 ## Rmarkdown Basics
 
@@ -41,6 +42,7 @@ Useful links:
 
 This project will have the current contract code from that Rmarkdown documents, with my comments about it. I went over it and added comments to make sure that I understood the code and could edit it to add the features that I wanted. The second section has some goals of what I want to improve on to make the contract easier to use and more flexible. Then the third section is the new contract code from the Rmarkdown document after I edited it. In addition to adding new features, I also added comments for the students to guide them through how to fill in the contract, as this is done easily in the course, when the students have a limit knowledge of R and Rmarkdown documents. I formatted all my comments as quotes in this project, so that they would show up on the output.
 
+<br>
 
 # The Current Contract Code
 
@@ -92,6 +94,8 @@ params:
 {r setup, include=FALSE}
 
 library(tidyverse)
+
+<br>
 
 ### R Syllabus Scheduler
 
@@ -232,6 +236,8 @@ topic = c(
 
 > The following is the contract with the parameters entered throughout the text, to make the document dynamic and easily adjustable for each individual. The code does also call upon the advdate function defined earlier.
 
+<br>
+
 ### Contract Grades – “params$grade” Contract
 
 I, params$name, agree to :
@@ -245,7 +251,7 @@ I, params$name, agree to :
    * I have checked that files, repos, or projects appear on my Github account and are accessible;
     * I feel like I have spent an adequate amount of time and energy on the projects; 
 
-
+<br>
 
 ### SCHEDULE
 
@@ -293,7 +299,8 @@ I, params$name, agree to :
 - [ ] Portfolio completion
   - [ ] Due on startweek: advdate(dayone, 16, assignment=startweek)
   
-  
+<br>
+
 ### Further guidelines
 
 - According to reasons discussed and agreed upon in advance with the     professor, there are some situations which might require some of these deadlines to be moved. If this is the case, I will reach out to the professor and agree on another deadline. The number of assignments that have to be completed satisfactory will not change.
@@ -301,6 +308,7 @@ I, params$name, agree to :
 - I pertain the right to, at any time, switch out any of the modules and labs with another module or lab in the course or change the order of them from what is currently specified in the contract. This will not affect the number of labs or modules that are to be completed according to the contract. Any such changes will be noted in this contract for reference, but will not require notifying the professor.
 - Any other part of this contract can be changed before the final grade is set if agreed upon by both myself and the professor.
 
+<br>
 
 # Goals For the New Contract
 
@@ -314,6 +322,7 @@ Things to improve:
 * It can be hard to understand the logic of the document, especially if one is not familiar with Rmarkdown yet. This is likely the case for several students, so I'll also write and include instructions on how to navigate the document and what it does throughout the contract.
 * Now, one has to look to the syllabus to see how many labs and portfolio projects to finish given the desired grade. I will put this in automatically based on the grade they add that they want to contract for in their YAML header, so that the student don't need to provide it themselves.
 
+<br>
 
 # The Improved Contract
 
@@ -509,6 +518,7 @@ There is also some code that calls a function called string_details. This is the
 Now, to move on, read over the text for the contract and change or add anything you want to change.
 -->
 
+<br>
 
 ### Terms to Get a Grade of “params$grade”
 
@@ -528,6 +538,7 @@ I, params$name, agree to :
     - I have checked that files, repos, or projects appear on my Github account and are accessible;
     - I feel like I have spent an adequate amount of time and energy on the projects;
         
+<br>
 
 ### Schedule
 
@@ -592,6 +603,8 @@ I, params$name, agree to :
     - Due on deadline_day:
         string_details(monday_week_one, 15, deadline_day=deadline_day)
 
+<br>
+
 ### Further guidelines
 
 - According to reasons discussed and agreed upon in advance with the professor, there are some situations which might require some of these deadlines to be moved. If this is the case, I will reach out to the professor and agree on another deadline. The number of assignments that have to be completed satisfactory will not change because of these reasons.
@@ -623,6 +636,7 @@ When you are done with the edits to the contract, you can knit it again, push it
 
 <!--- This contract is adapted from Annie Somerville's contract https://github.com/anniehsom -->
 
+<br>
 
 # Final Reflection
 
