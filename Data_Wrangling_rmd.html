@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Data Wrangling</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Data_Wrangling_rmd_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Data_Wrangling_rmd_files/libs/quarto-html/quarto.js"></script>
+<script src="Data_Wrangling_rmd_files/libs/quarto-html/popper.min.js"></script>
+<script src="Data_Wrangling_rmd_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Data_Wrangling_rmd_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Data_Wrangling_rmd_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Data_Wrangling_rmd_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Data_Wrangling_rmd_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Data_Wrangling_rmd_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Data_Wrangling_rmd_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Data Wrangling</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<!-- Takes 2 minutes to render the whole document -->
+<section id="info-about-the-data-and-code" class="level2">
+<h2 class="anchored" data-anchor-id="info-about-the-data-and-code">0 - Info about the data and code</h2>
+<p>The following code will load in raw data from the <a href="https://parentingacrosscultures.org/">Parenting Across Cultures</a> data set and wrangle it. The final product will then be a wrangled rds file that can be used for subsequent analyses.</p>
+</section>
+<section id="loading-libraries" class="level2">
+<h2 class="anchored" data-anchor-id="loading-libraries">1 - Loading libraries</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading haven to read the SPSS file with the raw data into R</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading tidyverse to get dplyr to handle data frames more easily</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggplot2' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyr' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'readr' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'purrr' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'lubridate' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.0.4     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading labelled to unclass the special Haven objects (double with label) to factors without having to specify each column</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(labelled)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'labelled' was built under R version 4.3.3</code></pre>
+</div>
+</div>
+</section>
+<section id="loading-data-set" class="level2">
+<h2 class="anchored" data-anchor-id="loading-data-set">2 - Loading data set</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading data into R from the SPSS file</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>raw_df <span class="ot">&lt;-</span> <span class="fu">read_sav</span>(<span class="st">"Data_raw.sav"</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="getting-to-know-the-variables" class="level2">
+<h2 class="anchored" data-anchor-id="getting-to-know-the-variables">3 - Getting to Know the Variables</h2>
+<p>There are 1454 observations in the data set and 2814 columns/variables in the data set.</p>
+<p>When looking at the column names, there are several abbreviations that can be looked up in the code book. Here are the meaning of these abbreviations:</p>
+<ul>
+<li>DCBC - Child behavior checklist - Father</li>
+<li>MCBC - Child behavior checklist - Mother</li>
+<li>YSR - Child behavior checklist - Child self-report</li>
+<li>YASR - Young adult self report (similar questions as in the child behavior checklist)</li>
+<li>CvFROH - Parental acceptance-rejection/control questionnaire - Youth referencing father</li>
+<li>CvMROH - Parental acceptance-rejection/control questionnaire - youth referencing mother</li>
+<li>DROH - Parental acceptance-rejection/control questionnaire - father</li>
+<li>MROH - Parental acceptance-rejection/control questionnaire - mother</li>
+<li>fx/mx/cx + rohaff/rohhos/rohneg/rohrej/rohcon - Parental acceptance-rejection/control questionnaire subscales</li>
+<li>where x designates the wave</li>
+<li>fx/mx/cx + with/som/anx/del/agg/int/ext - Child behavior checklist subscales</li>
+<li>where x is designating the wave</li>
+<li>CPBS - Childhood prosocial behavior scale - Youth</li>
+<li>AAAM/F_Y or AAAxRM/F_Y - Adapted adult attachment scale - Youth</li>
+<li>where x is the item number</li>
+<li>AAAx_F - Adapted adult attachment scale - Father</li>
+<li>AAAx_M - Adapted adult attachment scale - Mother</li>
+<li>RBS - has no supplied full name in the code book, but it could be something like a risky behavior scale - Youth</li>
+</ul>
+<p>Other than that, it seems like the sufix yx, where x is a number, designates the wave of the measurement. This is true for all waves except the first wave, which does not have any sufix. Another observation, is that there are various names for the variable giving the age of the child at different ages.</p>
+<p>To get to know the data better, I used the wave sufix (yx) to find the measurements at each wave. I used the following regex, where the number can be switched out with the wave of interest to explore the measures collected at that age:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Looking for variable names that start with a letter (the variables will start with y, m, f, or c), then a number (in this case 10), then at least one more character</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">"^([[:alpha:]]10[[:alpha:]]+)"</span>, <span class="fu">colnames</span>(raw_df), <span class="at">value =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] "y10AAA1_M"    "y10AAA2_M"    "y10AAA3_M"    "y10AAA4_M"    "y10AAA5_M"   
+  [6] "y10AAA6_M"    "y10AAA7_M"    "y10AAA8_M"    "y10AAA9_M"    "y10AAA10_M"  
+ [11] "y10AAAB_M"    "y10AAA11_M"   "y10AAA12_M"   "y10AAA13_M"   "y10AAA14_M"  
+ [16] "y10AAA15_M"   "y10AAA16_M"   "y10AAA17_M"   "y10AAA18_M"   "y10AAA19_M"  
+ [21] "y10AAA20_M"   "y10AAA1RM_Y"  "y10AAA2RM_Y"  "y10AAA3RM_Y"  "y10AAA4RM_Y" 
+ [26] "y10AAA5RM_Y"  "y10AAA6RM_Y"  "y10AAA7RM_Y"  "y10AAA8RM_Y"  "y10AAA9RM_Y" 
+ [31] "y10AAA10RM_Y" "y10AAAF_Y"    "y10AAA1RF_Y"  "y10AAA2RF_Y"  "y10AAA3RF_Y" 
+ [36] "y10AAA4RF_Y"  "y10AAA5RF_Y"  "y10AAA6RF_Y"  "y10AAA7RF_Y"  "y10AAA8RF_Y" 
+ [41] "y10AAA9RF_Y"  "y10AAA10RF_Y" "y10YASR1"     "y10YASR2"     "y10YASR3"    
+ [46] "y10YASR4"     "y10YASR5"     "y10YASR6"     "y10YASR7"     "y10YASR8"    
+ [51] "y10YASR9"     "y10YASR10"    "y10YASR11"    "y10YASR12"    "y10YASR13"   
+ [56] "y10YASR14"    "y10YASR15"    "y10YASR16"    "y10YASR17"    "y10YASR18"   
+ [61] "y10YASR19"    "y10YASR20"    "y10YASR21"    "y10YASR22"    "y10YASR23"   
+ [66] "y10YASR24"    "y10YASR25"    "y10YASR26"    "y10YASR27"    "y10YASR28"   
+ [71] "y10YASR29"    "y10YASR30"    "y10YASR31"    "y10YASR32"    "y10YASR33"   
+ [76] "y10YASR34"    "y10YASR35"    "y10YASR36"    "y10YASR37"    "y10YASR38"   
+ [81] "y10YASR39"    "y10YASR40"    "y10YASR41"    "y10YASR42"    "y10YASR43"   
+ [86] "y10YASR44"    "y10YASR45"    "y10YASR46"    "y10YASR47"    "y10YASR48"   
+ [91] "y10YASR49"    "y10YASR50"    "y10YASR51"    "y10YASR52"    "y10AAA1_F"   
+ [96] "y10AAA2_F"    "y10AAA3_F"    "y10AAA4_F"    "y10AAA5_F"    "y10AAA6_F"   
+[101] "y10AAA7_F"    "y10AAA8_F"    "y10AAA9_F"    "y10AAA10_F"   "y10AAAB_F"   
+[106] "y10AAA11_F"   "y10AAA12_F"   "y10AAA13_F"   "y10AAA14_F"   "y10AAA15_F"  
+[111] "y10AAA16_F"   "y10AAA17_F"   "y10AAA18_F"   "y10AAA19_F"   "y10AAA20_F"  
+[116] "c10with"      "c10anx"       "c10int"       "c10tru"       "c10del"      
+[121] "c10agg"       "c10ext"      </code></pre>
+</div>
+</div>
+<p>After doing across all the waves, I found that the following measures were collected at each wave:</p>
+<ul>
+<li><p>y1 - DCBC, MCBC, YSR, CvFROH, CvMROH, DROH, MROH, fx/mx/cxrohaff/rohhos/rohneg/rohrej/rohcon, fx/mx/cxwith/som/anx/del/agg/int/ext</p></li>
+<li><p>y2 - DCBC, MCBC, YSR, CvFROH, CvMROH, DROH, MROH, fx/mx/cxrohaff/rohhos/rohneg/rohrej/rohcon, fx/mx/cxwith/som/anx/del/agg/int/ext</p></li>
+<li><p>y3 - DCBC, MCBC, YSR, CvFROH, CvMROH, DROH, MROH, fx/mx/cxrohaff/rohhos/rohneg/rohrej/rohcon, fx/mx/cxwith/som/anx/del/agg/int/ext, CPBS</p></li>
+<li><p>y4 - none</p></li>
+<li><p>y5 - DCBC, MCBC, YSR, CvFROH, CvMROH, DROH, MROH, fx/mx/cxrohaff/rohhos/rohneg/rohrej/rohcon, fx/mx/cxwith/som/anx/del/agg/int/ext</p></li>
+<li><p>y6 - DCBC, MCBC, DROH, MROH, fx/mxrohaff/rohhos/rohneg/rohrej/rohcon, fx/mxwith/som/anx/del/agg/int/ext</p></li>
+<li><p>y7 - DCBC, MCBC, YSR, CvFROH, CvMROH, fx/mx/cxrohaff/rohhos/rohneg/rohrej/rohcon, fx/mx/cxwith/som/anx/del/agg/int/ext</p></li>
+<li><p>y8 - DCBC, MCBC, YSR, CvFROH, CvMROH, fx/mx/cxwith/som/anx/del/agg/int/ext</p></li>
+<li><p>y9 - DCBC, MCBC, fx/mxwith/som/anx/del/agg/int/ext</p></li>
+<li><p>y10 - AAAM/F_Y or AAAxRM/F_Y, AAAx_F, AAAx_M, YASR, cxwith/som/anx/del/agg/int/ext</p></li>
+<li><p>y11 - DCBC, MCBC, YASR, fx/mx/cxwith/som/anx/del/agg/int/ext</p></li>
+<li><p>y12 - none</p></li>
+<li><p>y13 - DCBC, MCBC, YASR, fx/mx/cxwith/som/anx/del/agg/int/ext, RBS</p></li>
+</ul>
+<p>It looks like we can look at rater disagreement at waves 1, 2, 3, 5, 7, 8, 11, and 13, as they all have recordings of DCBC, MCBC, and YSR/YASR.</p>
+<p>Now that we know more about the variables in the data frame, we are reay to start data wrangling. However, before doing any actual change to the data frame, I will create a copy of it, so that I can freely edit it and always have a back copy of the data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Copying the raw data frame to a data frame we can change, called data_df</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>data_df <span class="ot">&lt;-</span> raw_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="looking-for-out-of-bounds-values" class="level2">
+<h2 class="anchored" data-anchor-id="looking-for-out-of-bounds-values">4 - Looking for out-of-bounds values</h2>
+<p>The CBLC, YSR, and YASR are all scored on a scale between 0 and 2. However, in data analyses, there were a few values that came up that were out of this range. I will therefore look for values more than 2 in these scales and convert them to missing values:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>data_df <span class="ot">&lt;-</span> data_df <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">across</span>(<span class="fu">matches</span>(<span class="st">"DCBC|YSR|YASR"</span>), <span class="sc">~</span> <span class="fu">if_else</span>(.x <span class="sc">&gt;</span> <span class="dv">2</span>, <span class="cn">NA</span>, .x))</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="cleaning-up-variable-names-for-age" class="level2">
+<h2 class="anchored" data-anchor-id="cleaning-up-variable-names-for-age">4 - Cleaning up variable names for age</h2>
+<p>As noted earlier, it looks like the age variables are named differently across the years. However, most seem to have the word “age” in it, so we can use a regex to find all the age variables:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Looking for any variable name containing "Age" or "age"</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">"[Aa]ge"</span>, <span class="fu">colnames</span>(data_df), <span class="at">value =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "y1AgeInt"         "y2AgeIntChild"    "y3AgeIntChild"    "y4AgeIntChild"   
+[5] "y5AgeIntChild"    "y6AgePACIntChild" "y7AgeIntChild"    "y9ChildAge"      
+[9] "C11IntAge"       </code></pre>
+</div>
+</div>
+<p>It looks like we are missing the age variable for waves 8, 10, and 13. I went over the variables for these waves manually to see whether they were named something else not captured by the regex, but it doesn’t seem like our data set contains the age of the children at these waves. We will deal with this later.</p>
+<p>The missing age variables are in a separate data file which I will read in and add into this data set.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading the age data into R from the SPSS file</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>age_df <span class="ot">&lt;-</span> <span class="fu">read_sav</span>(<span class="st">"Years8_10_13_ChAge.sav"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Adding the variables from the age data frame to the data_df data frame:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>data_df <span class="ot">&lt;-</span> <span class="fu">merge</span>(data_df, age_df, <span class="at">by =</span> <span class="st">"ID"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Checking whether the columns got added:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Looking for any variable name containing "Age" or "age"</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">"[Aa]ge"</span>, <span class="fu">colnames</span>(data_df), <span class="at">value =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "y1AgeInt"         "y2AgeIntChild"    "y3AgeIntChild"    "y4AgeIntChild"   
+ [5] "y5AgeIntChild"    "y6AgePACIntChild" "y7AgeIntChild"    "y9ChildAge"      
+ [9] "C11IntAge"        "y8ChildAge"       "y10ChildAge"      "y13ChildAge"     </code></pre>
+</div>
+</div>
+<p>For consistency (and ease when converting the data from wide to long later), I will rename the age variables to have the same name, with only the wave number being different:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Looking for variable names that start with a character, then at least one digit (in a capture group), some optional characters, the word "Age" or "age", followed by some optional characters. Then, the names are changed to y, the number taken from the capture group (to preserve the wave number for each variable), and the text "Age"</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data_df) <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"^</span><span class="sc">\\</span><span class="st">w(</span><span class="sc">\\</span><span class="st">d+)(?:.*)?[Aa]ge(?:.*)?"</span>, <span class="st">"y</span><span class="sc">\\</span><span class="st">1Age"</span>, <span class="fu">colnames</span>(data_df))</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Printing the new age variable names by looking for variables with the words "Age" or "age" in them</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">"[Aa]ge"</span>, <span class="fu">colnames</span>(data_df), <span class="at">value =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "y1Age"  "y2Age"  "y3Age"  "y4Age"  "y5Age"  "y6Age"  "y7Age"  "y9Age" 
+ [9] "y11Age" "y8Age"  "y10Age" "y13Age"</code></pre>
+</div>
+</div>
+</section>
+<section id="cleaning-up-variable-names-for-waves" class="level2">
+<h2 class="anchored" data-anchor-id="cleaning-up-variable-names-for-waves">5 - Cleaning up variable names for waves</h2>
+<p>Using regex to find the variables that don’t have a number indicating the wave, which means they belong to wave 1:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Looking for variable names that start with a at least three letters, then at least one number</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">"^([[:alpha:]]{3,}</span><span class="sc">\\</span><span class="st">d+)"</span>, <span class="fu">colnames</span>(data_df), <span class="at">value =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] "DCBC1"      "DCBC2"      "DCBC3"      "DCBC4"      "DCBC5"     
+  [6] "DCBC6"      "DCBC7"      "DCBC8"      "DCBC9"      "DCBC10"    
+ [11] "DCBC11"     "DCBC12"     "DCBC13"     "DCBC14"     "DCBC15"    
+ [16] "DCBC16"     "DCBC17"     "DCBC18"     "DCBC19"     "DCBC20"    
+ [21] "DCBC21"     "DCBC22"     "DCBC23"     "DCBC24"     "DCBC25"    
+ [26] "DCBC26"     "DCBC27A"    "DCBC27B"    "DCBC27C"    "DCBC27D"   
+ [31] "DCBC27DEXP" "DCBC27E"    "DCBC27F"    "DCBC27G"    "DCBC28"    
+ [36] "DCBC29"     "DCBC30"     "DCBC31"     "DCBC32"     "DCBC33"    
+ [41] "DCBC34"     "DCBC35"     "DCBC36"     "DCBC37"     "DCBC38"    
+ [46] "DCBC39"     "DCBC40"     "DCBC41"     "DCBC42"     "DCBC43"    
+ [51] "DCBC44"     "DCBC45"     "DCBC46"     "DCBC47"     "DCBC48"    
+ [56] "DCBC49"     "DCBC50"     "DCBC51"     "DCBC52"     "DCBC53"    
+ [61] "DCBC54"     "DCBC55"     "DCBC55EXP"  "DCBC56"     "DCBC57"    
+ [66] "DCBC58"     "MCBC1"      "MCBC2"      "MCBC3"      "MCBC4"     
+ [71] "MCBC5"      "MCBC6"      "MCBC7"      "MCBC8"      "MCBC9"     
+ [76] "MCBC10"     "MCBC11"     "MCBC12"     "MCBC13"     "MCBC14"    
+ [81] "MCBC15"     "MCBC16"     "MCBC17"     "MCBC18"     "MCBC19"    
+ [86] "MCBC20"     "MCBC21"     "MCBC22"     "MCBC23"     "MCBC24"    
+ [91] "MCBC25"     "MCBC26"     "MCBC27A"    "MCBC27B"    "MCBC27C"   
+ [96] "MCBC27D"    "MCBC27DEXP" "MCBC27E"    "MCBC27F"    "MCBC27G"   
+[101] "MCBC28"     "MCBC29"     "MCBC30"     "MCBC31"     "MCBC32"    
+[106] "MCBC33"     "MCBC34"     "MCBC35"     "MCBC36"     "MCBC37"    
+[111] "MCBC38"     "MCBC39"     "MCBC40"     "MCBC41"     "MCBC42"    
+[116] "MCBC43"     "MCBC44"     "MCBC45"     "MCBC46"     "MCBC47"    
+[121] "MCBC48"     "MCBC49"     "MCBC50"     "MCBC51"     "MCBC52"    
+[126] "MCBC53"     "MCBC54"     "MCBC55"     "MCBC55EXP"  "MCBC56"    
+[131] "MCBC57"     "MCBC58"     "YSR1"       "YSR2"       "YSR3"      
+[136] "YSR4"       "YSR5"       "YSR6"       "YSR7"       "YSR8"      
+[141] "YSR9"       "YSR10"      "YSR11"      "YSR12"      "YSR13"     
+[146] "YSR14"      "YSR15"      "YSR16"      "YSR17"      "YSR18"     
+[151] "YSR19"      "YSR20"      "YSR21"      "YSR22"      "YSR23"     
+[156] "YSR24"      "YSR25"      "YSR26A"     "YSR26B"     "YSR26C"    
+[161] "YSR26D"     "YSR26DEXP"  "YSR26E"     "YSR26F"     "YSR26G"    
+[166] "YSR27"      "YSR28"      "YSR29"      "YSR30"      "YSR31"     
+[171] "YSR32"      "YSR33"      "YSR34"      "YSR35"      "YSR36"     
+[176] "YSR37"      "YSR38"      "YSR39"      "YSR40"      "YSR41"     
+[181] "YSR42"      "YSR43"      "YSR44"      "YSR45"      "YSR46"     
+[186] "YSR47"      "YSR48"      "YSR49"      "YSR50"      "YSR51"     
+[191] "YSR51A"     "YSR52"      "YSR53"      "CVFROH1"    "CVFROH2"   
+[196] "CVFROH3"    "CVFROH4"    "CVFROH5"    "CVFROH6"    "CVFROH7"   
+[201] "CVFROH8"    "CVFROH9"    "CVFROH10"   "CVFROH11"   "CVFROH12"  
+[206] "CVFROH13"   "CVFROH14"   "CVFROH15"   "CVFROH16"   "CVFROH17"  
+[211] "CVFROH18"   "CVFROH19"   "CVFROH20"   "CVFROH21"   "CVFROH22"  
+[216] "CVFROH23"   "CVFROH24"   "CVFROH25"   "CVFROH26"   "CVFROH27"  
+[221] "CVFROH28"   "CVFROH29"   "CVMROH1"    "CVMROH2"    "CVMROH3"   
+[226] "CVMROH4"    "CVMROH5"    "CVMROH6"    "CVMROH7"    "CVMROH8"   
+[231] "CVMROH9"    "CVMROH10"   "CVMROH11"   "CVMROH12"   "CVMROH13"  
+[236] "CVMROH14"   "CVMROH15"   "CVMROH16"   "CVMROH17"   "CVMROH18"  
+[241] "CVMROH19"   "CVMROH20"   "CVMROH21"   "CVMROH22"   "CVMROH23"  
+[246] "CVMROH24"   "CVMROH25"   "CVMROH26"   "CVMROH27"   "CVMROH28"  
+[251] "CVMROH29"   "DROH1"      "DROH2"      "DROH3"      "DROH4"     
+[256] "DROH5"      "DROH6"      "DROH7"      "DROH8"      "DROH9"     
+[261] "DROH10"     "DROH11"     "DROH12"     "DROH13"     "DROH14"    
+[266] "DROH15"     "DROH16"     "DROH17"     "DROH18"     "DROH19"    
+[271] "DROH20"     "DROH21"     "DROH22"     "DROH23"     "DROH24"    
+[276] "DROH25"     "DROH26"     "DROH27"     "DROH28"     "DROH29"    
+[281] "MROH1"      "MROH2"      "MROH3"      "MROH4"      "MROH5"     
+[286] "MROH6"      "MROH7"      "MROH8"      "MROH9"      "MROH10"    
+[291] "MROH11"     "MROH12"     "MROH13"     "MROH14"     "MROH15"    
+[296] "MROH16"     "MROH17"     "MROH18"     "MROH19"     "MROH20"    
+[301] "MROH21"     "MROH22"     "MROH23"     "MROH24"     "MROH25"    
+[306] "MROH26"     "MROH27"     "MROH28"     "MROH29"    </code></pre>
+</div>
+</div>
+<p>The following code, by requiring 3 or more letters, then a number, only includes the variables that are items or scales. It excludes columns with names that are not general for all waves, such as “ID”, “ChGender”, “IDN”, and so on. Consequently, all the column names from the above regex belongs to wave 1 and should therefore get the prefix of “y1”. The consistency in the wave numbering in the variable will make the wide to long conversion easier later.</p>
+<p>Adding the prefix “y1” to all the variables indicated by the above code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Looking for variable names that start with a at least three letters, then at least one number. That entire variable name is captured in a capture group. Then we substitute the variable names with the prefix "y1" followed by the old variable name that was capture in the capture group</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data_df) <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"^([[:alpha:]]{3,}</span><span class="sc">\\</span><span class="st">d+)"</span>, <span class="st">"y1</span><span class="sc">\\</span><span class="st">1"</span>, <span class="fu">colnames</span>(data_df))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Checking that the column name change was successful for wave 1:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Looking for variable names that start with a letter, then the number 1, then another letter</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">"^([[:alpha:]]1[[:alpha:]])"</span>, <span class="fu">colnames</span>(data_df), <span class="at">value =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] "m1educ"       "f1educ"       "y1DCBC1"      "y1DCBC2"      "y1DCBC3"     
+  [6] "y1DCBC4"      "y1DCBC5"      "y1DCBC6"      "y1DCBC7"      "y1DCBC8"     
+ [11] "y1DCBC9"      "y1DCBC10"     "y1DCBC11"     "y1DCBC12"     "y1DCBC13"    
+ [16] "y1DCBC14"     "y1DCBC15"     "y1DCBC16"     "y1DCBC17"     "y1DCBC18"    
+ [21] "y1DCBC19"     "y1DCBC20"     "y1DCBC21"     "y1DCBC22"     "y1DCBC23"    
+ [26] "y1DCBC24"     "y1DCBC25"     "y1DCBC26"     "y1DCBC27A"    "y1DCBC27B"   
+ [31] "y1DCBC27C"    "y1DCBC27D"    "y1DCBC27DEXP" "y1DCBC27E"    "y1DCBC27F"   
+ [36] "y1DCBC27G"    "y1DCBC28"     "y1DCBC29"     "y1DCBC30"     "y1DCBC31"    
+ [41] "y1DCBC32"     "y1DCBC33"     "y1DCBC34"     "y1DCBC35"     "y1DCBC36"    
+ [46] "y1DCBC37"     "y1DCBC38"     "y1DCBC39"     "y1DCBC40"     "y1DCBC41"    
+ [51] "y1DCBC42"     "y1DCBC43"     "y1DCBC44"     "y1DCBC45"     "y1DCBC46"    
+ [56] "y1DCBC47"     "y1DCBC48"     "y1DCBC49"     "y1DCBC50"     "y1DCBC51"    
+ [61] "y1DCBC52"     "y1DCBC53"     "y1DCBC54"     "y1DCBC55"     "y1DCBC55EXP" 
+ [66] "y1DCBC56"     "y1DCBC57"     "y1DCBC58"     "y1MCBC1"      "y1MCBC2"     
+ [71] "y1MCBC3"      "y1MCBC4"      "y1MCBC5"      "y1MCBC6"      "y1MCBC7"     
+ [76] "y1MCBC8"      "y1MCBC9"      "y1MCBC10"     "y1MCBC11"     "y1MCBC12"    
+ [81] "y1MCBC13"     "y1MCBC14"     "y1MCBC15"     "y1MCBC16"     "y1MCBC17"    
+ [86] "y1MCBC18"     "y1MCBC19"     "y1MCBC20"     "y1MCBC21"     "y1MCBC22"    
+ [91] "y1MCBC23"     "y1MCBC24"     "y1MCBC25"     "y1MCBC26"     "y1MCBC27A"   
+ [96] "y1MCBC27B"    "y1MCBC27C"    "y1MCBC27D"    "y1MCBC27DEXP" "y1MCBC27E"   
+[101] "y1MCBC27F"    "y1MCBC27G"    "y1MCBC28"     "y1MCBC29"     "y1MCBC30"    
+[106] "y1MCBC31"     "y1MCBC32"     "y1MCBC33"     "y1MCBC34"     "y1MCBC35"    
+[111] "y1MCBC36"     "y1MCBC37"     "y1MCBC38"     "y1MCBC39"     "y1MCBC40"    
+[116] "y1MCBC41"     "y1MCBC42"     "y1MCBC43"     "y1MCBC44"     "y1MCBC45"    
+[121] "y1MCBC46"     "y1MCBC47"     "y1MCBC48"     "y1MCBC49"     "y1MCBC50"    
+[126] "y1MCBC51"     "y1MCBC52"     "y1MCBC53"     "y1MCBC54"     "y1MCBC55"    
+[131] "y1MCBC55EXP"  "y1MCBC56"     "y1MCBC57"     "y1MCBC58"     "y1YSR1"      
+[136] "y1YSR2"       "y1YSR3"       "y1YSR4"       "y1YSR5"       "y1YSR6"      
+[141] "y1YSR7"       "y1YSR8"       "y1YSR9"       "y1YSR10"      "y1YSR11"     
+[146] "y1YSR12"      "y1YSR13"      "y1YSR14"      "y1YSR15"      "y1YSR16"     
+[151] "y1YSR17"      "y1YSR18"      "y1YSR19"      "y1YSR20"      "y1YSR21"     
+[156] "y1YSR22"      "y1YSR23"      "y1YSR24"      "y1YSR25"      "y1YSR26A"    
+[161] "y1YSR26B"     "y1YSR26C"     "y1YSR26D"     "y1YSR26DEXP"  "y1YSR26E"    
+[166] "y1YSR26F"     "y1YSR26G"     "y1YSR27"      "y1YSR28"      "y1YSR29"     
+[171] "y1YSR30"      "y1YSR31"      "y1YSR32"      "y1YSR33"      "y1YSR34"     
+[176] "y1YSR35"      "y1YSR36"      "y1YSR37"      "y1YSR38"      "y1YSR39"     
+[181] "y1YSR40"      "y1YSR41"      "y1YSR42"      "y1YSR43"      "y1YSR44"     
+[186] "y1YSR45"      "y1YSR46"      "y1YSR47"      "y1YSR48"      "y1YSR49"     
+[191] "y1YSR50"      "y1YSR51"      "y1YSR51A"     "y1YSR52"      "y1YSR53"     
+[196] "y1CVFROH1"    "y1CVFROH2"    "y1CVFROH3"    "y1CVFROH4"    "y1CVFROH5"   
+[201] "y1CVFROH6"    "y1CVFROH7"    "y1CVFROH8"    "y1CVFROH9"    "y1CVFROH10"  
+[206] "y1CVFROH11"   "y1CVFROH12"   "y1CVFROH13"   "y1CVFROH14"   "y1CVFROH15"  
+[211] "y1CVFROH16"   "y1CVFROH17"   "y1CVFROH18"   "y1CVFROH19"   "y1CVFROH20"  
+[216] "y1CVFROH21"   "y1CVFROH22"   "y1CVFROH23"   "y1CVFROH24"   "y1CVFROH25"  
+[221] "y1CVFROH26"   "y1CVFROH27"   "y1CVFROH28"   "y1CVFROH29"   "y1CVMROH1"   
+[226] "y1CVMROH2"    "y1CVMROH3"    "y1CVMROH4"    "y1CVMROH5"    "y1CVMROH6"   
+[231] "y1CVMROH7"    "y1CVMROH8"    "y1CVMROH9"    "y1CVMROH10"   "y1CVMROH11"  
+[236] "y1CVMROH12"   "y1CVMROH13"   "y1CVMROH14"   "y1CVMROH15"   "y1CVMROH16"  
+[241] "y1CVMROH17"   "y1CVMROH18"   "y1CVMROH19"   "y1CVMROH20"   "y1CVMROH21"  
+[246] "y1CVMROH22"   "y1CVMROH23"   "y1CVMROH24"   "y1CVMROH25"   "y1CVMROH26"  
+[251] "y1CVMROH27"   "y1CVMROH28"   "y1CVMROH29"   "y1DROH1"      "y1DROH2"     
+[256] "y1DROH3"      "y1DROH4"      "y1DROH5"      "y1DROH6"      "y1DROH7"     
+[261] "y1DROH8"      "y1DROH9"      "y1DROH10"     "y1DROH11"     "y1DROH12"    
+[266] "y1DROH13"     "y1DROH14"     "y1DROH15"     "y1DROH16"     "y1DROH17"    
+[271] "y1DROH18"     "y1DROH19"     "y1DROH20"     "y1DROH21"     "y1DROH22"    
+[276] "y1DROH23"     "y1DROH24"     "y1DROH25"     "y1DROH26"     "y1DROH27"    
+[281] "y1DROH28"     "y1DROH29"     "y1MROH1"      "y1MROH2"      "y1MROH3"     
+[286] "y1MROH4"      "y1MROH5"      "y1MROH6"      "y1MROH7"      "y1MROH8"     
+[291] "y1MROH9"      "y1MROH10"     "y1MROH11"     "y1MROH12"     "y1MROH13"    
+[296] "y1MROH14"     "y1MROH15"     "y1MROH16"     "y1MROH17"     "y1MROH18"    
+[301] "y1MROH19"     "y1MROH20"     "y1MROH21"     "y1MROH22"     "y1MROH23"    
+[306] "y1MROH24"     "y1MROH25"     "y1MROH26"     "y1MROH27"     "y1MROH28"    
+[311] "y1MROH29"     "m1rohaff"     "m1rohhos"     "m1rohneg"     "m1rohrej"    
+[316] "m1rohcon"     "f1rohaff"     "f1rohhos"     "f1rohneg"     "f1rohrej"    
+[321] "f1rohcon"     "c1mroaff"     "c1mrohos"     "c1mroneg"     "c1mrorej"    
+[326] "c1mrocon"     "c1froaff"     "c1frohos"     "c1froneg"     "c1frorej"    
+[331] "c1frocon"     "m1with"       "m1som"        "m1anx"        "m1del"       
+[336] "m1agg"        "m1int"        "m1ext"        "f1with"       "f1som"       
+[341] "f1anx"        "f1del"        "f1agg"        "f1int"        "f1ext"       
+[346] "c1with"       "c1som"        "c1anx"        "c1del"        "c1agg"       
+[351] "c1int"        "c1ext"        "y1Age"       </code></pre>
+</div>
+</div>
+<p>It looks like all of the variables for wave 1 now has the y1 prefix. As a last double-check, I will look up all the variable names that do not have a wave, to make sure we didn’t miss a variable that should have a wave 1 prefix. In the following regex, we are taking advantage of the fact that all the wave variables have the prefix yx, mx, fx, cx, where x is a number, by saying that the variable name needs to start with at least two letters (i.e.&nbsp;no numbers).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Looking for variable names that start with at least two letters</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">"^([[:alpha:]]{2,})"</span>, <span class="fu">colnames</span>(data_df), <span class="at">value =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "ID"       "IDN"      "ChGender"</code></pre>
+</div>
+</div>
+<p>As can be seen with these variables, the addition of the y1 prefix for all the variables for wave 1 seems to have been successful.</p>
+</section>
+<section id="wide-to-long-conversion" class="level2">
+<h2 class="anchored" data-anchor-id="wide-to-long-conversion">6 - Wide to long conversion</h2>
+<p>Adding the rater prefix as a suffix to the variable names in addition to a prefix. This will preserve the rater information in the variable name when the first two characters of the variable names are removed and the wave number converted to rows in the wide to long conversion.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Looking for variable names starting with m, f, or c (in a capture group), then at least one number, then at least one character. All of this is captured in another capture group. Then the variable names are replaced by the whole old variable name and the new sufix of the rater </span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data_df) <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"^(([mfc])</span><span class="sc">\\</span><span class="st">d+[[:alpha:]]+)"</span>, <span class="st">"</span><span class="sc">\\</span><span class="st">1_</span><span class="sc">\\</span><span class="st">2"</span>, <span class="fu">colnames</span>(data_df))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The wide to long conversion is taking the variables for individual waves and combining them so that each row is a wave instead. There will still be different variables for the various raters.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Takes 3 minutes to run through</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Taking all the variables except those that are general to all of the waves. In names_to, we are saving that we want one new variable called wave and the rest of the new variables are the old variables without the wave information. This information is taken from the capture groups in the regex in names_pattern, which looks for variable names starting with a character, then at least one digit (to allow for both one-digit and two-digit numbers, e.g. 1 and 10), which is in the first capture group, then more characters that are in a second capture group. The wave number from the first capture group becomes the value for the wave variable, while the second capture group (variable name without wave number) becomes the new variable name</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>data_df_long <span class="ot">&lt;-</span> data_df <span class="sc">%&gt;%</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(<span class="st">"ID"</span>,  <span class="st">"IDN"</span>, <span class="st">"m1educ_m"</span>, <span class="st">"f1educ_f"</span>, <span class="st">"ChGender"</span>), <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">"Wave"</span>, <span class="st">".value"</span>), <span class="at">names_pattern =</span> <span class="st">"^[[:alpha:]](</span><span class="sc">\\</span><span class="st">d+)(.*)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This wide to long conversion produces a lot of warnings as the label of the item (the wording of the item) differ across several of the waves. The warnings are currently suppressed, since they took up a lot of space. However, be aware that the item label will reflect the wording at the earliest wave, and that one should look to the code book for the specific wording at each wave.</p>
+<p>Otherwise, it looks like the wide to long conversion was successful. For example, as a check, there are 12 waves in total, 1-11 and 13. We had 1454 observations in the data_df and we now have 17 448 observations in the long data set. This should be equal to the original number of observations times the number of waves. We can check this with 1 454 * 12 = 17 448, so it seems like we have the correct number of observations in the long data set. Manually looking through the new data frames also makes it seem like the conversion was successful.</p>
+</section>
+<section id="calculating-scales-from-items" class="level2">
+<h2 class="anchored" data-anchor-id="calculating-scales-from-items">7 - Calculating scales from items</h2>
+<p>These items are tentative, as they might change after a discussion of how much difference to allow between the versions.</p>
+<p>We will only use the items that have similar wordings across the various raters. Consequently, we cannot use the original internalizing and externalizing scales, but will instead calculate our own with the items that are similar across raters only. Otherwise, the items that are included in the internalizing or externalizing scales, are the same as designated in the code book for the child behavior checklist.</p>
+<p>One of the items, the one about stealing, is one item in the young adult version, but two items in the child and parent version. I will take the highest rating of the two items for the child and parent version and use that to compare to the one item in the young adult version. This requires calculating a new variable for the max value from the two items:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a new variable that is the max value from either item 39 or 40 for the parent and child version of CBCL</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>data_df_long <span class="ot">&lt;-</span> data_df_long <span class="sc">%&gt;%</span> </span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">DCBC_max_39_40 =</span> <span class="fu">case_when</span>(</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    DCBC39 <span class="sc">==</span> <span class="fu">pmax</span>(DCBC39, DCBC40) <span class="sc">~</span> DCBC39,</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    DCBC40 <span class="sc">==</span> <span class="fu">pmax</span>(DCBC39, DCBC40) <span class="sc">~</span> DCBC40</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  ), <span class="at">MCBC_max_39_40 =</span> <span class="fu">case_when</span>(</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    MCBC39 <span class="sc">==</span> <span class="fu">pmax</span>(MCBC39, MCBC40) <span class="sc">~</span> MCBC39,</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>    MCBC40 <span class="sc">==</span> <span class="fu">pmax</span>(MCBC39, MCBC40) <span class="sc">~</span> MCBC40</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  ), <span class="at">YSR_max_37_38 =</span> <span class="fu">case_when</span>(</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>    YSR37 <span class="sc">==</span> <span class="fu">pmax</span>(YSR37, YSR38) <span class="sc">~</span> YSR37,</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>    YSR38 <span class="sc">==</span> <span class="fu">pmax</span>(YSR37, YSR38) <span class="sc">~</span> YSR38</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The item numbers for each item depend slightly based on the rater version. Therefore, we need different item vectors for internalizing and externalizing symptoms for each rater. These will be used later when actually combining the items into scales.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Defining vectors with the items for each rater for the externalizing scales</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>ext_scale_item_f_vect <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"DCBC19"</span>, <span class="st">"DCBC21"</span>, <span class="st">"DCBC1"</span>, <span class="st">"DCBC2"</span>, <span class="st">"DCBC5"</span>, <span class="st">"DCBC6"</span>, <span class="st">"DCBC8"</span>, <span class="st">"DCBC18"</span>, <span class="st">"DCBC28"</span>, <span class="st">"DCBC32"</span>, <span class="st">"DCBC36"</span>, <span class="st">"DCBC42"</span>, <span class="st">"DCBC46"</span>, <span class="st">"DCBC47"</span>, <span class="st">"DCBC48"</span>, <span class="st">"DCBC50"</span>, <span class="st">"DCBC54"</span>, <span class="st">"DCBC_max_39_40"</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>ext_scale_item_m_vect <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"MCBC19"</span>, <span class="st">"MCBC21"</span>, <span class="st">"MCBC1"</span>, <span class="st">"MCBC2"</span>, <span class="st">"MCBC5"</span>, <span class="st">"MCBC6"</span>, <span class="st">"MCBC8"</span>, <span class="st">"MCBC18"</span>, <span class="st">"MCBC28"</span>, <span class="st">"MCBC32"</span>, <span class="st">"MCBC36"</span>, <span class="st">"MCBC42"</span>, <span class="st">"MCBC46"</span>, <span class="st">"MCBC47"</span>, <span class="st">"MCBC48"</span>, <span class="st">"MCBC50"</span>, <span class="st">"MCBC54"</span>, <span class="st">"MCBC_max_39_40"</span>)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>ext_scale_item_c_vect <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"YSR18"</span>, <span class="st">"YSR20"</span>, <span class="st">"YSR1"</span>, <span class="st">"YSR2"</span>, <span class="st">"YSR5"</span>, <span class="st">"YSR6"</span>, <span class="st">"YSR8"</span>, <span class="st">"YSR17"</span>, <span class="st">"YSR27"</span>, <span class="st">"YSR31"</span>, <span class="st">"YSR35"</span>, <span class="st">"YSR40"</span>, <span class="st">"YSR43"</span>, <span class="st">"YSR44"</span>, <span class="st">"YSR45"</span>, <span class="st">"YSR46"</span>, <span class="st">"YSR50"</span>, <span class="st">"YSR_max_37_38"</span>)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>ext_scale_item_ya_vect <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"YASR1"</span>, <span class="st">"YASR3"</span>, <span class="st">"YASR7"</span>, <span class="st">"YASR8"</span>, <span class="st">"YASR9"</span>, <span class="st">"YASR19"</span>, <span class="st">"YASR21"</span>, <span class="st">"YASR23"</span>, <span class="st">"YASR29"</span>, <span class="st">"YASR32"</span>, <span class="st">"YASR35"</span>, <span class="st">"YASR39"</span>, <span class="st">"YASR42"</span>, <span class="st">"YASR43"</span>, <span class="st">"YASR44"</span>, <span class="st">"YASR45"</span>, <span class="st">"YASR47"</span>, <span class="st">"YASR37"</span>)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Defining vectors with the items for each rater for the internalizing scales</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>int_scale_item_f_vect <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"DCBC30"</span>, <span class="st">"DCBC33"</span>, <span class="st">"DCBC37"</span>, <span class="st">"DCBC53"</span>, <span class="st">"DCBC57"</span>, <span class="st">"DCBC3"</span>, <span class="st">"DCBC4"</span>, <span class="st">"DCBC13"</span>, <span class="st">"DCBC14"</span>, <span class="st">"DCBC15"</span>, <span class="st">"DCBC16"</span>, <span class="st">"DCBC17"</span>, <span class="st">"DCBC22"</span>, <span class="st">"DCBC23"</span>, <span class="st">"DCBC25"</span>, <span class="st">"DCBC34"</span>, <span class="st">"DCBC58"</span>)</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># DCBD53 is only mentioned once, even though it is in both the withdrawn and anxious/depressed subscale</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>int_scale_item_m_vect <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"MCBC30"</span>, <span class="st">"MCBC33"</span>, <span class="st">"MCBC37"</span>, <span class="st">"MCBC53"</span>, <span class="st">"MCBC57"</span>, <span class="st">"MCBC3"</span>, <span class="st">"MCBC4"</span>, <span class="st">"MCBC13"</span>, <span class="st">"MCBC14"</span>, <span class="st">"MCBC15"</span>, <span class="st">"MCBC16"</span>, <span class="st">"MCBC17"</span>, <span class="st">"MCBC22"</span>, <span class="st">"MCBC23"</span>, <span class="st">"MCBC25"</span>, <span class="st">"MCBC34"</span>, <span class="st">"MCBC58"</span>)</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># MCBD53 is only mentioned once, even though it is in both the withdrawn and anxious/depressed subscale</span></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>int_scale_item_c_vect <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"YSR29"</span>, <span class="st">"YSR32"</span>, <span class="st">"YSR36"</span>, <span class="st">"YSR49"</span>, <span class="st">"YSR52"</span>, <span class="st">"YSR3"</span>, <span class="st">"YSR4"</span>, <span class="st">"YSR12"</span>, <span class="st">"YSR13"</span>, <span class="st">"YSR14"</span>, <span class="st">"YSR15"</span>, <span class="st">"YSR16"</span>, <span class="st">"YSR21"</span>, <span class="st">"YSR22"</span>, <span class="st">"YSR24"</span>, <span class="st">"YSR33"</span>, <span class="st">"YSR53"</span>)</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># YSR49 is only mentioned once, even though it is in both the withdrawn and anxious/depressed subscale</span></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>int_scale_item_ya_vect <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"YASR4"</span>, <span class="st">"YASR6"</span>, <span class="st">"YASR14"</span>, <span class="st">"YASR15"</span>, <span class="st">"YASR16"</span>, <span class="st">"YASR17"</span>, <span class="st">"YASR18"</span>, <span class="st">"YASR24"</span>, <span class="st">"YASR27"</span>, <span class="st">"YASR28"</span>, <span class="st">"YASR30"</span>, <span class="st">"YASR33"</span>, <span class="st">"YASR34"</span>, <span class="st">"YASR36"</span>, <span class="st">"YASR46"</span>, <span class="st">"YASR48"</span>, <span class="st">"YASR49"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating new variables for the internalizing and externalizing scales for each rater, based on the items in the vectors defined in the code above</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>data_df_long <span class="ot">&lt;-</span> data_df_long <span class="sc">%&gt;%</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">ext_scale_f =</span> <span class="fu">rowSums</span>(data_df_long[, ext_scale_item_f_vect]),</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">ext_scale_m =</span> <span class="fu">rowSums</span>(data_df_long[, ext_scale_item_m_vect]),</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">int_scale_f =</span> <span class="fu">rowSums</span>(data_df_long[, int_scale_item_f_vect]),</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">int_scale_m =</span> <span class="fu">rowSums</span>(data_df_long[, int_scale_item_m_vect]),</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">ext_scale_c  =</span> <span class="fu">case_when</span>(</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># There was no child behavior checklist in wave 9, so it doesn't matter that there is no condition where Wave == 9, it would get a NA value anyway</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>    Wave <span class="sc">&lt;</span> <span class="dv">9</span> <span class="sc">~</span> <span class="fu">rowSums</span>(data_df_long[, ext_scale_item_c_vect]),</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>    Wave <span class="sc">&gt;</span> <span class="dv">9</span> <span class="sc">~</span> <span class="fu">rowSums</span>(data_df_long[, ext_scale_item_ya_vect])</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">int_scale_c  =</span> <span class="fu">case_when</span>(</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>    Wave <span class="sc">&lt;</span> <span class="dv">9</span> <span class="sc">~</span> <span class="fu">rowSums</span>(data_df_long[, int_scale_item_c_vect]),</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>    Wave <span class="sc">&gt;</span> <span class="dv">9</span> <span class="sc">~</span> <span class="fu">rowSums</span>(data_df_long[, int_scale_item_ya_vect])</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="calculating-adapted-adult-attachment-scale-at-wave-10" class="level3">
+<h3 class="anchored" data-anchor-id="calculating-adapted-adult-attachment-scale-at-wave-10">7.1 - Calculating Adapted Adult Attachment Scale at Wave 10</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># One of the items, item 4 needs to be reverse coded, so I will make a new variable for AAA4FR_Y and AAA4RM_Y</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>data_df_long <span class="ot">&lt;-</span> data_df_long <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">AAA4RF_Y_R =</span> <span class="fu">case_when</span>(</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  AAA4RF_Y <span class="sc">==</span> <span class="dv">5</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  AAA4RF_Y <span class="sc">==</span> <span class="dv">4</span> <span class="sc">~</span> <span class="dv">2</span>,</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  AAA4RF_Y <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="dv">3</span>,</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  AAA4RF_Y <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="dv">5</span>,</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">.default =</span> AAA4RF_Y</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">AAA4RM_Y_R =</span> <span class="fu">case_when</span>(</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>  AAA4RM_Y <span class="sc">==</span> <span class="dv">5</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>  AAA4RM_Y <span class="sc">==</span> <span class="dv">4</span> <span class="sc">~</span> <span class="dv">2</span>,</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>  AAA4RM_Y <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="dv">3</span>,</span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>  AAA4RM_Y <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="dv">5</span>,</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">.default =</span> AAA4RM_Y</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a vector with the items in the AAA questionnaire regarding father</span></span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>aaa_scale_item_ya_father_vect <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"AAA1RF_Y"</span>, <span class="st">"AAA2RF_Y"</span>, <span class="st">"AAA3RF_Y"</span>, <span class="st">"AAA4RF_Y_R"</span>, <span class="st">"AAA5RF_Y"</span>, <span class="st">"AAA6RF_Y"</span>, <span class="st">"AAA7RF_Y"</span>, <span class="st">"AAA8RF_Y"</span>, <span class="st">"AAA9RF_Y"</span>, <span class="st">"AAA10RF_Y"</span>)</span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a vector with the items in the AAA questionnaire regarding mother</span></span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>aaa_scale_item_ya_mother_vect <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"AAA1RM_Y"</span>, <span class="st">"AAA2RM_Y"</span>, <span class="st">"AAA3RM_Y"</span>, <span class="st">"AAA4RM_Y_R"</span>, <span class="st">"AAA5RM_Y"</span>, <span class="st">"AAA6RM_Y"</span>, <span class="st">"AAA7RM_Y"</span>, <span class="st">"AAA8RM_Y"</span>, <span class="st">"AAA9RM_Y"</span>, <span class="st">"AAA10RM_Y"</span>)</span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating new variables for the AAA scale rated by the young adult in reference to mother and father based on the items in the vectors defined above</span></span>
+<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a>data_df_long <span class="ot">&lt;-</span> data_df_long <span class="sc">%&gt;%</span></span>
+<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">aaa_scale_ya_f =</span> <span class="fu">rowSums</span>(data_df_long[, aaa_scale_item_ya_father_vect]),</span>
+<span id="cb35-27"><a href="#cb35-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">aaa_scale_ya_m =</span> <span class="fu">rowSums</span>(data_df_long[, aaa_scale_item_ya_mother_vect]),</span>
+<span id="cb35-28"><a href="#cb35-28" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Creating a variable that has children categorically divided into a low and high attachment group, based on a mean split:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>data_df_long <span class="ot">&lt;-</span> data_df_long <span class="sc">%&gt;%</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">aaa_scale_ya_f_dich =</span> <span class="fu">case_when</span>(</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>      aaa_scale_ya_f <span class="sc">&lt;</span> <span class="fu">median</span>(data_df_long<span class="sc">$</span>aaa_scale_ya_f, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">~</span> <span class="st">"Low"</span>,</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>      aaa_scale_ya_f <span class="sc">&gt;</span> <span class="fu">median</span>(data_df_long<span class="sc">$</span>aaa_scale_ya_f, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">~</span> <span class="st">"High"</span>,</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">.default =</span> <span class="cn">NA</span>),</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">aaa_scale_ya_m_dich =</span> <span class="fu">case_when</span>(</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>      aaa_scale_ya_m <span class="sc">&lt;</span> <span class="fu">median</span>(data_df_long<span class="sc">$</span>aaa_scale_ya_m, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">~</span> <span class="st">"Low"</span>,</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>      aaa_scale_ya_m <span class="sc">&gt;</span> <span class="fu">median</span>(data_df_long<span class="sc">$</span>aaa_scale_ya_m, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">~</span> <span class="st">"High"</span>,</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">.default =</span> <span class="cn">NA</span>),</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="calculating-rbs-scale-at-wave-13" class="level3">
+<h3 class="anchored" data-anchor-id="calculating-rbs-scale-at-wave-13">7.1 - Calculating RBS Scale at Wave 13</h3>
+<p>For some reason, there are only 4 out of the 9 items in the current data set, so we will use those to calculate the scale</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a vector with the items for the RBS scale</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>rbs_scale_item_vect <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"RBS1_Y"</span>, <span class="st">"RBS2_Y"</span>, <span class="st">"RBS5_Y"</span>, <span class="st">"RBS9_Y"</span>)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a new variables for the RBS scale based on the items in the vector defined above</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>data_df_long <span class="ot">&lt;-</span> data_df_long <span class="sc">%&gt;%</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rbs_scale_ya =</span> <span class="fu">rowSums</span>(data_df_long[, rbs_scale_item_vect]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="more-data-cleaning" class="level2">
+<h2 class="anchored" data-anchor-id="more-data-cleaning">8 - More data cleaning</h2>
+<section id="data-types" class="level3">
+<h3 class="anchored" data-anchor-id="data-types">8.1 - Data types</h3>
+<p>First, there are several columns that have data that is of the data type double with a label. This data type works fairly well for now, but there might be other functions down the road that handles factors (which are more common) better than the labelled double. I will therefore use unlabelled() to convert those doubles with labels to factors. labelled() is easier to use than as.factor() as it automatically detects what variables to be converted to factors, so that I don’t have to specify all of them.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Removing the labelled data type and making them factors instead</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>data_df_long <span class="ot">&lt;-</span> data_df_long <span class="sc">%&gt;%</span> <span class="fu">unlabelled</span>()</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Code to check the conversion</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#glimpse(data_df_long)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Most of the items are now factors, while the compound scores are still doubles. From what I can see, it looks like the conversion went well. The number of missing values are still the same and the factors seem corrrect. However, if something is acting weird down the road, this could be a likely source of the problem, since the function does several things at once (some of which might not be apparent now).</p>
+<p>In addition, we need the wave variable to be numeric and not string. When ordering wave as a string, it will order it as 1, 10, 2, while numbers will be ordered as 1, 2, 10, which is what we want.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Converting the wave variable to numeric</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>data_df_long<span class="sc">$</span>Wave <span class="ot">&lt;-</span> data_df_long<span class="sc">$</span>Wave <span class="sc">%&gt;%</span> <span class="fu">as.numeric</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In addition, the factor levels for the young adult items of the CBCL is slightly different than for the other raters. For example, 2 is worded as “somewhat or sometimes true” in the young adult version, but “Somewhat/sometimes” for the other raters. I will change the wording of the factor levels for young adults to be consistent with that of the other raters, so that they can more easily be combined later.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>data_df_long <span class="ot">&lt;-</span> data_df_long <span class="sc">%&gt;%</span> </span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">starts_with</span>(<span class="st">"YASR"</span>),</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The .x stands for the current column that it is iterating through</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span> <span class="fu">fct_recode</span>(.x,</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"Not"</span> <span class="ot">=</span> <span class="st">"not true"</span>,</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"Somewhat/sometimes"</span> <span class="ot">=</span> <span class="st">"somewhat or sometimes true"</span>,</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"Very/often"</span> <span class="ot">=</span> <span class="st">"very true or often true"</span>)</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="filling-in-missing-ages" class="level3">
+<h3 class="anchored" data-anchor-id="filling-in-missing-ages">8.2 - Filling in missing ages</h3>
+<p>This part is not needed anymore, as we got the additional data as a separate file. However, it will be kept here for reference.</p>
+<p>As noted earlier, there does not seem to be any age variables for waves 8, 10, and 13. We will see whether we can get a hold of them. However, in the meantime, we will input a value for these ages, corresponding to the age of the child at the previous wave + 1. Looking over the intervals between the other waves, it seems to range from 1 to 2 years and be different for each child. We will use 1 year, as that seems to be the most likely given the wave interval (even though some intervals would likely have been higher). This substitution is meant to only be temporary.</p>
+<p>The following code confirms that we are lacking age data for waves 8, 10, and 13, in the data frame (based on the age variable):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Printing a matrix with the count of the different ages per wave</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">round</span>(data_df_long<span class="sc">$</span>Age, <span class="at">digits =</span> <span class="dv">0</span>), data_df_long<span class="sc">$</span>Wave)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The easiest way to do this in dplyr seems to be by referring to the previous data point, and making sure that is the previous data point by arranging the waves in ascending order. This requires that there are no missing waves in the data set, so I will make sure the number of data points for wave 7, 8, 9, 10, 12, and 13 are the same, if not, it will fail. In addition, the filling in based on order will not work if the Wave column has string objects, as they are ordered after first character (e.g.&nbsp;1, 10, 2), so the objects have to be numerical. After checking those things, the ages can be filled in based on the value in the previous row.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This code is a bit of a mess. Essentially, it is counting how many data points we have in the data set per wave and if they are not all the same, you get an error</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (data_df_long <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Wave) <span class="sc">%&gt;%</span> <span class="fu">count</span>() <span class="sc">%&gt;%</span> <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> <span class="fu">select</span>(n) <span class="sc">%&gt;%</span> <span class="fu">unique</span>() <span class="sc">%&gt;%</span> <span class="fu">length</span>() <span class="sc">!=</span> <span class="dv">1</span>) {</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"The data frame inputed did not fail the error check to see whether there number of data points per wave is the same. It should be the same based on the wide to long conversion, so if you get this error, you might have messed up the data after the conversion or inputted the wrong data frame. The following code depends on ordering by waves, so the ages will likely be estimated wrongly if there aren't the same number of data points for each wave."</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Check whether the wave data is numeric, if not, ordering will be off</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.numeric</span>(data_df_long<span class="sc">$</span>Wave)) {</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"The code that calculates the ages for the waves that do not have that data relies on the wave variable being numeric. If not, the ordering of the waves will be off, as it will be ordered based on each character (e.g. 1, 13, 20). The following error has been called since the wave variable for the current data frame is not numeric, meaning that the next code block cannot be calculated properly."</span></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a><span class="co"># The following code was used for checking that the code was run correctly. I am saving it here as a comment for reference.</span></span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>  <span class="co">#test &lt;- data_df_long %&gt;% filter(ID %in% c("200006", "200012"))</span></span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>  <span class="co">#test %&gt;% arrange(Wave) %&gt;% select(Wave, Age, ID) %&gt;% print(n = 25)</span></span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Filling in the age variables at waves 8, 10, and 13 based on the age at  previous wave + 1. If that value is NA, the new age will also be NA.</span></span>
+<span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a>data_df_long <span class="ot">&lt;-</span> data_df_long <span class="sc">%&gt;%</span></span>
+<span id="cb42-21"><a href="#cb42-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Wave) <span class="sc">%&gt;%</span></span>
+<span id="cb42-22"><a href="#cb42-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ID) <span class="sc">%&gt;%</span></span>
+<span id="cb42-23"><a href="#cb42-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb42-24"><a href="#cb42-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">Age  =</span> <span class="fu">case_when</span>(</span>
+<span id="cb42-25"><a href="#cb42-25" aria-hidden="true" tabindex="-1"></a>    Wave <span class="sc">==</span> <span class="dv">8</span> <span class="sc">~</span> <span class="fu">lag</span>(Age) <span class="sc">+</span> <span class="dv">1</span>,</span>
+<span id="cb42-26"><a href="#cb42-26" aria-hidden="true" tabindex="-1"></a>    Wave <span class="sc">==</span> <span class="dv">10</span> <span class="sc">~</span> <span class="fu">lag</span>(Age) <span class="sc">+</span> <span class="dv">1</span>,</span>
+<span id="cb42-27"><a href="#cb42-27" aria-hidden="true" tabindex="-1"></a>    Wave <span class="sc">==</span> <span class="dv">13</span> <span class="sc">~</span> <span class="fu">lag</span>(Age) <span class="sc">+</span> <span class="dv">1</span>,</span>
+<span id="cb42-28"><a href="#cb42-28" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> Age</span>
+<span id="cb42-29"><a href="#cb42-29" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span></span>
+<span id="cb42-30"><a href="#cb42-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="rounded-age-variable" class="level3">
+<h3 class="anchored" data-anchor-id="rounded-age-variable">8.3 - Rounded age variable</h3>
+<p>We need a new variable that is the rounded age variable, as several of our data analyses will use age as a categorical variable.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>data_df_long <span class="ot">&lt;-</span> data_df_long <span class="sc">%&gt;%</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Age_int =</span> <span class="fu">round</span>(Age, <span class="at">digits =</span> <span class="dv">0</span>)</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that the round() function in R will round 8.50 to 8, but 8.51 to age 9. This is according to IEEE standards. This should however not have much of a practical significance as the ages are reported to 6 decimals, leaving it highly unlikely that any age will be x.500000.</p>
+</section>
+<section id="age-categories-variable" class="level3">
+<h3 class="anchored" data-anchor-id="age-categories-variable">8.4 - Age categories variable</h3>
+<p>Some of the analyses will compare the values based on the age. This requires that there are enough data points per group to be representative. Therefore, we will add another age variable for the age category. We will keep all ages that have more than 300 data points per rater and per age its separate category, but combine ages that have fewer than that number of data points.</p>
+<p>Check number of data points per age of child and rater combo for externalizing symptoms, filtering out missing values:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>data_df_long <span class="sc">%&gt;%</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(ext_scale_f, ext_scale_m, ext_scale_c, Age_int) <span class="sc">%&gt;%</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(ext_scale_f, ext_scale_m, ext_scale_c), <span class="at">names_to =</span> <span class="st">"rater"</span>, <span class="at">values_to =</span> <span class="st">"rating"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">rater =</span> <span class="fu">case_when</span>(</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>            rater <span class="sc">==</span> <span class="st">"ext_scale_f"</span> <span class="sc">~</span> <span class="st">"Father"</span>,</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>            rater <span class="sc">==</span> <span class="st">"ext_scale_m"</span> <span class="sc">~</span> <span class="st">"Mother"</span>,</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>            rater <span class="sc">==</span> <span class="st">"ext_scale_c"</span> <span class="sc">~</span> <span class="st">"Child"</span></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>        )) <span class="sc">%&gt;%</span> </span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(rating)) <span class="sc">%&gt;%</span> </span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(rater, Age_int) <span class="sc">%&gt;%</span> <span class="fu">count</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 47 × 3
+# Groups:   rater, Age_int [47]
+   rater Age_int     n
+   &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt;
+ 1 Child       7    54
+ 2 Child       8   580
+ 3 Child       9  1014
+ 4 Child      10  1149
+ 5 Child      11   689
+ 6 Child      12   332
+ 7 Child      13   439
+ 8 Child      14   478
+ 9 Child      15   523
+10 Child      16   689
+# ℹ 37 more rows</code></pre>
+</div>
+</div>
+<p>Check number of data points per age of child and rater combo for internalizing symptoms, filtering out missing values:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>data_df_long <span class="sc">%&gt;%</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(int_scale_f, int_scale_m, int_scale_c, Age_int) <span class="sc">%&gt;%</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(int_scale_f, int_scale_m, int_scale_c), <span class="at">names_to =</span> <span class="st">"rater"</span>, <span class="at">values_to =</span> <span class="st">"rating"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">rater =</span> <span class="fu">case_when</span>(</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>            rater <span class="sc">==</span> <span class="st">"int_scale_f"</span> <span class="sc">~</span> <span class="st">"Father"</span>,</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>            rater <span class="sc">==</span> <span class="st">"int_scale_m"</span> <span class="sc">~</span> <span class="st">"Mother"</span>,</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>            rater <span class="sc">==</span> <span class="st">"int_scale_c"</span> <span class="sc">~</span> <span class="st">"Child"</span></span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>        )) <span class="sc">%&gt;%</span> </span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(rating)) <span class="sc">%&gt;%</span> </span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(rater, Age_int) <span class="sc">%&gt;%</span> <span class="fu">count</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 55 × 3
+# Groups:   rater, Age_int [55]
+   rater Age_int     n
+   &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt;
+ 1 Child       7    55
+ 2 Child       8   587
+ 3 Child       9  1019
+ 4 Child      10  1140
+ 5 Child      11   691
+ 6 Child      12   332
+ 7 Child      13   441
+ 8 Child      14   476
+ 9 Child      15   520
+10 Child      16   683
+# ℹ 45 more rows</code></pre>
+</div>
+</div>
+<p>We aim to have at least 200 data points per rater per age, so that means that we have to combine ages 7-8 into one category, as well as ages 18-25. We will keep this consistent over raters and symptoms to ease comparison. The differences were also rather minimal between raters and symptoms.</p>
+<p>It looks like we need to combine age 7 and 8, as well as ages 23-25 into categories for the age_cat variable</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>data_df_long <span class="ot">&lt;-</span> data_df_long <span class="sc">%&gt;%</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Age_cat =</span> <span class="fu">case_when</span>(</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>    Age_int <span class="sc">&lt;=</span> <span class="dv">8</span> <span class="sc">~</span> <span class="st">"7-8"</span>,</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>    Age_int <span class="sc">&gt;=</span> <span class="dv">18</span> <span class="sc">~</span> <span class="st">"18-25"</span>,</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="fu">as.character</span>(Age_int)</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>    ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Make the Age_cat variable a factor for easier handling later:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>data_df_long<span class="sc">$</span>Age_cat <span class="ot">&lt;-</span> data_df_long<span class="sc">$</span>Age_cat <span class="sc">%&gt;%</span> </span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.factor</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">factor</span>(<span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"7-8"</span>, <span class="st">"9"</span>, <span class="st">"10"</span>, <span class="st">"11"</span>, <span class="st">"12"</span>, <span class="st">"13"</span>, <span class="st">"14"</span>, <span class="st">"15"</span>, <span class="st">"16"</span>, <span class="st">"17"</span>, <span class="st">"18-25"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="drawing-unique-observations-from-age-categories" class="level3">
+<h3 class="anchored" data-anchor-id="drawing-unique-observations-from-age-categories">8.5 - Drawing unique observations from age categories</h3>
+<p>With age categories, there will be several observations of the same age when in the age range for the category. For example, in the category 18-25, there could be multiple observations of the same child, such as from when they were 18, 19, 20, and 21, years old. Therefore, we will draw one random observation per child from the age categories including several ages, such as 7-8 and 18-25. In addition, there are also some waves that are shorter than a year apart, also leading to multiple observations per age group for the age groups with only one age in it.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Setting a seed for reproducibility</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1814</span>)</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a new data frame, data_df_long_unique from choosing one random observation per child from data_df_long</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>data_df_long <span class="ot">&lt;-</span> data_df_long <span class="sc">%&gt;%</span> </span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Group by ID to get one observation per child</span></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ID, Age_cat) <span class="sc">%&gt;%</span> </span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Chose one random observation based on the grouping variable</span></span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Ungroup the grouping by ID</span></span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="saving-data_df_long-as-a-rds-file" class="level2">
+<h2 class="anchored" data-anchor-id="saving-data_df_long-as-a-rds-file">9 - Saving data_df_long as a Rds file</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(data_df_long, <span class="at">file =</span> <span class="st">"data_df_long.rds"</span>)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="co"># You can now retrieve the data with data_df_long &lt;- readRDS(file = "data_df_long.rds")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="long-to-wide-conversion" class="level2">
+<h2 class="anchored" data-anchor-id="long-to-wide-conversion">10 - Long to Wide Conversion</h2>
+<p>There might be some scenarios in which it would be beneficial to have the data frame in wide format, as it was originally. However, the data_df_long data frame has all the edits from the data wrangling. Therefore, I will convert the data_df_long back to a data_df_wide format, but which is data wrangled.</p>
+<p>Long to wide conversion:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>data_df_wide <span class="ot">&lt;-</span> data_df_long <span class="sc">%&gt;%</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">id_cols =</span> <span class="fu">c</span>(ID,  IDN, m1educ_m, f1educ_f, ChGender), <span class="at">names_from =</span> Wave, <span class="at">values_from =</span> <span class="fu">setdiff</span>(<span class="fu">names</span>(data_df_long), <span class="fu">c</span>(<span class="st">"ID"</span>, <span class="st">"IDN"</span>, <span class="st">"m1educ_m"</span>, <span class="st">"f1educ_f"</span>, <span class="st">"ChGender"</span>, <span class="st">"Wave"</span>)))</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Changing the column names to have the same format as they originally had, where yx where x is a number designates the wave number. The following code finds column names that have some symbols (in a capture group) and ends with "_x" where x is a number in a capture group. It then adds the prefix "y", then the number in the second capture group, then the original column name. The "_" is deleted from the column name.</span></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data_df_wide) <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"^(.*)_(</span><span class="sc">\\</span><span class="st">d+)$"</span>, <span class="st">"y</span><span class="sc">\\</span><span class="st">2</span><span class="sc">\\</span><span class="st">1"</span>, <span class="fu">colnames</span>(data_df_wide))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="saving-data_df_wide-as-a-rds-file" class="level2">
+<h2 class="anchored" data-anchor-id="saving-data_df_wide-as-a-rds-file">11 - Saving data_df_wide as a Rds file</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(data_df_wide, <span class="at">file =</span> <span class="st">"data_df_wide.rds"</span>)</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="co"># You can now retrieve the data with data_df_wide &lt;- readRDS(file = "data_df_wide.rds")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="data-set-overview" class="level2">
+<h2 class="anchored" data-anchor-id="data-set-overview">10 - Data set overview</h2>
+<ul>
+<li>raw_df - has the raw data loaded in from the SPSS file “Data_raw.sav”</li>
+<li>data_df - has changed prefixed and suffixes for data handling and consistency. For example, the variables for the first wave now has the pre-fix y1 instead of nothing. Age variable names are standardized.</li>
+<li>data_df_long - wide to long conversion of the data. Also has calculated scale scores for externalizing and internalizing symptoms for CBCL variations and age rounded up. In addition to some changed variable types for columns. The data frame also has the doubles with labels columns converted to factors with unlabelled(). Lastly, we are missing the age variable at waves 8, 10, and 13, so the ages have been filled in at these waves with the age at the previous wave + 1.</li>
+<li>data_df_wide - long to wide conversion of the data_df_long data frame. It therefore has all the same changes as those of data_df_long, but in a wide format. The column names follow the same naming conventions as data_df with yxname, where y is a prefix, x designates the wave, and name is the name of the variable. Note that variables that weren’t recorded at a wave, will now have a column for that variable with all missing data. Therefore, one might instead want to filter by columns that do not have all missing values or look at data_df to see what variables were recorded at each wave.</li>
+</ul>
+</section>
+<section id="be-aware-that" class="level2">
+<h2 class="anchored" data-anchor-id="be-aware-that">11 - Be aware that:</h2>
+<ul>
+<li>The question labels for the columns are based on the earlier version of the survey. Occasionally, there was small changes in the wording of the question as the child got older. These are not reflected in the column variable labels. Refer to the code book for that.</li>
+<li>The participants got the child or youth version of the CBCL questionnaire based on wave, not age. Therefore, there might be some ages where some participants answered the child and other the young adult questionnaire</li>
+<li>The int_scale_c and ext_scale_c has some different items depending on the wave the data was collected in. If it matters what exact wording was used, filter the scores based on whether the wave is &lt; or &gt; than 9. (see code for calculating the scale for more information). In addition, there were some slight differences between the wording in int_scale_m/f and ext_scale_m/f between waves 9???</li>
+</ul>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
