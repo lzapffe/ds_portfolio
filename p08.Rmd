@@ -2,90 +2,14 @@
 title: "Thesis - Data Analyses"
 ---
 
+The following project is a continuation of project 7, where I am doing the data analyses for my thesis on the data that was wrangled in the previous project. You can see that I am using more dplyr here, but that I turn to base R more towards the end, because I ran short on time to get the results for my thesis and I can still code faster in base R for the more complicated scenarios. I also borrowed some of the code for the tri-factor models from a previous project that I used base R for. However, I did learn a lot about Tidyverse from working on this project, which is reflected in project 4.
 
-Most of the work on this project is happening in a private repo since the data is confidential. When I am done with it, I will make some fake data and demonstrate what I did here.
+The data analyses document contains multiple versions of some analyses and plots as it is made to be one bigger document containing everything I have needed at any point, and not be one coherent narrative of the analyses. There might therefore be some redundancies from changing needs throughout working on the project. Everything should be well-commented and documented though.
 
-## Pivoting from wide to long
+Similarly to with the last project, the data is confidential and the portfolio webpage template didn't work well with an html file attached, so I will instead just link to the html page in the portfolio repository that you can download and view yourself.
 
-I have a fairly tricky wide to long conversion. To get the right function, I will build it up in layers, starting with getting one and one thing correct and then adding additional challenges from the original data set until I get the entire conversion right.
+Also note that there is a lot of output from creating the mplus compatible data with MplusAutomation. I have not yet found a combination of chunk options that shows the chunk code, but hides the output. Therefore, there is some junk output to scroll through in the html file.
 
-```{r loading-libraries}
-library(tidyverse)
-```
+<br>
 
-
-First, I need to figure out how to move only part of the column name, but not all of it
-
-Making some fake data:
-
-```{r make-data-1}
-id <- c(1001, 1002)
-y2_YSR1 <- c(1, 3)
-y3_YSR1 <- c(2, 4)
-y2_YSR2 <- c(5, 6)
-y3_YSR2 <- c(7, 8)
-
-data <- tibble(id, y2_YSR1, y2_YSR2, y3_YSR1, y3_YSR2)
-
-data
-```
-
-Now, I need to get the "yx" part as a separate column, keeping YSR1 and YSR2 as columns too
-
-names_pattern = "^(yd)(.*)"
-
-```{r pivot-longer-1}
-data %>%
-  pivot_longer(-id, names_to = c("Wave", ".value"), names_sep = "_")
-```
-
-I got this to work with names_sep, but not names_pattern. Trying again with names_pattern.
-
-```{r make-data-2}
-id <- c(1001, 1002)
-y2YSR1 <- c(1, 3)
-y3YSR1 <- c(2, 4)
-y2YSR2 <- c(5, 6)
-y3YSR2 <- c(7, 8)
-
-data <- tibble(id, y2YSR1, y2YSR2, y3YSR1, y3YSR2)
-
-data
-```
-
-```{r pivot-longer-2}
-data %>%
-  pivot_longer(-id, names_to = c("Wave", ".value"), names_pattern = "^(y\\d)(.*)")
-```
-
-Found the problem, my regex had only one backslash, when I needed two of them.
-Now, the data looks like the way I want it. However, the data for wave one doesn't start with "y1", it is just blank. So I am thinking that the easiest way to work around it is to add y1 in front of all of those variables.
-
-Now, another challenge is that I need to keep the first letter if it starts with "c", "f", or "m", but not if it starts with "y"
-
-```{r make-data-3}
-id <- c(1001, 1002)
-y2YSR1 <- c(1, 3)
-y3YSR1 <- c(2, 4)
-y2YSR2 <- c(5, 6)
-y3YSR2 <- c(7, 8)
-f2HHOG_f <- c(11, 12)
-
-data <- tibble(id, y2YSR1, y2YSR2, y3YSR1, y3YSR2, f2HHOG_f)
-
-data
-```
-
-
-```{r pivot-longer-3}
-data %>%
-  pivot_longer(-id, names_to = c("Wave", ".value"), names_pattern = "^[[:alpha:]](\\d)(.*)(?:_[[:alpha:]])?")
-```
-
-
-
-## To-do list:
-
-- Paste pdf with the project code
-- Make sure there is no sensitive information being published
-- Reflect on issues and new skills attained
+**You can find the html file for the data analyses [here](https://github.com/lzapffe/ds_portfolio/blob/main/Data_Analysis.html)**
