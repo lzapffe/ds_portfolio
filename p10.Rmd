@@ -2,10 +2,263 @@
 title: "Suggestions for Course Improvements"
 ---
 
-## To-do list:
+I started this project as a personal list of things I found confusing, things that were broken on the webpage for the course, or things I saw others struggle with. The list grew fast and I ended up finding myself engaging more in the material when I was looking for ways to improve it. I therefore started it as a project where I looked for areas of improvements in all areas of the course, especially the modules. I knew a lot of the information presented in the modules, especially the earlier ones, so this project gave me an additional purpose when working through all of it. In addition, I think this could make the comments especially helpful, as they are my reactions and comments while working through the modules, instead of just thinking back to the overall course, which would probably have led to less specific comments. Overall, the course is really good, so the improvements are not to indicate otherwise. Instead, they are a collection of bugs to fix, points of confusion, and general suggestions that I have gathered while working through the course. I hope that they will be helpful for improving the course in the future!
 
-- Go over course improvement list and copy it over here
-- Work through module 13 - 17 and add suggestions for those
-- Pull request for contract
-- Pull request for quick fixes
-- Post rest of the suggestions as issues
+I will first provide my notes from going over individual modules and then at the end have some more general comments. I have tried to refer to the page numbers when available for reference when checking some of these comments. A lot of these comments are raw comments that I took while working through them. I have tried to keep them as my raw comments instead of writing them down as formal suggestions as I think that will be more helpful to understanding the train of thought that occured when I ran into issues.
+
+Note: I think a page was added after I wrote down a lot of the page numbers, so for a lot of them (at least in the beginning), you have to add 1 to the page number to find the page I am referring to.
+
+<br>
+
+# Module 0
+
+- Guidance 0.7 has a link that isn’t formatted as a link and a title with "##" that isn’t formatted as a title, both under the portfolio section. Check the formatting in the .rmd document
+
+<br>
+
+# Module 1
+
+- In module 1, part 3, first video “Meet our toolkit” Mason says we can follow along with her and the intro to code and then later on that page, there is a video on how to download R and R studio. Downloading R should happen earlier
+    - I would have thought it would have been more logical with a setting up the course module where you download all software and get it up and running, without necessarily using anything
+    - Would also allow for us to follow along while she showed us e.g. Rmarkdown in the “Meet our toolkit” video
+- Lot of stuff isn’t explained enough for beginners in the “meet our toolkit” video, like what is a library? Our having a logical transition and explanations from calculation, to variable, to function, to library
+    - “knit” isn’t explained, just used as if we were to know it already. It comes up in more detail 5 minutes later
+    - In the video we are also asked to “go to Github to fork the assignment to our own Github” but we haven’t learned how to use Git hub yet, that comes later
+- The Bechdel activity is too advanced. Should focus on getting to know R and using it, this has more complicated functions and data handling
+    - Makes it overwhelming
+- Would make the most sense to start with GitHub before the actual programming, so that people know where to find the stuff that we are using
+- For section 5, “Git and Github” video, we are instructed to make the account with our school email address and then add another one. Would have been helpful with instructions if you already have an account with another email address to get WF benefits. This involves adding  the school email, then going to the student github webpage and adding am enrollment verification to get the benefits
+- The “command line bullshittery” in 7.3.1. is a broken link - fix or take out
+- Have a to-do list that gives an overview of the first steps, where to start, and where to find information about it?
+    - Would feel a lot less overwhelming
+      - Now I don't know where to go or what to do, it is a little scattered all over the place
+- Also, have some additional resources on how to do basic programming in R, like functions, variables, strings, lists, and so on
+    - Not required, but for people who feel a little lost and want to do a deep dive
+      - I do personally do better if I understand more of the mechanism behind things instead of just trying to apply it right away. Could be a video course or something that explain R programming more in-depth as an option if anyone wants a more formal introduction to programming
+- More clear instructions on how to use the course
+    - For example, what is mandatory to do and what is just if I want to learn more? Do I have to watch all the videos? Are the deep dives required? What is RDD and ODD?
+    - Possible to make several levels and tag resources with this level code?
+      - Like have some stuff that is required (level 1), then have a if you still don't completely understand, need more in-depth instruction (level 2), and optional side-quests (level 3)
+        - Could also be color coded to make it less formal and not have the order that is with the numbers
+        - Would make it easier to see what is required and not (e.g. with tags) and would also offer an easy way to implement resources that students could self-select to use if they needed more instruction or to learn about an interesting side-topic
+- The how to make Git Hub branches YT video on 7.4 doesn’t exist anymore
+    - Same for GitHub’s learning lab
+- Spelling mistake where Hello is Hellow on first paragraph of page 10
+- What are the different file extensions, like .proj, .md, and .rmd?
+  - I have had so many students be confused about this and have given many crash courses about this. Would be beneficial to explain the ones we use in the course clearly somewhere.
+- No one seems to know that you always want to use Rstudio with an R project. I have seen a lot of students work in almost every other place than the Rproject and it makes things a lot more complicated and confusing to them. I think it would be helpful to have some more scaffolding whenever we are asked to work in Rstudio that helps the students open the R project in Rstudio and work within that. I think that would greatly improve the workflow of the students and fix a lot of problems, like students getting errors of not finding a file because the working directory is not set as what you expect it to be with the scaffolding in the labs.
+
+<br>
+
+# Module 2 - Data Visualization
+
+- The data visualization link on the module front page doesn’t work. Seems like the link should have an “s” instead of “z”
+- Link to chapter 3 and 7 is for 1st edition of the book, not the new second edition
+- Star wars activity asks about changing color of points. What about going over some of the different plots, which is what we have done so far? I think a lot of students could benefit from practicing that. We haven’t talked about colors yet
+- Working directories are introduced in 18.1. Should come sooner as students have really struggled with working in an Rproject, which makes the labs and activities a lot more complicated than they need to be.
+- 18.4 talks about how we haven’t started data visualization yet. The whole section is on tibbles and data frames, which we haven’t covered, then states that we haven’t covered visualizations, which is what we have been doing for the whole module. Is this a mistake?
+    - Plotting everything here with base r when the section has used all ggplot. This is confusing
+        - Would be better to use ggplot and reinforce that knowledge/skills
+- Maybe start the module showing data visualization in base r and then ggplot to show how much easier it is? If you want to include both base R and ggplot
+- I would have like some explanation about logic/aesthetics in ggplot as this is something I have been unsure about. Even if only as a optional deep dive or side-quest
+- In 18.5 it says that ggplot will be covered later
+  - Isn't that what we have used already?
+  - Also uses pipe lines and pipe lines aren’t explained until section 23
+      - Introduce pipes earlier ot at least link to pipelines lecture earlier so that people who are confused know where to go to learn more
+  - Maybe uses pipelines in lab 2 before the lecture on pipelines come?
+- Didn’t cover geom_smooth() here, just pops up out of nowhere in an example in section 18, should have been in 15
+- Section 18 was just really random in all of this. Why are we doing this here, it doesn't seem to  fit in this module.
+- Why are we doing Github again on page 19? It has some repetition, but more advanced
+    - Module 0 should be a set-up module, with all Github information together, except for maybe more advanced fun facts or functions, that could come later
+        - You could have the activity be to set up the infrastructure for the class. E.g. contract or portfolio repository
+- Commit and pull doesn't seem to be explain before in section 18. Also how to clone a repository to your computer and issues. Should come earlier
+- I think there should be a smiley face, which is just rendered as :smile: right now, in 19.3.8.3. - fix?
+- There is a lot of repetition in section 19 compared to 8, not necessary
+- Integrate ggplot cheatsheet at the end of the module? Would be overwhelming at first, but maybe helpful as reference when working on the lab?
+    - Could also have a resources part at the beginning of the lab for reference if anyone needs it
+- Incorporate the hint from the previous student not as a comment in the source code for lab 3 but somewhere that is easier to find, like a drop down comment?
+
+<br>
+
+# Module 3 - Tidy data
+
+- On page 23 it is said in the video that we need a data frame, not vector or matrix to use dplyr, but it doesn’t mention that it can also be a tibble. The page before this discussed  tibbles vs data frames, so it might be confusing to not also mention that one can use tibble. Now it could look like data frames are better since you can use them with dplyr, but not tibbles.
+- Mentions style guide for R in video about piping (23.1), but it isn't linked anywhere. Would be nice to have a link to it since it is mentioned
+- Section 27 on merge conflicts in Github should be with pictures so that we can see what it is supposed to be like even without finding 4 other people to do the activity with (since we didn't do it as a class room activity)
+    - Also, it is not possible to resolve every conflict with Github desktop, so maybe mention Git Kraken and have a section on it for those who want to take a deep dive?
+- Lab 3 has something that should be “_original” but got formatted really weird. It is right before the exercises start.
+
+<br>
+
+# Module 4 - Objects
+
+- Hotels activity on page 30 has bullet point in output where there shouldn’t be
+- For lab 4, why are the data sets called dn and lq instead of dennys and laquinta? There is no code or instructions to make the shorthand for those names. This makes it harder to copy paste code. Is that a mistake?
+  - Could be easily fixed by adding a line with dennys <- dn and laquinta <- lq for the scaffolding to work like usual
+- Change “Add exercise headings as needed” in Rmarkdown after heading 6 to something like “Add headings for the next exercises yourself, following the same formatting as above”? To clarify that it is less scaffolding on purpose nad that we are supposed to make the heading ourselves now. If not, it seems a little random and could be confusing.
+- 41 has a link with the text “a figure you made 18 months ago” that doesn’t lead to anywhere
+- 41 talks about interactive and non-interactive code. What does that mean? Loops? Using a shiny app? Not explained later either
+
+<br>
+
+# Module 5 - Tips for effective data visualization
+
+- Ppt “Deeper dive into ggplot” has equal sign to assign variable, not <- when she actively told us to not use “=” in the first or second module. Should be <- for consistency
+- 38.3 should have plots, but there are none
+- 38.3 says "barpots" and not "barplots" in the header
+- 38.6 should have many decimals for first table, but the standard of how many to report from R seems to have changed, so now it gives just one. This makes the point that is being made confusing. Update the text to fit the next standard of printing tables
+- 39.5 has no content
+- Lab - 42 - is still using dn and lq instead of the whole name. Makes it harder to copy paste code and could be confusing
+- Lab - states that we will talk about *_join() functions, but we did that earlier, I think. Change text to reflect that students already know the join functions?
+
+<br>
+
+# Module 6 - Confounding
+
+- Seems like there should be more videos on exploratory data analysis
+    - There are slides for it and she said so in the video, but there is nothing there
+    - Maybe there wasn't time to film it? Or maybe it is a mistake? Clarify whether there should be a video there
+- 46 Lab - for the Whikham data, when she asks us to look at the documentation, the code also includes looking at the performance for the code, for some weird reason. Is that a mistake? Why are we looking at the peformance?
+- 46 lab - Mason said to comment that it took me a while to do the lab
+- 46 lab - Mason also said to comment on calculating conditional probabilities and how this might be hard, there aren’t really any formulas to show us how to this. Would make more sense to calculate percentage, because people know how to do that and it seems less intimidating than conditional probabilities
+
+<br>
+
+# Module 7 - Web scraping
+
+- Page 49.2.2 is lacking a closing “ for the question about smart girls and sex
+    - Lacking quotes all-together for the measurement example
+    - Also lacking spaces
+    - So go over and fix formatting
+- My big question going through this module, what is an API?
+    - Sort of happens in 50.3, but I still don’t fully understand it. Is it a program? Code? Method?
+- The link in 50.4 isn’t attached, it just says “here”
+- 50.4.3 doesn’t show the output for nrows, just the code
+- 50.4.4.1 has just a bunch of errors, saying it can’t find a function
+- 51.3 - what is a resource when talking about the httr functions?
+- Why is there an API key? So that others can see what you do? What is the purpose of this?
+- The function html_nodes is deprecated and should now be html_elements
+    - Used in the lecture for page 48
+    - Also, unclear that the functions she is using is from rvest. Clarify?
+- Should 51.1 have bullet points in the first paragraph?
+- The book chapter link in 51.1 is broken
+- The “section on make” link in 51.2 just leads to the page we are on
+    - I don’t understand that bullet point at all and the link to get more information doesn’t help
+        - She said she thinks she moved the order of the bullet points
+- 51.2.1 what is SSL?
+- Page 51 talks about the hidden R file for your API key and curl, but doesn’t explain it before 52
+- Maybe make the lab ask for specific things to visualize, like make it look worse to have no mask mandate. Would offer more of a challenge, require more creativity, and be more interesting
+- 57.5, the skateboard picture should be higher up, when she first mentions skateboard, as it makes no sense where it is right now
+  - Move it to where it is being discussed
+- The link under the picture for 57.5 is unavailable
+- Lab - Took me forever to do since I didn't know the different between html_node() and html_nodes(). If you do not copy-paste the code it is really hard to not mess it up. Maybe include a warning about copy-pasting the code only or explain the difference between html_node() and html_nodes() somewhere?
+
+<br>
+
+# Module 8 - Functions
+
+- Section 59.2.2 is trying to show an error, but we don’t see it since it can’t find the object gapminder. It is called later, so maybe move the library call earlier or input something else that will make it run until it get the assigned error?
+- The link for error style guide in 59.2.2 is broken
+- 59.20, the testthat package is not properly explained. After some independent research I have figured out what it does, but it isn’t really explained in the section, there is just example code with no explanation nor output
+
+<br>
+
+# Module 9 - Data Ethics
+
+- It is a little unclear how long we have to watch the videos in module 9. For example, can we stop after the Q&A section for the UseR! talk?
+- We aren’t doing the annotated bibliography activity, are we?
+- The lab required running models in R, which we haven’t learned how to do yet. Add some instructions of put it after the data modeling module? Assumes some pre-knowledge about regression that students might not have
+    - At least link to a source to get more info about it or a refresher
+    - How do you get R^2? What does it mean? Should I use adjusted R^2?
+- Write what date (at least year) that the Late night shows on page 65 are from
+    - It would help give context to the conversation, because I was really lost about why there were so many about the same topic and why they were discussing things that everyone knows about and not discussing some other obvious choices
+
+<br>
+
+# Module 10 - Models
+
+- The article listed on the front page, page 67, has a broken link
+- 69.2 doesn’t make any sense
+    - Where does the singers come from? This data set is never introduced
+    - Starts a little abruptly, what is the singer_lm model referenced later?
+    - What is ecdf? I don’t know what it is or how to interpret it
+    - I don’t think Mike would have agreed about these things being normal or similar enough
+      - He was really picky about that in the stats class, so I don't how to interpret that. It is debatable?
+    - We barely talked about checking for these assumptions in stats with Mike, so it would be helpful with a little more explanation about the assumptions and how to check them
+    - I don’t understand the section that starts with “It’s easier to check normality if we plot the line that the points should fall on:”, nor do I understand 69.2.5
+    - What is going on with the “check_model” output? I don’t know what we are looking at. Alternative way of checking assumptions?
+- 72.1.0.2 Why doesn’t our linear model work? I know it is because we can only have binary outcomes, but this isn’t clear from the text. It relies on people having background information to make that inference
+- 72.1.0.4 what exactly are GLM? Do they always have to be about probabilities?
+    - It is explained in the next section, but this is a little technical. Would help with a more layperson general explanation in this section
+
+<br>
+
+# Module 11 - Cross-validation
+
+- Why is the presentation on the top of the page for page 75? It is usually under the video, I first thought there was a video missing, but I see that it is the same presentation as the one embedded under the video. Is the first copy of it a mistake?
+- I don’t know what the recipe function does or how it works. It is used with no explanation or introduction in the first lecture on page 76
+    - Same with workflows, what is it and how does it work?
+    - Would be helpful with a little more explanation of what this is and why it is useful
+    - It is used again in 77.3 without explanation
+    - How does recipe and workflows differ from functions?
+- I don’t know why we are doing the feature engineering things we are doing. Is there a list of something of things to look out for for feature engineering? Also, what is feature engineering? I recognize it from machine learning, but it isn’t explained anywhere for people without that background.
+- What is considered a good ROC score?
+- What are you doing in the making decisions section? It is not clearly described what is going on. I recognize it from machine learning, but I think people without that background would need some more explanation about what is going on, that we are looking at chances of guessing right and wrong, and what the probabilities refer to
+- Shouldn’t we be doing cross-validation in section 77.4 and use that to chose good features? Why not?
+- I don’t understand what is going on in section 78
+    - Too much unexplained math
+      - I just gave up and skimmed it
+    - Would have been helpful with comments for the code in 78.4
+- This entire module is a little unexplained, random, and technical
+  - Needs more explanation, coherent narrative or topic, and to be understandable for people without a machine learning background. Less math (or explain it more)
+- Last video on 76 said we would learn more about testing our test data set with k-fold, but I don’t know whether we really learned more about it in the next sections. Add more materials on that?
+
+<br>
+
+# Optional lab - Money
+
+- What are we looking at? What is PAC?
+- What page are we scraping for? It says to look for foreign connected PACs, but there is not URL to get to this page anywhere. I am assuming it is this one: https://www.opensecrets.org/political-action-committees-pacs/foreign-connected-pacs/2020, but I am not 100% sure
+- The library(here) in the scrape_pac file is confusing and causes an error, instead add a comment about adding more library loading codes if needed? We should all be able to do that by now anyway
+- I ran into a problem where I can't web scrape the page although I have permission when checking that bit the robotstxt library. Is the web scraping broken?
+
+<br>
+
+# Module 12 - Quantifying uncertainty
+
+- The hypothesis testing page (83) is kind of confusing sometimes
+    - The metaphors or other scenarios to imaging are confusing, would probably be easier to not use them at all, or to introduce those scenarios to illustrate a point before introducing the actual scenario
+    - A little unclear what is different between the different scenarios we are looking for and why we want that
+- 83.3.9. doesn’t seem to work, it just states simulation with nothing there
+- I was curious while going through the module what happens if we have a skewed sample compared to the actual population. Would this be a problem for the generalizability of the results? You could consider making this a part of a deep dive comparing and contrasting traditional hypothesis testing with bootstrapping
+- I deduced from earlier stats classes that the distribution we are bootstrapping is a distribution of the difference scores between the two groups. Maybe clarify what you are bootstrapping, when, and why
+    - When are you bootstrapping just your sample compared to the differences and why? Why can’t you e.g. just always bootstrap the sample and use that?
+
+<br>
+
+
+
+# Other more general comments
+
+- Making a ODD that you can refer students to if they want to make a change to the course with a pull request
+    - Link to this cool video explaining pull request with lunch boxes?: https://www.youtube.com/watch?v=F4bYIGnoS1k
+- The template for the portfolio is easy to mess up
+    - It would be helpful to have a guide somewhere about how to do certain things in the portfolio, like attach pictures and add customizations
+    - I have looked at Benjamin’s customizations and I did a few myself, such as adding another page for lab 11 and changing the names of the tabs. However, I have run into some interesting problems that are interesting to keep in mind and maybe explore and write out explicitly
+        - For example, when making changes to the tabs and knitting, this ended up creating a bug on my webpage. It will show the correct tab names until I clicked on another tab, then it would somehow jump back to the old tab names. I assumed that meant that the old names were stuck somewhere, so I tried knitting all the files, I pushed it to the remote repository, and I even republished the webpage, but nothing worked. After a while, I tried building the webpage in Rstudio with “Building website” from the “Build” tab and that fixed the problem. There is therefore occasionally some use for building the webpage, but I am not familiar with exactly when this would be the case or what it does that fixes the problem
+        - Another interesting problem is regarding the /docs folder. I tried adding a picture I wanted to attach to my lab in the /docs folder and it showed in Rmarkdown, but not on the webpage. Then I tried building the webpage, which removed the file from the /docs folder. I therefore instead saved in in the main folder and linked through it from there in the Rmarkdown file and that works perfectly. The files later reappeared in the /docs folder, but I wouldn’t be careful with placing things there, which is weird, as that is where the pages to the webpage are stored. It would therefore be interesting to have some exploration or information about what happens with the /docs folder and figuring out what to save where.
+- Go over some more advanced general Rmarkdown stuff. For example, when you make a bullet list in R you have to have a line break between the text that is not the bullet list, but before the list and the bullet lists. However, if you have a line break after, but still in-between bullet points, you get a higher line spacing between the bullet points that come before that line shift, which is probably usually not desirable. It can be hard to figure out what is causing it though
+    - Also <br> causes a line shift in the html output
+    - You can insert links with the format of [displayed link text](url)
+    - Similarly, you can add pictures with ![text displayed above the image](URL or file path)
+    - There is no good way of adding pdfs
+    - But you can add html output with htmltools::includeHTML("filepath") in a code chunk
+    - Text enclosed in ** will get bold
+    - Text enclosed in $$ will become italicized
+    - \^[text] adds a footnote
+    - And so on…
+- Throughout the entire course, you are referring to the Data science textbook by Hadley. However, there is now a second edition of that book. The first part of the book seems to be similar across the first and second edition, but the later parts are different. You could probably just change the links for the first few chapters, but you would have to go over it more closely for the second. Also check whether there are any new and interesting chapters to use for the course in the second edition?
+- Clarify what is required and optional. For example by creating tags for mandatory, optional, deep-dives, side-quest, more instructions and so on
+  - E.g. is the Hans Rosling videos in module 1 required?
+- There should maybe be a disclaimer that the videos you have instead of the lectures are from a random playlist. I have gotten confused by this earlier and it would be nice it was was mentioned explicitly where this is the case. If not, it seems like we are supposed to watch it for something. Especially in the later modules, such as module 13
+- Add cool and useful things that others to as optional deep dives? I have seen a lot of our students do cool things I am kind only imagine how much other cool stuff I have missed. I heard someone made interactive graphs and others made APA style tables in R. I also want to know that. Maybe a hall of fame or a module that is things past students have done when there is something of particular interest. Such as customizing the portfolio, cool graphs (including from the labs with graphs), and interesting projects. That would have utilized the work other people have already done and have us learn more cool things. I don't have the time to snoop in everyone's portfolios, I just want some pointers or highlights to where to go. You could even link to the repository of the student after showing what you can find there. That collaboration would enhance the class, because it is cool to look at what others do and learn from others and it would improve our programming.
