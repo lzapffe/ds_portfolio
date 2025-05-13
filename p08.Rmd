@@ -6,10 +6,10 @@ The following project is a continuation of project 7, where I am doing the data 
 
 The data analyses document contains multiple versions of some analyses and plots as it is made to be one bigger document containing everything I have needed at any point, and not be one coherent narrative of the analyses. There might therefore be some redundancies from changing needs throughout working on the project. Everything should be well-commented and documented though.
 
-Similarly to with the last project, the data is confidential and the portfolio webpage template didn't work well with an html file attached, so I will instead just link to the html page in the portfolio repository that you can download and view yourself.
+Similarly to with the last project, the data is confidential and the portfolio webpage template didn't work well with an html file attached, so I will instead just link to pdf of the html output page in the portfolio repository that you can download and view yourself.
 
-Also note that there is a lot of output from creating the mplus compatible data with MplusAutomation. I have not yet found a combination of chunk options that shows the chunk code, but hides the output. Therefore, there is some junk output to scroll through in the html file.
+Also note that there is a lot of output from creating the mplus compatible data with MplusAutomation. I have not yet found a combination of chunk options that shows the chunk code, but hides the output. Therefore, there is some junk output to scroll through in the pdf file.
 
 <br>
 
-**You can find the html file for the data analyses [here](https://github.com/lzapffe/ds_portfolio/blob/main/Data_Analysis.html)**
+**You can find the pdf file of the html output for the data analyses [here](https://github.com/lzapffe/ds_portfolio/blob/main/Data_Analysis.pdf)**

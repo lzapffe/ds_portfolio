@@ -8,8 +8,8 @@ This project ended up being really interesting since it is the most messy data I
 
 The program worked very well initially and seemed to get the same numbers as those going over it manually got. However, there was an issue with the data collection where I only had access to part of the data, which makes it impossible to validate my results towards those that were attained when going over it manually. In addition, things got busy. The project is therefore set on pause for a bit, but if the office in question wants to pick it back up, I would be happy to do so. The code seems to be more or less done, so it wouldn't require that much work on my end.
 
-Since the data contains confidential information, I will attach a link to the html output in the portfolio repository like I have done for several of the other applied projects.
+Since the data contains confidential information, I will attach a link to the pdf of the html output in the portfolio repository like I have done for several of the other applied projects. The style of the output is different for this project and doesn't show up as well in GitHub, so I recommend downloading the file from GitHub and viewing it in a pdf viewer.
 
 <br>
 
-**You can find the html file for the semi-automatic scoring of the challenge  [here](https://github.com/lzapffe/ds_portfolio/blob/main/score-completion.html)**
+**You can find the pdf of the html output file for the semi-automatic scoring of the challenge  [here](https://github.com/lzapffe/ds_portfolio/blob/main/score-completion.pdf)**
